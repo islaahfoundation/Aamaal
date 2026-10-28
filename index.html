@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#021810" />
+  <title>Islaah Foundation's Aamaal Circle</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #021810;
+      background-image: radial-gradient(circle at 50% 20%, #093528 0%, #010e09 80%);
+      font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #ffffff;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+    }
+
+    /* Mobile App Container (9:20 ratio matching the 9 uploaded screenshots) */
+    #app-frame {
+      width: 100%;
+      max-width: 430px;
+      height: 100dvh;
+      position: relative;
+      overflow: hidden;
+      background-color: #031d15;
+      box-shadow: 0 0 65px rgba(0, 0, 0, 0.9), 0 0 1px 1px rgba(163, 228, 183, 0.14);
+    }
+
+    /* Slides Wrapper */
+    .screen-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(18px);
+      transition: opacity 0.35s cubic-bezier(0.22, 1, 0.36, 1), transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+    }
+
+    .screen-slide.active {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateX(0);
+      z-index: 10;
+    }
+
+    /* Fullscreen Direct Image Layer */
+    .screen-img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: fill;
+      object-position: center;
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    /* Fallback visual card when running in a sandbox before images are dropped in */
+    .screen-fallback {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      background: radial-gradient(circle at 50% 22%, #134e3b 0%, #05261c 55%, #031812 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+    }
+
+    /* Seamless Bottom Mask to cover baked-in static dots/buttons on the PNGs */
+    .bottom-control-mask {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 15.5%;
+      z-index: 5;
+      background: linear-gradient(180deg, rgba(4, 33, 23, 0) 0%, rgba(4, 32, 23, 0.94) 26%, #042017 65%, #031a12 100%);
+      pointer-events: none;
+    }
+
+    /* Mask specifically for Screen 9 (taller button stack) */
+    .bottom-control-mask-screen9 {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: 33%;
+      z-index: 5;
+      background: linear-gradient(180deg, rgba(4, 33, 23, 0) 0%, rgba(4, 33, 23, 0.95) 18%, #042118 45%, #031a12 100%);
+      pointer-events: none;
+    }
+
+    /* Mint Primary Button matching the exact screenshot style */
+    .btn-mint {
+      background: linear-gradient(90deg, #9ae5a9 0%, #b1f1be 50%, #98e4a7 100%);
+      color: #052e21;
+      font-weight: 700;
+      border-radius: 9999px;
+      box-shadow: 0 5px 22px rgba(163, 228, 183, 0.28), inset 0 1px 1px rgba(255, 255, 255, 0.65);
+      transition: transform 0.16s ease, box-shadow 0.16s ease, filter 0.16s ease;
+    }
+    .btn-mint:hover {
+      filter: brightness(1.04);
+    }
+    .btn-mint:active {
+      transform: scale(0.96);
+    }
+
+    /* Vibrant Mint Button (top button on Screen 9) */
+    .btn-mint-vibrant {
+      background: linear-gradient(90deg, #68df8a 0%, #87ec9f 50%, #68df8a 100%);
+      color: #03261b;
+      font-weight: 700;
+      border-radius: 9999px;
+      box-shadow: 0 6px 24px rgba(104, 223, 138, 0.32), inset 0 1px 1px rgba(255, 255, 255, 0.6);
+      transition: transform 0.16s ease;
+    }
+    .btn-mint-vibrant:active {
+      transform: scale(0.96);
+    }
+
+    /* Dynamic Pagination Dots */
+    .page-dot {
+      height: 8px;
+      width: 8px;
+      border-radius: 9999px;
+      background-color: #295946;
+      transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+      cursor: pointer;
+      border: none;
+      padding: 0;
+    }
+    .page-dot:hover {
+      background-color: #518c73;
+    }
+    .page-dot.active {
+      background-color: #a3e4b7;
+      box-shadow: 0 0 10px rgba(163, 228, 183, 0.85);
+      transform: scale(1.18);
+    }
+    .page-dot.active-pill {
+      width: 18px;
+      background-color: #a3e4b7;
+      box-shadow: 0 0 10px rgba(163, 228, 183, 0.85);
+    }
+
+    @keyframes splashPulse {
+      0%, 100% { opacity: 0.35; transform: scale(0.9); }
+      50% { opacity: 1; transform: scale(1.2); }
+    }
+    .splash-dot-1 { animation: splashPulse 1.6s infinite 0.0s; }
+    .splash-dot-2 { animation: splashPulse 1.6s infinite 0.2s; }
+    .splash-dot-3 { animation: splashPulse 1.6s infinite 0.4s; }
+    .splash-dot-4 { animation: splashPulse 1.6s infinite 0.6s; }
+    .splash-dot-5 { animation: splashPulse 1.6s infinite 0.8s; }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile App Viewport Frame (No Upper Tabs) -->
+  <main id="app-frame" role="region" aria-label="Aamaal Circle Onboarding">
+
+    <!-- Dynamic Slides Container (Populated for all 9 Image Screens) -->
+    <div id="slides-container" class="relative w-full h-full"></div>
+
+    <!-- Subtle Dismissible Helper Pill (Only shown if local image files aren't in the same folder yet) -->
+    <div id="image-loader-banner" class="hidden absolute top-3 left-3 z-40">
+      <div class="flex items-center gap-1.5 bg-[#05291e]/90 backdrop-blur-md border border-[#a3e4b7]/40 rounded-full pl-3 pr-1.5 py-1 shadow-xl">
+        <label for="local-img-input" class="cursor-pointer text-[11px] font-semibold text-[#d2f7dc] flex items-center gap-1.5 hover:text-white">
+          <span>🖼️ Load Your 9 Images</span>
+        </label>
+        <button onclick="dismissLoaderBanner()" title="Hide helper" class="w-5 h-5 rounded-full bg-white/10 text-white/70 hover:text-white flex items-center justify-center text-[10px]">
+          ✕
+        </button>
+        <input id="local-img-input" type="file" accept="image/*" multiple class="hidden" onchange="handleLocalImagesUpload(event)" />
+      </div>
+    </div>
+
+    <!-- Custom Non-Intrusive Toast Notification -->
+    <div id="app-toast" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 transform translate-y-2">
+      <div class="bg-[#08382a]/95 backdrop-blur-md border border-[#a3e4b7]/60 px-4 py-2.5 rounded-full text-[12.5px] font-semibold text-white flex items-center gap-2 shadow-2xl whitespace-nowrap">
+        <span class="w-4 h-4 rounded-full bg-[#a3e4b7] text-[#04241b] flex items-center justify-center text-[10px] font-bold">✓</span>
+        <span id="app-toast-text">Ready</span>
+      </div>
+    </div>
+
+  </main>
+
+  <script>
+    /**
+     * Exact Configuration for the 9 Image Screens
+     * Uses the exact filenames from your attachment (308358.png - 308390.png)
+     * and automatically tries screen1.png - screen9.png if renamed in GitHub.
+     */
+    const SCREENS = [
+      {
+        id: 1,
+        file: '308358.png',
+        altFile: 'screen1.png',
+        title: 'Splash Screen',
+        subtitle: 'Connecting to Aamaal Circle...',
+        type: 'splash'
+      },
+      {
+        id: 2,
+        file: '308359.png',
+        altFile: 'screen2.png',
+        title: 'Welcome to Aamaal',
+        subtitle: '313 Durood Shareef • Surah Mulk • 100 Istighfar',
+        type: 'welcome'
+      },
+      {
+        id: 3,
+        file: '308360.png',
+        altFile: 'screen3.png',
+        title: 'STEP 1: Digital Tasbih',
+        subtitle: 'Tap the beads to count your Durood, Istighfar and Surah Mulk.',
+        type: 'step',
+        btnText: 'Next',
+        multilineBtn: false
+      },
+      {
+        id: 4,
+        file: '308361.png',
+        altFile: 'screen4.png',
+        title: 'STEP 2: Explore Duas',
+        subtitle: 'Browse a collection of authentic duas for every moment in your life.',
+        type: 'step',
+        btnText: 'Next',
+        multilineBtn: false
+      },
+      {
+        id: 5,
+        file: '308362.png',
+        altFile: 'screen5.png',
+        title: 'STEP 3: Reflections',
+        subtitle: 'Explore inspiring stories, lessons and reflections from the Quran and Seerah.',
+        type: 'step',
+        btnText: 'Next',
+        multilineBtn: false
+      },
+      {
+        id: 6,
+        file: '308363.png',
+        altFile: 'screen6.png',
+        title: 'Personalize Your Aamaal Experience',
+        subtitle: 'Choose your preferred language, interests and experience level.',
+        type: 'step',
+        btnText: 'Get Started',
+        multilineBtn: false
+      },
+      {
+        id: 7,
+        file: '308388.png',
+        altFile: 'screen7.png',
+        title: 'STEP 4: Stay Consistent',
+        subtitle: 'Enable daily reminders to help you stay on track with your Aamaal.',
+        type: 'step',
+        btnText: 'Enable<br/>Notifications',
+        multilineBtn: true
+      },
+      {
+        id: 8,
+        file: '308389.png',
+        altFile: 'screen8.png',
+        title: 'STEP 5: Tactile Feedback',
+        subtitle: 'Enhance your digital tasbih experience with subtle, immersive vibrations.',
+        type: 'step',
+        btnText: 'Enable<br/>Touch Effects',
+        multilineBtn: true
+      },
+      {
+        id: 9,
+        file: '308390.png',
+        altFile: 'screen9.png',
+        title: 'Welcome Back',
+        subtitle: 'Ready to continue your spiritual journey?',
+        type: 'welcome-back'
+      }
+    ];
+
+    let currentScreen = 1;
+    let splashTimer = null;
+    let missingImageDetected = false;
+    let authMode = 'login';
+
+    /**
+     * Render all 9 screens with direct <img> tags and interactive bottom controls
+     */
+    function renderScreens() {
+      const container = document.getElementById('slides-container');
+      container.innerHTML = SCREENS.map((scr, index) => {
+        const screenNum = index + 1;
+        const isActive = screenNum === currentScreen ? 'active' : '';
+
+        return `
+          <section id="screen-${screenNum}" class="screen-slide ${isActive}" data-screen="${screenNum}">
+            
+            <!-- Clean Fallback Layer (Only visible if the PNG file isn't found in the directory yet) -->
+            <div id="fallback-${screenNum}" class="screen-fallback">
+              <div class="w-16 h-16 rounded-full bg-[#0c3b2c] border border-[#a3e4b7]/40 flex items-center justify-center mb-4 text-2xl shadow-lg">
+                🕌
+              </div>
+              <p class="text-[11px] font-bold tracking-[0.25em] text-[#a3e4b7] uppercase mb-1">
+                ISLAAH FOUNDATION'S AAMAAL CIRCLE
+              </p>
+              <h2 class="text-2xl font-bold text-white font-['Playfair_Display'] mb-2">${scr.title}</h2>
+              <p class="text-xs text-[#b9dfd0] max-w-[270px] leading-relaxed mb-5">${scr.subtitle}</p>
+              <div class="px-3.5 py-2 rounded-xl bg-black/35 border border-white/15 text-[11px] text-[#a3e4b7] font-mono">
+                Image: <strong>${scr.file}</strong> (or ${scr.altFile})
+              </div>
+            </div>
+
+            <!-- Direct Full-Screen Image -->
+            <img
+              id="img-screen-${screenNum}"
+              src="${scr.file}"
+              alt="${scr.title}"
+              class="screen-img"
+              onerror="handleImageFallback(this, '${scr.altFile}', ${screenNum})"
+            />
+
+            ${renderBottomOverlay(scr, screenNum)}
+          </section>
+        `;
+      }).join('');
+    }
+
+    /**
+     * Builds the exact bottom button & dynamic dot overlay for each screen
+     */
+    function renderBottomOverlay(scr, screenNum) {
+      // SCREEN 1: Splash Screen (Click anywhere or wait 2.5s to open Screen 2)
+      if (scr.type === 'splash') {
+        return `
+          <div onclick="goToScreen(2)" class="absolute inset-0 z-20 cursor-pointer flex flex-col justify-end items-center pb-[8.2%]">
+            <div class="px-5 py-2 rounded-full bg-[#042117]/90 flex items-center gap-2.5">
+              <span class="w-2 h-2 rounded-full bg-[#49876e] splash-dot-1"></span>
+              <span class="w-2 h-2 rounded-full bg-[#68ad91] splash-dot-2"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-[#d9fbe0] shadow-[0_0_10px_#a3ebb1] splash-dot-3"></span>
+              <span class="w-2 h-2 rounded-full bg-[#68ad91] splash-dot-4"></span>
+              <span class="w-2 h-2 rounded-full bg-[#49876e] splash-dot-5"></span>
+            </div>
+          </div>
+        `;
+      }
+
+      // SCREEN 2: Welcome to Aamaal ("Get Started ->" + dynamic pagination dots below)
+      if (scr.type === 'welcome') {
+        return `
+          <div class="bottom-control-mask"></div>
+          <div class="relative z-20 w-full px-[11.5%] pb-[4.8%] flex flex-col items-center gap-3.5">
+            <button onclick="goToScreen(3)" class="btn-mint w-full py-3.5 px-8 text-[16px] flex items-center justify-center gap-2.5">
+              <span>Get Started</span>
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.3" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6" />
+              </svg>
+            </button>
+
+            <!-- Dynamic Dots highlighting which page is opened (Screens 2 to 9) -->
+            <div class="flex items-center justify-center gap-2 py-1 px-3 rounded-full bg-[#042017]">
+              ${renderStepDots(screenNum)}
+            </div>
+          </div>
+        `;
+      }
+
+      // SCREENS 3 to 8: Onboarding Steps (Skip on left, active page dots in center, Next on right)
+      if (scr.type === 'step') {
+        const btnPadding = scr.multilineBtn ? 'py-2 px-5 text-[12.5px] leading-tight' : 'py-3 px-7 text-[15px]';
+        return `
+          <div class="bottom-control-mask"></div>
+          <div class="relative z-20 w-full px-7 pb-[5.8%] pt-2 flex items-center justify-between">
+            <!-- Left: Skip Button -->
+            <button onclick="goToScreen(9)" class="text-[15px] font-medium text-[#92baa6] hover:text-white active:scale-95 transition py-2 pr-3">
+              Skip
+            </button>
+
+            <!-- Center: Dynamic Pagination Dots highlighting current opened page -->
+            <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#042017]/95">
+              ${renderStepDots(screenNum)}
+            </div>
+
+            <!-- Right: Next / Action Button -->
+            <button onclick="goToScreen(${screenNum + 1})" class="btn-mint ${btnPadding} flex items-center justify-center gap-2">
+              <span class="text-center">${scr.btnText}</span>
+              <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6" />
+              </svg>
+            </button>
+          </div>
+        `;
+      }
+
+      // SCREEN 9: Welcome Back (Full interactive stack + bottom bar)
+      if (scr.type === 'welcome-back') {
+        return `
+          <div class="bottom-control-mask-screen9"></div>
+          <div class="relative z-20 w-full px-[10%] pb-[4.2%] flex flex-col gap-2.5">
+            <!-- 1. Get Started -> -->
+            <button onclick="finishOnboarding('Get Started')" class="btn-mint-vibrant w-full py-3.5 px-6 text-[15px] flex items-center justify-center gap-2">
+              <span>Get Started</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6" />
+              </svg>
+            </button>
+
+            <!-- 2. Skip Intro & Go to App -->
+            <button onclick="finishOnboarding('Skip Intro & Go to App')" class="w-full py-3 px-6 rounded-full bg-[#06291f] border border-[#6ebc94] text-white font-semibold text-[14.5px] hover:bg-[#0b3b2d] active:scale-[0.98] transition">
+              Skip Intro &amp; Go to App
+            </button>
+
+            <!-- 3. Skip to Dashboard -> -->
+            <button onclick="finishOnboarding('Skip to Dashboard')" class="btn-mint w-full py-3.5 px-6 text-[15px] flex items-center justify-center gap-2">
+              <span>Skip to Dashboard</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2.4" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14m-6-6l6 6-6 6" />
+              </svg>
+            </button>
+
+            <!-- 4. Take the Intro Tour (Re-opens Screen 2) -->
+            <button onclick="goToScreen(2)" class="text-[13.5px] font-medium text-[#92c4ab] hover:text-white py-1 transition text-center">
+              Take the Intro Tour
+            </button>
+
+            <!-- Bottom Bar: Log In / Restore | Dynamic Dots | Bypass -->
+            <div class="flex items-center justify-between pt-1">
+              <div class="inline-flex rounded-full bg-[#154234] border border-[#5a9e80]/50 p-0.5">
+                <button id="auth-login-btn" onclick="setAuthMode('login')" class="px-3.5 py-1 rounded-full bg-[#8abca1] text-[#05261c] text-[12px] font-bold transition">
+                  Log In
+                </button>
+                <button id="auth-restore-btn" onclick="setAuthMode('restore')" class="px-3.5 py-1 rounded-full text-[#9ec2b0] text-[12px] font-medium transition">
+                  Restore
+                </button>
+              </div>
+
+              <!-- Dynamic Dots -->
+              <div class="flex items-center gap-1.5 px-2 py-1 rounded-full bg-[#042017]">
+                ${renderStepDots(screenNum)}
+              </div>
+
+              <button onclick="finishOnboarding('Bypass')" class="text-[14px] font-medium text-[#92c4ab] hover:text-white transition">
+                Bypass
+              </button>
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    /**
+     * Renders interactive pagination dots between Skip & Next buttons
+     * Highlights the exact page currently opened (Screens 3..8 map to the 6 step dots, or 2..9)
+     */
+    function renderStepDots(activeScreenNum) {
+      // For the onboarding flow (Screens 2 through 9), show 6 step dots on Steps 3-8
+      // so the highlighted dot moves clearly from left to right on every "Next" click
+      const dotScreens = [2, 3, 4, 5, 6, 7, 8, 9];
+      return dotScreens.map(targetScr => {
+        const isCurrent = targetScr === activeScreenNum;
+        const activeClass = isCurrent
+          ? (activeScreenNum === 2 ? 'active-pill' : 'active')
+          : '';
+        return `<button
+          type="button"
+          onclick="goToScreen(${targetScr})"
+          aria-label="Go to screen ${targetScr}"
+          title="Screen ${targetScr}"
+          class="page-dot ${activeClass}"
+        ></button>`;
+      }).join('');
+    }
+
+    /**
+     * Navigate to a specific screen (1 to 9)
+     */
+    function goToScreen(targetNum) {
+      if (targetNum < 1 || targetNum > SCREENS.length) return;
+
+      if (splashTimer) {
+        clearTimeout(splashTimer);
+        splashTimer = null;
+      }
+
+      currentScreen = targetNum;
+
+      // Update active slide visibility & refresh dynamic pagination dots
+      SCREENS.forEach((_, idx) => {
+        const num = idx + 1;
+        const el = document.getElementById(`screen-${num}`);
+        if (!el) return;
+        if (num === currentScreen) {
+          el.classList.add('active');
+        } else {
+          el.classList.remove('active');
+        }
+      });
+
+      // Restart auto-advance if returning to Splash Screen 1
+      if (currentScreen === 1) {
+        splashTimer = setTimeout(() => {
+          if (currentScreen === 1) goToScreen(2);
+        }, 2500);
+      }
+    }
+
+    /**
+     * Automatic fallback if 308358.png is named screen1.png or images/308358.png
+     */
+    function handleImageFallback(imgEl, altFile, screenNum) {
+      const triedAlt = imgEl.getAttribute('data-tried-alt');
+      const triedFolder = imgEl.getAttribute('data-tried-folder');
+
+      if (!triedAlt) {
+        imgEl.setAttribute('data-tried-alt', 'true');
+        imgEl.src = altFile;
+        return;
+      }
+
+      if (!triedFolder) {
+        imgEl.setAttribute('data-tried-folder', 'true');
+        imgEl.src = 'images/' + SCREENS[screenNum - 1].file;
+        return;
+      }
+
+      // Hide broken image icon so clean fallback card shows behind the working buttons/dots
+      imgEl.style.display = 'none';
+      if (!missingImageDetected) {
+        missingImageDetected = true;
+        const banner = document.getElementById('image-loader-banner');
+        if (banner) banner.classList.remove('hidden');
+      }
+    }
+
+    /**
+     * Allows user to select their 9 downloaded PNG images directly in browser preview
+     * to see them immediately without broken icons.
+     */
+    function handleLocalImagesUpload(event) {
+      const files = Array.from(event.target.files || []);
+      if (!files.length) return;
+
+      // Sort files by filename so 308358..308390 or screen1..screen9 map in order
+      files.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+
+      files.forEach((file, idx) => {
+        const objectUrl = URL.createObjectURL(file);
+
+        // Try matching by exact filename first
+        const matchedIndex = SCREENS.findIndex(
+          s => s.file.toLowerCase() === file.name.toLowerCase() ||
+               s.altFile.toLowerCase() === file.name.toLowerCase()
+        );
+
+        const targetScreenNum = matchedIndex !== -1 ? matchedIndex + 1 : (idx + 1);
+        if (targetScreenNum <= SCREENS.length) {
+          const imgEl = document.getElementById(`img-screen-${targetScreenNum}`);
+          if (imgEl) {
+            imgEl.src = objectUrl;
+            imgEl.style.display = 'block';
+          }
+        }
+      });
+
+      dismissLoaderBanner();
+      showToast(`Loaded ${Math.min(files.length, 9)} screen image(s)!`);
+    }
+
+    function dismissLoaderBanner() {
+      const banner = document.getElementById('image-loader-banner');
+      if (banner) banner.classList.add('hidden');
+    }
+
+    /**
+     * Screen 9 Bottom Bar Log In / Restore Toggle
+     */
+    function setAuthMode(mode) {
+      authMode = mode;
+      const loginBtn = document.getElementById('auth-login-btn');
+      const restoreBtn = document.getElementById('auth-restore-btn');
+      if (!loginBtn || !restoreBtn) return;
+
+      if (mode === 'login') {
+        loginBtn.className = 'px-3.5 py-1 rounded-full bg-[#8abca1] text-[#05261c] text-[12px] font-bold transition';
+        restoreBtn.className = 'px-3.5 py-1 rounded-full text-[#9ec2b0] text-[12px] font-medium transition';
+        showToast('Log In selected');
+      } else {
+        restoreBtn.className = 'px-3.5 py-1 rounded-full bg-[#8abca1] text-[#05261c] text-[12px] font-bold transition';
+        loginBtn.className = 'px-3.5 py-1 rounded-full text-[#9ec2b0] text-[12px] font-medium transition';
+        showToast('Restore selected');
+      }
+    }
+
+    function finishOnboarding(label) {
+      showToast(`${label} clicked — ready for main app screens!`);
+    }
+
+    /**
+     * Toast Helper
+     */
+    let toastTimer = null;
+    function showToast(msg) {
+      const toast = document.getElementById('app-toast');
+      const text = document.getElementById('app-toast-text');
+      if (!toast || !text) return;
+
+      text.textContent = msg;
+      toast.classList.remove('opacity-0', 'translate-y-2');
+      toast.classList.add('opacity-100', 'translate-y-0');
+
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => {
+        toast.classList.remove('opacity-100', 'translate-y-0');
+        toast.classList.add('opacity-0', 'translate-y-2');
+      }, 2200);
+    }
+
+    /**
+     * Touch Swipe & Keyboard Arrow Navigation
+     */
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderScreens();
+
+      // Auto-advance Splash Screen 1 -> Screen 2 after 2.5 seconds
+      splashTimer = setTimeout(() => {
+        if (currentScreen === 1) goToScreen(2);
+      }, 2500);
+
+      const frame = document.getElementById('app-frame');
+      frame.addEventListener('touchstart', e => {
+        touchStartX = e.changedTouches[0].screenX;
+      }, { passive: true });
+
+      frame.addEventListener('touchend', e => {
+        touchEndX = e.changedTouches[0].screenX;
+        const diff = touchStartX - touchEndX;
+        if (Math.abs(diff) > 50) {
+          if (diff > 0 && currentScreen < SCREENS.length) {
+            goToScreen(currentScreen + 1);
+          } else if (diff < 0 && currentScreen > 1) {
+            goToScreen(currentScreen - 1);
+          }
+        }
+      }, { passive: true });
+
+      window.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' && currentScreen < SCREENS.length) {
+          goToScreen(currentScreen + 1);
+        } else if (e.key === 'ArrowLeft' && currentScreen > 1) {
+          goToScreen(currentScreen - 1);
+        }
+      });
+    });
+  </script>
+</body>
+</html>
