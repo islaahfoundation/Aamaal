@@ -46,7 +46,7 @@
       font-family: 'Amiri', serif;
     }
 
-    /* Full-Screen Edge-to-Edge Container (Centered mobile width on larger viewports) */
+    /* Full-Screen Edge-to-Edge Container */
     .phone-frame {
       position: relative;
       width: 100%;
@@ -105,19 +105,23 @@
       text-overflow: clip;
     }
 
-    /* Floating +1 / -1 animation (Hidden by default, shown only on count interaction) */
-    .plus-one-indicator {
+    /* Floating +1 / -1 Indicator */
+    .delta-indicator {
       opacity: 0;
       transform: translateY(10px) scale(0.8);
       pointer-events: none;
       transition: none;
     }
 
-    .plus-one-indicator.pop-active {
-      animation: floatPlusOne 0.68s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+    .delta-indicator.pop-active {
+      animation: floatDelta 0.62s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
     }
 
-    @keyframes floatPlusOne {
+    .delta-indicator.pop-reduced {
+      animation: fadeDeltaReduced 0.35s ease-out forwards;
+    }
+
+    @keyframes floatDelta {
       0% {
         opacity: 0;
         transform: translateY(12px) scale(0.75);
@@ -134,6 +138,35 @@
         opacity: 0;
         transform: translateY(-20px) scale(0.92);
       }
+    }
+
+    @keyframes fadeDeltaReduced {
+      0% { opacity: 0; transform: translateY(0) scale(1); }
+      20% { opacity: 1; transform: translateY(0) scale(1); }
+      80% { opacity: 1; transform: translateY(0) scale(1); }
+      100% { opacity: 0; transform: translateY(0) scale(1); }
+    }
+
+    /* Counter Readout Bump for Rapid Taps */
+    .counter-bump {
+      transform: scale(1.08);
+    }
+
+    /* Visual Screen Pulse Fallback (when Sound & Vibration are unavailable/off) */
+    @keyframes screenFlash {
+      0% { box-shadow: inset 0 0 0 0 rgba(251, 191, 36, 0); }
+      30% { box-shadow: inset 0 0 36px 4px rgba(251, 191, 36, 0.28); }
+      100% { box-shadow: inset 0 0 0 0 rgba(251, 191, 36, 0); }
+    }
+
+    .visual-pulse-active {
+      animation: screenFlash 0.28s ease-out;
+    }
+
+    /* Target Reached Card Glow */
+    .goal-reached-glow {
+      border-color: rgba(251, 191, 36, 0.65) !important;
+      box-shadow: 0 0 28px rgba(245, 158, 11, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
     }
 
     /* Interactive Touch Zone */
@@ -157,12 +190,10 @@
   <!-- MAIN CONTAINER -->
   <div class="phone-frame" id="phoneFrame">
 
-    <!-- BACKGROUND LAYER (Supports Default Mosque Illustration + Dev Custom Upload) -->
+    <!-- BACKGROUND LAYER (Default Mosque Illustration + Dev Custom Upload) -->
     <div class="absolute inset-0 z-0 overflow-hidden pointer-events-none">
-      <!-- Custom uploaded background image (hidden until set) -->
       <img id="customBgImg" src="" alt="Custom Background" class="hidden absolute inset-0 w-full h-full object-cover object-center transition-opacity duration-300" />
 
-      <!-- Default Atmospheric Twilight Mosque SVG Scene -->
       <svg id="defaultBgSvg" viewBox="0 0 392 844" class="w-full h-full object-cover" preserveAspectRatio="xMidYMid slice">
         <defs>
           <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
@@ -185,34 +216,24 @@
         </defs>
         <rect width="392" height="844" fill="url(#skyGrad)"/>
         <rect width="392" height="844" fill="url(#sunGlow)"/>
-        <!-- Sun orb -->
         <circle cx="228" cy="382" r="14" fill="#fff2be" opacity="0.85"/>
-        <!-- Distant misty mountains -->
         <path d="M0 390 Q65 355 140 378 T280 365 T392 382 L392 430 L0 430 Z" fill="#122d22" opacity="0.65"/>
-        <!-- Mosque Silhouette -->
         <g fill="#091f17">
           <rect x="0" y="402" width="392" height="22"/>
-          <!-- Main Dome & Minarets -->
           <path d="M255 402 C255 362 305 362 305 402 Z"/>
           <rect x="279" y="346" width="2" height="14"/>
           <circle cx="280" cy="344" r="2.5"/>
           <path d="M225 402 C225 380 252 380 252 402 Z"/>
           <path d="M308 402 C308 378 336 378 336 402 Z"/>
-          <!-- Minaret 1 -->
           <rect x="208" y="328" width="5" height="74"/>
           <polygon points="210.5,314 206,328 215,328"/>
-          <!-- Minaret 2 -->
           <rect x="262" y="310" width="6" height="92"/>
           <polygon points="265,295 260,310 270,310"/>
-          <!-- Minaret 3 -->
           <rect x="342" y="324" width="5" height="78"/>
           <polygon points="344.5,310 340,324 349,324"/>
-          <!-- Left Distant Trees & Hills -->
           <path d="M0 404 Q55 384 125 398 Q175 405 210 402 L210 415 L0 415 Z"/>
         </g>
-        <!-- Reflective Lake -->
         <rect x="0" y="408" width="392" height="436" fill="url(#waterGrad)"/>
-        <!-- Golden Water Shimmer -->
         <g fill="#ebd089" opacity="0.22">
           <rect x="195" y="416" width="66" height="1.5" rx="1"/>
           <rect x="205" y="424" width="48" height="1.5" rx="1"/>
@@ -220,18 +241,16 @@
           <rect x="210" y="443" width="38" height="1.5" rx="1"/>
           <rect x="198" y="454" width="56" height="1.5" rx="1"/>
         </g>
-        <!-- Foreground Dark Foliage Vignette -->
         <path d="M0 640 Q60 665 95 720 L0 720 Z" fill="#04120d" opacity="0.8"/>
         <path d="M392 620 Q330 655 295 720 L392 720 Z" fill="#04120d" opacity="0.8"/>
       </svg>
 
-      <!-- Dark Radial Overlay for Counter Readability -->
       <div id="bgOverlay" class="absolute inset-0 bg-gradient-to-b from-black/35 via-emerald-950/35 to-black/75"></div>
     </div>
 
     <!-- iOS STATUS BAR -->
     <div class="relative z-20 flex items-center justify-between px-6 pt-3 pb-1 text-xs font-semibold tracking-wide text-white/90 shrink-0">
-      <span>9:41</span>
+      <span id="statusClock">9:41</span>
       <div class="flex items-center gap-1.5">
         <svg class="w-4 h-3.5" fill="currentColor" viewBox="0 0 16 12">
           <rect x="0" y="8" width="2.5" height="4" rx="0.6"/>
@@ -250,10 +269,9 @@
       </div>
     </div>
 
-    <!-- HEADER: Upper-Left Back Button + Title + Dev Background Button + History + Settings -->
+    <!-- HEADER: Back Button + Title + Guide + Dev BG + History + Settings -->
     <header class="relative z-20 flex items-start justify-between px-5 pt-2 pb-2 shrink-0">
       <div class="flex items-start gap-2 min-w-0 flex-1 pr-2">
-        <!-- Back Button on Upper Left Area -->
         <button id="backBtn" onclick="handleBackClick()" title="Back" class="mt-0.5 w-9 h-9 rounded-full flex items-center justify-center text-white/90 hover:bg-white/10 active:scale-90 transition shrink-0">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l6-6m-6 6l6 6"/>
@@ -265,10 +283,17 @@
         </div>
       </div>
 
-      <!-- Right Action Buttons: Dev Background Picker + History + Settings -->
+      <!-- Right Action Buttons -->
       <div class="flex items-center gap-1.5 mt-1 shrink-0">
+        <!-- Gesture Guide Help Button -->
+        <button onclick="showGestureGuide(true)" title="Gesture Guide" class="w-8 h-8 rounded-full border border-emerald-300/30 bg-emerald-950/50 backdrop-blur-md flex items-center justify-center text-emerald-200/90 hover:border-amber-300/60 hover:text-amber-200 active:scale-95 transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </button>
+
         <!-- Dev Background Image Switcher Button -->
-        <button onclick="openSheet('bgCustomizerSheet')" title="Developer Background Image" class="w-9 h-9 rounded-full border border-emerald-300/30 bg-emerald-950/50 backdrop-blur-md flex items-center justify-center text-emerald-200/90 hover:border-amber-300/60 hover:text-amber-200 active:scale-95 transition">
+        <button onclick="openSheet('bgCustomizerSheet')" title="Developer Background Image" class="w-8 h-8 rounded-full border border-emerald-300/30 bg-emerald-950/50 backdrop-blur-md flex items-center justify-center text-emerald-200/90 hover:border-amber-300/60 hover:text-amber-200 active:scale-95 transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
             <rect x="3" y="3" width="18" height="18" rx="3"/>
             <circle cx="8.5" cy="8.5" r="1.5"/>
@@ -277,14 +302,14 @@
         </button>
 
         <!-- History Button -->
-        <button onclick="openSheet('historySheet')" title="Tasbih History" class="w-9 h-9 rounded-full border border-emerald-300/30 bg-emerald-950/50 backdrop-blur-md flex items-center justify-center text-emerald-200/90 hover:border-amber-300/60 active:scale-95 transition">
+        <button onclick="openSheet('historySheet')" title="Tasbih History" class="w-8 h-8 rounded-full border border-emerald-300/30 bg-emerald-950/50 backdrop-blur-md flex items-center justify-center text-emerald-200/90 hover:border-amber-300/60 active:scale-95 transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
           </svg>
         </button>
 
         <!-- Settings Gear Button -->
-        <button onclick="openSheet('settingsSheet')" title="Counter Settings" class="w-9 h-9 rounded-full border border-emerald-300/30 bg-emerald-950/50 backdrop-blur-md flex items-center justify-center text-emerald-200/90 hover:border-amber-300/60 active:scale-95 transition">
+        <button onclick="openSheet('settingsSheet')" title="Counter Settings" class="w-8 h-8 rounded-full border border-emerald-300/30 bg-emerald-950/50 backdrop-blur-md flex items-center justify-center text-emerald-200/90 hover:border-amber-300/60 active:scale-95 transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
             <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
@@ -294,11 +319,10 @@
     </header>
 
     <!-- WIRD / DHIKR & GOAL SELECTOR BAR -->
-    <div class="relative z-20 px-5 mt-1.5 shrink-0">
+    <div class="relative z-20 px-5 mt-1 shrink-0">
       <div class="glass-card rounded-3xl p-3 flex items-center justify-between">
         <!-- Left: Clickable Dhikr Selector -->
         <button onclick="openSheet('dhikrSheet')" class="flex items-center gap-3 text-left flex-1 min-w-0 pr-2 group">
-          <!-- Arabic Text Fitted Inside Circle -->
           <div class="arabic-circle group-hover:border-amber-300/70 transition">
             <span id="activeArabicBadge" class="font-arabic font-bold text-[15px]">أَسْتَغْفِرُ ٱللَّٰهَ</span>
           </div>
@@ -313,7 +337,6 @@
           </div>
         </button>
 
-        <!-- Divider -->
         <div class="w-px h-10 bg-emerald-200/15 mx-2"></div>
 
         <!-- Right: Clickable Goal Selector -->
@@ -333,60 +356,123 @@
       </div>
     </div>
 
-    <!-- INTERACTIVE TOUCH & SWIPE AREA (From below Wird dropdown to Progress Bar) -->
-    <!-- Tapping or swiping down/left/right increments (+1); long upward swipe undoes (-1) -->
+    <!-- INTERACTIVE TOUCH & SWIPE AREA -->
+    <!-- Tap / Pull Down = +1 | Long Swipe Up (>= 75px) = Undo (-1) -->
     <div id="interactiveCounterZone" class="touch-zone relative z-10 flex-1 flex flex-col items-center justify-center px-5 select-none overflow-hidden min-h-0">
 
       <!-- FIRST-POV 3D TASBIH CANVAS -->
       <canvas id="povTasbihCanvas" width="380" height="430" class="w-full h-full max-h-[430px] pointer-events-none"></canvas>
 
-      <!-- Counter Readout & Floating Quick Controls Overlay -->
-      <div class="absolute inset-0 pointer-events-none flex flex-col justify-between py-4 px-6">
-        <!-- Upper-Left Digital Counter Readout -->
-        <div class="flex items-start justify-between">
-          <div class="bg-emerald-950/55 backdrop-blur-md border border-emerald-400/20 rounded-2xl px-4 py-2.5 shadow-lg">
-            <div class="flex items-baseline gap-1.5">
-              <span id="mainCountDisplay" class="text-4xl font-bold tracking-tight text-white">27</span>
+      <!-- Counter Readout & Overlay States -->
+      <div class="absolute inset-0 pointer-events-none flex flex-col justify-between py-3.5 px-6">
+
+        <!-- TOP ROW: Digital Counter Readout + State Pill + Quick Controls -->
+        <div class="flex items-start justify-between gap-2">
+          <div id="counterReadoutCard" class="bg-emerald-950/60 backdrop-blur-md border border-emerald-400/20 rounded-2xl px-4 py-2.5 shadow-lg transition-all duration-200">
+            <!-- State Badge (Zero / Mid-Progress / Target Reached / Restored / Paused) -->
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <span id="stateDot" class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span>
+              <span id="counterStateLabel" class="text-[10px] font-semibold uppercase tracking-wider text-emerald-300/90">Ready to Begin</span>
+            </div>
+
+            <div id="countNumberWrapper" class="flex items-baseline gap-1.5 transition-transform duration-100 origin-left">
+              <span id="mainCountDisplay" class="text-4xl font-bold tracking-tight text-white">0</span>
               <span class="text-sm text-emerald-200/75 font-medium">/ <span id="mainGoalSub">100</span></span>
             </div>
-            <div class="text-[11px] text-emerald-300/70 mt-0.5 flex items-center gap-1.5">
+
+            <div class="text-[11px] text-emerald-300/70 mt-0.5 flex items-center gap-1.5 flex-wrap">
               <span>Round <strong id="roundNumberText" class="text-amber-300">1</strong></span>
               <span>•</span>
-              <span id="sessionTimerText">00:42</span>
+              <span id="sessionTimerText">00:00</span>
+              <!-- Rapid Pace Indicator (Appears during fast consecutive taps) -->
+              <span id="paceBadge" class="hidden px-1.5 py-0.2 rounded bg-amber-400/20 border border-amber-300/40 text-[10px] text-amber-200 font-semibold">Fast Flow</span>
             </div>
           </div>
 
-          <!-- Quick Undo & Reset Buttons (Stop propagation so tapping them doesn't increment count) -->
-          <div class="flex items-center gap-1.5 pointer-events-auto" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
-            <button onclick="undoCount()" title="Undo Last Count (or Long Swipe Up)" class="w-9 h-9 rounded-full bg-emerald-950/65 border border-emerald-300/25 flex items-center justify-center text-emerald-100/80 hover:text-white active:scale-90 transition">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a5 5 0 015 5v2M3 10l4-4M3 10l4 4"/>
-              </svg>
-            </button>
-            <button onclick="openSheet('resetModal')" title="Reset Counter" class="w-9 h-9 rounded-full bg-emerald-950/65 border border-emerald-300/25 flex items-center justify-center text-emerald-100/80 hover:text-rose-300 active:scale-90 transition">
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
-              </svg>
+          <!-- Quick Undo, Reset & Sensory Fallback Pill -->
+          <div class="flex flex-col items-end gap-1.5 pointer-events-auto" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
+            <div class="flex items-center gap-1.5">
+              <button onclick="undoCount('button')" id="undoQuickBtn" title="Undo Last Count (or Long Swipe Up)" class="w-9 h-9 rounded-full bg-emerald-950/65 border border-emerald-300/25 flex items-center justify-center text-emerald-100/80 hover:text-white active:scale-90 transition disabled:opacity-35">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a5 5 0 015 5v2M3 10l4-4M3 10l4 4"/>
+                </svg>
+              </button>
+              <button onclick="openSheet('resetModal')" title="Reset Counter" class="w-9 h-9 rounded-full bg-emerald-950/65 border border-emerald-300/25 flex items-center justify-center text-emerald-100/80 hover:text-rose-300 active:scale-90 transition">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Sensory / Reduced-Motion Status Pill (Shows when haptics/audio unavailable or reduced motion active) -->
+            <button onclick="openSheet('settingsSheet')" id="sensoryStatusPill" class="hidden px-2.5 py-1 rounded-full bg-emerald-950/75 border border-emerald-300/25 text-[10px] text-emerald-200/85 flex items-center gap-1 hover:border-amber-300/50 transition">
+              <span id="sensoryStatusDot" class="w-1.5 h-1.5 rounded-full bg-amber-300"></span>
+              <span id="sensoryStatusText">Visual pulse active</span>
             </button>
           </div>
         </div>
 
-        <!-- FLOATING +1 / -1 BADGE (Hidden by default; appears next to the active golden bead when triggered) -->
-        <div id="plusOneBadge" class="plus-one-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-emerald-900/85 border border-amber-300/50 text-amber-200 font-bold text-base shadow-[0_0_20px_rgba(245,158,11,0.5)]">
+        <!-- LIVE LONG-SWIPE-UP UNDO PROGRESS PILL (Appears while dragging upward) -->
+        <div id="swipeUpUndoPill" class="opacity-0 transition-opacity duration-150 self-center bg-emerald-950/90 border border-amber-300/45 rounded-full px-3.5 py-1.5 flex items-center gap-2 shadow-xl">
+          <svg id="swipeUpArrowIcon" class="w-4 h-4 text-amber-300 transition-transform duration-150" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18"/>
+          </svg>
+          <span id="swipeUpUndoText" class="text-xs font-medium text-amber-100">Swipe up further to undo (-1)</span>
+        </div>
+
+        <!-- FLOATING +1 / -1 BADGE next to Active Hero Bead -->
+        <div id="deltaBadge" class="delta-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-emerald-900/90 border border-amber-300/50 text-amber-200 font-bold text-base shadow-[0_0_20px_rgba(245,158,11,0.5)]">
           +1
+        </div>
+
+        <!-- BOTTOM OVERLAY STACK: Zero-State Prompt / Target Reached Banner / Dismissible Gesture Guide -->
+        <div class="flex flex-col items-center gap-2">
+
+          <!-- Zero-State / Target-Reached Contextual Hint -->
+          <div id="zeroStateHint" class="px-3.5 py-1.5 rounded-full bg-emerald-950/70 border border-emerald-300/20 text-[11.5px] text-emerald-100/85 backdrop-blur-md text-center shadow">
+            Tap or pull down anywhere to begin • Long swipe up to undo
+          </div>
+
+          <!-- Dismissible First-Use Gesture Guide Card -->
+          <div id="gestureGuideCard" class="hidden pointer-events-auto w-full glass-card rounded-2xl p-3.5 border border-amber-300/35 shadow-2xl" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
+            <div class="flex items-start justify-between gap-2 mb-2">
+              <div class="flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-amber-300"></span>
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-amber-200">Interactive Gesture Guide</h4>
+              </div>
+              <button onclick="dismissGestureGuide()" class="text-[11px] font-semibold text-emerald-200/80 hover:text-white px-2 py-0.5 rounded-lg bg-white/5">
+                Got it
+              </button>
+            </div>
+            <div class="grid grid-cols-3 gap-2 text-center">
+              <div class="p-2 rounded-xl bg-emerald-950/65 border border-emerald-300/15">
+                <div class="text-amber-300 font-bold text-xs mb-0.5">Tap / Pull ↓</div>
+                <p class="text-[10.5px] text-emerald-100/75 leading-tight">Advance bead (+1 count)</p>
+              </div>
+              <div class="p-2 rounded-xl bg-emerald-950/65 border border-emerald-300/15">
+                <div class="text-rose-300 font-bold text-xs mb-0.5">Long Swipe ↑</div>
+                <p class="text-[10.5px] text-emerald-100/75 leading-tight">Push bead back (Undo -1)</p>
+              </div>
+              <div class="p-2 rounded-xl bg-emerald-950/65 border border-emerald-300/15">
+                <div class="text-emerald-300 font-bold text-xs mb-0.5">Rapid Tap</div>
+                <p class="text-[10.5px] text-emerald-100/75 leading-tight">Instant queued response</p>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
 
     <!-- BOTTOM PROGRESS BAR CARD -->
     <div class="relative z-20 px-5 pb-6 shrink-0">
-      <div class="glass-card rounded-3xl p-4">
+      <div id="bottomProgressCard" class="glass-card rounded-3xl p-4 transition-all duration-300">
         <!-- Progress Track + Percentage -->
         <div class="flex items-center gap-3 mb-3.5">
           <div class="flex-1 h-3 rounded-full bg-emerald-950/90 border border-emerald-300/15 overflow-hidden p-0.5">
-            <div id="progressBarFill" class="h-full rounded-full bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 transition-all duration-300" style="width: 27%;"></div>
+            <div id="progressBarFill" class="h-full rounded-full bg-gradient-to-r from-emerald-300 via-teal-200 to-amber-300 transition-all duration-300" style="width: 0%;"></div>
           </div>
-          <span id="progressPercentText" class="text-xs font-semibold text-white w-9 text-right">27%</span>
+          <span id="progressPercentText" class="text-xs font-semibold text-white w-10 text-right">0%</span>
         </div>
 
         <!-- Goal & Completed Summary -->
@@ -406,15 +492,15 @@
           </div>
 
           <div class="flex items-center gap-3 pl-4">
-            <div class="w-9 h-9 rounded-full border border-emerald-300/35 bg-emerald-400/10 flex items-center justify-center text-emerald-300 shrink-0">
+            <div id="completedIconBadge" class="w-9 h-9 rounded-full border border-emerald-300/35 bg-emerald-400/10 flex items-center justify-center text-emerald-300 shrink-0">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="8" stroke-dasharray="3 2"/>
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9.5 12l1.8 1.8 3.5-3.6"/>
               </svg>
             </div>
             <div>
-              <span class="block text-[11px] text-emerald-100/65">Completed</span>
-              <span id="bottomCompletedValue" class="text-sm font-bold text-white">27</span>
+              <span id="bottomCompletedLabel" class="block text-[11px] text-emerald-100/65">Completed</span>
+              <span id="bottomCompletedValue" class="text-sm font-bold text-white">0</span>
             </div>
           </div>
         </div>
@@ -422,7 +508,7 @@
     </div>
 
     <!-- ===================================================== -->
-    <!-- BOTTOM SHEETS & MODALS (SCREENS 22–36)                -->
+    <!-- BOTTOM SHEETS & MODALS                                -->
     <!-- ===================================================== -->
 
     <!-- SHEET BACKDROP -->
@@ -478,15 +564,15 @@
       <p class="text-xs text-emerald-100/70 mb-4">Select a preset target or enter a custom count</p>
 
       <div class="grid grid-cols-3 gap-3 mb-4">
-        <button onclick="setGoal(33)" class="goal-preset-btn py-3.5 rounded-2xl border border-emerald-300/25 bg-emerald-900/40 text-center hover:border-amber-300/60 transition" data-goal="33">
+        <button onclick="requestGoalChange(33)" class="goal-preset-btn py-3.5 rounded-2xl border border-emerald-300/25 bg-emerald-900/40 text-center hover:border-amber-300/60 transition" data-goal="33">
           <span class="block text-xl font-bold text-white">33</span>
           <span class="text-[11px] text-emerald-200/70">Post-Salah</span>
         </button>
-        <button onclick="setGoal(100)" class="goal-preset-btn py-3.5 rounded-2xl border border-emerald-300/25 bg-emerald-900/40 text-center hover:border-amber-300/60 transition" data-goal="100">
+        <button onclick="requestGoalChange(100)" class="goal-preset-btn py-3.5 rounded-2xl border border-emerald-300/25 bg-emerald-900/40 text-center hover:border-amber-300/60 transition" data-goal="100">
           <span class="block text-xl font-bold text-white">100</span>
           <span class="text-[11px] text-emerald-200/70">Daily Sunnah</span>
         </button>
-        <button onclick="setGoal(1000)" class="goal-preset-btn py-3.5 rounded-2xl border border-emerald-300/25 bg-emerald-900/40 text-center hover:border-amber-300/60 transition" data-goal="1000">
+        <button onclick="requestGoalChange(1000)" class="goal-preset-btn py-3.5 rounded-2xl border border-emerald-300/25 bg-emerald-900/40 text-center hover:border-amber-300/60 transition" data-goal="1000">
           <span class="block text-xl font-bold text-white">1,000</span>
           <span class="text-[11px] text-emerald-200/70">Deep Wird</span>
         </button>
@@ -501,31 +587,72 @@
       </div>
     </div>
 
-    <!-- 4. SOUND, HAPTICS & BEAD THEME SETTINGS SHEET -->
-    <div id="settingsSheet" class="hidden absolute inset-x-0 bottom-0 z-40 glass-sheet rounded-t-[34px] p-6">
+    <!-- 4. PREVENT ACCIDENTAL COUNT LOSS MODAL (When changing Dhikr or Goal mid-session) -->
+    <div id="changeProtectionModal" class="hidden absolute inset-x-5 top-1/4 z-40 glass-sheet rounded-3xl p-6 border border-amber-300/35 text-center shadow-2xl">
+      <div class="w-12 h-12 rounded-full bg-amber-400/15 border border-amber-300/40 flex items-center justify-center text-amber-300 mx-auto mb-3">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v2m0 4h.01M5.07 19h13.86c1.54 0 2.5-1.67 1.73-3L13.73 4c-.77-1.33-2.69-1.33-3.46 0L3.34 16c-.77 1.33.19 3 1.73 3z"/>
+        </svg>
+      </div>
+      <h3 id="protectionModalTitle" class="font-serif-title text-2xl font-semibold text-white">Active Count in Progress</h3>
+      <p id="protectionModalDesc" class="text-xs text-emerald-100/80 mt-1 mb-5">
+        You have <strong class="text-amber-300">27 counts</strong> recorded. How would you like to switch?
+      </p>
+      <div class="space-y-2.5">
+        <button id="protectionKeepBtn" onclick="resolveProtectedChange('keep')" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-emerald-400 to-teal-400 text-emerald-950 font-semibold text-xs">
+          Keep Current Count & Switch
+        </button>
+        <button id="protectionSaveResetBtn" onclick="resolveProtectedChange('save_reset')" class="w-full py-2.5 rounded-xl bg-amber-400/20 border border-amber-300/40 text-amber-200 font-semibold text-xs hover:bg-amber-400/30">
+          Save Session to History & Start at 0
+        </button>
+        <button onclick="closeAllSheets()" class="w-full py-2 rounded-xl text-xs text-emerald-200/70 hover:text-white">
+          Cancel
+        </button>
+      </div>
+    </div>
+
+    <!-- 5. SOUND, HAPTICS, REDUCED MOTION & BEAD THEME SETTINGS SHEET -->
+    <div id="settingsSheet" class="hidden absolute inset-x-0 bottom-0 z-40 glass-sheet rounded-t-[34px] p-6 max-h-[84%] overflow-y-auto no-scrollbar">
       <div class="w-11 h-1.5 bg-emerald-200/30 rounded-full mx-auto mb-4"></div>
       <h2 class="font-serif-title text-2xl font-semibold text-white mb-1">Counter Settings</h2>
-      <p class="text-xs text-emerald-100/70 mb-4">Customize sound, haptic feedback, and 3D bead finish</p>
+      <p class="text-xs text-emerald-100/70 mb-4">Customize sound, haptic feedback, motion, and 3D bead finish</p>
 
-      <div class="space-y-3.5">
-        <!-- Sound Toggle -->
+      <div class="space-y-3">
+        <!-- Sound Toggle + Fallback Status -->
         <div class="flex items-center justify-between p-3.5 rounded-2xl bg-emerald-950/60 border border-emerald-300/20">
-          <div>
-            <p class="text-sm font-medium text-white">Bead Click Sound</p>
-            <p class="text-xs text-emerald-200/65">Authentic acoustic click on every count</p>
+          <div class="pr-3">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-white">Bead Click Sound</p>
+              <span id="audioCapBadge" class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-800/70 text-emerald-200">Ready</span>
+            </div>
+            <p class="text-xs text-emerald-200/65">Acoustic click on count & deeper tone on undo</p>
           </div>
-          <button id="soundToggleBtn" onclick="toggleSound()" class="w-12 h-6 rounded-full bg-emerald-500 p-0.5 transition flex items-center justify-end">
+          <button id="soundToggleBtn" onclick="toggleSound()" class="w-12 h-6 rounded-full bg-emerald-500 p-0.5 transition flex items-center justify-end shrink-0">
             <span class="w-5 h-5 rounded-full bg-white shadow"></span>
           </button>
         </div>
 
-        <!-- Haptics Toggle -->
+        <!-- Haptics Toggle + Device Availability Notice -->
         <div class="flex items-center justify-between p-3.5 rounded-2xl bg-emerald-950/60 border border-emerald-300/20">
-          <div>
-            <p class="text-sm font-medium text-white">Haptic Vibration</p>
-            <p class="text-xs text-emerald-200/65">Tactile pulse when pulling each bead</p>
+          <div class="pr-3">
+            <div class="flex items-center gap-2">
+              <p class="text-sm font-medium text-white">Haptic Vibration</p>
+              <span id="hapticCapBadge" class="text-[10px] px-1.5 py-0.5 rounded bg-emerald-800/70 text-emerald-200">Supported</span>
+            </div>
+            <p id="hapticSubtext" class="text-xs text-emerald-200/65">Tactile pulse on pull; visual glow fallback if unsupported</p>
           </div>
-          <button id="hapticToggleBtn" onclick="toggleHaptics()" class="w-12 h-6 rounded-full bg-emerald-500 p-0.5 transition flex items-center justify-end">
+          <button id="hapticToggleBtn" onclick="toggleHaptics()" class="w-12 h-6 rounded-full bg-emerald-500 p-0.5 transition flex items-center justify-end shrink-0">
+            <span class="w-5 h-5 rounded-full bg-white shadow"></span>
+          </button>
+        </div>
+
+        <!-- Reduced Motion Toggle -->
+        <div class="flex items-center justify-between p-3.5 rounded-2xl bg-emerald-950/60 border border-emerald-300/20">
+          <div class="pr-3">
+            <p class="text-sm font-medium text-white">Reduced Motion</p>
+            <p class="text-xs text-emerald-200/65">Instant bead transitions & subtle fade indicators</p>
+          </div>
+          <button id="reducedMotionToggleBtn" onclick="toggleReducedMotion()" class="w-12 h-6 rounded-full bg-emerald-950 border border-emerald-300/30 p-0.5 transition flex items-center justify-start shrink-0">
             <span class="w-5 h-5 rounded-full bg-white shadow"></span>
           </button>
         </div>
@@ -542,7 +669,7 @@
       </div>
     </div>
 
-    <!-- 5. DEVELOPER BACKGROUND IMAGE SWITCHER -->
+    <!-- 6. DEVELOPER BACKGROUND IMAGE SWITCHER -->
     <div id="bgCustomizerSheet" class="hidden absolute inset-x-0 bottom-0 z-40 glass-sheet rounded-t-[34px] p-6">
       <div class="w-11 h-1.5 bg-emerald-200/30 rounded-full mx-auto mb-4"></div>
       <div class="flex items-center justify-between mb-1">
@@ -552,7 +679,6 @@
       <p class="text-xs text-emerald-100/70 mb-4">Test custom background art via local file upload or image URL</p>
 
       <div class="space-y-3.5">
-        <!-- Upload Local File -->
         <label class="flex items-center justify-center gap-2 w-full py-3 px-4 rounded-2xl border border-dashed border-emerald-300/40 bg-emerald-900/30 hover:bg-emerald-900/50 cursor-pointer text-xs font-medium text-emerald-100 transition">
           <svg class="w-4 h-4 text-amber-300" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1M12 12V4m0 0L8 8m4-4l4 4"/>
@@ -561,7 +687,6 @@
           <input id="bgFileInput" type="file" accept="image/*" class="hidden" onchange="handleBgFileUpload(event)" />
         </label>
 
-        <!-- Paste Image URL -->
         <div>
           <label class="block text-xs text-emerald-200/80 mb-1">Or Paste Image URL</label>
           <div class="flex gap-2">
@@ -570,7 +695,6 @@
           </div>
         </div>
 
-        <!-- Overlay Dimming Slider -->
         <div>
           <div class="flex justify-between text-xs text-emerald-200/80 mb-1">
             <span>Background Overlay Dim</span>
@@ -585,7 +709,7 @@
       </div>
     </div>
 
-    <!-- 6. RESET CONFIRMATION MODAL -->
+    <!-- 7. RESET CONFIRMATION MODAL -->
     <div id="resetModal" class="hidden absolute inset-x-5 top-1/3 z-40 glass-sheet rounded-3xl p-6 border border-emerald-300/25 text-center">
       <div class="w-12 h-12 rounded-full bg-amber-400/15 border border-amber-300/40 flex items-center justify-center text-amber-300 mx-auto mb-3">
         <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -593,14 +717,14 @@
         </svg>
       </div>
       <h3 class="font-serif-title text-2xl font-semibold text-white">Reset Current Count?</h3>
-      <p class="text-xs text-emerald-100/75 mt-1 mb-5">Your current progress (<span id="resetCountPreview">27</span> counts) will be reset to zero.</p>
+      <p class="text-xs text-emerald-100/75 mt-1 mb-5">Your current progress (<span id="resetCountPreview">0</span> counts) will be reset to zero.</p>
       <div class="flex gap-3">
         <button onclick="closeAllSheets()" class="flex-1 py-2.5 rounded-xl border border-emerald-300/25 text-xs font-semibold text-emerald-100">Cancel</button>
         <button onclick="confirmResetCount()" class="flex-1 py-2.5 rounded-xl bg-rose-500/90 text-white font-semibold text-xs">Reset to 0</button>
       </div>
     </div>
 
-    <!-- 7. GOAL REACHED CELEBRATION MODAL -->
+    <!-- 8. GOAL REACHED CELEBRATION MODAL -->
     <div id="goalReachedModal" class="hidden absolute inset-x-5 top-1/4 z-40 glass-sheet rounded-3xl p-6 border border-amber-300/40 text-center shadow-2xl">
       <div class="w-16 h-16 rounded-full bg-gradient-to-br from-amber-300/30 to-emerald-500/20 border border-amber-300/60 flex items-center justify-center text-amber-300 mx-auto mb-3 shadow-[0_0_30px_rgba(245,158,11,0.4)]">
         <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24">
@@ -624,7 +748,7 @@
       </div>
     </div>
 
-    <!-- 8. TASBIH HISTORY & SESSION DETAIL SHEET -->
+    <!-- 9. TASBIH HISTORY SHEET -->
     <div id="historySheet" class="hidden absolute inset-x-0 bottom-0 z-40 glass-sheet rounded-t-[34px] p-6 max-h-[80%] flex flex-col">
       <div class="w-11 h-1.5 bg-emerald-200/30 rounded-full mx-auto mb-4"></div>
       <div class="flex items-center justify-between mb-4">
@@ -650,8 +774,13 @@
   <!-- APPLICATION LOGIC & 3D FIRST-POV TASBIH ENGINE        -->
   <!-- ===================================================== -->
   <script>
-    // --- 1. DHIKR PRESETS (Arabic Sized to Fit Cleanly Inside Circular Badge) ---
-    const dhikrList = [
+    const STORAGE_KEY = 'tasbih_app_state_v2';
+    const GUIDE_DISMISSED_KEY = 'tasbih_guide_dismissed_v2';
+    const LONG_SWIPE_UP_THRESHOLD = 75; // px upward drag required to trigger Undo (-1)
+    const TAP_PULL_THRESHOLD = 26;      // px downward/lateral drag to trigger +1
+
+    // --- 1. DEFAULT DHIKR PRESETS ---
+    const defaultDhikrList = [
       {
         id: 'astaghfirullah',
         title: 'Astaghfirullah',
@@ -682,16 +811,24 @@
       }
     ];
 
-    // --- 2. STATE ---
+    let dhikrList = [...defaultDhikrList];
+
+    // Detect OS prefers-reduced-motion default
+    const systemPrefersReducedMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    // --- 2. APPLICATION STATE ---
     let state = {
       selectedDhikr: dhikrList[0],
-      count: 27,
+      count: 0,
       goal: 100,
       round: 1,
       soundEnabled: true,
       hapticsEnabled: true,
-      beadStyle: 'cerulean', // 'cerulean', 'pearl', 'emerald'
-      sessionSeconds: 42,
+      reducedMotion: systemPrefersReducedMotion,
+      beadStyle: 'cerulean',
+      sessionSeconds: 0,
+      restoredBannerActive: false,
+      isPausedByInterruption: false,
       history: [
         { dhikr: 'Astaghfirullah', arabic: 'أَسْتَغْفِرُ ٱللَّٰهَ', count: 100, goal: 100, duration: '02:18', date: 'Today, 5:30 AM' },
         { dhikr: 'SubhanAllah', arabic: 'سُبْحَانَ ٱللَّٰهِ', count: 33, goal: 33, duration: '00:49', date: 'Yesterday, 9:15 PM' },
@@ -699,7 +836,76 @@
       ]
     };
 
-    // --- 3. ARABIC CIRCLE AUTO-FITTER (Ensures Arabic Text Never Overflows Circle) ---
+    // Pending change protection payload (when user switches Dhikr or Goal while count > 0)
+    let pendingProtectedChange = null;
+
+    // Rapid tap tracking
+    let recentTapTimestamps = [];
+    let paceBadgeTimer = null;
+
+    // Capabilities detection
+    const capabilities = {
+      vibrateSupported: typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function',
+      audioSupported: typeof window !== 'undefined' && !!(window.AudioContext || window.webkitAudioContext),
+      audioUnlocked: false
+    };
+
+    // --- 3. PERSISTENCE (Save & Restore Count, Dhikr, Goal, Round, Custom Dhikrs, Settings) ---
+    function saveAppState() {
+      try {
+        const payload = {
+          selectedDhikrId: state.selectedDhikr.id,
+          customDhikrs: dhikrList.filter(d => d.id.startsWith('custom_')),
+          count: state.count,
+          goal: state.goal,
+          round: state.round,
+          soundEnabled: state.soundEnabled,
+          hapticsEnabled: state.hapticsEnabled,
+          reducedMotion: state.reducedMotion,
+          beadStyle: state.beadStyle,
+          sessionSeconds: state.sessionSeconds,
+          history: state.history,
+          savedAt: Date.now()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
+      } catch (e) {}
+    }
+
+    function loadAppState() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        const data = JSON.parse(raw);
+
+        if (Array.isArray(data.customDhikrs) && data.customDhikrs.length > 0) {
+          dhikrList = [...data.customDhikrs, ...defaultDhikrList];
+        }
+
+        if (data.selectedDhikrId) {
+          const found = dhikrList.find(d => d.id === data.selectedDhikrId);
+          if (found) state.selectedDhikr = found;
+        }
+
+        if (typeof data.count === 'number') state.count = Math.max(0, data.count);
+        if (typeof data.goal === 'number' && data.goal >= 1) state.goal = data.goal;
+        if (typeof data.round === 'number' && data.round >= 1) state.round = data.round;
+        if (typeof data.soundEnabled === 'boolean') state.soundEnabled = data.soundEnabled;
+        if (typeof data.hapticsEnabled === 'boolean') state.hapticsEnabled = data.hapticsEnabled;
+        if (typeof data.reducedMotion === 'boolean') state.reducedMotion = data.reducedMotion;
+        if (typeof data.beadStyle === 'string') state.beadStyle = data.beadStyle;
+        if (typeof data.sessionSeconds === 'number') state.sessionSeconds = Math.max(0, data.sessionSeconds);
+        if (Array.isArray(data.history)) state.history = data.history;
+
+        if (state.count > 0) {
+          state.restoredBannerActive = true;
+        }
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    // --- 4. ARABIC CIRCLE AUTO-FITTER ---
     function fitArabicTextInCircle(spanElement, text) {
       spanElement.textContent = text;
       const len = text.trim().length;
@@ -714,30 +920,31 @@
       }
     }
 
-    // --- 4. FIRST-POV 3D TASBIH CANVAS RENDERER ---
+    // --- 5. FIRST-POV 3D TASBIH CANVAS RENDERER ---
     const canvas = document.getElementById('povTasbihCanvas');
     const ctx = canvas.getContext('2d');
 
     let beadAnimOffset = 0;
+    let dragPreviewOffset = 0; // Live visual feedback while dragging upward/downward
     let beadHighlightGlow = 0;
+    let undoGlowIntensity = 0;
     let lastFrameTime = performance.now();
 
-    // First-POV 3D Perspective Loop Control Points
     const povSlots = [
-      { x: 184, y: 366, r: 30, alpha: 0.78, z: 0.85 }, // 0: Bottom bead below active bead
-      { x: 184, y: 274, r: 39, alpha: 1.00, z: 1.00 }, // 1: HERO ACTIVE BEAD (Large Gold Sphere)
-      { x: 202, y: 202, r: 26, alpha: 0.98, z: 0.82 }, // 2: Next bead directly above active
-      { x: 215, y: 147, r: 21, alpha: 0.95, z: 0.72 }, // 3
-      { x: 219, y: 103, r: 17, alpha: 0.90, z: 0.62 }, // 4
-      { x: 212, y: 69,  r: 13.5, alpha: 0.84, z: 0.52 }, // 5
-      { x: 194, y: 45,  r: 10.5, alpha: 0.75, z: 0.44 }, // 6
-      { x: 170, y: 34,  r: 8.0,  alpha: 0.62, z: 0.36 }, // 7: Top Apex
-      { x: 142, y: 54,  r: 6.5,  alpha: 0.38, z: 0.25 }, // 8: Left return curve
-      { x: 120, y: 98,  r: 7.0,  alpha: 0.32, z: 0.22 }, // 9
-      { x: 108, y: 155, r: 7.5,  alpha: 0.28, z: 0.20 }, // 10
-      { x: 112, y: 222, r: 7.5,  alpha: 0.24, z: 0.18 }, // 11
-      { x: 132, y: 292, r: 7.0,  alpha: 0.18, z: 0.15 }, // 12
-      { x: 162, y: 355, r: 6.5,  alpha: 0.12, z: 0.12 }  // 13
+      { x: 184, y: 366, r: 30, alpha: 0.78, z: 0.85 },
+      { x: 184, y: 274, r: 39, alpha: 1.00, z: 1.00 }, // HERO ACTIVE BEAD
+      { x: 202, y: 202, r: 26, alpha: 0.98, z: 0.82 },
+      { x: 215, y: 147, r: 21, alpha: 0.95, z: 0.72 },
+      { x: 219, y: 103, r: 17, alpha: 0.90, z: 0.62 },
+      { x: 212, y: 69,  r: 13.5, alpha: 0.84, z: 0.52 },
+      { x: 194, y: 45,  r: 10.5, alpha: 0.75, z: 0.44 },
+      { x: 170, y: 34,  r: 8.0,  alpha: 0.62, z: 0.36 },
+      { x: 142, y: 54,  r: 6.5,  alpha: 0.38, z: 0.25 },
+      { x: 120, y: 98,  r: 7.0,  alpha: 0.32, z: 0.22 },
+      { x: 108, y: 155, r: 7.5,  alpha: 0.28, z: 0.20 },
+      { x: 112, y: 222, r: 7.5,  alpha: 0.24, z: 0.18 },
+      { x: 132, y: 292, r: 7.0,  alpha: 0.18, z: 0.15 },
+      { x: 162, y: 355, r: 6.5,  alpha: 0.12, z: 0.12 }
     ];
 
     function CatmullRom(p0, p1, p2, p3, t) {
@@ -791,7 +998,6 @@
           heroDark: '#78350f'
         };
       }
-      // Default: 'cerulean'
       return {
         queueLight: '#bae6fd',
         queueMid: '#2294d6',
@@ -808,32 +1014,36 @@
 
       const pal = getPalette();
 
-      // Soft ambient halo behind the active golden bead
       if (heroBlend > 0.05) {
-        const haloRadius = radius * (2.15 + beadHighlightGlow * 0.35);
+        const haloRadius = radius * (2.15 + beadHighlightGlow * 0.35 + undoGlowIntensity * 0.3);
         const haloGrad = ctx.createRadialGradient(x, y, radius * 0.3, x, y, haloRadius);
-        haloGrad.addColorStop(0, `rgba(251, 191, 36, ${0.42 * heroBlend})`);
-        haloGrad.addColorStop(0.55, `rgba(245, 158, 11, ${0.16 * heroBlend})`);
-        haloGrad.addColorStop(1, 'rgba(245, 158, 11, 0)');
+        if (undoGlowIntensity > 0.05) {
+          haloGrad.addColorStop(0, `rgba(251, 113, 133, ${0.42 * heroBlend})`);
+          haloGrad.addColorStop(0.55, `rgba(244, 63, 94, ${0.15 * heroBlend})`);
+          haloGrad.addColorStop(1, 'rgba(244, 63, 94, 0)');
+        } else {
+          haloGrad.addColorStop(0, `rgba(251, 191, 36, ${0.42 * heroBlend})`);
+          haloGrad.addColorStop(0.55, `rgba(245, 158, 11, ${0.16 * heroBlend})`);
+          haloGrad.addColorStop(1, 'rgba(245, 158, 11, 0)');
+        }
         ctx.fillStyle = haloGrad;
         ctx.beginPath();
         ctx.arc(x, y, haloRadius, 0, Math.PI * 2);
         ctx.fill();
 
-        // Outer golden indicator ring around active + bottom slot
-        ctx.strokeStyle = `rgba(251, 191, 36, ${0.28 * heroBlend})`;
-        ctx.lineWidth = 1.25;
+        ctx.strokeStyle = undoGlowIntensity > 0.05
+          ? `rgba(251, 113, 133, ${0.45 * heroBlend})`
+          : `rgba(251, 191, 36, ${0.28 * heroBlend})`;
+        ctx.lineWidth = 1.35;
         ctx.beginPath();
         ctx.arc(x, y, radius * 1.48, 0, Math.PI * 2);
         ctx.stroke();
       }
 
-      // Drop shadow under each 3D sphere
       ctx.shadowColor = 'rgba(0, 0, 0, 0.55)';
       ctx.shadowBlur = radius * 0.45;
       ctx.shadowOffsetY = radius * 0.18;
 
-      // 3D Sphere Radial Gradient
       const grad = ctx.createRadialGradient(
         x - radius * 0.32,
         y - radius * 0.34,
@@ -858,12 +1068,10 @@
       ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Reset shadow for surface details
       ctx.shadowColor = 'transparent';
       ctx.shadowBlur = 0;
       ctx.shadowOffsetY = 0;
 
-      // Top-left specular highlight
       const specGrad = ctx.createRadialGradient(
         x - radius * 0.34,
         y - radius * 0.36,
@@ -879,7 +1087,6 @@
       ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Bead drill-hole at top of large foreground beads
       if (radius > 16) {
         const holeX = x + Math.cos(holeAngle) * (radius * 0.08);
         const holeY = y - radius * 0.68;
@@ -899,22 +1106,34 @@
     }
 
     function renderPovTasbih(now) {
+      if (document.hidden) {
+        lastFrameTime = now;
+        requestAnimationFrame(renderPovTasbih);
+        return;
+      }
+
       const dt = Math.min(0.05, (now - lastFrameTime) / 1000);
       lastFrameTime = now;
 
-      // Smooth spring-like return of beadAnimOffset toward 0
-      if (Math.abs(beadAnimOffset) > 0.001) {
-        beadAnimOffset *= Math.pow(0.0008, dt);
+      if (state.reducedMotion) {
+        beadAnimOffset = 0;
+        dragPreviewOffset = 0;
+      } else if (Math.abs(beadAnimOffset) > 0.001) {
+        // Faster decay when rapid tapping
+        beadAnimOffset *= Math.pow(0.0005, dt);
         if (Math.abs(beadAnimOffset) < 0.003) beadAnimOffset = 0;
       }
 
       if (beadHighlightGlow > 0.001) {
-        beadHighlightGlow = Math.max(0, beadHighlightGlow - dt * 2.2);
+        beadHighlightGlow = Math.max(0, beadHighlightGlow - dt * 2.4);
+      }
+      if (undoGlowIntensity > 0.001) {
+        undoGlowIntensity = Math.max(0, undoGlowIntensity - dt * 2.2);
       }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 1. Draw the 3D Cord Loop
+      // 1. Draw 3D Cord Loop
       ctx.save();
       ctx.lineWidth = 3.2;
       ctx.strokeStyle = 'rgba(186, 230, 253, 0.35)';
@@ -930,7 +1149,7 @@
       ctx.stroke();
       ctx.restore();
 
-      // 2. Draw Subtle Vertical Golden Pull Guide Sleeves Around Hero & Bottom Bead
+      // 2. Vertical Golden Pull Guide Sleeves
       const heroSlot = povSlots[1];
       const bottomSlot = povSlots[0];
       ctx.save();
@@ -948,10 +1167,11 @@
       ctx.stroke();
       ctx.restore();
 
-      // 3. Compute All Beads Along Loop with Current Animation Offset & Sort by Depth (z)
+      // 3. Compute Beads with Animation + Drag Preview Offset
+      const combinedOffset = Math.max(-0.95, Math.min(1.35, beadAnimOffset + dragPreviewOffset));
       const beadsToDraw = [];
       for (let i = 0; i < povSlots.length; i++) {
-        const u = i + beadAnimOffset;
+        const u = i + combinedOffset;
         const pt = samplePovPath(u);
 
         const distToHero = Math.abs(u - 1.0);
@@ -992,10 +1212,11 @@
       requestAnimationFrame(renderPovTasbih);
     }
 
-    // --- 5. WEB AUDIO SYNTHESIZED WOODEN / STONE BEAD CLICK ---
+    // --- 6. SOUND, HAPTICS & VISUAL PULSE FALLBACK ---
     let audioCtx = null;
-    function playBeadClickSound(isUndo = false) {
-      if (!state.soundEnabled) return;
+
+    function playBeadSound(type = 'increment') {
+      if (!state.soundEnabled || !capabilities.audioSupported) return false;
       try {
         if (!audioCtx) {
           audioCtx = new (window.AudioContext || window.webkitAudioContext)();
@@ -1004,179 +1225,293 @@
           audioCtx.resume();
         }
         const now = audioCtx.currentTime;
-
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
-        osc.type = 'triangle';
-        if (isUndo) {
-          // Slightly softer, upward pitch inflection for undo
-          osc.frequency.setValueAtTime(160, now);
-          osc.frequency.exponentialRampToValueAtTime(280, now + 0.045);
-          gain.gain.setValueAtTime(0.24, now);
+
+        if (type === 'undo') {
+          osc.type = 'sine';
+          osc.frequency.setValueAtTime(195, now);
+          osc.frequency.exponentialRampToValueAtTime(280, now + 0.055);
+          gain.gain.setValueAtTime(0.26, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.06);
         } else {
+          osc.type = 'triangle';
           osc.frequency.setValueAtTime(320, now);
           osc.frequency.exponentialRampToValueAtTime(115, now + 0.045);
           gain.gain.setValueAtTime(0.32, now);
+          gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
         }
-        gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
 
         osc.connect(gain);
         gain.connect(audioCtx.destination);
         osc.start(now);
-        osc.stop(now + 0.055);
-      } catch (e) {}
-    }
-
-    function triggerHaptic(pattern = 18) {
-      if (state.hapticsEnabled && navigator.vibrate) {
-        navigator.vibrate(pattern);
+        osc.stop(now + 0.065);
+        capabilities.audioUnlocked = true;
+        return true;
+      } catch (e) {
+        return false;
       }
     }
 
-    // --- 6. FLOATING +1 / -1 POP (Only visible when selected / incremented / undone) ---
-    let plusOneTimer = null;
-    function triggerFloatingBadgePopup(label = '+1') {
-      const badge = document.getElementById('plusOneBadge');
-      badge.textContent = label;
-      if (label === '-1') {
-        badge.className = 'plus-one-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-rose-950/90 border border-rose-300/50 text-rose-200 font-bold text-base shadow-[0_0_20px_rgba(244,63,94,0.45)]';
+    function triggerSensoryFeedback(type = 'increment') {
+      const soundPlayed = playBeadSound(type);
+      let vibrated = false;
+
+      if (state.hapticsEnabled && capabilities.vibrateSupported) {
+        try {
+          vibrated = navigator.vibrate(type === 'undo' ? [14, 30, 14] : 18);
+        } catch (e) {
+          vibrated = false;
+        }
+      }
+
+      // Visual Pulse Fallback when neither vibration nor sound is active/supported
+      if (!soundPlayed && !vibrated) {
+        triggerVisualScreenPulse();
+      }
+    }
+
+    function triggerVisualScreenPulse() {
+      const frame = document.getElementById('phoneFrame');
+      frame.classList.remove('visual-pulse-active');
+      void frame.offsetWidth;
+      frame.classList.add('visual-pulse-active');
+    }
+
+    function updateSensoryCapabilityUI() {
+      const hapticBadge = document.getElementById('hapticCapBadge');
+      const audioBadge = document.getElementById('audioCapBadge');
+      const sensoryPill = document.getElementById('sensoryStatusPill');
+      const sensoryText = document.getElementById('sensoryStatusText');
+
+      if (!capabilities.vibrateSupported) {
+        hapticBadge.textContent = 'Visual Fallback';
+        hapticBadge.className = 'text-[10px] px-1.5 py-0.5 rounded bg-amber-400/20 text-amber-200';
       } else {
-        badge.className = 'plus-one-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-emerald-900/85 border border-amber-300/50 text-amber-200 font-bold text-base shadow-[0_0_20px_rgba(245,158,11,0.5)]';
+        hapticBadge.textContent = state.hapticsEnabled ? 'Active' : 'Off';
+        hapticBadge.className = 'text-[10px] px-1.5 py-0.5 rounded bg-emerald-800/70 text-emerald-200';
       }
-      void badge.offsetWidth;
-      badge.classList.add('pop-active');
 
-      if (plusOneTimer) clearTimeout(plusOneTimer);
-      plusOneTimer = setTimeout(() => {
-        badge.classList.remove('pop-active');
-      }, 700);
+      if (!capabilities.audioSupported) {
+        audioBadge.textContent = 'Unavailable';
+        audioBadge.className = 'text-[10px] px-1.5 py-0.5 rounded bg-rose-400/20 text-rose-200';
+      } else {
+        audioBadge.textContent = state.soundEnabled ? 'Ready' : 'Muted';
+        audioBadge.className = 'text-[10px] px-1.5 py-0.5 rounded bg-emerald-800/70 text-emerald-200';
+      }
+
+      // Show subtle status pill on counter screen if reduced motion is on or both sound & haptics are off/unavailable
+      const noTactileOrAudio = (!state.soundEnabled || !capabilities.audioSupported) && (!state.hapticsEnabled || !capabilities.vibrateSupported);
+      if (state.reducedMotion || noTactileOrAudio) {
+        sensoryPill.classList.remove('hidden');
+        if (state.reducedMotion && noTactileOrAudio) {
+          sensoryText.textContent = 'Reduced motion • Visual pulse';
+        } else if (state.reducedMotion) {
+          sensoryText.textContent = 'Reduced motion on';
+        } else {
+          sensoryText.textContent = 'Silent visual pulse';
+        }
+      } else {
+        sensoryPill.classList.add('hidden');
+      }
     }
 
-    // --- 7. CORE COUNT INCREMENT & UNDO LOGIC ---
+    // --- 7. FLOATING +1 / -1 POPUP & RAPID TAP RESPONSE ---
+    let deltaTimer = null;
+    function triggerDeltaPopup(label = '+1', isUndo = false) {
+      const badge = document.getElementById('deltaBadge');
+      badge.textContent = label;
+
+      if (isUndo) {
+        badge.className = 'delta-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-rose-950/90 border border-rose-300/60 text-rose-200 font-bold text-base shadow-[0_0_20px_rgba(244,63,94,0.5)]';
+      } else {
+        badge.className = 'delta-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-emerald-900/90 border border-amber-300/50 text-amber-200 font-bold text-base shadow-[0_0_20px_rgba(245,158,11,0.5)]';
+      }
+
+      const animClass = state.reducedMotion ? 'pop-reduced' : 'pop-active';
+      badge.classList.remove('pop-active', 'pop-reduced');
+      void badge.offsetWidth;
+      badge.classList.add(animClass);
+
+      if (deltaTimer) clearTimeout(deltaTimer);
+      deltaTimer = setTimeout(() => {
+        badge.classList.remove('pop-active', 'pop-reduced');
+      }, 650);
+    }
+
+    function bumpCounterNumber() {
+      if (state.reducedMotion) return;
+      const wrapper = document.getElementById('countNumberWrapper');
+      wrapper.classList.add('counter-bump');
+      setTimeout(() => wrapper.classList.remove('counter-bump'), 95);
+    }
+
+    function trackRapidTaps() {
+      const now = performance.now();
+      recentTapTimestamps.push(now);
+      recentTapTimestamps = recentTapTimestamps.filter(t => now - t < 1200);
+
+      const paceBadge = document.getElementById('paceBadge');
+      if (recentTapTimestamps.length >= 4) {
+        paceBadge.classList.remove('hidden');
+        if (paceBadgeTimer) clearTimeout(paceBadgeTimer);
+        paceBadgeTimer = setTimeout(() => {
+          paceBadge.classList.add('hidden');
+        }, 1200);
+      }
+    }
+
+    // --- 8. CORE COUNT INCREMENT & UNDO (Button + Long Swipe Up) ---
     function incrementCount() {
+      state.restoredBannerActive = false;
+      state.isPausedByInterruption = false;
       state.count += 1;
 
-      beadAnimOffset = 1.0;
+      // Clear & responsive animation even under rapid tapping
+      beadAnimOffset = state.reducedMotion ? 0 : Math.min(1.35, beadAnimOffset * 0.35 + 0.95);
       beadHighlightGlow = 1.0;
 
-      triggerFloatingBadgePopup('+1');
-      playBeadClickSound(false);
-      triggerHaptic(18);
+      trackRapidTaps();
+      bumpCounterNumber();
+      triggerDeltaPopup('+1', false);
+      triggerSensoryFeedback('increment');
 
       updateUI();
+      saveAppState();
 
       if (state.count === state.goal) {
-        triggerHaptic([40, 60, 80]);
+        if (state.hapticsEnabled && capabilities.vibrateSupported) {
+          try { navigator.vibrate([40, 60, 80]); } catch (e) {}
+        }
         document.getElementById('celebrationDhikrName').textContent = state.selectedDhikr.title;
         document.getElementById('celebrationGoalCount').textContent = state.goal.toLocaleString();
         setTimeout(() => {
           openSheet('goalReachedModal');
-        }, 320);
+        }, 280);
       }
     }
 
-    function undoCount() {
+    function undoCount(source = 'gesture') {
       if (state.count <= 0) {
-        showToast('Count is already at 0');
+        showToast('Counter is already at 0');
         return;
       }
+      state.restoredBannerActive = false;
       state.count -= 1;
-      // Push the bead back up the cord in 3D POV
-      beadAnimOffset = -1.0;
-      beadHighlightGlow = 0.7;
 
-      triggerFloatingBadgePopup('-1');
-      playBeadClickSound(true);
-      triggerHaptic([12, 30, 12]);
+      beadAnimOffset = state.reducedMotion ? 0 : -0.85;
+      undoGlowIntensity = 1.0;
+
+      bumpCounterNumber();
+      triggerDeltaPopup('-1', true);
+      triggerSensoryFeedback('undo');
+
       updateUI();
-      showToast('Undid last count (-1)');
+      saveAppState();
+      showToast(source === 'swipe' ? 'Long swipe up • Undid last count (-1)' : 'Last count undone (-1)');
     }
 
-    // --- 8. UNIFIED TAP, SWIPE (+1) & LONG UPPER SWIPE TO UNDO (-1) GESTURE HANDLER ---
-    // - Tap or swipe down/left/right: increments count (+1) once per gesture.
-    // - Long upward swipe (dy <= -85px with predominantly vertical upward motion): undoes last count (-1) once per gesture.
+    // --- 9. UNIFIED TAP, PULL DOWN & LONG SWIPE UP GESTURE HANDLER ---
     const touchZone = document.getElementById('interactiveCounterZone');
+    const swipeUpPill = document.getElementById('swipeUpUndoPill');
+    const swipeUpText = document.getElementById('swipeUpUndoText');
+    const swipeUpArrow = document.getElementById('swipeUpArrowIcon');
+
     let activePointerId = null;
     let gestureStartX = 0;
     let gestureStartY = 0;
-    let gestureHandled = false;
+    let gestureResolved = false;
 
-    const NORMAL_SWIPE_THRESHOLD = 28; // px for downward / horizontal swipe (+1)
-    const LONG_UP_SWIPE_THRESHOLD = 85; // px upward for undo (-1)
+    function resetSwipeUpIndicator() {
+      dragPreviewOffset = 0;
+      swipeUpPill.classList.remove('opacity-100');
+      swipeUpPill.classList.add('opacity-0');
+      swipeUpArrow.style.transform = 'scale(1)';
+    }
 
     touchZone.addEventListener('pointerdown', (e) => {
       if (activePointerId !== null) return;
       activePointerId = e.pointerId;
       gestureStartX = e.clientX;
       gestureStartY = e.clientY;
-      gestureHandled = false;
+      gestureResolved = false;
       touchZone.setPointerCapture(e.pointerId);
     });
 
     touchZone.addEventListener('pointermove', (e) => {
-      if (e.pointerId !== activePointerId || gestureHandled) return;
+      if (e.pointerId !== activePointerId || gestureResolved) return;
       const dx = e.clientX - gestureStartX;
-      const dy = e.clientY - gestureStartY;
-      const absDx = Math.abs(dx);
-      const absDy = Math.abs(dy);
-      const distance = Math.hypot(dx, dy);
+      const dy = e.clientY - gestureStartY; // negative = swiping UP, positive = pulling DOWN
 
-      // Check if user is swiping primarily upward (dy < 0 and vertical movement dominates)
-      const isMovingUpward = dy < 0 && absDy > absDx * 1.15;
+      // Case A: Swiping Upward -> Live preview toward Long Swipe Up Undo
+      if (dy < -12 && Math.abs(dy) > Math.abs(dx)) {
+        const upDist = Math.abs(dy);
+        const progress = Math.min(1, upDist / LONG_SWIPE_UP_THRESHOLD);
 
-      if (isMovingUpward) {
-        // Wait until the upward swipe reaches the long swipe threshold to trigger Undo
-        if (dy <= -LONG_UP_SWIPE_THRESHOLD) {
-          gestureHandled = true;
-          undoCount();
+        if (!state.reducedMotion) {
+          dragPreviewOffset = -0.65 * progress;
         }
-      } else {
-        // Downward or horizontal swipe triggers +1 immediately once threshold is crossed
-        if (distance >= NORMAL_SWIPE_THRESHOLD) {
-          gestureHandled = true;
-          incrementCount();
+
+        swipeUpPill.classList.remove('opacity-0');
+        swipeUpPill.classList.add('opacity-100');
+        swipeUpArrow.style.transform = `scale(${0.95 + progress * 0.25})`;
+
+        if (state.count <= 0) {
+          swipeUpText.textContent = 'Already at 0';
+        } else if (upDist >= LONG_SWIPE_UP_THRESHOLD) {
+          gestureResolved = true;
+          resetSwipeUpIndicator();
+          undoCount('swipe');
+        } else {
+          swipeUpText.textContent = 'Keep swiping up to undo (-1)';
         }
+        return;
+      }
+
+      // Case B: Pulling Downward or Sideways -> Count +1 once threshold passed
+      if (dy >= TAP_PULL_THRESHOLD || (Math.hypot(dx, dy) >= 34 && dy > -10)) {
+        gestureResolved = true;
+        resetSwipeUpIndicator();
+        incrementCount();
       }
     });
 
     touchZone.addEventListener('pointerup', (e) => {
       if (e.pointerId !== activePointerId) return;
-      if (!gestureHandled) {
-        const dx = e.clientX - gestureStartX;
-        const dy = e.clientY - gestureStartY;
-        // If user did a long upward swipe and released right at threshold
-        if (dy <= -LONG_UP_SWIPE_THRESHOLD && Math.abs(dy) > Math.abs(dx) * 1.15) {
-          gestureHandled = true;
-          undoCount();
-        } else {
-          // Tap or short swipe -> +1
-          gestureHandled = true;
+      const dy = e.clientY - gestureStartY;
+
+      if (!gestureResolved) {
+        // Only count as a tap if it wasn't an aborted upward swipe (> 22px upward)
+        if (dy > -22) {
+          gestureResolved = true;
           incrementCount();
         }
       }
+      resetSwipeUpIndicator();
       activePointerId = null;
     });
 
     touchZone.addEventListener('pointercancel', (e) => {
       if (e.pointerId === activePointerId) {
+        resetSwipeUpIndicator();
         activePointerId = null;
-        gestureHandled = false;
+        gestureResolved = false;
       }
     });
 
-    // Keyboard Spacebar (+1) & Backspace/ArrowUp (-1) support
+    // Keyboard Shortcuts: Space/ArrowDown = +1, Backspace/ArrowUp = Undo (-1)
     window.addEventListener('keydown', (e) => {
-      if (document.activeElement.tagName === 'INPUT') return;
-      if (e.code === 'Space') {
+      if (document.activeElement && document.activeElement.tagName === 'INPUT') return;
+      if (e.code === 'Space' || e.code === 'ArrowDown') {
         e.preventDefault();
-        if (!e.repeat) incrementCount();
+        incrementCount();
       } else if (e.code === 'Backspace' || e.code === 'ArrowUp') {
         e.preventDefault();
-        if (!e.repeat) undoCount();
+        undoCount('keyboard');
       }
     });
 
-    // --- 9. UI SYNC & RENDERING ---
+    // --- 10. COUNTER STATES (Zero, Mid-Progress, Target Reached, Restored, Paused) & UI SYNC ---
     function updateUI() {
       const badgeEl = document.getElementById('activeArabicBadge');
       fitArabicTextInCircle(badgeEl, state.selectedDhikr.arabic);
@@ -1189,12 +1524,76 @@
       document.getElementById('roundNumberText').textContent = state.round;
       document.getElementById('resetCountPreview').textContent = state.count.toLocaleString();
 
-      const pct = Math.min(100, Math.round((state.count / state.goal) * 100));
-      document.getElementById('progressBarFill').style.width = `${pct}%`;
-      document.getElementById('progressPercentText').textContent = `${pct}%`;
+      const undoBtn = document.getElementById('undoQuickBtn');
+      undoBtn.disabled = state.count <= 0;
+
+      const rawPct = state.goal > 0 ? Math.round((state.count / state.goal) * 100) : 0;
+      const barPct = Math.min(100, rawPct);
+      document.getElementById('progressBarFill').style.width = `${barPct}%`;
+      document.getElementById('progressPercentText').textContent = `${rawPct}%`;
       document.getElementById('bottomGoalValue').textContent = state.goal.toLocaleString();
       document.getElementById('bottomCompletedValue').textContent = state.count.toLocaleString();
 
+      // Evaluate Distinct Counter States: Zero, Mid-Progress, Target Reached, Restored, Interrupted
+      const stateDot = document.getElementById('stateDot');
+      const stateLabel = document.getElementById('counterStateLabel');
+      const zeroHint = document.getElementById('zeroStateHint');
+      const bottomCard = document.getElementById('bottomProgressCard');
+      const readoutCard = document.getElementById('counterReadoutCard');
+      const completedLabel = document.getElementById('bottomCompletedLabel');
+
+      bottomCard.classList.remove('goal-reached-glow');
+      readoutCard.classList.remove('goal-reached-glow');
+
+      if (state.isPausedByInterruption) {
+        stateDot.className = 'w-1.5 h-1.5 rounded-full bg-amber-300';
+        stateLabel.textContent = 'Paused • Tap to Resume';
+        stateLabel.className = 'text-[10px] font-semibold uppercase tracking-wider text-amber-200';
+      } else if (state.restoredBannerActive && state.count > 0) {
+        stateDot.className = 'w-1.5 h-1.5 rounded-full bg-teal-300';
+        stateLabel.textContent = 'Restored Session';
+        stateLabel.className = 'text-[10px] font-semibold uppercase tracking-wider text-teal-200';
+      } else if (state.count === 0) {
+        stateDot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-300/70';
+        stateLabel.textContent = 'Ready to Begin';
+        stateLabel.className = 'text-[10px] font-semibold uppercase tracking-wider text-emerald-200/80';
+      } else if (state.count >= state.goal) {
+        stateDot.className = 'w-1.5 h-1.5 rounded-full bg-amber-300 animate-pulse';
+        stateLabel.textContent = state.count === state.goal ? 'Target Reached' : 'Target Exceeded';
+        stateLabel.className = 'text-[10px] font-semibold uppercase tracking-wider text-amber-300';
+        bottomCard.classList.add('goal-reached-glow');
+        readoutCard.classList.add('goal-reached-glow');
+      } else {
+        stateDot.className = 'w-1.5 h-1.5 rounded-full bg-emerald-400';
+        stateLabel.textContent = 'In Progress';
+        stateLabel.className = 'text-[10px] font-semibold uppercase tracking-wider text-emerald-300';
+      }
+
+      // Contextual bottom helper pill for Zero / Mid / Target Reached
+      if (state.count === 0) {
+        zeroHint.classList.remove('hidden');
+        zeroHint.textContent = 'Tap or pull down anywhere to begin • Long swipe up to undo';
+        completedLabel.textContent = 'Completed';
+      } else if (state.count >= state.goal) {
+        zeroHint.classList.remove('hidden');
+        const extra = state.count - state.goal;
+        zeroHint.textContent = extra > 0
+          ? `Masha'Allah • Target reached (+${extra} extra) • Tap to continue`
+          : `Masha'Allah • Target of ${state.goal} reached!`;
+        completedLabel.textContent = 'Target Complete';
+      } else {
+        const remaining = state.goal - state.count;
+        zeroHint.classList.remove('hidden');
+        zeroHint.textContent = `${remaining} remaining to goal • Long swipe up to undo`;
+        completedLabel.textContent = 'Completed';
+      }
+
+      // Sync timer readout
+      const mins = String(Math.floor(state.sessionSeconds / 60)).padStart(2, '0');
+      const secs = String(state.sessionSeconds % 60).padStart(2, '0');
+      document.getElementById('sessionTimerText').textContent = `${mins}:${secs}`;
+
+      // Highlight active goal preset button
       document.querySelectorAll('.goal-preset-btn').forEach(btn => {
         const g = Number(btn.getAttribute('data-goal'));
         if (g === state.goal) {
@@ -1205,6 +1604,123 @@
           btn.classList.add('border-emerald-300/25');
         }
       });
+
+      // Sync settings toggles
+      syncSettingsButtonsUI();
+      updateSensoryCapabilityUI();
+    }
+
+    // --- 11. FIRST-USE INSTRUCTIONS & DISMISSIBLE GESTURE GUIDE ---
+    function initGestureGuide() {
+      const dismissed = localStorage.getItem(GUIDE_DISMISSED_KEY) === 'true';
+      if (!dismissed) {
+        showGestureGuide(false);
+      }
+    }
+
+    function showGestureGuide(manualOpen = false) {
+      const card = document.getElementById('gestureGuideCard');
+      card.classList.remove('hidden');
+      if (manualOpen) closeAllSheets();
+    }
+
+    function dismissGestureGuide() {
+      document.getElementById('gestureGuideCard').classList.add('hidden');
+      try {
+        localStorage.setItem(GUIDE_DISMISSED_KEY, 'true');
+      } catch (e) {}
+    }
+
+    // --- 12. PREVENT ACCIDENTAL COUNT LOSS WHEN CHANGING DHIKR OR GOALS ---
+    function requestDhikrChange(id) {
+      const found = dhikrList.find(d => d.id === id);
+      if (!found) return;
+      if (found.id === state.selectedDhikr.id) {
+        closeAllSheets();
+        return;
+      }
+
+      if (state.count > 0) {
+        pendingProtectedChange = { type: 'dhikr', targetDhikr: found };
+        document.getElementById('protectionModalTitle').textContent = `Switch to ${found.title}?`;
+        document.getElementById('protectionModalDesc').innerHTML =
+          `You have <strong class="text-amber-300">${state.count} counts</strong> on <strong>${state.selectedDhikr.title}</strong>. Prevent accidental loss by choosing how to switch:`;
+        document.getElementById('protectionKeepBtn').textContent = `Keep ${state.count} Counts & Switch Dhikr`;
+        document.getElementById('protectionSaveResetBtn').textContent = `Save ${state.count} to History & Start at 0`;
+        openSheet('changeProtectionModal');
+        return;
+      }
+
+      applyDhikrSelection(found, false);
+    }
+
+    function applyDhikrSelection(dhikrObj, resetToZero = false) {
+      state.selectedDhikr = dhikrObj;
+      if (resetToZero) {
+        state.count = 0;
+        state.round = 1;
+        state.sessionSeconds = 0;
+      }
+      updateUI();
+      saveAppState();
+      renderDhikrSheetList();
+      closeAllSheets();
+      showToast(`Selected ${dhikrObj.title}`);
+    }
+
+    function requestGoalChange(newGoalValue) {
+      const num = Number(newGoalValue);
+      if (!num || num < 1) return;
+      if (num === state.goal) {
+        closeAllSheets();
+        return;
+      }
+
+      if (state.count > 0) {
+        pendingProtectedChange = { type: 'goal', targetGoal: num };
+        document.getElementById('protectionModalTitle').textContent = `Change Goal to ${num.toLocaleString()}?`;
+        document.getElementById('protectionModalDesc').innerHTML =
+          `You already have <strong class="text-amber-300">${state.count} counts</strong> in this session. How should your current progress be handled?`;
+        document.getElementById('protectionKeepBtn').textContent = `Keep ${state.count} Counts Toward ${num.toLocaleString()}`;
+        document.getElementById('protectionSaveResetBtn').textContent = `Save Session & Reset to 0 / ${num.toLocaleString()}`;
+        openSheet('changeProtectionModal');
+        return;
+      }
+
+      applyGoalSelection(num, false);
+    }
+
+    function applyGoalSelection(num, resetToZero = false) {
+      state.goal = Number(num);
+      if (resetToZero) {
+        state.count = 0;
+        state.round = 1;
+        state.sessionSeconds = 0;
+      }
+      updateUI();
+      saveAppState();
+      closeAllSheets();
+      showToast(`Target goal set to ${state.goal.toLocaleString()}`);
+    }
+
+    function resolveProtectedChange(mode) {
+      if (!pendingProtectedChange) {
+        closeAllSheets();
+        return;
+      }
+      const change = pendingProtectedChange;
+      pendingProtectedChange = null;
+
+      if (mode === 'save_reset') {
+        recordSessionToHistory();
+      }
+
+      const shouldReset = mode === 'save_reset';
+      if (change.type === 'dhikr') {
+        applyDhikrSelection(change.targetDhikr, shouldReset);
+      } else if (change.type === 'goal') {
+        applyGoalSelection(change.targetGoal, shouldReset);
+      }
     }
 
     function renderDhikrSheetList() {
@@ -1219,7 +1735,7 @@
             ? 'bg-gradient-to-r from-emerald-800/80 to-emerald-900/75 border-2 border-emerald-300/70 shadow-lg'
             : 'bg-emerald-950/55 border border-emerald-300/15 hover:border-emerald-300/40'
         }`;
-        card.onclick = () => selectDhikr(item.id);
+        card.onclick = () => requestDhikrChange(item.id);
 
         const left = document.createElement('div');
         left.className = 'flex items-center gap-3.5 min-w-0 flex-1 pr-2';
@@ -1256,16 +1772,6 @@
       });
     }
 
-    function selectDhikr(id) {
-      const found = dhikrList.find(d => d.id === id);
-      if (!found) return;
-      state.selectedDhikr = found;
-      updateUI();
-      renderDhikrSheetList();
-      closeAllSheets();
-      showToast(`Selected ${found.title}`);
-    }
-
     function saveCustomDhikr() {
       const title = document.getElementById('customTitleInput').value.trim();
       const arabic = document.getElementById('customArabicInput').value.trim() || 'ذِكْر';
@@ -1285,22 +1791,11 @@
       };
 
       dhikrList.unshift(newDhikr);
-      state.selectedDhikr = newDhikr;
       document.getElementById('customTitleInput').value = '';
       document.getElementById('customArabicInput').value = '';
       document.getElementById('customMeaningInput').value = '';
 
-      updateUI();
-      closeAllSheets();
-      showToast('Custom dhikr added & selected');
-    }
-
-    // --- 10. GOAL, RESET, ROUND & HISTORY ACTIONS ---
-    function setGoal(num) {
-      state.goal = Number(num);
-      updateUI();
-      closeAllSheets();
-      showToast(`Target goal set to ${state.goal.toLocaleString()}`);
+      requestDhikrChange(newDhikr.id);
     }
 
     function applyCustomGoal() {
@@ -1309,15 +1804,18 @@
         showToast('Enter a valid target number');
         return;
       }
-      setGoal(val);
       document.getElementById('customGoalInput').value = '';
+      requestGoalChange(val);
     }
 
+    // --- 13. RESET, ROUNDS & HISTORY ---
     function confirmResetCount() {
       state.count = 0;
       state.round = 1;
       state.sessionSeconds = 0;
+      state.restoredBannerActive = false;
       updateUI();
+      saveAppState();
       closeAllSheets();
       showToast('Counter reset to 0');
     }
@@ -1326,7 +1824,9 @@
       recordSessionToHistory();
       state.count = 0;
       state.round += 1;
+      state.sessionSeconds = 0;
       updateUI();
+      saveAppState();
       closeAllSheets();
       showToast(`Round ${state.round} started • Session saved`);
     }
@@ -1335,11 +1835,13 @@
       recordSessionToHistory();
       state.goal = state.goal + 100;
       updateUI();
+      saveAppState();
       closeAllSheets();
       showToast('Session saved • Goal extended');
     }
 
     function recordSessionToHistory() {
+      if (state.count <= 0) return;
       const mins = String(Math.floor(state.sessionSeconds / 60)).padStart(2, '0');
       const secs = String(state.sessionSeconds % 60).padStart(2, '0');
       state.history.unshift({
@@ -1350,6 +1852,7 @@
         duration: `${mins}:${secs}`,
         date: 'Just now'
       });
+      saveAppState();
     }
 
     function saveCurrentSessionManual() {
@@ -1403,33 +1906,60 @@
       });
     }
 
-    // --- 11. SETTINGS & DEV BACKGROUND IMAGE UPLOADER ---
-    function toggleSound() {
-      state.soundEnabled = !state.soundEnabled;
-      const btn = document.getElementById('soundToggleBtn');
-      btn.className = `w-12 h-6 rounded-full p-0.5 transition flex items-center ${
+    // --- 14. SETTINGS, REDUCED MOTION & DEV BACKGROUND ---
+    function syncSettingsButtonsUI() {
+      const soundBtn = document.getElementById('soundToggleBtn');
+      soundBtn.className = `w-12 h-6 rounded-full p-0.5 transition flex items-center shrink-0 ${
         state.soundEnabled ? 'bg-emerald-500 justify-end' : 'bg-emerald-950 border border-emerald-300/30 justify-start'
       }`;
-    }
 
-    function toggleHaptics() {
-      state.hapticsEnabled = !state.hapticsEnabled;
-      const btn = document.getElementById('hapticToggleBtn');
-      btn.className = `w-12 h-6 rounded-full p-0.5 transition flex items-center ${
+      const hapticBtn = document.getElementById('hapticToggleBtn');
+      hapticBtn.className = `w-12 h-6 rounded-full p-0.5 transition flex items-center shrink-0 ${
         state.hapticsEnabled ? 'bg-emerald-500 justify-end' : 'bg-emerald-950 border border-emerald-300/30 justify-start'
       }`;
-    }
 
-    function setBeadStyle(style) {
-      state.beadStyle = style;
+      const rmBtn = document.getElementById('reducedMotionToggleBtn');
+      rmBtn.className = `w-12 h-6 rounded-full p-0.5 transition flex items-center shrink-0 ${
+        state.reducedMotion ? 'bg-emerald-500 justify-end' : 'bg-emerald-950 border border-emerald-300/30 justify-start'
+      }`;
+
       ['cerulean', 'pearl', 'emerald'].forEach(s => {
         const btn = document.getElementById(`styleBtn-${s}`);
-        if (s === style) {
+        if (!btn) return;
+        if (s === state.beadStyle) {
           btn.className = 'py-2 px-2 rounded-xl border border-amber-300 bg-emerald-900/50 text-xs font-medium text-white';
         } else {
           btn.className = 'py-2 px-2 rounded-xl border border-emerald-300/20 bg-emerald-900/25 text-xs font-medium text-emerald-100';
         }
       });
+    }
+
+    function toggleSound() {
+      state.soundEnabled = !state.soundEnabled;
+      updateUI();
+      saveAppState();
+    }
+
+    function toggleHaptics() {
+      state.hapticsEnabled = !state.hapticsEnabled;
+      if (state.hapticsEnabled && !capabilities.vibrateSupported) {
+        showToast('Vibration unsupported on this device • Using visual pulse fallback');
+      }
+      updateUI();
+      saveAppState();
+    }
+
+    function toggleReducedMotion() {
+      state.reducedMotion = !state.reducedMotion;
+      updateUI();
+      saveAppState();
+      showToast(state.reducedMotion ? 'Reduced motion enabled' : 'Standard 3D motion enabled');
+    }
+
+    function setBeadStyle(style) {
+      state.beadStyle = style;
+      updateUI();
+      saveAppState();
     }
 
     function applyCustomBackgroundDataUrl(url) {
@@ -1480,11 +2010,51 @@
       showToast('Restored default twilight mosque background');
     }
 
-    // --- 12. SHEET MANAGEMENT & BACK BUTTON ---
+    // --- 15. APP BACKGROUNDING, SCREEN LOCKING & INTERRUPTION HANDLING ---
+    function handleInterruptionPause() {
+      resetSwipeUpIndicator();
+      activePointerId = null;
+      gestureResolved = false;
+      if (state.count > 0) {
+        state.isPausedByInterruption = true;
+      }
+      saveAppState();
+      updateUI();
+    }
+
+    function handleInterruptionResume() {
+      lastFrameTime = performance.now();
+      if (audioCtx && audioCtx.state === 'suspended' && capabilities.audioUnlocked) {
+        audioCtx.resume().catch(() => {});
+      }
+      if (state.isPausedByInterruption && state.count > 0) {
+        updateUI();
+        showToast(`Session resumed at ${state.count} counts`);
+      }
+    }
+
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) {
+        handleInterruptionPause();
+      } else {
+        handleInterruptionResume();
+      }
+    });
+
+    window.addEventListener('pagehide', handleInterruptionPause);
+    window.addEventListener('blur', () => {
+      saveAppState();
+    });
+    window.addEventListener('focus', () => {
+      lastFrameTime = performance.now();
+    });
+
+    // --- 16. SHEET MANAGEMENT & BACK BUTTON ---
     const sheetIds = [
       'dhikrSheet',
       'customDhikrSheet',
       'goalSheet',
+      'changeProtectionModal',
       'settingsSheet',
       'bgCustomizerSheet',
       'resetModal',
@@ -1511,6 +2081,7 @@
         closeAllSheets();
         return;
       }
+      saveAppState();
       if (window.history.length > 1) {
         window.history.back();
       } else {
@@ -1528,24 +2099,34 @@
       toastTimeout = setTimeout(() => {
         banner.classList.remove('opacity-100');
         banner.classList.add('opacity-0');
-      }, 2100);
+      }, 2200);
     }
 
-    // Session elapsed timer
+    // Session elapsed timer (pauses automatically when app is backgrounded/locked or at 0 count)
     setInterval(() => {
+      if (document.hidden || state.isPausedByInterruption || state.count === 0) return;
       state.sessionSeconds += 1;
       const mins = String(Math.floor(state.sessionSeconds / 60)).padStart(2, '0');
       const secs = String(state.sessionSeconds % 60).padStart(2, '0');
       document.getElementById('sessionTimerText').textContent = `${mins}:${secs}`;
+      if (state.sessionSeconds % 5 === 0) saveAppState();
     }, 1000);
 
-    // Initialize
+    // Initialize Application
     (function init() {
       const savedBg = localStorage.getItem('tasbih_dev_bg');
       if (savedBg) {
         applyCustomBackgroundDataUrl(savedBg);
       }
+
+      const hadSavedSession = loadAppState();
       updateUI();
+      initGestureGuide();
+
+      if (hadSavedSession && state.count > 0) {
+        showToast(`Restored count: ${state.count} / ${state.goal} (${state.selectedDhikr.title})`);
+      }
+
       requestAnimationFrame(renderPovTasbih);
     })();
   </script>
