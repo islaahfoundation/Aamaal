@@ -1,1846 +1,1191 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Islaah Foundation - Aamaal Circle</title>
-  <!-- Tailwind CSS CDN -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Islaah Foundation's Aamaal Circle — Onboarding</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Playfair Display for elegant headings, Inter for clean UI, Amiri for Arabic -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
-  <!-- Canvas Confetti for goal celebrations -->
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              deep: '#031610',
-              dark: '#062319',
-              primary: '#0B3B2B',
-              surface: '#0f4835',
-              card: 'rgba(15, 62, 46, 0.65)',
-              gold: '#E5C07B',
-              goldLight: '#F3E5AB',
-              mint: '#8CE2B4',
-              mintSoft: 'rgba(140, 226, 180, 0.15)',
-              glow: '#34D399',
-            }
-          },
-          fontFamily: {
-            sans: ['Inter', 'sans-serif'],
-            serif: ['Cinzel', 'serif'],
-            arabic: ['Amiri', 'serif'],
-          }
-        }
-      }
-    }
-  </script>
-
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    /* Custom Scrollbar & Utility styling */
-    ::-webkit-scrollbar { width: 4px; height: 4px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: rgba(140, 226, 180, 0.2); border-radius: 9999px; }
-    
-    .glass-card {
-      background: linear-gradient(135deg, rgba(16, 56, 42, 0.72) 0%, rgba(7, 33, 24, 0.85) 100%);
-      backdrop-filter: blur(14px);
-      -webkit-backdrop-filter: blur(14px);
-      border: 1px solid rgba(140, 226, 180, 0.16);
-      box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5), inset 0 1px 1px 0 rgba(255, 255, 255, 0.08);
+    :root {
+      --bg-deep: #041d15;
+      --mint-primary: #9fe8bc;
+      --gold-accent: #d4be83;
+      --text-cream: #f4f7f4;
     }
-    
-    .glass-pill {
-      background: rgba(16, 56, 42, 0.6);
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #02110c;
+      color: var(--text-cream);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+    }
+
+    .font-serif-display {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    /* Mobile App Shell */
+    .app-frame {
+      width: 100%;
+      max-width: 430px;
+      height: 100dvh;
+      position: relative;
+      background: #041d15;
+      box-shadow: 0 0 60px rgba(0, 0, 0, 0.85);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Onboarding Screen Transitions */
+    .onboard-screen {
+      display: none;
+      width: 100%;
+      height: 100%;
+      position: relative;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeScreen 0.35s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    }
+    .onboard-screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeScreen {
+      from { opacity: 0; transform: scale(0.99); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Non-interactive visual stills */
+    .visual-still {
+      pointer-events: none;
+      user-select: none;
+      -webkit-user-drag: none;
+    }
+
+    /* Interactive Action Buttons */
+    .btn-mint-primary {
+      background: linear-gradient(90deg, #98e5b6 0%, #b3f3cc 100%);
+      color: #05261b;
+      font-weight: 700;
+      border-radius: 9999px;
+      box-shadow: 0 8px 25px rgba(159, 232, 188, 0.28);
+      transition: transform 0.18s ease, box-shadow 0.18s ease;
+    }
+    .btn-mint-primary:active {
+      transform: scale(0.97);
+    }
+
+    .btn-emerald-outline {
+      background: rgba(6, 36, 26, 0.78);
+      border: 1.5px solid rgba(159, 232, 188, 0.55);
+      color: #e6f7ed;
+      font-weight: 600;
+      border-radius: 9999px;
       backdrop-filter: blur(8px);
-      border: 1px solid rgba(140, 226, 180, 0.18);
+      transition: all 0.18s ease;
+    }
+    .btn-emerald-outline:active {
+      transform: scale(0.97);
+      background: rgba(159, 232, 188, 0.15);
     }
 
-    .glow-gold {
-      filter: drop-shadow(0 0 12px rgba(229, 192, 123, 0.45));
+    /* Pagination Dots */
+    .page-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 9999px;
+      background: rgba(159, 232, 188, 0.25);
+      transition: all 0.25s ease;
+      cursor: pointer;
     }
-
-    .glow-mint {
-      filter: drop-shadow(0 0 14px rgba(140, 226, 180, 0.4));
+    .page-dot.active {
+      background: #9fe8bc;
+      box-shadow: 0 0 8px rgba(159, 232, 188, 0.8);
+      transform: scale(1.15);
     }
-
-    /* Mosque arch vector pattern backdrop */
-    .islamic-pattern {
-      background-color: #041a13;
-      background-image: radial-gradient(rgba(140, 226, 180, 0.08) 1px, transparent 1px), radial-gradient(rgba(229, 192, 123, 0.05) 1px, #031610 1px);
-      background-size: 32px 32px;
-      background-position: 0 0, 16px 16px;
-    }
-
-    /* Bead rotate animations */
-    @keyframes pulseSoft {
-      0%, 100% { transform: scale(1); opacity: 0.95; }
-      50% { transform: scale(1.04); opacity: 1; }
-    }
-    .pulse-soft { animation: pulseSoft 3s ease-in-out infinite; }
-
-    /* Touch press feel */
-    .touch-btn:active {
-      transform: scale(0.96);
-      transition: transform 0.1s ease;
-    }
-
-    /* Screen hide/show animation */
-    .screen-view {
-      transition: opacity 0.25s ease, transform 0.25s ease;
+    .page-dot.pill-active {
+      width: 20px;
+      background: #9fe8bc;
+      box-shadow: 0 0 8px rgba(159, 232, 188, 0.8);
     }
   </style>
 </head>
-<body class="bg-brand-deep text-slate-100 font-sans antialiased select-none overflow-x-hidden min-h-screen flex justify-center">
+<body>
 
-  <!-- Mobile Frame Container (Max width for tablet/desktop preview with seamless mobile look) -->
-  <div id="appContainer" class="relative w-full max-w-md min-h-screen flex flex-col bg-brand-deep shadow-2xl overflow-hidden border-x border-emerald-950/40 pb-20">
+  <main class="app-frame" id="app-root">
 
-    <!-- ========================================== -->
-    <!-- SECTION 1: AAMAAL (SPLASH & ONBOARDING)    -->
-    <!-- ========================================== -->
-    <div id="sectionOnboarding" class="absolute inset-0 z-50 flex flex-col bg-brand-deep islamic-pattern transition-opacity duration-500">
-      
-      <!-- Top Branding Crest (Appears on all onboarding screens) -->
-      <div class="pt-8 px-6 flex flex-col items-center text-center relative z-10">
-        <!-- Mosque & Crescent Emblem SVG -->
-        <div class="relative w-28 h-20 mb-2 flex items-center justify-center glow-mint">
-          <svg viewBox="0 0 160 110" class="w-full h-full fill-current text-brand-mint">
-            <!-- Crescent and Star -->
-            <path d="M78 8 A 12 12 0 1 0 94 28 A 10 10 0 1 1 78 8 Z" fill="#E5C07B" class="glow-gold"/>
-            <polygon points="90,14 92,19 97,19 93,22 95,27 90,24 86,27 88,22 84,19 89,19" fill="#E5C07B"/>
-            <!-- Domes & Minarets -->
-            <path d="M42 65 C42 45 52 40 56 30 C60 40 70 45 70 65 Z" fill="#A7F3D0" opacity="0.9"/>
-            <path d="M60 65 C60 38 75 30 80 18 C85 30 100 38 100 65 Z" fill="#6EE7B7"/>
-            <path d="M90 65 C90 45 100 40 104 30 C108 40 118 65 118 65 Z" fill="#A7F3D0" opacity="0.9"/>
-            <!-- Minaret Spires -->
-            <rect x="36" y="42" width="6" height="23" rx="1" fill="#34D399"/>
-            <polygon points="39,32 35,42 43,42" fill="#34D399"/>
-            <rect x="118" y="42" width="6" height="23" rx="1" fill="#34D399"/>
-            <polygon points="121,32 117,42 125,42" fill="#34D399"/>
-            <!-- Foundation Arc -->
-            <path d="M15 72 Q 80 58 145 72 Q 80 64 15 72 Z" fill="#A7F3D0"/>
-          </svg>
-        </div>
-        <h1 class="text-xs uppercase tracking-[0.25em] text-emerald-200/90 font-medium">ISLAAH FOUNDATION'S</h1>
-        <h2 class="text-sm uppercase tracking-[0.35em] text-brand-gold font-serif mt-0.5 font-semibold">AAMAAL CIRCLE</h2>
-        <div class="w-16 h-[1px] bg-gradient-to-r from-transparent via-brand-gold/60 to-transparent mt-2"></div>
-      </div>
-
-      <!-- Slide 0: Splash Loading Screen -->
-      <div id="slideSplash" class="flex-1 flex flex-col justify-between items-center px-8 pb-12 pt-16 text-center">
-        <div class="flex-1 flex flex-col items-center justify-center">
-          <div class="relative w-24 h-24 mb-6">
-            <div class="absolute inset-0 rounded-full border-2 border-emerald-500/20 animate-ping"></div>
-            <div class="w-24 h-24 rounded-full border-2 border-t-brand-gold border-r-transparent border-b-brand-mint border-l-transparent animate-spin"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-              <i data-lucide="moon" class="w-8 h-8 text-brand-gold glow-gold"></i>
-            </div>
-          </div>
-          <p class="text-emerald-100/90 font-light text-base tracking-wider animate-pulse">Connecting to Aamaal Circle...</p>
-          <span class="text-xs text-emerald-400/60 mt-2">Daily Durood · Surah Mulk · Istighfar</span>
-        </div>
-        
-        <button onclick="goToSlide(1)" class="w-full py-3.5 bg-gradient-to-r from-emerald-500/80 to-teal-600/80 text-emerald-950 font-semibold rounded-2xl border border-emerald-300/40 shadow-lg text-sm hover:opacity-95 transition-all">
-          Tap to Enter
-        </button>
-      </div>
-
-      <!-- Slide 1: Welcome Screen -->
-      <div id="slideWelcome" class="hidden flex-1 flex flex-col justify-between px-6 pb-8 pt-4">
-        <div class="text-center my-auto">
-          <span class="text-[11px] uppercase tracking-[0.3em] text-emerald-300/80 font-medium">ASSALAMU ALAIKUM</span>
-          <h2 class="text-3xl font-serif text-emerald-50 font-normal mt-2 leading-tight">Welcome to<br><span class="text-brand-gold italic">Aamaal</span></h2>
-          <div class="flex items-center justify-center gap-2 my-3">
-            <span class="h-[1px] w-12 bg-emerald-700/60"></span>
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-gold"></i>
-            <span class="h-[1px] w-12 bg-emerald-700/60"></span>
-          </div>
-          <p class="text-xs text-emerald-200/80 leading-relaxed max-w-xs mx-auto">
-            Aamaal is your daily spiritual companion to stay steadfast with three blessed daily habits: Durood Shareef, Surah Mulk, and Istighfar.
-          </p>
-
-          <!-- 3 Pillars Badges -->
-          <div class="grid grid-cols-3 gap-2.5 mt-8">
-            <div class="glass-card rounded-2xl p-3 flex flex-col items-center text-center">
-              <div class="w-11 h-11 rounded-full bg-emerald-900/60 border border-brand-gold/40 flex items-center justify-center mb-2">
-                <i data-lucide="circle-dot" class="w-5 h-5 text-brand-gold"></i>
-              </div>
-              <span class="text-xs font-semibold text-emerald-100">313 Durood</span>
-              <span class="text-[10px] text-emerald-300/70 mt-1 leading-tight">Blessings upon the Prophet ﷺ</span>
-            </div>
-
-            <div class="glass-card rounded-2xl p-3 flex flex-col items-center text-center">
-              <div class="w-11 h-11 rounded-full bg-emerald-900/60 border border-brand-mint/40 flex items-center justify-center mb-2">
-                <i data-lucide="book-open" class="w-5 h-5 text-brand-mint"></i>
-              </div>
-              <span class="text-xs font-semibold text-emerald-100">Surah Mulk</span>
-              <span class="text-[10px] text-emerald-300/70 mt-1 leading-tight">Grave protection & light</span>
-            </div>
-
-            <div class="glass-card rounded-2xl p-3 flex flex-col items-center text-center">
-              <div class="w-11 h-11 rounded-full bg-emerald-900/60 border border-emerald-400/40 flex items-center justify-center mb-2">
-                <i data-lucide="heart-handshake" class="w-5 h-5 text-emerald-300"></i>
-              </div>
-              <span class="text-xs font-semibold text-emerald-100">100 Istighfar</span>
-              <span class="text-[10px] text-emerald-300/70 mt-1 leading-tight">Heart purification & barakah</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="space-y-4">
-          <button onclick="goToSlide(2)" class="w-full py-4 bg-gradient-to-r from-emerald-400 via-emerald-300 to-teal-300 text-emerald-950 font-bold rounded-2xl shadow-xl flex items-center justify-center gap-2 touch-btn">
-            <span>Get Started</span>
-            <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-          <div class="flex justify-center gap-1.5" id="dotsContainer"></div>
-        </div>
-      </div>
-
-      <!-- Slide 2: Interactive Tasbih Preview -->
-      <div id="slideStep1" class="hidden flex-1 flex flex-col justify-between px-6 pb-8 pt-2">
-        <div class="text-center">
-          <span class="text-[10px] tracking-widest uppercase text-emerald-400 font-semibold">STEP 1</span>
-          <h3 class="text-2xl font-serif text-emerald-50 mt-1">Digital Tasbih</h3>
-          <p class="text-xs text-emerald-200/80 mt-1">Tap the luminous bead ring to track your recitation with satisfying touch response.</p>
-        </div>
-
-        <!-- Interactive Bead Circle Mockup -->
-        <div class="relative w-56 h-56 mx-auto my-4 flex items-center justify-center">
-          <!-- Outer glowing circle -->
-          <div class="absolute inset-0 rounded-full border border-emerald-500/20 animate-pulse"></div>
-          
-          <!-- Virtual Beads Ring -->
-          <div id="previewBeadsRing" class="absolute inset-2 relative w-52 h-52">
-            <!-- Simulated beads positioned via JS -->
-          </div>
-
-          <!-- Central Counter Display -->
-          <div onclick="tapPreviewBead()" class="relative z-10 w-28 h-28 rounded-full glass-card flex flex-col items-center justify-center cursor-pointer border border-emerald-300/30 touch-btn">
-            <span class="text-[10px] text-emerald-300/70 uppercase tracking-wider">Count</span>
-            <span id="previewCountDisplay" class="text-3xl font-serif text-brand-gold font-bold">17</span>
-            <span class="text-[10px] text-emerald-400/70">/ 313</span>
-            <span class="text-[9px] text-brand-mint mt-0.5 bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-500/30">Tap me</span>
-          </div>
-        </div>
-
-        <!-- Feature Points -->
-        <div class="grid grid-cols-3 gap-2 text-center text-[10px] text-emerald-200/80 mb-2">
-          <div class="glass-pill p-2 rounded-xl">
-            <i data-lucide="touchpad" class="w-4 h-4 mx-auto text-brand-mint mb-1"></i>
-            <span>Real Taps</span>
-          </div>
-          <div class="glass-pill p-2 rounded-xl">
-            <i data-lucide="gauge" class="w-4 h-4 mx-auto text-brand-gold mb-1"></i>
-            <span>Live Goals</span>
-          </div>
-          <div class="glass-pill p-2 rounded-xl">
-            <i data-lucide="layers" class="w-4 h-4 mx-auto text-emerald-300 mb-1"></i>
-            <span>3 Presets</span>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <button onclick="skipToApp()" class="w-1/3 py-3 text-xs text-emerald-400 hover:text-emerald-200">Skip Intro</button>
-          <button onclick="goToSlide(3)" class="w-2/3 py-3.5 bg-emerald-400 text-emerald-950 font-bold rounded-2xl flex items-center justify-center gap-2 touch-btn">
-            <span>Next</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Slide 3: Explore Duas Showcase -->
-      <div id="slideStep2" class="hidden flex-1 flex flex-col justify-between px-6 pb-8 pt-2">
-        <div class="text-center">
-          <span class="text-[10px] tracking-widest uppercase text-emerald-400 font-semibold">STEP 2</span>
-          <h3 class="text-2xl font-serif text-emerald-50 mt-1">Explore Duas</h3>
-          <p class="text-xs text-emerald-200/80 mt-1">Browse authentic supplications with Arabic, English meaning, and audio recitation.</p>
-        </div>
-
-        <!-- Mock Phone Dua Preview -->
-        <div class="my-4 glass-card rounded-2xl p-4 border border-emerald-400/20 max-w-xs mx-auto w-full">
-          <div class="flex items-center justify-between border-b border-emerald-800/40 pb-2 mb-3">
-            <span class="text-[11px] font-medium text-emerald-300 flex items-center gap-1.5">
-              <i data-lucide="book-marked" class="w-3.5 h-3.5 text-brand-gold"></i> Dua for Guidance
-            </span>
-            <span class="text-[9px] bg-emerald-900/80 text-brand-mint px-2 py-0.5 rounded-full border border-emerald-500/20">Taha 20:114</span>
-          </div>
-          <p class="font-arabic text-xl text-right text-brand-goldLight leading-relaxed my-2" dir="rtl">
-            رَّبِّ زِدْنِي عِلْمًا
-          </p>
-          <p class="text-xs text-emerald-100 font-medium italic mb-1">
-            "Rabbi zidnee 'ilmaa"
-          </p>
-          <p class="text-[11px] text-emerald-300/80">
-            "My Lord, increase me in knowledge."
-          </p>
-          
-          <div class="mt-4 pt-3 border-t border-emerald-800/40 flex items-center justify-between text-xs">
-            <button class="flex items-center gap-1 text-emerald-300 text-[11px] bg-emerald-900/60 px-2.5 py-1 rounded-lg">
-              <i data-lucide="volume-2" class="w-3 h-3 text-brand-gold"></i> Play Audio
-            </button>
-            <i data-lucide="bookmark" class="w-4 h-4 text-brand-gold"></i>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <button onclick="skipToApp()" class="w-1/3 py-3 text-xs text-emerald-400 hover:text-emerald-200">Skip</button>
-          <button onclick="goToSlide(4)" class="w-2/3 py-3.5 bg-emerald-400 text-emerald-950 font-bold rounded-2xl flex items-center justify-center gap-2 touch-btn">
-            <span>Next</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Slide 4: Reflections Showcase -->
-      <div id="slideStep3" class="hidden flex-1 flex flex-col justify-between px-6 pb-8 pt-2">
-        <div class="text-center">
-          <span class="text-[10px] tracking-widest uppercase text-emerald-400 font-semibold">STEP 3</span>
-          <h3 class="text-2xl font-serif text-emerald-50 mt-1">Reflections</h3>
-          <p class="text-xs text-emerald-200/80 mt-1">Immerse in visual stories and timeless lessons from the Quran and Seerah.</p>
-        </div>
-
-        <!-- Carousel Card Showcase -->
-        <div class="my-4 relative h-64 flex items-center justify-center overflow-hidden">
-          <div class="w-64 glass-card rounded-2xl p-5 border border-brand-gold/30 shadow-2xl relative z-10 flex flex-col justify-between h-56">
-            <div>
-              <div class="flex justify-between items-center mb-2">
-                <span class="text-[9px] uppercase tracking-wider text-brand-gold bg-brand-gold/10 px-2 py-0.5 rounded-full border border-brand-gold/20">The Seerah</span>
-                <span class="text-[10px] text-emerald-400">3 of 12</span>
-              </div>
-              <h4 class="font-serif text-lg text-emerald-50 font-semibold">The Valley of Makkah</h4>
-              <p class="text-[11px] text-emerald-300/80 mt-1 line-clamp-3">
-                In the barren valley of Makkah, Sayyiduna Ibrahim (AS) placed absolute trust in Allah's promise. Even in desolate isolation, divine water sprang forth.
-              </p>
-            </div>
-            <div class="flex items-center justify-between text-xs text-brand-mint font-medium pt-2 border-t border-emerald-800/40">
-              <span>Read complete story</span>
-              <i data-lucide="chevron-right" class="w-4 h-4"></i>
-            </div>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <button onclick="skipToApp()" class="w-1/3 py-3 text-xs text-emerald-400 hover:text-emerald-200">Skip</button>
-          <button onclick="goToSlide(5)" class="w-2/3 py-3.5 bg-emerald-400 text-emerald-950 font-bold rounded-2xl flex items-center justify-center gap-2 touch-btn">
-            <span>Next</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Slide 5: Stay Consistent (Notifications) -->
-      <div id="slideStep4" class="hidden flex-1 flex flex-col justify-between px-6 pb-8 pt-2">
-        <div class="text-center">
-          <span class="text-[10px] tracking-widest uppercase text-emerald-400 font-semibold">STEP 4</span>
-          <h3 class="text-2xl font-serif text-emerald-50 mt-1">Stay Consistent</h3>
-          <p class="text-xs text-emerald-200/80 mt-1">Gentle daily reminders to help complete your 3 core Aamaal without missing a single day.</p>
-        </div>
-
-        <div class="my-4 glass-card rounded-2xl p-4 space-y-3 max-w-xs mx-auto w-full">
-          <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-950/40">
-            <div class="flex items-center gap-3">
-              <i data-lucide="bell-ring" class="w-5 h-5 text-brand-gold"></i>
-              <div>
-                <div class="text-xs font-medium text-emerald-100">Durood Reminder</div>
-                <div class="text-[10px] text-emerald-400/70">After Asr • 5:15 PM</div>
-              </div>
-            </div>
-            <input type="checkbox" checked class="accent-emerald-400 w-4 h-4 rounded">
-          </div>
-
-          <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-950/40">
-            <div class="flex items-center gap-3">
-              <i data-lucide="moon-star" class="w-5 h-5 text-brand-mint"></i>
-              <div>
-                <div class="text-xs font-medium text-emerald-100">Surah Mulk Nightly</div>
-                <div class="text-[10px] text-emerald-400/70">Before Bed • 10:30 PM</div>
-              </div>
-            </div>
-            <input type="checkbox" checked class="accent-emerald-400 w-4 h-4 rounded">
-          </div>
-
-          <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-950/40">
-            <div class="flex items-center gap-3">
-              <i data-lucide="sun" class="w-5 h-5 text-emerald-300"></i>
-              <div>
-                <div class="text-xs font-medium text-emerald-100">Morning Istighfar</div>
-                <div class="text-[10px] text-emerald-400/70">After Fajr • 6:10 AM</div>
-              </div>
-            </div>
-            <input type="checkbox" checked class="accent-emerald-400 w-4 h-4 rounded">
-          </div>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <button onclick="skipToApp()" class="w-1/3 py-3 text-xs text-emerald-400 hover:text-emerald-200">Skip</button>
-          <button onclick="requestNotificationPermission(); goToSlide(6)" class="w-2/3 py-3.5 bg-emerald-400 text-emerald-950 font-bold rounded-2xl flex items-center justify-center gap-2 touch-btn">
-            <span>Enable Alerts</span> <i data-lucide="bell" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Slide 6: Tactile Haptic Feedback -->
-      <div id="slideStep5" class="hidden flex-1 flex flex-col justify-between px-6 pb-8 pt-2">
-        <div class="text-center">
-          <span class="text-[10px] tracking-widest uppercase text-emerald-400 font-semibold">STEP 5</span>
-          <h3 class="text-2xl font-serif text-emerald-50 mt-1">Tactile Feedback</h3>
-          <p class="text-xs text-emerald-200/80 mt-1">Experience subtle, authentic haptic pulses with each bead tap to keep you focused without glancing at screen.</p>
-        </div>
-
-        <div class="my-auto text-center flex flex-col items-center">
-          <div onclick="testVibration()" class="w-32 h-32 rounded-full glass-card border border-brand-mint/40 flex flex-col items-center justify-center cursor-pointer touch-btn group shadow-lg">
-            <i data-lucide="vibrate" class="w-10 h-10 text-brand-mint group-hover:scale-110 transition-transform"></i>
-            <span class="text-xs font-semibold text-emerald-200 mt-2">Test Pulse</span>
-            <span class="text-[9px] text-emerald-400/70">Tap to feel</span>
-          </div>
-
-          <div class="mt-6 flex items-center gap-3 glass-pill px-4 py-2 rounded-full">
-            <span class="text-xs text-emerald-200">Vibration Feedback</span>
-            <button id="hapticToggleBtn" onclick="toggleHaptics()" class="w-10 h-5 bg-emerald-400 rounded-full relative p-0.5 transition-colors">
-              <div id="hapticKnob" class="w-4 h-4 bg-emerald-950 rounded-full transition-transform translate-x-5"></div>
-            </button>
-          </div>
-        </div>
-
-        <div class="flex items-center gap-3">
-          <button onclick="skipToApp()" class="w-1/3 py-3 text-xs text-emerald-400 hover:text-emerald-200">Skip</button>
-          <button onclick="goToSlide(7)" class="w-2/3 py-3.5 bg-emerald-400 text-emerald-950 font-bold rounded-2xl flex items-center justify-center gap-2 touch-btn">
-            <span>Continue</span> <i data-lucide="arrow-right" class="w-4 h-4"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Slide 7: Personalize Experience -->
-      <div id="slidePersonalize" class="hidden flex-1 flex flex-col justify-between px-6 pb-8 pt-2 overflow-y-auto">
-        <div class="text-center">
-          <span class="text-[10px] tracking-widest uppercase text-brand-gold font-semibold">MAKE IT YOURS</span>
-          <h3 class="text-2xl font-serif text-emerald-50 mt-1">Personalize Experience</h3>
-          <p class="text-xs text-emerald-200/80 mt-1">Choose your preferred language and spiritual interests.</p>
-        </div>
-
-        <div class="space-y-4 my-4">
-          <!-- Language Selection -->
-          <div>
-            <label class="text-xs font-medium text-emerald-300 block mb-2">Preferred Language</label>
-            <div class="grid grid-cols-3 gap-2">
-              <button onclick="selectLanguage('Urdu', this)" class="lang-opt py-2.5 rounded-xl border border-emerald-500/30 glass-pill text-xs font-medium text-emerald-100 hover:border-brand-mint">اردو (Urdu)</button>
-              <button onclick="selectLanguage('Hindi', this)" class="lang-opt py-2.5 rounded-xl border border-emerald-500/30 glass-pill text-xs font-medium text-emerald-100 hover:border-brand-mint">हिन्दी (Hindi)</button>
-              <button onclick="selectLanguage('English', this)" class="lang-opt py-2.5 rounded-xl border border-brand-mint bg-emerald-500/20 text-xs font-semibold text-brand-mint">English</button>
-            </div>
-          </div>
-
-          <!-- Interests Selection -->
-          <div>
-            <label class="text-xs font-medium text-emerald-300 block mb-2">Your Focus Interests</label>
-            <div class="grid grid-cols-2 gap-2 text-xs">
-              <div onclick="toggleInterest(this)" class="interest-pill glass-pill border border-brand-mint/40 bg-emerald-500/20 p-2.5 rounded-xl cursor-pointer flex items-center gap-2">
-                <i data-lucide="book" class="w-4 h-4 text-brand-gold"></i>
-                <span>Quran & Seerah</span>
-              </div>
-              <div onclick="toggleInterest(this)" class="interest-pill glass-pill border border-emerald-500/30 p-2.5 rounded-xl cursor-pointer flex items-center gap-2">
-                <i data-lucide="sparkles" class="w-4 h-4 text-emerald-400"></i>
-                <span>Tazkiyah (Soul)</span>
-              </div>
-              <div onclick="toggleInterest(this)" class="interest-pill glass-pill border border-brand-mint/40 bg-emerald-500/20 p-2.5 rounded-xl cursor-pointer flex items-center gap-2">
-                <i data-lucide="shield-check" class="w-4 h-4 text-brand-mint"></i>
-                <span>Daily Protection</span>
-              </div>
-              <div onclick="toggleInterest(this)" class="interest-pill glass-pill border border-emerald-500/30 p-2.5 rounded-xl cursor-pointer flex items-center gap-2">
-                <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
-                <span>Family & Home</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Experience Level -->
-          <div>
-            <label class="text-xs font-medium text-emerald-300 block mb-2">Preferred Guidance Level</label>
-            <div class="grid grid-cols-3 gap-2 text-center text-xs">
-              <button onclick="selectExp('Guided', this)" class="exp-opt py-2.5 px-1 rounded-xl border border-brand-mint bg-emerald-500/20 text-[11px] font-medium text-brand-mint">Guided</button>
-              <button onclick="selectExp('Focused', this)" class="exp-opt py-2.5 px-1 rounded-xl border border-emerald-500/30 glass-pill text-[11px] font-medium text-emerald-200">Focused</button>
-              <button onclick="selectExp('Minimal', this)" class="exp-opt py-2.5 px-1 rounded-xl border border-emerald-500/30 glass-pill text-[11px] font-medium text-emerald-200">Minimal</button>
-            </div>
-          </div>
-        </div>
-
-        <button onclick="finishOnboarding()" class="w-full py-4 bg-gradient-to-r from-emerald-400 via-emerald-300 to-teal-300 text-emerald-950 font-bold rounded-2xl shadow-xl flex items-center justify-center gap-2 touch-btn">
-          <span>Complete Setup & Enter</span>
-          <i data-lucide="check-circle" class="w-4 h-4"></i>
-        </button>
-      </div>
-
+    <!-- =================================================================== -->
+    <!-- TOP DEVELOPER & TESTING SWITCHER BAR                                -->
+    <!-- =================================================================== -->
+    <div class="fixed top-2.5 right-3 z-50 flex items-center gap-1.5 bg-[#03150e]/90 border border-[#d4be83]/35 px-2.5 py-1 rounded-full backdrop-blur-md text-[11px] text-[#d4be83] shadow-lg">
+      <button onclick="prevScreen()" class="px-1.5 hover:text-white" title="Previous Screen">◀</button>
+      <span id="dev-screen-indicator" class="font-semibold text-[#9fe8bc]">Screen 1/9</span>
+      <button onclick="nextScreen()" class="px-1.5 hover:text-white" title="Next Screen">▶</button>
+      <span>·</span>
+      <button onclick="toggleUserType()" id="dev-user-mode" class="hover:text-white underline" title="Toggle First-Time vs Returnee">New User</button>
+      <span>·</span>
+      <button onclick="openAssetModal()" class="text-[#9fe8bc] hover:underline" title="Upload or Set Custom Images">🖼️</button>
+      <span>·</span>
+      <button onclick="finishOnboarding('Direct Jump')" class="text-[#e8d08c] font-semibold hover:underline" title="Go directly to home.html">Home ↗</button>
     </div>
 
-    <!-- ========================================== -->
-    <!-- TOP APP BAR (For Inner App Screens)        -->
-    <!-- ========================================== -->
-    <header id="appHeader" class="sticky top-0 z-30 px-5 pt-4 pb-3 flex items-center justify-between glass-pill border-b border-emerald-800/40 bg-brand-deep/90 backdrop-blur-md">
-      <div class="flex items-center gap-2.5">
-        <div class="w-8 h-8 rounded-full border border-brand-gold/40 flex items-center justify-center bg-emerald-900/50">
-          <i data-lucide="moon" class="w-4 h-4 text-brand-gold"></i>
-        </div>
-        <div>
-          <span class="text-[9px] uppercase tracking-widest text-emerald-300/80 font-semibold block leading-none">ISLAAH FOUNDATION</span>
-          <h1 class="text-xs font-serif font-bold text-slate-100 tracking-wider">AAMAAL CIRCLE</h1>
+    <!-- =================================================================== -->
+    <!-- SCREEN 1: SPLASH SCREEN ("Connecting to Aamaal Circle...")          -->
+    <!-- =================================================================== -->
+    <section id="screen-1" class="onboard-screen active">
+      <!-- Full Background Scenery Image -->
+      <img data-asset="bg_splash" alt="Splash Background" class="visual-still absolute inset-0 w-full h-full object-cover" />
+
+      <!-- Top & Middle Custom Visual Container -->
+      <div class="relative z-10 flex-1 flex flex-col items-center justify-center px-6 pt-8">
+        <img data-asset="logo_light" alt="Islaah Foundation Logo" class="visual-still w-44 h-28 object-contain mb-3" />
+        <h1 class="text-white text-[19px] font-bold tracking-[0.14em] text-center uppercase">ISLAAH FOUNDATION’S</h1>
+        <p class="text-[#9fe8bc] text-[13px] font-medium tracking-[0.28em] uppercase mt-1">AAMAAL CIRCLE</p>
+
+        <!-- Middle Splash Divider & Connecting Text Still -->
+        <div class="w-full max-w-[320px] mt-6">
+          <img data-asset="middle_screen1_splash" alt="Connecting to Aamaal Circle" class="visual-still w-full h-auto object-contain" />
         </div>
       </div>
-      <div class="flex items-center gap-2">
-        <!-- Streak pill -->
-        <div class="flex items-center gap-1 bg-amber-500/10 border border-amber-400/30 px-2.5 py-1 rounded-full text-brand-gold text-[11px] font-medium">
-          <i data-lucide="flame" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
-          <span id="headerStreakCount">7 Days</span>
+
+      <!-- Bottom Pagination Dots (Functional) -->
+      <div class="relative z-10 pb-8 flex items-center justify-center gap-2.5">
+        <button onclick="goToScreen(1)" class="page-dot" aria-label="Screen 1"></button>
+        <button onclick="goToScreen(2)" class="page-dot" aria-label="Screen 2"></button>
+        <button onclick="goToScreen(1)" class="page-dot active" aria-label="Connecting"></button>
+        <button onclick="goToScreen(3)" class="page-dot" aria-label="Screen 3"></button>
+        <button onclick="goToScreen(9)" class="page-dot" aria-label="Screen 9"></button>
+      </div>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 2: WELCOME TO AAMAAL (First-Time Users)                      -->
+    <!-- =================================================================== -->
+    <section id="screen-2" class="onboard-screen">
+      <img data-asset="bg_welcome_sunrise" alt="Welcome Sunrise Scenery" class="visual-still absolute inset-0 w-full h-full object-cover" />
+
+      <!-- Top Dark Logo Header -->
+      <div class="relative z-10 pt-9 px-6 flex flex-col items-center text-center">
+        <img data-asset="logo_dark" alt="Islaah Foundation Dark Logo" class="visual-still w-36 h-20 object-contain" />
+        <h2 class="text-[#05291d] text-[15px] font-bold tracking-[0.14em] uppercase mt-1">ISLAAH FOUNDATION’S</h2>
+        <p class="text-[#16523d] text-[10.5px] font-semibold tracking-[0.26em] uppercase">AAMAAL CIRCLE</p>
+      </div>
+
+      <!-- Middle Content Image Still (Welcome to Aamaal + 3 Circles) -->
+      <div class="relative z-10 flex-1 flex items-center justify-center px-5 overflow-hidden">
+        <img data-asset="middle_screen2_welcome" alt="Welcome to Aamaal Overview" class="visual-still w-full max-h-[450px] object-contain" />
+      </div>
+
+      <!-- Functional Bottom Controls -->
+      <div class="relative z-10 px-7 pb-7 pt-2 flex flex-col items-center gap-4">
+        <button onclick="goToScreen(3)" class="btn-mint-primary w-full py-4 text-[16px] flex items-center justify-center gap-2.5">
+          <span>Get Started</span>
+          <span class="text-lg leading-none">→</span>
+        </button>
+
+        <div class="flex items-center justify-center gap-2.5">
+          <button onclick="goToScreen(2)" class="page-dot pill-active" aria-label="Welcome Step 1"></button>
+          <button onclick="goToScreen(3)" class="page-dot" aria-label="Step 2"></button>
+          <button onclick="goToScreen(6)" class="page-dot" aria-label="Step 3"></button>
         </div>
       </div>
-    </header>
+    </section>
 
-    <!-- ========================================== -->
-    <!-- MAIN CONTENT VIEWPORT                      -->
-    <!-- ========================================== -->
-    <main class="flex-1 px-4 py-4 overflow-y-auto space-y-4">
+    <!-- =================================================================== -->
+    <!-- SCREEN 3: STEP 1 — DIGITAL TASBIH                                   -->
+    <!-- =================================================================== -->
+    <section id="screen-3" class="onboard-screen">
+      <img data-asset="bg_top_sunrise" alt="Header Sunrise Scenery" class="visual-still absolute inset-0 w-full h-full object-cover" />
 
-      <!-- ========================================== -->
-      <!-- SECTION 2: HOME SCREEN                     -->
-      <!-- ========================================== -->
-      <section id="viewHome" class="screen-view space-y-4">
-        
-        <!-- Welcome Greeting & Hijri Date Banner -->
+      <!-- Top Side-by-Side Logo & Foundation Title -->
+      <header class="relative z-10 pt-8 px-6 flex items-center justify-center gap-3">
+        <img data-asset="logo_header" alt="Mosque Emblem" class="visual-still w-24 h-12 object-contain" />
+        <div class="h-8 w-[1px] bg-[#9fe8bc]/30"></div>
+        <div class="text-left">
+          <p class="text-white text-[13px] font-bold tracking-[0.12em] uppercase leading-tight">ISLAAH FOUNDATION’S</p>
+          <p class="text-[#9fe8bc] text-[10.5px] font-semibold tracking-[0.22em] uppercase mt-0.5">AAMAAL CIRCLE</p>
+        </div>
+      </header>
+
+      <!-- Middle Screen 3 Still -->
+      <div class="relative z-10 flex-1 flex items-center justify-center px-4 overflow-hidden">
+        <img data-asset="middle_screen3_tasbih" alt="Step 1 Digital Tasbih Preview" class="visual-still w-full max-h-[540px] object-contain" />
+      </div>
+
+      <!-- Functional Footer Navigation -->
+      <footer class="relative z-10 px-7 pb-7 flex items-center justify-between">
+        <button onclick="goToScreen(9)" class="text-[#9cb8aa] hover:text-white text-[15px] font-medium px-2 py-2 transition">Skip</button>
+
+        <div class="flex items-center gap-2">
+          <button onclick="goToScreen(3)" class="page-dot active" aria-label="Step 1"></button>
+          <button onclick="goToScreen(4)" class="page-dot" aria-label="Step 2"></button>
+          <button onclick="goToScreen(5)" class="page-dot" aria-label="Step 3"></button>
+          <button onclick="goToScreen(6)" class="page-dot" aria-label="Step 4"></button>
+        </div>
+
+        <button onclick="goToScreen(4)" class="btn-mint-primary px-7 py-3.5 text-[15px] flex items-center gap-2">
+          <span>Next</span>
+          <span>→</span>
+        </button>
+      </footer>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 4: STEP 2 — EXPLORE DUAS                                     -->
+    <!-- =================================================================== -->
+    <section id="screen-4" class="onboard-screen">
+      <img data-asset="bg_top_sunrise" alt="Header Sunrise Scenery" class="visual-still absolute inset-0 w-full h-full object-cover" />
+
+      <header class="relative z-10 pt-8 px-6 flex items-center justify-center gap-3">
+        <img data-asset="logo_header" alt="Mosque Emblem" class="visual-still w-24 h-12 object-contain" />
+        <div class="h-8 w-[1px] bg-[#9fe8bc]/30"></div>
+        <div class="text-left">
+          <p class="text-white text-[13px] font-bold tracking-[0.12em] uppercase leading-tight">ISLAAH FOUNDATION’S</p>
+          <p class="text-[#9fe8bc] text-[10.5px] font-semibold tracking-[0.22em] uppercase mt-0.5">AAMAAL CIRCLE</p>
+        </div>
+      </header>
+
+      <!-- Middle Screen 4 Still -->
+      <div class="relative z-10 flex-1 flex items-center justify-center px-4 overflow-hidden">
+        <img data-asset="middle_screen4_duas" alt="Step 2 Explore Duas Preview" class="visual-still w-full max-h-[540px] object-contain" />
+      </div>
+
+      <footer class="relative z-10 px-7 pb-7 flex items-center justify-between">
+        <button onclick="goToScreen(9)" class="text-[#9cb8aa] hover:text-white text-[15px] font-medium px-2 py-2 transition">Skip</button>
+
+        <div class="flex items-center gap-2">
+          <button onclick="goToScreen(3)" class="page-dot" aria-label="Step 1"></button>
+          <button onclick="goToScreen(4)" class="page-dot active" aria-label="Step 2"></button>
+          <button onclick="goToScreen(5)" class="page-dot" aria-label="Step 3"></button>
+          <button onclick="goToScreen(6)" class="page-dot" aria-label="Step 4"></button>
+        </div>
+
+        <button onclick="goToScreen(5)" class="btn-mint-primary px-7 py-3.5 text-[15px] flex items-center gap-2">
+          <span>Next</span>
+          <span>→</span>
+        </button>
+      </footer>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 5: STEP 3 — REFLECTIONS                                      -->
+    <!-- =================================================================== -->
+    <section id="screen-5" class="onboard-screen">
+      <img data-asset="bg_top_sunrise" alt="Header Sunrise Scenery" class="visual-still absolute inset-0 w-full h-full object-cover" />
+
+      <header class="relative z-10 pt-8 px-6 flex items-center justify-center gap-3">
+        <img data-asset="logo_header" alt="Mosque Emblem" class="visual-still w-24 h-12 object-contain" />
+        <div class="h-8 w-[1px] bg-[#9fe8bc]/30"></div>
+        <div class="text-left">
+          <p class="text-white text-[13px] font-bold tracking-[0.12em] uppercase leading-tight">ISLAAH FOUNDATION’S</p>
+          <p class="text-[#9fe8bc] text-[10.5px] font-semibold tracking-[0.22em] uppercase mt-0.5">AAMAAL CIRCLE</p>
+        </div>
+      </header>
+
+      <!-- Middle Screen 5 Still -->
+      <div class="relative z-10 flex-1 flex items-center justify-center px-4 overflow-hidden">
+        <img data-asset="middle_screen5_reflections" alt="Step 3 Reflections Preview" class="visual-still w-full max-h-[540px] object-contain" />
+      </div>
+
+      <footer class="relative z-10 px-7 pb-7 flex items-center justify-between">
+        <button onclick="goToScreen(9)" class="text-[#9cb8aa] hover:text-white text-[15px] font-medium px-2 py-2 transition">Skip</button>
+
+        <div class="flex items-center gap-2">
+          <button onclick="goToScreen(3)" class="page-dot" aria-label="Step 1"></button>
+          <button onclick="goToScreen(4)" class="page-dot" aria-label="Step 2"></button>
+          <button onclick="goToScreen(5)" class="page-dot active" aria-label="Step 3"></button>
+          <button onclick="goToScreen(6)" class="page-dot" aria-label="Step 4"></button>
+        </div>
+
+        <button onclick="goToScreen(6)" class="btn-mint-primary px-7 py-3.5 text-[15px] flex items-center gap-2">
+          <span>Next</span>
+          <span>→</span>
+        </button>
+      </footer>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 6: PERSONALIZE YOUR AAMAAL EXPERIENCE (Visual Still)         -->
+    <!-- =================================================================== -->
+    <section id="screen-6" class="onboard-screen">
+      <img data-asset="bg_top_sunrise" alt="Header Sunrise Scenery" class="visual-still absolute inset-0 w-full h-full object-cover" />
+
+      <header class="relative z-10 pt-8 px-6 flex items-center justify-center gap-3">
+        <img data-asset="logo_header" alt="Mosque Emblem" class="visual-still w-24 h-12 object-contain" />
+        <div class="h-8 w-[1px] bg-[#9fe8bc]/30"></div>
+        <div class="text-left">
+          <p class="text-white text-[13px] font-bold tracking-[0.12em] uppercase leading-tight">ISLAAH FOUNDATION’S</p>
+          <p class="text-[#9fe8bc] text-[10.5px] font-semibold tracking-[0.22em] uppercase mt-0.5">AAMAAL CIRCLE</p>
+        </div>
+      </header>
+
+      <!-- Middle Screen 6 Personalize Still -->
+      <div class="relative z-10 flex-1 flex items-center justify-center px-4 overflow-hidden">
+        <img data-asset="middle_screen6_personalize" alt="Personalize Your Aamaal Experience" class="visual-still w-full max-h-[545px] object-contain" />
+      </div>
+
+      <footer class="relative z-10 px-7 pb-7 flex items-center justify-between">
+        <button onclick="goToScreen(9)" class="text-[#9cb8aa] hover:text-white text-[15px] font-medium px-2 py-2 transition">Skip</button>
+
+        <div class="flex items-center gap-2">
+          <button onclick="goToScreen(6)" class="page-dot active" aria-label="Personalize"></button>
+          <button onclick="goToScreen(7)" class="page-dot" aria-label="Step 4"></button>
+          <button onclick="goToScreen(8)" class="page-dot" aria-label="Step 5"></button>
+          <button onclick="goToScreen(9)" class="page-dot" aria-label="Welcome Back"></button>
+        </div>
+
+        <button onclick="goToScreen(7)" class="btn-mint-primary px-6 py-3.5 text-[15px] flex items-center gap-2">
+          <span>Get Started</span>
+          <span>→</span>
+        </button>
+      </footer>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 7: STEP 4 — STAY CONSISTENT (Notifications Permission)       -->
+    <!-- =================================================================== -->
+    <section id="screen-7" class="onboard-screen">
+      <img data-asset="bg_top_sunrise" alt="Header Sunrise Scenery" class="visual-still absolute inset-0 w-full h-full object-cover" />
+
+      <header class="relative z-10 pt-8 px-6 flex items-center justify-center gap-3">
+        <img data-asset="logo_header" alt="Mosque Emblem" class="visual-still w-24 h-12 object-contain" />
+        <div class="h-8 w-[1px] bg-[#9fe8bc]/30"></div>
+        <div class="text-left">
+          <p class="text-white text-[13px] font-bold tracking-[0.12em] uppercase leading-tight">ISLAAH FOUNDATION’S</p>
+          <p class="text-[#9fe8bc] text-[10.5px] font-semibold tracking-[0.22em] uppercase mt-0.5">AAMAAL CIRCLE</p>
+        </div>
+      </header>
+
+      <!-- Middle Screen 7 Notifications Still -->
+      <div class="relative z-10 flex-1 flex items-center justify-center px-4 overflow-hidden">
+        <img data-asset="middle_screen7_notifications" alt="Step 4 Stay Consistent Notifications" class="visual-still w-full max-h-[540px] object-contain" />
+      </div>
+
+      <footer class="relative z-10 px-6 pb-7 flex items-center justify-between gap-2">
+        <button onclick="goToScreen(8)" class="text-[#9cb8aa] hover:text-white text-[15px] font-medium px-2 py-2 transition">Skip</button>
+
+        <div class="flex items-center gap-2">
+          <button onclick="goToScreen(4)" class="page-dot" aria-label="Step 2"></button>
+          <button onclick="goToScreen(5)" class="page-dot" aria-label="Step 3"></button>
+          <button onclick="goToScreen(6)" class="page-dot" aria-label="Personalize"></button>
+          <button onclick="goToScreen(7)" class="page-dot active" aria-label="Step 4"></button>
+        </div>
+
+        <button onclick="enableNotificationsAndContinue()" class="btn-mint-primary px-5 py-3 text-[13.5px] leading-tight flex items-center gap-2 text-center">
+          <span>Enable<br/>Notifications</span>
+          <span>→</span>
+        </button>
+      </footer>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 8: STEP 5 — TACTILE FEEDBACK (Haptic Touch Effects)          -->
+    <!-- =================================================================== -->
+    <section id="screen-8" class="onboard-screen">
+      <img data-asset="bg_top_sunrise" alt="Header Sunrise Scenery" class="visual-still absolute inset-0 w-full h-full object-cover" />
+
+      <header class="relative z-10 pt-8 px-6 flex items-center justify-center gap-3">
+        <img data-asset="logo_header" alt="Mosque Emblem" class="visual-still w-24 h-12 object-contain" />
+        <div class="h-8 w-[1px] bg-[#9fe8bc]/30"></div>
+        <div class="text-left">
+          <p class="text-white text-[13px] font-bold tracking-[0.12em] uppercase leading-tight">ISLAAH FOUNDATION’S</p>
+          <p class="text-[#9fe8bc] text-[10.5px] font-semibold tracking-[0.22em] uppercase mt-0.5">AAMAAL CIRCLE</p>
+        </div>
+      </header>
+
+      <!-- Middle Screen 8 Tactile Feedback Still -->
+      <div class="relative z-10 flex-1 flex items-center justify-center px-4 overflow-hidden">
+        <img data-asset="middle_screen8_haptics" alt="Step 5 Tactile Feedback" class="visual-still w-full max-h-[540px] object-contain" />
+      </div>
+
+      <footer class="relative z-10 px-6 pb-7 flex items-center justify-between gap-2">
+        <button onclick="goToScreen(9)" class="text-[#9cb8aa] hover:text-white text-[15px] font-medium px-2 py-2 transition">Skip</button>
+
+        <div class="flex items-center gap-1.5">
+          <button onclick="goToScreen(4)" class="page-dot" aria-label="Step 1"></button>
+          <button onclick="goToScreen(5)" class="page-dot" aria-label="Step 2"></button>
+          <button onclick="goToScreen(6)" class="page-dot" aria-label="Step 3"></button>
+          <button onclick="goToScreen(7)" class="page-dot" aria-label="Step 4"></button>
+          <button onclick="goToScreen(8)" class="page-dot active" aria-label="Step 5"></button>
+        </div>
+
+        <button onclick="enableTouchEffectsAndContinue()" class="btn-mint-primary px-5 py-3 text-[13.5px] leading-tight flex items-center gap-2 text-center">
+          <span>Enable<br/>Touch Effects</span>
+          <span>→</span>
+        </button>
+      </footer>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- SCREEN 9: WELCOME BACK (Returnee Entry Gate -> Redirects to Home)   -->
+    <!-- =================================================================== -->
+    <section id="screen-9" class="onboard-screen">
+      <img data-asset="bg_top_sunrise" alt="Header Sunrise Scenery" class="visual-still absolute inset-0 w-full h-full object-cover" />
+
+      <header class="relative z-10 pt-8 px-6 flex items-center justify-center gap-3">
+        <img data-asset="logo_header" alt="Mosque Emblem" class="visual-still w-24 h-12 object-contain" />
+        <div class="h-8 w-[1px] bg-[#9fe8bc]/30"></div>
+        <div class="text-left">
+          <p class="text-white text-[13px] font-bold tracking-[0.12em] uppercase leading-tight">ISLAAH FOUNDATION’S</p>
+          <p class="text-[#9fe8bc] text-[10.5px] font-semibold tracking-[0.22em] uppercase mt-0.5">AAMAAL CIRCLE</p>
+        </div>
+      </header>
+
+      <!-- Middle Screen 9 Welcome Back Phone Still -->
+      <div class="relative z-10 flex-1 flex items-center justify-center px-4 overflow-hidden">
+        <img data-asset="middle_screen9_welcomeback" alt="Welcome Back Preview" class="visual-still w-full max-h-[370px] object-contain" />
+      </div>
+
+      <!-- Functional Action Stack & Footer Controls (All Redirect to home.html) -->
+      <footer class="relative z-10 px-6 pb-6 space-y-2.5">
+        <button onclick="finishOnboarding('Get Started')" class="w-full py-3.5 rounded-full bg-gradient-to-r from-[#67db9a] to-[#85e8b0] text-[#042218] font-bold text-[15.5px] flex items-center justify-center gap-2 shadow-lg active:scale-98 transition">
+          <span>Get Started</span>
+          <span>→</span>
+        </button>
+
+        <button onclick="finishOnboarding('Skip Intro & Go to App')" class="btn-emerald-outline w-full py-3.5 text-[15px] flex items-center justify-center">
+          <span>Skip Intro &amp; Go to App</span>
+        </button>
+
+        <button onclick="finishOnboarding('Skip to Dashboard')" class="btn-mint-primary w-full py-3.5 text-[15.5px] flex items-center justify-center gap-2">
+          <span>Skip to Dashboard</span>
+          <span>→</span>
+        </button>
+
+        <div class="pt-1 pb-1 text-center">
+          <button onclick="goToScreen(2)" class="text-[#9cb8aa] hover:text-white text-[13.5px] font-medium transition">
+            Take the Intro Tour
+          </button>
+        </div>
+
+        <!-- Bottom Bar: [Log In | Restore] · Dots · Bypass -->
+        <div class="pt-1 flex items-center justify-between">
+          <div class="inline-flex rounded-full p-0.5 bg-[#0a2e22] border border-[#9fe8bc]/35">
+            <button id="btn-auth-login" onclick="toggleAuthMode('login')" class="px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc] text-[#052319] transition">Log In</button>
+            <button id="btn-auth-restore" onclick="toggleAuthMode('restore')" class="px-3.5 py-1.5 rounded-full text-xs font-medium text-[#a6bfb2] transition">Restore</button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="goToScreen(2)" class="page-dot" aria-label="Intro"></button>
+            <button onclick="goToScreen(9)" class="page-dot active" aria-label="Welcome Back"></button>
+            <button onclick="finishOnboarding('Dot Jump')" class="page-dot" aria-label="Launch"></button>
+          </div>
+
+          <button onclick="finishOnboarding('Bypass')" class="text-[#9cb8aa] hover:text-white text-[14px] font-medium px-2 py-1 transition">
+            Bypass
+          </button>
+        </div>
+      </footer>
+    </section>
+
+    <!-- =================================================================== -->
+    <!-- CUSTOM IMAGE UPLOADER / URL CONFIG MODAL                            -->
+    <!-- =================================================================== -->
+    <div id="asset-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
+      <div class="bg-[#07261c] border border-[#d4be83]/45 rounded-2xl max-w-md w-full p-5 max-h-[85vh] overflow-y-auto space-y-4">
         <div class="flex items-center justify-between">
-          <div>
-            <h2 class="text-xl font-serif text-emerald-50">Assalamu Alaikum</h2>
-            <p class="text-xs text-emerald-300/70" id="currentDateHijri">14 Sha'ban 1448 • Daily Circle</p>
-          </div>
-          <button onclick="switchTab('tasbih')" class="glass-pill px-3 py-1.5 rounded-full text-xs text-brand-mint font-medium flex items-center gap-1 border border-brand-mint/30 touch-btn">
-            <i data-lucide="play" class="w-3 h-3"></i> Quick Dhikr
-          </button>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Custom Onboarding Images</h3>
+          <button onclick="closeAssetModal()" class="text-sm text-[#a6bfb2] hover:text-white">✕</button>
         </div>
-
-        <!-- Today's Progress Card -->
-        <div class="glass-card rounded-2xl p-4 border border-emerald-400/20 relative overflow-hidden">
-          <div class="flex items-center justify-between mb-3">
-            <div>
-              <span class="text-[10px] uppercase tracking-wider text-emerald-300 font-semibold">Today's Aamaal Progress</span>
-              <h3 class="text-lg font-serif text-slate-100">Consistency Target</h3>
-            </div>
-            <span id="homeProgressPercent" class="text-xl font-serif text-brand-gold font-bold">64%</span>
-          </div>
-
-          <!-- Linear Gauge -->
-          <div class="w-full bg-emerald-950/80 rounded-full h-2.5 border border-emerald-800/40 overflow-hidden mb-3">
-            <div id="homeProgressBar" class="bg-gradient-to-r from-brand-gold via-brand-mint to-emerald-400 h-full rounded-full transition-all duration-500" style="width: 64%;"></div>
-          </div>
-
-          <div class="flex justify-between items-center text-[11px] text-emerald-200/80 pt-1 border-t border-emerald-900/60">
-            <span>2 of 3 Blessed Aamaals finished</span>
-            <span class="text-brand-mint font-medium">Keep going!</span>
-          </div>
+        <p class="text-xs text-[#b2c9bc]">Replace any logo, sunrise background, or middle screen still with your own image URL or local file.</p>
+        <div id="asset-inputs-list" class="space-y-3 text-xs"></div>
+        <div class="flex justify-end gap-2 pt-2">
+          <button onclick="resetOnboardingAssets()" class="px-4 py-2 rounded-lg border border-red-400/40 text-red-300 text-xs">Reset Defaults</button>
+          <button onclick="closeAssetModal()" class="px-5 py-2 rounded-lg bg-[#9fe8bc] text-[#052319] font-semibold text-xs">Done</button>
         </div>
-
-        <!-- The 3 Blessed Aamaal Cards -->
-        <div>
-          <div class="flex items-center justify-between mb-2 px-1">
-            <h3 class="text-xs font-semibold uppercase tracking-wider text-emerald-300">The 3 Blessed Aamaals</h3>
-            <span class="text-[10px] text-emerald-400/70">Daily Core</span>
-          </div>
-
-          <div class="space-y-2.5">
-            <!-- 1. Durood Shareef -->
-            <div class="glass-card rounded-2xl p-3.5 flex items-center justify-between border border-emerald-500/20">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-400/30 flex items-center justify-center text-brand-gold">
-                  <i data-lucide="circle-dot" class="w-5 h-5"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-semibold text-emerald-50">313 Durood Shareef</h4>
-                  <p class="text-[11px] text-emerald-300/70">Blessings upon Rasulullah ﷺ</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-2">
-                <span id="homeDuroodBadge" class="text-xs font-medium text-brand-gold bg-amber-500/10 px-2.5 py-1 rounded-lg">182 / 313</span>
-                <button onclick="openTasbihWith('durood')" class="w-8 h-8 rounded-full bg-emerald-400 text-emerald-950 flex items-center justify-center touch-btn">
-                  <i data-lucide="plus" class="w-4 h-4"></i>
-                </button>
-              </div>
-            </div>
-
-            <!-- 2. Surah Mulk Recitation -->
-            <div class="glass-card rounded-2xl p-3.5 flex items-center justify-between border border-emerald-500/20">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-teal-500/10 border border-brand-mint/30 flex items-center justify-center text-brand-mint">
-                  <i data-lucide="book-open" class="w-5 h-5"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-semibold text-emerald-50">Surah Al-Mulk</h4>
-                  <p class="text-[11px] text-emerald-300/70">Nightly savior from the grave</p>
-                </div>
-              </div>
-              <button id="homeMulkBtn" onclick="toggleSurahMulkDone()" class="px-3 py-1.5 rounded-xl border border-emerald-500/30 glass-pill text-xs font-medium text-emerald-200 flex items-center gap-1.5 touch-btn">
-                <i data-lucide="check" class="w-3.5 h-3.5"></i> <span id="mulkStatusText">Mark Done</span>
-              </button>
-            </div>
-
-            <!-- 3. 100 Istighfar -->
-            <div class="glass-card rounded-2xl p-3.5 flex items-center justify-between border border-emerald-500/20">
-              <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-400/30 flex items-center justify-center text-emerald-300">
-                  <i data-lucide="heart-handshake" class="w-5 h-5"></i>
-                </div>
-                <div>
-                  <h4 class="text-sm font-semibold text-emerald-50">100 Istighfar</h4>
-                  <p class="text-[11px] text-emerald-300/70">Astaghfirullah wa atoobu ilayh</p>
-                </div>
-              </div>
-              <div class="flex items-center gap-2">
-                <span id="homeIstighfarBadge" class="text-xs font-medium text-emerald-300 bg-emerald-500/10 px-2.5 py-1 rounded-lg">100 / 100</span>
-                <button onclick="openTasbihWith('istighfar')" class="w-8 h-8 rounded-full bg-emerald-400 text-emerald-950 flex items-center justify-center touch-btn">
-                  <i data-lucide="check" class="w-4 h-4"></i>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Continue Where You Left Off Card -->
-        <div class="glass-card rounded-2xl p-4 border border-brand-mint/30 bg-gradient-to-r from-emerald-950/90 to-teal-950/70">
-          <div class="flex items-center justify-between">
-            <div class="flex items-center gap-2.5">
-              <div class="w-2 h-2 rounded-full bg-brand-mint animate-ping"></div>
-              <span class="text-[10px] uppercase tracking-wider text-brand-mint font-semibold">Continue Where You Left Off</span>
-            </div>
-            <span class="text-[10px] text-emerald-400/80">Reflections</span>
-          </div>
-          <h4 class="text-sm font-serif text-emerald-50 font-semibold mt-2">The Valley of Makkah • Episode 3</h4>
-          <p class="text-xs text-emerald-300/80 mt-1 line-clamp-1">In the heart of Makkah, a small group held on to a monumental truth...</p>
-          <button onclick="switchTab('reflections'); openStoryModal(0)" class="mt-3 w-full py-2 bg-emerald-900/60 hover:bg-emerald-800/60 border border-emerald-400/30 rounded-xl text-xs text-emerald-200 font-medium flex items-center justify-center gap-2 touch-btn">
-            <span>Resume Reading</span>
-            <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-          </button>
-        </div>
-
-        <!-- Daily Dua Card -->
-        <div class="glass-card rounded-2xl p-4 border border-emerald-500/20">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] uppercase tracking-wider text-brand-gold font-semibold">Dua of the Day</span>
-            <i data-lucide="sparkles" class="w-3.5 h-3.5 text-brand-gold"></i>
-          </div>
-          <p class="font-arabic text-lg text-right text-brand-goldLight my-1" dir="rtl">اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ</p>
-          <p class="text-xs text-emerald-100 font-medium italic">"Allahumma inni as'aluka al-'afwa wal-'afiyah"</p>
-          <p class="text-[11px] text-emerald-300/80 mt-1">"O Allah, I ask You for pardon and well-being in this world and the Hereafter."</p>
-        </div>
-
-      </section>
-
-      <!-- ========================================== -->
-      <!-- SECTION 3: DIGITAL TASBIH SCREEN          -->
-      <!-- ========================================== -->
-      <section id="viewTasbih" class="screen-view hidden space-y-4">
-        
-        <!-- Tasbih Top Selector -->
-        <div class="glass-card rounded-2xl p-2 flex items-center justify-between border border-emerald-500/20 text-xs">
-          <button onclick="setTasbihDhikr('durood')" id="btnDhikrDurood" class="flex-1 py-2 rounded-xl text-center font-medium bg-emerald-500/20 text-brand-mint border border-brand-mint/40 transition-all">
-            313 Durood
-          </button>
-          <button onclick="setTasbihDhikr('istighfar')" id="btnDhikrIstighfar" class="flex-1 py-2 rounded-xl text-center font-medium text-emerald-300/80 hover:text-emerald-100 transition-all">
-            100 Istighfar
-          </button>
-          <button onclick="setTasbihDhikr('subhanallah')" id="btnDhikrSubhanallah" class="flex-1 py-2 rounded-xl text-center font-medium text-emerald-300/80 hover:text-emerald-100 transition-all">
-            33 SubhanAllah
-          </button>
-        </div>
-
-        <!-- Active Dhikr Title & Arabic display -->
-        <div class="text-center py-1">
-          <h2 id="activeTasbihTitle" class="text-base font-serif text-emerald-100 font-semibold">Durood Shareef</h2>
-          <p id="activeTasbihArabic" class="font-arabic text-2xl text-brand-goldLight mt-1" dir="rtl">اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ</p>
-          <p id="activeTasbihSub" class="text-xs text-emerald-300/70 mt-1">O Allah, bestow Your blessings upon Muhammad and the family of Muhammad</p>
-        </div>
-
-        <!-- Giant Circular Bead Ring & Tapper Counter -->
-        <div class="relative w-72 h-72 mx-auto flex items-center justify-center my-2">
-          
-          <!-- Outer circular track svg -->
-          <svg class="absolute inset-0 w-full h-full -rotate-90">
-            <circle cx="144" cy="144" r="126" stroke="rgba(16, 56, 42, 0.4)" stroke-width="8" fill="none" />
-            <circle id="tasbihProgressCircle" cx="144" cy="144" r="126" stroke="#8CE2B4" stroke-width="8" stroke-dasharray="791.68" stroke-dashoffset="300" stroke-linecap="round" fill="none" class="transition-all duration-300" />
-          </svg>
-
-          <!-- SVG Visual Bead Markers around circumference -->
-          <div id="beadsContainer" class="absolute inset-0 pointer-events-none"></div>
-
-          <!-- Central Tapper Button -->
-          <button id="tasbihTapBtn" onclick="incrementTasbih()" class="relative z-10 w-44 h-44 rounded-full glass-card border-2 border-emerald-400/40 flex flex-col items-center justify-center shadow-2xl touch-btn group focus:outline-none">
-            <span class="text-[11px] text-emerald-300/80 uppercase tracking-widest font-medium">RECITATIONS</span>
-            <span id="tasbihCurrentCount" class="text-5xl font-serif text-brand-gold font-bold tracking-tight my-1 group-active:scale-95 transition-transform">182</span>
-            <span class="text-xs text-emerald-300/80 font-medium">Goal: <span id="tasbihGoalCount">313</span></span>
-            
-            <div class="mt-2 flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/80 border border-brand-mint/30 text-[10px] text-brand-mint">
-              <i data-lucide="hand" class="w-3 h-3"></i>
-              <span>Tap Anywhere</span>
-            </div>
-          </button>
-        </div>
-
-        <!-- Controls: Sound, Vibrate, Reset, Lap -->
-        <div class="flex items-center justify-around px-4">
-          <button onclick="toggleAudioFx()" id="tasbihSoundBtn" class="flex flex-col items-center gap-1 text-[11px] text-emerald-300/80 hover:text-emerald-100 touch-btn">
-            <div class="w-10 h-10 rounded-full glass-pill flex items-center justify-center border border-emerald-500/30">
-              <i data-lucide="volume-2" id="soundIcon" class="w-4 h-4 text-brand-gold"></i>
-            </div>
-            <span>Sound</span>
-          </button>
-
-          <button onclick="toggleHaptics()" id="tasbihHapticBtn" class="flex flex-col items-center gap-1 text-[11px] text-emerald-300/80 hover:text-emerald-100 touch-btn">
-            <div class="w-10 h-10 rounded-full glass-pill flex items-center justify-center border border-emerald-500/30">
-              <i data-lucide="vibrate" class="w-4 h-4 text-brand-mint"></i>
-            </div>
-            <span>Vibrate</span>
-          </button>
-
-          <button onclick="resetTasbihCount()" class="flex flex-col items-center gap-1 text-[11px] text-emerald-300/80 hover:text-rose-300 touch-btn">
-            <div class="w-10 h-10 rounded-full glass-pill flex items-center justify-center border border-emerald-500/30">
-              <i data-lucide="rotate-ccw" class="w-4 h-4 text-rose-300"></i>
-            </div>
-            <span>Reset</span>
-          </button>
-
-          <button onclick="logTasbihSession()" class="flex flex-col items-center gap-1 text-[11px] text-emerald-300/80 hover:text-emerald-100 touch-btn">
-            <div class="w-10 h-10 rounded-full glass-pill flex items-center justify-center border border-emerald-500/30">
-              <i data-lucide="save" class="w-4 h-4 text-emerald-300"></i>
-            </div>
-            <span>Save Log</span>
-          </button>
-        </div>
-
-        <!-- Tasbih History List -->
-        <div class="glass-card rounded-2xl p-4 border border-emerald-500/20">
-          <div class="flex items-center justify-between mb-3">
-            <h4 class="text-xs font-semibold uppercase tracking-wider text-emerald-300">Recent Recitation History</h4>
-            <span class="text-[10px] text-emerald-400/70">Local Records</span>
-          </div>
-
-          <div id="tasbihHistoryList" class="space-y-2 text-xs">
-            <!-- Rendered dynamically -->
-          </div>
-        </div>
-
-      </section>
-
-      <!-- ========================================== -->
-      <!-- SECTION 4: DUAS DIRECTORY SCREEN           -->
-      <!-- ========================================== -->
-      <section id="viewDuas" class="screen-view hidden space-y-4">
-        
-        <div>
-          <h2 class="text-xl font-serif text-emerald-50">Supplications & Duas</h2>
-          <p class="text-xs text-emerald-300/70">Authentic adhkar for morning, evening, travel, and ease</p>
-        </div>
-
-        <!-- Search Bar -->
-        <div class="relative">
-          <i data-lucide="search" class="w-4 h-4 absolute left-3.5 top-3.5 text-emerald-400/60"></i>
-          <input type="text" id="duaSearchInput" oninput="filterDuas()" placeholder="Search by name, meaning, or reference..." class="w-full pl-10 pr-4 py-2.5 rounded-2xl glass-pill border border-emerald-500/30 text-xs text-emerald-100 placeholder-emerald-400/50 focus:outline-none focus:border-brand-mint">
-        </div>
-
-        <!-- Category Pills Bar -->
-        <div class="flex items-center gap-2 overflow-x-auto pb-1 no-scrollbar text-xs">
-          <button onclick="setDuaCategory('All', this)" class="dua-cat-btn whitespace-nowrap px-3.5 py-1.5 rounded-full bg-emerald-400 text-emerald-950 font-semibold border border-brand-mint">All Duas</button>
-          <button onclick="setDuaCategory('Daily', this)" class="dua-cat-btn whitespace-nowrap px-3.5 py-1.5 rounded-full glass-pill text-emerald-200 border border-emerald-500/30">Daily Life</button>
-          <button onclick="setDuaCategory('Guidance', this)" class="dua-cat-btn whitespace-nowrap px-3.5 py-1.5 rounded-full glass-pill text-emerald-200 border border-emerald-500/30">Guidance</button>
-          <button onclick="setDuaCategory('Protection', this)" class="dua-cat-btn whitespace-nowrap px-3.5 py-1.5 rounded-full glass-pill text-emerald-200 border border-emerald-500/30">Protection</button>
-          <button onclick="setDuaCategory('Forgiveness', this)" class="dua-cat-btn whitespace-nowrap px-3.5 py-1.5 rounded-full glass-pill text-emerald-200 border border-emerald-500/30">Forgiveness</button>
-          <button onclick="setDuaCategory('Favourites', this)" class="dua-cat-btn whitespace-nowrap px-3.5 py-1.5 rounded-full glass-pill text-amber-300 border border-amber-400/30 flex items-center gap-1">
-            <i data-lucide="bookmark" class="w-3 h-3"></i> Saved
-          </button>
-        </div>
-
-        <!-- Duas Card List Container -->
-        <div id="duasListContainer" class="space-y-3">
-          <!-- Rendered via JS -->
-        </div>
-
-      </section>
-
-      <!-- ========================================== -->
-      <!-- SECTION 5: REFLECTIONS (STORIES & SEERAH)  -->
-      <!-- ========================================== -->
-      <section id="viewReflections" class="screen-view hidden space-y-4">
-        
-        <div>
-          <h2 class="text-xl font-serif text-emerald-50">Reflections & Seerah</h2>
-          <p class="text-xs text-emerald-300/70">Timeless wisdom and heart-soothing lessons from Islamic history</p>
-        </div>
-
-        <!-- Featured Reflection Hero Story -->
-        <div class="relative glass-card rounded-2xl overflow-hidden p-5 border border-brand-gold/30">
-          <div class="flex items-center justify-between mb-2">
-            <span class="text-[10px] uppercase tracking-wider text-brand-gold bg-amber-400/10 px-2.5 py-0.5 rounded-full border border-amber-400/20 font-semibold">Featured Daily Episode</span>
-            <span class="text-[10px] text-emerald-300">4 min read</span>
-          </div>
-
-          <h3 class="text-lg font-serif text-emerald-50 font-bold mt-1">The Valley of Makkah</h3>
-          <p class="text-[11px] text-emerald-300/80 mt-1 line-clamp-2">
-            Faith in a time of utter darkness: how the seeds of perseverance in a desert valley became a beacon for billions.
-          </p>
-
-          <div class="flex items-center justify-between mt-4 pt-3 border-t border-emerald-800/40">
-            <div class="flex items-center gap-2 text-xs text-emerald-200">
-              <i data-lucide="book-open" class="w-4 h-4 text-brand-mint"></i>
-              <span>Episode 3 of 12</span>
-            </div>
-            <button onclick="openStoryModal(0)" class="px-3 py-1.5 bg-emerald-400 text-emerald-950 font-bold rounded-xl text-xs flex items-center gap-1.5 touch-btn">
-              <span>Read Reflection</span>
-              <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Stories Grid / Card List -->
-        <div>
-          <h3 class="text-xs font-semibold uppercase tracking-wider text-emerald-300 mb-2 px-1">Seerah & Quranic Gems</h3>
-          <div id="storiesContainer" class="space-y-3">
-            <!-- Dynamic stories -->
-          </div>
-        </div>
-
-        <!-- Daily Hadith Card -->
-        <div class="glass-card rounded-2xl p-4 border border-emerald-500/20">
-          <div class="flex items-center gap-2 text-brand-gold text-xs font-medium mb-1.5">
-            <i data-lucide="feather" class="w-4 h-4"></i>
-            <span>Daily Prophetic Wisdom</span>
-          </div>
-          <p class="text-xs text-emerald-100 italic leading-relaxed">
-            "The deeds most beloved to Allah are those that are consistent, even if they are small."
-          </p>
-          <span class="block text-[10px] text-emerald-400/70 text-right mt-1.5">— Sahih al-Bukhari 6464</span>
-        </div>
-
-      </section>
-
-      <!-- ========================================== -->
-      <!-- SECTION 6: SETTINGS & PROFILE              -->
-      <!-- ========================================== -->
-      <section id="viewSettings" class="screen-view hidden space-y-4">
-        
-        <!-- Profile & Streak Summary -->
-        <div class="glass-card rounded-2xl p-4 border border-emerald-500/20 flex items-center gap-4">
-          <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-emerald-800 to-teal-600 border border-brand-mint/40 flex items-center justify-center text-emerald-100 text-xl font-serif font-bold shadow-inner">
-            IF
-          </div>
-          <div class="flex-1">
-            <div class="flex items-center justify-between">
-              <h3 class="text-sm font-semibold text-emerald-50">Aamaal Seeker</h3>
-              <span class="text-[10px] bg-emerald-400/20 text-brand-mint border border-emerald-400/30 px-2 py-0.5 rounded-full">Active Member</span>
-            </div>
-            <p class="text-xs text-emerald-300/70" id="settingsLangDisplay">Language: English • Guided</p>
-            <div class="flex items-center gap-3 mt-2 text-[11px] text-brand-gold font-medium">
-              <span>7 Days Streak 🔥</span>
-              <span>•</span>
-              <span id="settingsTotalCounts">Total Dhikr: 1,420</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- App Preferences -->
-        <div class="glass-card rounded-2xl p-4 border border-emerald-500/20 space-y-3">
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-emerald-300">Preferences</h4>
-          
-          <!-- Language Selector -->
-          <div class="flex items-center justify-between py-1">
-            <div>
-              <div class="text-xs text-emerald-100">Language</div>
-              <div class="text-[10px] text-emerald-400/70">Translation and UI labels</div>
-            </div>
-            <select id="settingLanguageSelect" onchange="updateProfileLanguage(this.value)" class="bg-emerald-950 text-xs text-emerald-200 border border-emerald-500/30 rounded-xl px-2.5 py-1.5 focus:outline-none">
-              <option value="English">English</option>
-              <option value="Urdu">Urdu (اردو)</option>
-              <option value="Hindi">Hindi (हिन्दी)</option>
-            </select>
-          </div>
-
-          <!-- Tactile Haptics Switch -->
-          <div class="flex items-center justify-between py-1 border-t border-emerald-900/60">
-            <div>
-              <div class="text-xs text-emerald-100">Tactile Haptic Feedback</div>
-              <div class="text-[10px] text-emerald-400/70">Physical pulse with bead taps</div>
-            </div>
-            <input type="checkbox" id="settingHapticToggle" onchange="toggleHaptics(this.checked)" checked class="accent-emerald-400 w-4 h-4 rounded">
-          </div>
-
-          <!-- Sound Effects -->
-          <div class="flex items-center justify-between py-1 border-t border-emerald-900/60">
-            <div>
-              <div class="text-xs text-emerald-100">Dhikr Audio Click</div>
-              <div class="text-[10px] text-emerald-400/70">Subtle acoustic response</div>
-            </div>
-            <input type="checkbox" id="settingSoundToggle" onchange="toggleAudioSetting(this.checked)" checked class="accent-emerald-400 w-4 h-4 rounded">
-          </div>
-        </div>
-
-        <!-- Daily Notification Schedule -->
-        <div class="glass-card rounded-2xl p-4 border border-emerald-500/20 space-y-3">
-          <div class="flex items-center justify-between">
-            <h4 class="text-xs font-semibold uppercase tracking-wider text-emerald-300">Reminder Alerts</h4>
-            <button onclick="requestNotificationPermission()" class="text-[10px] text-brand-mint underline">Test Alert</button>
-          </div>
-          
-          <div class="space-y-2 text-xs">
-            <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-950/40">
-              <span class="text-emerald-200">Asr 313 Durood Prompt</span>
-              <span class="text-brand-gold text-[11px]">5:15 PM</span>
-            </div>
-            <div class="flex items-center justify-between p-2 rounded-xl bg-emerald-950/40">
-              <span class="text-emerald-200">Bedtime Surah Mulk</span>
-              <span class="text-brand-gold text-[11px]">10:30 PM</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- Data & Privacy -->
-        <div class="glass-card rounded-2xl p-4 border border-emerald-500/20 space-y-2.5">
-          <h4 class="text-xs font-semibold uppercase tracking-wider text-emerald-300">Data & About</h4>
-          
-          <button onclick="resetAllAppData()" class="w-full py-2.5 text-xs text-rose-300 hover:text-rose-200 rounded-xl glass-pill border border-rose-500/20 flex items-center justify-center gap-1.5 touch-btn">
-            <i data-lucide="trash-2" class="w-3.5 h-3.5"></i> Clear Local Recitation Data
-          </button>
-
-          <button onclick="openOnboardingAgain()" class="w-full py-2.5 text-xs text-emerald-300 hover:text-emerald-100 rounded-xl glass-pill border border-emerald-500/30 flex items-center justify-center gap-1.5 touch-btn">
-            <i data-lucide="repeat" class="w-3.5 h-3.5"></i> Revisit Introduction Tour
-          </button>
-        </div>
-
-        <!-- About Islaah Foundation -->
-        <div class="text-center py-4 space-y-1">
-          <p class="text-xs font-serif text-emerald-200/90 font-medium">Islaah Foundation • Aamaal Circle</p>
-          <p class="text-[10px] text-emerald-400/60">Dedicated to uplifting hearts through authentic Sunnah & remembrance.</p>
-          <p class="text-[9px] text-emerald-500/40">Version 2.4.0 • Built with Care</p>
-        </div>
-
-      </section>
-
-    </main>
-
-    <!-- ========================================== -->
-    <!-- BOTTOM NAVIGATION BAR                      -->
-    <!-- ========================================== -->
-    <nav id="bottomNavBar" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto z-40 px-3 py-2 bg-brand-deep/95 backdrop-blur-xl border-t border-emerald-800/40 flex items-center justify-around">
-      
-      <button onclick="switchTab('home')" id="navBtn-home" class="nav-item flex flex-col items-center gap-1 text-brand-mint text-[10px] font-medium transition-all py-1 px-2.5 rounded-xl">
-        <i data-lucide="home" class="w-5 h-5"></i>
-        <span>Home</span>
-      </button>
-
-      <button onclick="switchTab('tasbih')" id="navBtn-tasbih" class="nav-item flex flex-col items-center gap-1 text-emerald-400/60 hover:text-emerald-200 text-[10px] font-medium transition-all py-1 px-2.5 rounded-xl">
-        <i data-lucide="circle-dot" class="w-5 h-5"></i>
-        <span>Tasbih</span>
-      </button>
-
-      <button onclick="switchTab('duas')" id="navBtn-duas" class="nav-item flex flex-col items-center gap-1 text-emerald-400/60 hover:text-emerald-200 text-[10px] font-medium transition-all py-1 px-2.5 rounded-xl">
-        <i data-lucide="book-marked" class="w-5 h-5"></i>
-        <span>Duas</span>
-      </button>
-
-      <button onclick="switchTab('reflections')" id="navBtn-reflections" class="nav-item flex flex-col items-center gap-1 text-emerald-400/60 hover:text-emerald-200 text-[10px] font-medium transition-all py-1 px-2.5 rounded-xl">
-        <i data-lucide="sparkles" class="w-5 h-5"></i>
-        <span>Reflections</span>
-      </button>
-
-      <button onclick="switchTab('settings')" id="navBtn-settings" class="nav-item flex flex-col items-center gap-1 text-emerald-400/60 hover:text-emerald-200 text-[10px] font-medium transition-all py-1 px-2.5 rounded-xl">
-        <i data-lucide="settings" class="w-5 h-5"></i>
-        <span>Settings</span>
-      </button>
-
-    </nav>
-
-    <!-- ========================================== -->
-    <!-- MODAL: REFLECTION STORY READER             -->
-    <!-- ========================================== -->
-    <div id="storyModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md hidden flex items-end sm:items-center justify-center p-0 sm:p-4 transition-opacity">
-      <div class="glass-card bg-brand-deep w-full max-w-md rounded-t-3xl sm:rounded-3xl max-h-[85vh] flex flex-col border border-brand-gold/30 shadow-2xl overflow-hidden">
-        
-        <!-- Header -->
-        <div class="p-4 border-b border-emerald-800/40 flex items-center justify-between bg-emerald-950/40">
-          <div>
-            <span id="storyModalTag" class="text-[9px] uppercase tracking-wider text-brand-gold font-semibold">The Seerah</span>
-            <h3 id="storyModalTitle" class="text-base font-serif text-emerald-50 font-bold">The Valley of Makkah</h3>
-          </div>
-          <button onclick="closeStoryModal()" class="w-8 h-8 rounded-full glass-pill flex items-center justify-center text-emerald-300 hover:text-white">
-            <i data-lucide="x" class="w-4 h-4"></i>
-          </button>
-        </div>
-
-        <!-- Body -->
-        <div class="p-5 overflow-y-auto space-y-4 text-xs leading-relaxed text-emerald-100">
-          <div class="w-full h-32 rounded-2xl bg-gradient-to-tr from-emerald-900 to-teal-900 border border-emerald-400/20 flex items-center justify-center p-4 text-center">
-            <p id="storyModalQuote" class="font-serif italic text-sm text-brand-goldLight">"Indeed, with hardship comes ease."</p>
-          </div>
-          <div id="storyModalContent" class="space-y-3 text-emerald-200/90 text-xs">
-            <!-- Story full markdown text -->
-          </div>
-        </div>
-
-        <!-- Footer -->
-        <div class="p-4 border-t border-emerald-800/40 bg-emerald-950/60 flex items-center justify-between">
-          <button onclick="bookmarkCurrentStory()" id="storyBookmarkBtn" class="flex items-center gap-1.5 text-xs text-brand-gold">
-            <i data-lucide="bookmark" class="w-4 h-4"></i>
-            <span>Save Reflection</span>
-          </button>
-          <button onclick="closeStoryModal()" class="px-4 py-2 bg-emerald-400 text-emerald-950 font-bold rounded-xl text-xs">
-            Close
-          </button>
-        </div>
-
       </div>
     </div>
 
-    <!-- ========================================== -->
-    <!-- MODAL: GENERIC NOTIFICATION / TOAST        -->
-    <!-- ========================================== -->
-    <div id="toastNotification" class="fixed top-5 left-1/2 -translate-x-1/2 z-50 hidden glass-card border border-brand-mint/40 px-4 py-2.5 rounded-2xl shadow-xl flex items-center gap-2 text-xs text-emerald-100 transition-all duration-300">
-      <i data-lucide="check-circle" class="w-4 h-4 text-brand-mint"></i>
-      <span id="toastMessage">Success</span>
-    </div>
+    <!-- TOAST FEEDBACK BANNER -->
+    <div id="toast-banner" class="fixed bottom-20 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-full bg-[#072b1f] border border-[#9fe8bc]/50 text-xs text-[#e9f7ef] shadow-xl whitespace-nowrap"></div>
 
-  </div>
+  </main>
 
-  <!-- Audio Context Synthesizer (Zero External Audio File Dependency) -->
-  <script>
-    let audioCtx = null;
-    function playBeadClickSound() {
-      if (!appState.soundEnabled) return;
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        if (audioCtx.state === 'suspended') audioCtx.resume();
-        const osc = audioCtx.createOscillator();
-        const gain = audioCtx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(680, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(320, audioCtx.currentTime + 0.04);
-        gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
-        gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.04);
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-        osc.start();
-        osc.stop(audioCtx.currentTime + 0.05);
-      } catch (e) {
-        console.warn('Audio not allowed or supported', e);
-      }
-    }
+  <!-- ===================================================================== -->
+  <!-- APPLICATION LOGIC, CUSTOM IMAGE ASSETS & FIREBASE PERSISTENCE         -->
+  <!-- ===================================================================== -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    function playCelebrationChime() {
-      if (!appState.soundEnabled) return;
-      try {
-        if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        [523.25, 659.25, 783.99, 1046.50].forEach((freq, idx) => {
-          const osc = audioCtx.createOscillator();
-          const gain = audioCtx.createGain();
-          osc.frequency.setValueAtTime(freq, audioCtx.currentTime + idx * 0.1);
-          gain.gain.setValueAtTime(0.2, audioCtx.currentTime + idx * 0.1);
-          gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + idx * 0.1 + 0.35);
-          osc.connect(gain);
-          gain.connect(audioCtx.destination);
-          osc.start(audioCtx.currentTime + idx * 0.1);
-          osc.stop(audioCtx.currentTime + idx * 0.1 + 0.4);
-        });
-      } catch(e) {}
-    }
-  </script>
+    const svgUri = (svg) => `data:image/svg+xml;utf8,${encodeURIComponent(svg.trim())}`;
 
-  <!-- Main Application Logic & State Controller -->
-  <script>
-    // State management backed by localStorage
-    const STORAGE_KEY = 'islaah_aamaal_circle_v2';
+    // =========================================================================
+    // 1. CENTRALIZED CUSTOM IMAGE SLOTS (`IMAGE_ASSETS`)
+    // =========================================================================
+    const DEFAULT_IMAGE_ASSETS = {
+      // Mosque Emblem (Light Mint/White with Gold Crescent for Dark Headers)
+      logo_light: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 180">
+          <defs>
+            <linearGradient id="domeGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ffffff"/>
+              <stop offset="100%" stop-color="#a8e6c3"/>
+            </linearGradient>
+          </defs>
+          <!-- Gold Crescent & Star -->
+          <path d="M150 18 A18 18 0 1 0 168 38 A14 14 0 1 1 150 18 Z" fill="#e5b95c"/>
+          <polygon points="161,24 163,29 168,29 164,32 165,37 161,34 157,37 158,32 154,29 159,29" fill="#e5b95c"/>
+          <!-- Spire -->
+          <rect x="148.5" y="42" width="3" height="16" fill="url(#domeGrad)"/>
+          <!-- Main Central Dome -->
+          <path d="M150 56 C122 72 114 98 114 128 L186 128 C186 98 178 72 150 56 Z" fill="url(#domeGrad)"/>
+          <!-- Left Minaret & Side Dome -->
+          <rect x="101" y="72" width="11" height="56" fill="url(#domeGrad)"/>
+          <path d="M99 72 L106.5 58 L114 72 Z" fill="url(#domeGrad)"/>
+          <path d="M88 94 C74 102 70 114 70 128 L102 128 C102 114 98 102 88 94 Z" fill="url(#domeGrad)" opacity="0.9"/>
+          <!-- Right Side Dome -->
+          <path d="M204 96 C192 104 188 115 188 128 L220 128 C220 115 216 104 204 96 Z" fill="url(#domeGrad)" opacity="0.9"/>
+          <!-- Double Swooshes -->
+          <path d="M40 142 Q150 118 260 142 Q150 128 40 142 Z" fill="#ffffff"/>
+          <path d="M22 150 Q150 126 278 150 Q150 136 22 150 Z" fill="#a8e6c3"/>
+        </svg>
+      `),
 
-    const defaultState = {
-      hasSeenOnboarding: false,
-      language: 'English',
-      experienceLevel: 'Guided',
-      hapticsEnabled: true,
-      soundEnabled: true,
-      streak: 7,
-      savedDuaIds: [1, 2],
-      savedStoryIds: [0],
-      surahMulkCompletedToday: false,
-      tasbihCounts: {
-        durood: 182,
-        istighfar: 100,
-        subhanallah: 18
-      },
-      tasbihGoals: {
-        durood: 313,
-        istighfar: 100,
-        subhanallah: 33
-      },
-      currentDhikr: 'durood',
-      historyLogs: [
-        { title: 'Durood Shareef', count: 313, date: 'Yesterday at Maghrib' },
-        { title: 'Istighfar 100', count: 100, date: 'Yesterday after Fajr' },
-        { title: 'SubhanAllah', count: 33, date: '2 days ago' }
-      ]
+      // Mosque Emblem (Dark Emerald for Screen 2 Golden Sunrise)
+      logo_dark: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 180">
+          <path d="M150 18 A18 18 0 1 0 168 38 A14 14 0 1 1 150 18 Z" fill="#c79e46"/>
+          <polygon points="161,24 163,29 168,29 164,32 165,37 161,34 157,37 158,32 154,29 159,29" fill="#c79e46"/>
+          <rect x="148.5" y="42" width="3" height="16" fill="#063828"/>
+          <path d="M150 56 C122 72 114 98 114 128 L186 128 C186 98 178 72 150 56 Z" fill="#063828"/>
+          <rect x="101" y="72" width="11" height="56" fill="#063828"/>
+          <path d="M88 94 C74 102 70 114 70 128 L102 128 C102 114 98 102 88 94 Z" fill="#094834"/>
+          <path d="M204 96 C192 104 188 115 188 128 L220 128 C220 115 216 104 204 96 Z" fill="#094834"/>
+          <path d="M30 145 Q150 122 270 145 Q150 132 30 145 Z" fill="#063828"/>
+        </svg>
+      `),
+
+      // Compact Header Logo for Screens 3–9
+      logo_header: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 150">
+          <path d="M130 14 A15 15 0 1 0 146 30 A12 12 0 1 1 130 14 Z" fill="#e5b95c"/>
+          <path d="M130 46 C106 60 98 84 98 110 L162 110 C162 84 154 60 130 46 Z" fill="#d9f7e6"/>
+          <rect x="86" y="60" width="9" height="50" fill="#a8e6c3"/>
+          <path d="M74 82 C62 90 58 100 58 110 L86 110 C86 100 82 90 74 82 Z" fill="#a8e6c3"/>
+          <path d="M178 82 C168 90 164 100 164 110 L192 110 C192 100 188 90 178 82 Z" fill="#a8e6c3"/>
+          <path d="M20 124 Q130 104 240 124 Q130 112 20 124 Z" fill="#d9f7e6"/>
+        </svg>
+      `),
+
+      // Backgrounds
+      bg_splash: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1100">
+          <defs>
+            <linearGradient id="spSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#052319"/>
+              <stop offset="55%" stop-color="#0a3828"/>
+              <stop offset="74%" stop-color="#bda86e"/>
+              <stop offset="86%" stop-color="#082a1e"/>
+              <stop offset="100%" stop-color="#03140e"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="1100" fill="url(#spSky)"/>
+          <circle cx="405" cy="790" r="65" fill="#fff3c4" opacity="0.85"/>
+          <path d="M0 830 Q180 770 360 820 T600 810 L600 900 L0 900 Z" fill="#0b3324"/>
+          <g fill="#062319">
+            <path d="M460 765 C430 765 420 795 420 825 L500 825 C500 795 490 765 460 765 Z"/>
+            <rect x="380" y="725" width="9" height="100"/>
+            <rect x="510" y="715" width="10" height="110"/>
+          </g>
+          <rect x="0" y="845" width="600" height="255" fill="#041b13" opacity="0.9"/>
+        </svg>
+      `),
+
+      bg_welcome_sunrise: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1100">
+          <defs>
+            <linearGradient id="wSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e3dec6"/>
+              <stop offset="26%" stop-color="#cbbd8b"/>
+              <stop offset="44%" stop-color="#093224"/>
+              <stop offset="100%" stop-color="#031710"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="1100" fill="url(#wSky)"/>
+          <g fill="#0d3b2b" opacity="0.85">
+            <path d="M470 250 C442 250 432 278 432 305 L508 305 C508 278 498 250 470 250 Z"/>
+            <rect x="400" y="210" width="9" height="95"/>
+            <rect x="522" y="200" width="10" height="105"/>
+          </g>
+          <rect x="0" y="340" width="600" height="760" fill="#041e15"/>
+        </svg>
+      `),
+
+      bg_top_sunrise: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 1100">
+          <defs>
+            <linearGradient id="tSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#052118"/>
+              <stop offset="16%" stop-color="#5d7656"/>
+              <stop offset="28%" stop-color="#07281d"/>
+              <stop offset="100%" stop-color="#03160f"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="1100" fill="url(#tSky)"/>
+          <circle cx="435" cy="175" r="35" fill="#f7e6a6" opacity="0.7"/>
+          <g fill="#062218" opacity="0.9">
+            <path d="M465 165 C442 165 432 190 432 212 L498 212 C498 190 488 165 465 165 Z"/>
+            <rect x="402" y="135" width="8" height="77"/>
+            <rect x="512" y="128" width="9" height="84"/>
+          </g>
+        </svg>
+      `),
+
+      // Middle Stills for All 9 Screens
+      middle_screen1_splash: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 110">
+          <line x1="60" y1="30" x2="175" y2="30" stroke="#538d72" stroke-width="1"/>
+          <circle cx="200" cy="30" r="7" fill="none" stroke="#76b898" stroke-width="1.5"/>
+          <line x1="225" y1="30" x2="340" y2="30" stroke="#538d72" stroke-width="1"/>
+          <text x="200" y="75" text-anchor="middle" fill="#cbe5d7" font-family="sans-serif" font-size="16">Connecting to Aamaal Circle...</text>
+        </svg>
+      `),
+
+      middle_screen2_welcome: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 560">
+          <text x="250" y="40" text-anchor="middle" fill="#a6c7b6" font-family="sans-serif" font-size="13" letter-spacing="4">ASSALAMU ALAIKUM</text>
+          <text x="250" y="92" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="48">Welcome to</text>
+          <text x="250" y="148" text-anchor="middle" fill="#9fe8bc" font-family="Georgia, serif" font-weight="bold" font-size="54">Aamaal</text>
+          <line x1="120" y1="182" x2="225" y2="182" stroke="#4d8a6e" stroke-width="1.2"/>
+          <circle cx="250" cy="182" r="8" fill="none" stroke="#8ad4ad" stroke-width="1.5"/>
+          <line x1="275" y1="182" x2="380" y2="182" stroke="#4d8a6e" stroke-width="1.2"/>
+          <text x="250" y="228" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-size="17">Aamaal is your daily companion to</text>
+          <text x="250" y="254" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-size="17">stay consistent with the three blessed</text>
+          <text x="250" y="280" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-size="17">aamaals — Durood Shareef, Surah Mulk</text>
+          <text x="250" y="306" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-size="17">and Istighfar.</text>
+          <!-- 3 Circles -->
+          <g transform="translate(85, 395)">
+            <circle cx="0" cy="0" r="52" fill="#093325" stroke="#7bc49d" stroke-width="2"/>
+            <circle cx="0" cy="-4" r="22" fill="none" stroke="#e2cf97" stroke-width="3.5" stroke-dasharray="4 5"/>
+            <text x="0" y="80" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">313 Durood</text>
+            <text x="0" y="100" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">Shareef</text>
+            <text x="0" y="124" text-anchor="middle" fill="#abd0be" font-family="sans-serif" font-size="13">Send blessings</text>
+          </g>
+          <g transform="translate(250, 395)">
+            <circle cx="0" cy="0" r="52" fill="#093325" stroke="#7bc49d" stroke-width="2"/>
+            <rect x="-22" y="-16" width="44" height="32" rx="4" fill="none" stroke="#e2cf97" stroke-width="2.5"/>
+            <text x="0" y="80" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">Surah Mulk</text>
+            <text x="0" y="104" text-anchor="middle" fill="#abd0be" font-family="sans-serif" font-size="13">Protection,</text>
+            <text x="0" y="122" text-anchor="middle" fill="#abd0be" font-family="sans-serif" font-size="13">peace and light</text>
+          </g>
+          <g transform="translate(415, 395)">
+            <circle cx="0" cy="0" r="52" fill="#093325" stroke="#7bc49d" stroke-width="2"/>
+            <path d="M-14 14 V-8 A6 6 0 0 1 -2 -8 V14 M2 14 V-8 A6 6 0 0 1 14 -8 V14" fill="none" stroke="#e2cf97" stroke-width="2.5"/>
+            <text x="0" y="80" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">100 Istighfar</text>
+            <text x="0" y="104" text-anchor="middle" fill="#abd0be" font-family="sans-serif" font-size="13">Purify your heart,</text>
+            <text x="0" y="122" text-anchor="middle" fill="#abd0be" font-family="sans-serif" font-size="13">bring ease</text>
+          </g>
+        </svg>
+      `),
+
+      middle_screen3_tasbih: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 650">
+          <text x="250" y="36" text-anchor="middle" fill="#9fe8bc" font-family="sans-serif" font-size="14" letter-spacing="4">STEP 1</text>
+          <text x="250" y="90" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="48">Digital Tasbih</text>
+          <text x="250" y="128" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">Tap the beads to count your Durood,</text>
+          <text x="250" y="152" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">Istighfar and Surah Mulk.</text>
+          <!-- Glowing Bead Ring -->
+          <circle cx="225" cy="325" r="115" fill="none" stroke="#36a877" stroke-width="26" stroke-dasharray="22 14" stroke-linecap="round"/>
+          <circle cx="225" cy="325" r="64" fill="#082d20" stroke="#63c796" stroke-width="3"/>
+          <text x="225" y="305" text-anchor="middle" fill="#b7d7c8" font-family="sans-serif" font-size="14">Count</text>
+          <text x="225" y="340" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="38">17</text>
+          <text x="225" y="364" text-anchor="middle" fill="#b7d7c8" font-family="sans-serif" font-size="14">/ 313</text>
+          <!-- Highlighted Bead & Tap Callout -->
+          <circle cx="305" cy="242" r="26" fill="#9fe8bc" opacity="0.35"/>
+          <rect x="350" y="195" width="130" height="36" rx="18" fill="#0a3526" stroke="#85dca9" stroke-width="1.5"/>
+          <text x="415" y="218" text-anchor="middle" fill="#e6f7ed" font-family="sans-serif" font-size="14">Tap to count</text>
+          <!-- Bottom 3 Feature Icons -->
+          <g transform="translate(95, 515)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Tap to Count</text>
+            <text x="0" y="86" text-anchor="middle" fill="#a9c7b8" font-family="sans-serif" font-size="13">Each tap adds</text>
+            <text x="0" y="104" text-anchor="middle" fill="#a9c7b8" font-family="sans-serif" font-size="13">one count.</text>
+          </g>
+          <g transform="translate(250, 515)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="6" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">313</text>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Track Progress</text>
+            <text x="0" y="86" text-anchor="middle" fill="#a9c7b8" font-family="sans-serif" font-size="13">See your count</text>
+            <text x="0" y="104" text-anchor="middle" fill="#a9c7b8" font-family="sans-serif" font-size="13">in real time.</text>
+          </g>
+          <g transform="translate(405, 515)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Switch Aamaal</text>
+            <text x="0" y="86" text-anchor="middle" fill="#a9c7b8" font-family="sans-serif" font-size="13">Easily move between</text>
+            <text x="0" y="104" text-anchor="middle" fill="#a9c7b8" font-family="sans-serif" font-size="13">Durood &amp; Mulk.</text>
+          </g>
+        </svg>
+      `),
+
+      middle_screen4_duas: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 650">
+          <text x="250" y="36" text-anchor="middle" fill="#9fe8bc" font-family="sans-serif" font-size="14" letter-spacing="4">STEP 2</text>
+          <text x="250" y="90" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="48">Explore Duas</text>
+          <text x="250" y="128" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">Browse a collection of authentic duas</text>
+          <text x="250" y="152" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">for every moment in your life.</text>
+          <!-- Phone Mockup & Floating Ayah Card -->
+          <rect x="85" y="185" width="225" height="275" rx="26" fill="#062319" stroke="#67b890" stroke-width="3"/>
+          <rect x="105" y="235" width="185" height="44" rx="10" fill="#0c3b2b"/>
+          <text x="120" y="262" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold">Dua for Guidance</text>
+          <rect x="105" y="290" width="185" height="44" rx="10" fill="#0c3b2b"/>
+          <text x="120" y="317" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold">Dua for Forgiveness</text>
+          <rect x="105" y="345" width="185" height="44" rx="10" fill="#0c3b2b"/>
+          <text x="120" y="372" fill="#ffffff" font-family="sans-serif" font-size="13" font-weight="bold">Dua for Ease</text>
+          <!-- Floating Card -->
+          <rect x="305" y="215" width="165" height="165" rx="18" fill="#104432" stroke="#8de3b2" stroke-width="2"/>
+          <text x="387" y="258" text-anchor="middle" fill="#ffffff" font-family="serif" font-size="20">رَبِّ زِدْنِي عِلْمًا</text>
+          <text x="387" y="288" text-anchor="middle" fill="#d9efe3" font-family="sans-serif" font-size="12">"My Lord, increase me</text>
+          <text x="387" y="305" text-anchor="middle" fill="#d9efe3" font-family="sans-serif" font-size="12">in knowledge."</text>
+          <!-- Bottom 3 Feature Icons -->
+          <g transform="translate(95, 520)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Browse by Category</text>
+            <text x="0" y="86" text-anchor="middle" fill="#a9c7b8" font-family="sans-serif" font-size="13">Find duas for daily life</text>
+          </g>
+          <g transform="translate(250, 520)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Save for Later</text>
+            <text x="0" y="86" text-anchor="middle" fill="#a9c7b8" font-family="sans-serif" font-size="13">Keep favourite duas</text>
+          </g>
+          <g transform="translate(405, 520)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Build Good Habits</text>
+            <text x="0" y="86" text-anchor="middle" fill="#a9c7b8" font-family="sans-serif" font-size="13">Make duas a routine</text>
+          </g>
+        </svg>
+      `),
+
+      middle_screen5_reflections: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 650">
+          <text x="250" y="36" text-anchor="middle" fill="#9fe8bc" font-family="sans-serif" font-size="14" letter-spacing="4">STEP 3</text>
+          <text x="250" y="90" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="48">Reflections</text>
+          <text x="250" y="128" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">Explore inspiring stories, lessons and</text>
+          <text x="250" y="152" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">reflections from the Quran and Seerah.</text>
+          <!-- 3 Fan Cards -->
+          <rect x="42" y="210" width="130" height="210" rx="16" transform="rotate(-7 107 315)" fill="#0a3325" stroke="#579c7b" stroke-width="1.5"/>
+          <rect x="328" y="210" width="130" height="210" rx="16" transform="rotate(7 393 315)" fill="#0a3325" stroke="#579c7b" stroke-width="1.5"/>
+          <rect x="145" y="180" width="210" height="265" rx="20" fill="#082a1e" stroke="#9fe8bc" stroke-width="2.5"/>
+          <text x="168" y="315" fill="#ffffff" font-family="Georgia, serif" font-size="26">The Valley</text>
+          <text x="168" y="342" fill="#ffffff" font-family="Georgia, serif" font-size="26">of Makkah</text>
+          <text x="168" y="365" fill="#9fe8bc" font-family="sans-serif" font-size="10" letter-spacing="1.5">FAITH IN A TIME OF DARKNESS</text>
+          <text x="250" y="485" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-size="15">Swipe to explore</text>
+          <!-- Bottom 3 Feature Icons -->
+          <g transform="translate(95, 545)">
+            <circle cx="0" cy="0" r="34" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="56" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="14">Illustrated Stories</text>
+          </g>
+          <g transform="translate(250, 545)">
+            <circle cx="0" cy="0" r="34" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="56" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="14">Key Lessons</text>
+          </g>
+          <g transform="translate(405, 545)">
+            <circle cx="0" cy="0" r="34" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="56" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="14">Daily Reflections</text>
+          </g>
+        </svg>
+      `),
+
+      middle_screen6_personalize: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 660">
+          <text x="45" y="34" fill="#9fe8bc" font-family="sans-serif" font-size="13" letter-spacing="3">MAKE IT YOURS</text>
+          <text x="45" y="78" fill="#ffffff" font-family="Georgia, serif" font-size="42">Personalize Your</text>
+          <text x="45" y="122" fill="#9fe8bc" font-family="Georgia, serif" font-weight="bold" font-size="42">Aamaal <tspan fill="#ffffff" font-weight="normal">Experience</tspan></text>
+          <text x="45" y="156" fill="#c2dcd0" font-family="sans-serif" font-size="15">Choose your preferred language, interests</text>
+          <text x="45" y="178" fill="#c2dcd0" font-family="sans-serif" font-size="15">and experience level. You can always change</text>
+          <text x="45" y="200" fill="#c2dcd0" font-family="sans-serif" font-size="15">these later in settings.</text>
+          <!-- Preferred Language -->
+          <text x="85" y="255" fill="#ffffff" font-family="Georgia, serif" font-size="22">Preferred Language</text>
+          <rect x="45" y="282" width="130" height="44" rx="22" fill="#297a58" stroke="#9fe8bc" stroke-width="2"/>
+          <text x="110" y="309" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">✓ Urdu</text>
+          <rect x="185" y="282" width="130" height="44" rx="22" fill="#082b1f" stroke="#49856a" stroke-width="1.5"/>
+          <text x="250" y="309" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-size="15">Hindi</text>
+          <rect x="325" y="282" width="130" height="44" rx="22" fill="#082b1f" stroke="#49856a" stroke-width="1.5"/>
+          <text x="390" y="309" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-size="15">English</text>
+          <!-- Your Interests -->
+          <text x="85" y="366" fill="#ffffff" font-family="Georgia, serif" font-size="22">Your Interests</text>
+          <rect x="45" y="388" width="130" height="90" rx="16" fill="#0d3d2c" stroke="#9fe8bc" stroke-width="2"/>
+          <text x="110" y="445" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="13">Islamic History</text>
+          <rect x="185" y="388" width="130" height="90" rx="16" fill="#0d3d2c" stroke="#9fe8bc" stroke-width="2"/>
+          <text x="250" y="445" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-size="13">Quran</text>
+          <rect x="325" y="388" width="130" height="90" rx="16" fill="#07261b" stroke="#3c735a" stroke-width="1.5"/>
+          <text x="390" y="445" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-size="13">Spirituality</text>
+          <!-- Preferred Experience -->
+          <text x="85" y="525" fill="#ffffff" font-family="Georgia, serif" font-size="22">Preferred Experience</text>
+          <rect x="45" y="544" width="130" height="92" rx="16" fill="#0d3d2c" stroke="#9fe8bc" stroke-width="2"/>
+          <text x="110" y="598" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="13">Simple &amp; Guided</text>
+          <rect x="185" y="544" width="130" height="92" rx="16" fill="#07261b" stroke="#3c735a" stroke-width="1.5"/>
+          <text x="250" y="598" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-weight="bold" font-size="13">Focused</text>
+          <rect x="325" y="544" width="130" height="92" rx="16" fill="#07261b" stroke="#3c735a" stroke-width="1.5"/>
+          <text x="390" y="598" text-anchor="middle" fill="#dcece3" font-family="sans-serif" font-weight="bold" font-size="13">Advanced</text>
+        </svg>
+      `),
+
+      middle_screen7_notifications: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 650">
+          <text x="250" y="36" text-anchor="middle" fill="#9fe8bc" font-family="sans-serif" font-size="14" letter-spacing="4">STEP 4</text>
+          <text x="250" y="90" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="48">Stay Consistent</text>
+          <text x="250" y="128" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">Enable daily reminders to help you stay on</text>
+          <text x="250" y="152" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">track with your Aamaal without missing a day.</text>
+          <!-- Phone & Glowing Bell Callouts -->
+          <rect x="145" y="195" width="200" height="260" rx="26" fill="#0a291f" stroke="#75c79b" stroke-width="2.5"/>
+          <rect x="55" y="215" width="165" height="62" rx="12" fill="#124432" stroke="#8de3b2" stroke-width="1.5"/>
+          <text x="70" y="240" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="13">Durood Count:</text>
+          <text x="70" y="260" fill="#cbe5d7" font-family="sans-serif" font-size="12">Don't forget 313 Durood</text>
+          <rect x="285" y="305" width="165" height="66" rx="12" fill="#124432" stroke="#8de3b2" stroke-width="1.5"/>
+          <text x="300" y="330" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="13">Surah Mulk:</text>
+          <text x="300" y="350" fill="#cbe5d7" font-family="sans-serif" font-size="12">Read before sleep.</text>
+          <!-- Bottom 3 Feature Icons -->
+          <g transform="translate(95, 520)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Timely Alerts</text>
+          </g>
+          <g transform="translate(250, 520)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Custom Times</text>
+          </g>
+          <g transform="translate(405, 520)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Peaceful</text>
+          </g>
+        </svg>
+      `),
+
+      middle_screen8_haptics: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 650">
+          <text x="250" y="36" text-anchor="middle" fill="#9fe8bc" font-family="sans-serif" font-size="14" letter-spacing="4">STEP 5</text>
+          <text x="250" y="90" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="48">Tactile Feedback</text>
+          <text x="250" y="128" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">Enhance your digital tasbih experience with</text>
+          <text x="250" y="152" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="17">subtle, immersive vibrations during counts.</text>
+          <!-- Haptic Waves & Phone -->
+          <ellipse cx="250" cy="345" rx="190" ry="70" fill="none" stroke="#d4be83" stroke-width="2" opacity="0.45"/>
+          <ellipse cx="250" cy="345" rx="145" ry="52" fill="none" stroke="#9fe8bc" stroke-width="2.5" opacity="0.65"/>
+          <rect x="135" y="235" width="230" height="190" rx="24" fill="#082a1e" stroke="#85dca9" stroke-width="2.5"/>
+          <text x="250" y="305" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="16">Tactile (Haptic) Feedback</text>
+          <circle cx="250" cy="365" r="38" fill="none" stroke="#5bc995" stroke-width="10" stroke-dasharray="12 8"/>
+          <!-- Bottom 3 Feature Icons -->
+          <g transform="translate(95, 520)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Realistic Taps</text>
+          </g>
+          <g transform="translate(250, 520)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Focus Aid</text>
+          </g>
+          <g transform="translate(405, 520)">
+            <circle cx="0" cy="0" r="38" fill="#082d20" stroke="#62b48c" stroke-width="1.5"/>
+            <text x="0" y="64" text-anchor="middle" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="15">Custom Controls</text>
+          </g>
+        </svg>
+      `),
+
+      middle_screen9_welcomeback: svgUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 440">
+          <text x="250" y="28" text-anchor="middle" fill="#a6c7b6" font-family="sans-serif" font-size="13" letter-spacing="4">ASSALAMU ALAIKUM</text>
+          <text x="250" y="78" text-anchor="middle" fill="#ffffff" font-family="Georgia, serif" font-size="48">Welcome Back</text>
+          <text x="250" y="114" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="16">Ready to continue your spiritual journey? You can</text>
+          <text x="250" y="136" text-anchor="middle" fill="#c2dcd0" font-family="sans-serif" font-size="16">jump straight in or take a quick tour if you're new.</text>
+          <!-- Phone Mockup -->
+          <rect x="155" y="165" width="190" height="255" rx="24" fill="#092b1f" stroke="#85dca9" stroke-width="2.5"/>
+          <rect x="180" y="255" width="140" height="42" rx="12" fill="#9fe8bc"/>
+          <text x="250" y="281" text-anchor="middle" fill="#052319" font-family="sans-serif" font-weight="bold" font-size="15">Go to Home ▶</text>
+          <rect x="52" y="190" width="145" height="50" rx="10" fill="#103f2e" stroke="#7bc49d" stroke-width="1.2"/>
+          <text x="66" y="213" fill="#ffffff" font-family="sans-serif" font-weight="bold" font-size="12">Returning User?</text>
+          <text x="66" y="229" fill="#c2dcd0" font-family="sans-serif" font-size="11">Bypass the intro.</text>
+        </svg>
+      `)
     };
 
-    let appState = loadState();
+    let currentScreen = 1;
+    let splashTimeout = null;
+    let customAssets = JSON.parse(localStorage.getItem('aamaal_onboarding_assets')) || { ...DEFAULT_IMAGE_ASSETS };
 
-    function loadState() {
-      try {
-        const stored = localStorage.getItem(STORAGE_KEY);
-        return stored ? Object.assign({}, defaultState, JSON.parse(stored)) : defaultState;
-      } catch (e) {
-        return defaultState;
-      }
-    }
-
-    function saveState() {
-      try {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(appState));
-      } catch (e) {
-        console.error('Save failed', e);
-      }
-    }
-
-    // Master Duas Collection
-    const DUAS_DATABASE = [
-      {
-        id: 1,
-        title: "Dua for Knowledge & Guidance",
-        arabic: "رَّبِّ زِدْنِي عِلْمًا",
-        transliteration: "Rabbi zidnee 'ilmaa",
-        translation: "My Lord, increase me in knowledge.",
-        reference: "Surah Taha 20:114",
-        category: "Guidance"
-      },
-      {
-        id: 2,
-        title: "Dua for Ease in Tasks",
-        arabic: "رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي",
-        transliteration: "Rabbishrah lee sadree wa yassir lee amree",
-        translation: "My Lord, expand for me my chest and ease for me my task.",
-        reference: "Surah Taha 20:25-26",
-        category: "Daily"
-      },
-      {
-        id: 3,
-        title: "Sayyidul Istighfar (Master Forgiveness)",
-        arabic: "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ",
-        transliteration: "Allahumma Anta Rabbee laa ilaaha illaa Anta, khalaqtanee wa ana 'abduk",
-        translation: "O Allah, You are my Lord; none has the right to be worshipped except You. You created me and I am Your servant.",
-        reference: "Sahih al-Bukhari 6306",
-        category: "Forgiveness"
-      },
-      {
-        id: 4,
-        title: "Comprehensive Protection Dua",
-        arabic: "بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ وَلَا فِي السَّمَاءِ",
-        transliteration: "Bismillaahil-lathee laa yadurru ma'as-mihi shay'un fil-ardi wa laa fis-samaa'",
-        translation: "In the Name of Allah with Whose Name nothing in earth or heaven can cause harm.",
-        reference: "Sunan Abi Dawud 5088",
-        category: "Protection"
-      },
-      {
-        id: 5,
-        title: "Dua for Traveling",
-        arabic: "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ",
-        transliteration: "Subhaanal-lathee sakhkhara lanaa haathaa wa maa kunnaa lahu muqrineen",
-        translation: "Glory unto Him Who has subjected this to us, and we were not capable of it on our own.",
-        reference: "Surah Az-Zukhruf 43:13",
-        category: "Daily"
-      }
-    ];
-
-    // Master Reflections Collection
-    const REFLECTIONS_DATABASE = [
-      {
-        id: 0,
-        tag: "The Seerah",
-        title: "The Valley of Makkah",
-        quote: "Faith in a time of utter darkness turns desolate valleys into rivers of divine light.",
-        body: `
-          <p>When Sayyiduna Ibrahim (AS) left his beloved wife Hajar and infant son Ismail in the barren, uncultivated desert between the hills of Safa and Marwah, there was not a leaf of green nor a single drop of water.</p>
-          <p class="mt-2">Hajar called out: <em>"Did Allah command you to do this?"</em> When he responded yes, her serene reply was: <strong>"Then He will never neglect us."</strong></p>
-          <p class="mt-2">From that quiet submission in the heart of isolation, the miraculous well of Zamzam burst forth. Today, millions drink from that well every day. The lesson for our Aamaal is simple: stay consistent and faithful in quiet darkness, for Allah multiplies sincere small efforts into eternal barakah.</p>
-        `
-      },
-      {
-        id: 1,
-        tag: "Quranic Gem",
-        title: "Patience (As-Sabr)",
-        quote: "Indeed, with hardship comes ease. (Surah Ash-Sharh 94:6)",
-        body: `
-          <p>The Arabic syntax in Surah Ash-Sharh uses the definite article <em>Al-'Usr</em> (hardship) and the indefinite <em>Yusr</em> (ease). Linguistically, this means that while the trial is singular and finite, the divine relief is dual, expansive, and multifaceted.</p>
-          <p class="mt-2">Your 100 daily Istighfar and 313 Durood Shareef are spiritual anchors. Whenever life feels tight, return to the blessed name of Muhammad ﷺ to find instant solace in your chest.</p>
-        `
-      },
-      {
-        id: 2,
-        tag: "Prophetic Character",
-        title: "Leadership with Humility",
-        quote: "Whoever humbles himself for Allah, Allah elevates him.",
-        body: `
-          <p>On the day Rasulullah ﷺ entered Makkah as a victor, having been exiled for over a decade, his camel bowed so low in humble gratitude to the Creator that his blessed forehead almost touched the saddle.</p>
-          <p class="mt-2">True elevation is inward purification (Tazkiyah). When we count our beads in tasbih, let each bead wash away arrogance and replace it with genuine compassion for those around us.</p>
-        `
-      }
-    ];
-
-    // App Initialization
-    window.addEventListener('DOMContentLoaded', () => {
-      lucide.createIcons();
-      setupPreviewBeads();
-      setupTasbihTrackBeads();
-      renderDuasList(DUAS_DATABASE);
-      renderStoriesList();
-      renderTasbihHistory();
-      syncUIWithState();
-
-      if (appState.hasSeenOnboarding) {
-        document.getElementById('sectionOnboarding').classList.add('hidden');
-        switchTab('home');
-      } else {
-        document.getElementById('sectionOnboarding').classList.remove('hidden');
-        goToSlide(0);
-      }
-    });
-
-    // ========================================================
-    // ONBOARDING NAVIGATION CONTROLLER
-    // ========================================================
-    const slides = [
-      'slideSplash', 'slideWelcome', 'slideStep1', 
-      'slideStep2', 'slideStep3', 'slideStep4', 
-      'slideStep5', 'slidePersonalize'
-    ];
-
-    let currentSlideIndex = 0;
-
-    function goToSlide(index) {
-      currentSlideIndex = index;
-      slides.forEach((slideId, idx) => {
-        const el = document.getElementById(slideId);
-        if (el) {
-          if (idx === index) {
-            el.classList.remove('hidden');
-          } else {
-            el.classList.add('hidden');
-          }
+    // Apply all custom image slots
+    function applyAllCustomImages() {
+      document.querySelectorAll('img[data-asset]').forEach(img => {
+        const key = img.getAttribute('data-asset');
+        if (customAssets[key]) {
+          img.src = customAssets[key];
         }
       });
-      renderDots();
-      lucide.createIcons();
     }
 
-    function renderDots() {
-      const container = document.getElementById('dotsContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      for (let i = 1; i <= 6; i++) {
-        const dot = document.createElement('div');
-        dot.className = `w-2 h-2 rounded-full transition-all ${
-          i === currentSlideIndex ? 'bg-brand-gold w-5' : 'bg-emerald-800/80'
-        }`;
-        container.appendChild(dot);
+    // Haptic Vibration Helper
+    function triggerHaptic(duration = 25) {
+      if (navigator.vibrate) {
+        try { navigator.vibrate(duration); } catch (_) {}
       }
     }
 
-    let previewCount = 17;
-    function tapPreviewBead() {
-      previewCount++;
-      document.getElementById('previewCountDisplay').textContent = previewCount;
-      triggerHapticPulse(30);
-      playBeadClickSound();
-    }
+    // Navigate between the 9 onboarding screens
+    window.goToScreen = function(screenNum) {
+      if (screenNum < 1 || screenNum > 9) return;
+      clearTimeout(splashTimeout);
+      triggerHaptic(18);
+      currentScreen = screenNum;
 
-    function setupPreviewBeads() {
-      const ring = document.getElementById('previewBeadsRing');
-      if (!ring) return;
-      ring.innerHTML = '';
-      const total = 14;
-      const radius = 96;
-      for (let i = 0; i < total; i++) {
-        const angle = (i / total) * (Math.PI * 2);
-        const x = 104 + radius * Math.cos(angle) - 8;
-        const y = 104 + radius * Math.sin(angle) - 8;
-        const bead = document.createElement('div');
-        bead.className = 'absolute w-4 h-4 rounded-full bg-gradient-to-br from-emerald-300 to-teal-700 shadow-md border border-emerald-200/40';
-        bead.style.left = `${x}px`;
-        bead.style.top = `${y}px`;
-        ring.appendChild(bead);
+      for (let i = 1; i <= 9; i++) {
+        const el = document.getElementById(`screen-${i}`);
+        if (el) el.classList.toggle('active', i === screenNum);
       }
+
+      const ind = document.getElementById('dev-screen-indicator');
+      if (ind) ind.textContent = `Screen ${screenNum}/9`;
+    };
+
+    window.nextScreen = function() {
+      if (currentScreen < 9) goToScreen(currentScreen + 1);
+    };
+
+    window.prevScreen = function() {
+      if (currentScreen > 1) goToScreen(currentScreen - 1);
+    };
+
+    // Toggle First-Time vs Returnee User Mode for Testing
+    window.toggleUserType = function() {
+      const isReturnee = localStorage.getItem('aamaal_onboarded') === 'true';
+      if (isReturnee) {
+        localStorage.removeItem('aamaal_onboarded');
+        showToast('Mode set to: First-Time User (Splash → Screen 2)');
+      } else {
+        localStorage.setItem('aamaal_onboarded', 'true');
+        showToast('Mode set to: Returnee (Splash → Screen 9)');
+      }
+      updateUserModeBadge();
+    };
+
+    function updateUserModeBadge() {
+      const btn = document.getElementById('dev-user-mode');
+      if (!btn) return;
+      const isReturnee = localStorage.getItem('aamaal_onboarded') === 'true';
+      btn.textContent = isReturnee ? 'Returnee' : 'New User';
     }
 
-    function selectLanguage(lang, btn) {
-      appState.language = lang;
-      document.querySelectorAll('.lang-opt').forEach(b => {
-        b.className = 'lang-opt py-2.5 rounded-xl border border-emerald-500/30 glass-pill text-xs font-medium text-emerald-100 hover:border-brand-mint';
-      });
-      btn.className = 'lang-opt py-2.5 rounded-xl border border-brand-mint bg-emerald-500/20 text-xs font-semibold text-brand-mint';
-      saveState();
-    }
-
-    function toggleInterest(el) {
-      el.classList.toggle('bg-emerald-500/20');
-      el.classList.toggle('border-brand-mint/40');
-    }
-
-    function selectExp(exp, btn) {
-      appState.experienceLevel = exp;
-      document.querySelectorAll('.exp-opt').forEach(b => {
-        b.className = 'exp-opt py-2.5 px-1 rounded-xl border border-emerald-500/30 glass-pill text-[11px] font-medium text-emerald-200';
-      });
-      btn.className = 'exp-opt py-2.5 px-1 rounded-xl border border-brand-mint bg-emerald-500/20 text-[11px] font-medium text-brand-mint';
-      saveState();
-    }
-
-    function requestNotificationPermission() {
+    // Screen 7: Request Notification Permission & Advance to Screen 8
+    window.enableNotificationsAndContinue = async function() {
+      triggerHaptic(30);
       if ('Notification' in window) {
-        Notification.requestPermission().then(permission => {
-          showToast(permission === 'granted' ? 'Daily reminders enabled!' : 'Notifications are optional.');
-        }).catch(() => {
-          showToast('Reminder schedule activated.');
-        });
-      } else {
-        showToast('Daily reminders scheduled locally.');
-      }
-    }
-
-    function testVibration() {
-      triggerHapticPulse([40, 60, 40]);
-      showToast('Haptic pulse verified');
-    }
-
-    function triggerHapticPulse(pattern = 30) {
-      if (appState.hapticsEnabled && 'vibrate' in navigator) {
         try {
-          navigator.vibrate(pattern);
-        } catch (e) {}
-      }
-    }
-
-    function toggleHaptics(val) {
-      if (val !== undefined) {
-        appState.hapticsEnabled = val;
+          const perm = await Notification.requestPermission();
+          await saveOnboardingToCloud({ notificationsPermission: perm });
+          showToast(`Notifications: ${perm}`);
+        } catch (_) {
+          showToast('Notification preference saved');
+        }
       } else {
-        appState.hapticsEnabled = !appState.hapticsEnabled;
+        showToast('Reminders enabled');
       }
-      const knob = document.getElementById('hapticKnob');
-      const toggle = document.getElementById('hapticToggleBtn');
-      const checkbox = document.getElementById('settingHapticToggle');
-      if (knob && toggle) {
-        if (appState.hapticsEnabled) {
-          knob.classList.add('translate-x-5');
-          toggle.classList.add('bg-emerald-400');
-          toggle.classList.remove('bg-emerald-900');
-        } else {
-          knob.classList.remove('translate-x-5');
-          toggle.classList.remove('bg-emerald-400');
-          toggle.classList.add('bg-emerald-900');
-        }
-      }
-      if (checkbox) checkbox.checked = appState.hapticsEnabled;
-      saveState();
-      showToast(`Haptics ${appState.hapticsEnabled ? 'Enabled' : 'Disabled'}`);
-    }
+      setTimeout(() => goToScreen(8), 350);
+    };
 
-    function toggleAudioSetting(val) {
-      appState.soundEnabled = val;
-      saveState();
-      showToast(`Sound ${val ? 'Enabled' : 'Muted'}`);
-    }
+    // Screen 8: Enable Haptic Touch Effects & Advance to Screen 9
+    window.enableTouchEffectsAndContinue = async function() {
+      triggerHaptic([35, 50, 45]);
+      localStorage.setItem('aamaal_haptics_enabled', 'true');
+      await saveOnboardingToCloud({ hapticsEnabled: true });
+      showToast('Tactile haptic feedback enabled');
+      setTimeout(() => goToScreen(9), 400);
+    };
 
-    function toggleAudioFx() {
-      appState.soundEnabled = !appState.soundEnabled;
-      const icon = document.getElementById('soundIcon');
-      if (icon) {
-        icon.className = appState.soundEnabled ? 'w-4 h-4 text-brand-gold' : 'w-4 h-4 text-emerald-600';
-      }
-      const cb = document.getElementById('settingSoundToggle');
-      if (cb) cb.checked = appState.soundEnabled;
-      saveState();
-      showToast(`Audio click ${appState.soundEnabled ? 'on' : 'muted'}`);
-    }
-
-    function skipToApp() {
-      finishOnboarding();
-    }
-
-    function finishOnboarding() {
-      appState.hasSeenOnboarding = true;
-      saveState();
-      document.getElementById('sectionOnboarding').classList.add('hidden');
-      switchTab('home');
-      showToast('Welcome to Aamaal Circle!');
-      lucide.createIcons();
-    }
-
-    function openOnboardingAgain() {
-      document.getElementById('sectionOnboarding').classList.remove('hidden');
-      goToSlide(1);
-    }
-
-    // ========================================================
-    // TAB NAVIGATION CONTROLLER
-    // ========================================================
-    function switchTab(tabId) {
-      const views = ['home', 'tasbih', 'duas', 'reflections', 'settings'];
-      views.forEach(v => {
-        const viewEl = document.getElementById(`view${capitalize(v)}`);
-        const navBtn = document.getElementById(`navBtn-${v}`);
-        if (v === tabId) {
-          viewEl.classList.remove('hidden');
-          navBtn.classList.remove('text-emerald-400/60');
-          navBtn.classList.add('text-brand-mint', 'glow-mint');
-        } else {
-          viewEl.classList.add('hidden');
-          navBtn.classList.remove('text-brand-mint', 'glow-mint');
-          navBtn.classList.add('text-emerald-400/60');
-        }
-      });
-      syncUIWithState();
-      lucide.createIcons();
-    }
-
-    function capitalize(str) {
-      return str.charAt(0).toUpperCase() + str.slice(1);
-    }
-
-    // ========================================================
-    // SECTION 2: HOME LOGIC
-    // ========================================================
-    function toggleSurahMulkDone() {
-      appState.surahMulkCompletedToday = !appState.surahMulkCompletedToday;
-      saveState();
-      syncUIWithState();
-      if (appState.surahMulkCompletedToday) {
-        triggerHapticPulse([40, 60, 40]);
-        playCelebrationChime();
-        confetti({ particleCount: 40, spread: 60, origin: { y: 0.6 } });
-        showToast('Surah Al-Mulk completed for today! 🌟');
-      }
-    }
-
-    function openTasbihWith(dhikrKey) {
-      setTasbihDhikr(dhikrKey);
-      switchTab('tasbih');
-    }
-
-    // ========================================================
-    // SECTION 3: DIGITAL TASBIH LOGIC
-    // ========================================================
-    const DHIKR_PRESETS = {
-      durood: {
-        title: "Durood Shareef",
-        arabic: "اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",
-        sub: "313 Blessings upon Rasulullah ﷺ",
-        goal: 313
-      },
-      istighfar: {
-        title: "Istighfar",
-        arabic: "أَسْتَغْفِرُ اللَّهَ وَأَتُوبُ إِلَيْهِ",
-        sub: "100 Times Daily Purification",
-        goal: 100
-      },
-      subhanallah: {
-        title: "SubhanAllah",
-        arabic: "سُبْحَانَ اللَّهِ وَبِحَمْدِهِ",
-        sub: "33 Times Glory be to Allah",
-        goal: 33
+    // Screen 9: [Log In | Restore] Toggle
+    window.toggleAuthMode = function(mode) {
+      triggerHaptic(20);
+      const loginBtn = document.getElementById('btn-auth-login');
+      const restoreBtn = document.getElementById('btn-auth-restore');
+      if (mode === 'login') {
+        loginBtn.className = 'px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc] text-[#052319] transition';
+        restoreBtn.className = 'px-3.5 py-1.5 rounded-full text-xs font-medium text-[#a6bfb2] transition';
+        showToast('Log In mode selected');
+      } else {
+        restoreBtn.className = 'px-3.5 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc] text-[#052319] transition';
+        loginBtn.className = 'px-3.5 py-1.5 rounded-full text-xs font-medium text-[#a6bfb2] transition';
+        showToast('Cloud backup restore ready');
       }
     };
 
-    function setTasbihDhikr(dhikrKey) {
-      appState.currentDhikr = dhikrKey;
-      const preset = DHIKR_PRESETS[dhikrKey];
-      document.getElementById('activeTasbihTitle').textContent = preset.title;
-      document.getElementById('activeTasbihArabic').textContent = preset.arabic;
-      document.getElementById('activeTasbihSub').textContent = preset.sub;
-      document.getElementById('tasbihGoalCount').textContent = preset.goal;
-      
-      // Update top button active styles
-      ['Durood', 'Istighfar', 'Subhanallah'].forEach(k => {
-        const btn = document.getElementById(`btnDhikr${k}`);
-        if (k.toLowerCase() === dhikrKey) {
-          btn.className = 'flex-1 py-2 rounded-xl text-center font-medium bg-emerald-500/20 text-brand-mint border border-brand-mint/40 transition-all';
-        } else {
-          btn.className = 'flex-1 py-2 rounded-xl text-center font-medium text-emerald-300/80 hover:text-emerald-100 transition-all';
-        }
+    // =========================================================================
+    // 2. FINAL ONBOARDING REDIRECT TO `home.html`
+    // =========================================================================
+    window.finishOnboarding = async function(actionLabel = 'Launch App') {
+      triggerHaptic(35);
+      localStorage.setItem('aamaal_onboarded', 'true');
+      updateUserModeBadge();
+
+      await saveOnboardingToCloud({
+        completedAt: new Date().toISOString(),
+        exitAction: actionLabel
       });
 
-      updateTasbihDisplay();
-      saveState();
-    }
+      showToast(`${actionLabel} — Opening Home...`);
 
-    function incrementTasbih() {
-      const key = appState.currentDhikr;
-      const goal = DHIKR_PRESETS[key].goal;
-      appState.tasbihCounts[key] = (appState.tasbihCounts[key] || 0) + 1;
-      
-      triggerHapticPulse(35);
-      playBeadClickSound();
-
-      // Check for Goal Celebration
-      if (appState.tasbihCounts[key] === goal) {
-        playCelebrationChime();
-        triggerHapticPulse([70, 100, 70, 100]);
-        confetti({
-          particleCount: 80,
-          spread: 70,
-          origin: { y: 0.55 },
-          colors: ['#E5C07B', '#8CE2B4', '#10B981']
-        });
-        showToast(`Alhamdulillah! Completed ${goal} recitations of ${DHIKR_PRESETS[key].title}!`);
-      }
-
-      updateTasbihDisplay();
-      saveState();
-    }
-
-    function resetTasbihCount() {
-      const key = appState.currentDhikr;
-      appState.tasbihCounts[key] = 0;
-      updateTasbihDisplay();
-      saveState();
-      showToast('Counter reset to 0');
-    }
-
-    function logTasbihSession() {
-      const key = appState.currentDhikr;
-      const count = appState.tasbihCounts[key] || 0;
-      if (count === 0) {
-        showToast('Count at 0. Recite first to log.');
-        return;
-      }
-      const entry = {
-        title: DHIKR_PRESETS[key].title,
-        count: count,
-        date: 'Today at ' + new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-      };
-      appState.historyLogs.unshift(entry);
-      if (appState.historyLogs.length > 10) appState.historyLogs.pop();
-      saveState();
-      renderTasbihHistory();
-      showToast(`Logged ${count} recitations of ${entry.title}`);
-    }
-
-    function updateTasbihDisplay() {
-      const key = appState.currentDhikr;
-      const current = appState.tasbihCounts[key] || 0;
-      const goal = DHIKR_PRESETS[key].goal;
-      
-      document.getElementById('tasbihCurrentCount').textContent = current;
-      document.getElementById('tasbihGoalCount').textContent = goal;
-
-      // Update circular SVG stroke
-      const circle = document.getElementById('tasbihProgressCircle');
-      const circumference = 2 * Math.PI * 126; // approx 791.68
-      const percent = Math.min(1, current / goal);
-      const offset = circumference - (percent * circumference);
-      circle.style.strokeDashoffset = offset;
-
-      syncUIWithState();
-    }
-
-    function setupTasbihTrackBeads() {
-      const container = document.getElementById('beadsContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      const total = 24;
-      const radius = 126;
-      for (let i = 0; i < total; i++) {
-        const angle = (i / total) * (Math.PI * 2);
-        const x = 144 + radius * Math.cos(angle) - 6;
-        const y = 144 + radius * Math.sin(angle) - 6;
-        const dot = document.createElement('div');
-        dot.className = 'absolute w-3 h-3 rounded-full bg-emerald-700/50 border border-emerald-400/30';
-        dot.style.left = `${x}px`;
-        dot.style.top = `${y}px`;
-        container.appendChild(dot);
-      }
-    }
-
-    function renderTasbihHistory() {
-      const list = document.getElementById('tasbihHistoryList');
-      if (!list) return;
-      list.innerHTML = '';
-      if (!appState.historyLogs || appState.historyLogs.length === 0) {
-        list.innerHTML = `<p class="text-emerald-400/60 text-center py-2">No history recorded yet.</p>`;
-        return;
-      }
-      appState.historyLogs.slice(0, 4).forEach(log => {
-        const item = document.createElement('div');
-        item.className = 'flex items-center justify-between p-2 rounded-xl bg-emerald-950/40 border border-emerald-900/40';
-        item.innerHTML = `
-          <div>
-            <div class="font-medium text-emerald-100">${log.title}</div>
-            <div class="text-[10px] text-emerald-400/70">${log.date}</div>
-          </div>
-          <span class="font-serif text-brand-gold font-bold text-sm">+${log.count}</span>
-        `;
-        list.appendChild(item);
-      });
-    }
-
-    // ========================================================
-    // SECTION 4: DUAS DIRECTORY LOGIC
-    // ========================================================
-    let activeDuaCategory = 'All';
-
-    function setDuaCategory(category, btn) {
-      activeDuaCategory = category;
-      document.querySelectorAll('.dua-cat-btn').forEach(b => {
-        b.className = 'dua-cat-btn whitespace-nowrap px-3.5 py-1.5 rounded-full glass-pill text-emerald-200 border border-emerald-500/30';
-      });
-      btn.className = 'dua-cat-btn whitespace-nowrap px-3.5 py-1.5 rounded-full bg-emerald-400 text-emerald-950 font-semibold border border-brand-mint';
-      filterDuas();
-    }
-
-    function filterDuas() {
-      const query = (document.getElementById('duaSearchInput').value || '').toLowerCase();
-      const filtered = DUAS_DATABASE.filter(dua => {
-        const matchesCategory = 
-          activeDuaCategory === 'All' ? true :
-          activeDuaCategory === 'Favourites' ? appState.savedDuaIds.includes(dua.id) :
-          dua.category === activeDuaCategory;
-
-        const matchesQuery = 
-          dua.title.toLowerCase().includes(query) ||
-          dua.transliteration.toLowerCase().includes(query) ||
-          dua.translation.toLowerCase().includes(query) ||
-          dua.reference.toLowerCase().includes(query);
-
-        return matchesCategory && matchesQuery;
-      });
-
-      renderDuasList(filtered);
-    }
-
-    function renderDuasList(duas) {
-      const container = document.getElementById('duasListContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      if (duas.length === 0) {
-        container.innerHTML = `
-          <div class="glass-card rounded-2xl p-6 text-center text-emerald-400/70 text-xs">
-            No matching Duas found. Try another query or clear filters.
-          </div>
-        `;
-        return;
-      }
-
-      duas.forEach(dua => {
-        const isSaved = appState.savedDuaIds.includes(dua.id);
-        const card = document.createElement('div');
-        card.className = 'glass-card rounded-2xl p-4 border border-emerald-500/20 space-y-2.5 transition-all';
-        card.innerHTML = `
-          <div class="flex items-center justify-between border-b border-emerald-800/40 pb-2">
-            <span class="text-xs font-semibold text-emerald-100 flex items-center gap-1.5">
-              <i data-lucide="book-marked" class="w-3.5 h-3.5 text-brand-gold"></i>
-              ${dua.title}
-            </span>
-            <div class="flex items-center gap-2">
-              <span class="text-[9px] bg-emerald-900/80 text-brand-mint px-2 py-0.5 rounded-full border border-emerald-500/20">${dua.reference}</span>
-              <button onclick="toggleSaveDua(${dua.id})" class="text-emerald-300 hover:text-brand-gold touch-btn">
-                <i data-lucide="bookmark" class="w-4 h-4 ${isSaved ? 'text-brand-gold fill-brand-gold' : 'text-emerald-400/60'}"></i>
-              </button>
-            </div>
-          </div>
-
-          <p class="font-arabic text-xl text-right text-brand-goldLight leading-relaxed pt-1" dir="rtl">${dua.arabic}</p>
-          <p class="text-xs text-emerald-200 font-medium italic">${dua.transliteration}</p>
-          <p class="text-xs text-emerald-300/85">${dua.translation}</p>
-
-          <div class="pt-2 border-t border-emerald-800/40 flex items-center justify-between">
-            <button onclick="simulateAudioDua('${dua.title}')" class="flex items-center gap-1.5 text-xs text-brand-mint bg-emerald-950/70 px-3 py-1 rounded-xl border border-emerald-500/30 hover:border-brand-mint touch-btn">
-              <i data-lucide="play" class="w-3 h-3 text-brand-gold"></i>
-              <span>Audio Recitation</span>
-            </button>
-            <button onclick="copyDuaText('${dua.transliteration} - ${dua.translation}')" class="text-xs text-emerald-400 hover:text-emerald-200 flex items-center gap-1">
-              <i data-lucide="copy" class="w-3 h-3"></i> Copy
-            </button>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-      lucide.createIcons();
-    }
-
-    function toggleSaveDua(id) {
-      if (appState.savedDuaIds.includes(id)) {
-        appState.savedDuaIds = appState.savedDuaIds.filter(x => x !== id);
-        showToast('Removed from saved duas');
-      } else {
-        appState.savedDuaIds.push(id);
-        showToast('Saved to your favourite duas');
-      }
-      saveState();
-      filterDuas();
-    }
-
-    function simulateAudioDua(title) {
-      playCelebrationChime();
-      showToast(`Playing recitation for "${title}"`);
-    }
-
-    function copyDuaText(text) {
-      const textarea = document.createElement('textarea');
-      textarea.value = text;
-      document.body.appendChild(textarea);
-      textarea.select();
-      try {
-        document.execCommand('copy');
-        showToast('Dua copied to clipboard');
-      } catch (err) {
-        showToast('Unable to copy');
-      }
-      document.body.removeChild(textarea);
-    }
-
-    // ========================================================
-    // SECTION 5: REFLECTIONS LOGIC
-    // ========================================================
-    let activeStoryIndex = 0;
-
-    function renderStoriesList() {
-      const container = document.getElementById('storiesContainer');
-      if (!container) return;
-      container.innerHTML = '';
-      REFLECTIONS_DATABASE.forEach((story, idx) => {
-        const card = document.createElement('div');
-        card.className = 'glass-card rounded-2xl p-4 border border-emerald-500/20 flex items-center justify-between cursor-pointer hover:border-brand-mint/40 touch-btn';
-        card.onclick = () => openStoryModal(idx);
-        card.innerHTML = `
-          <div class="flex items-center gap-3">
-            <div class="w-10 h-10 rounded-xl bg-emerald-900/60 border border-brand-gold/30 flex items-center justify-center text-brand-gold">
-              <i data-lucide="sparkles" class="w-5 h-5"></i>
-            </div>
-            <div>
-              <span class="text-[9px] uppercase tracking-wider text-brand-gold">${story.tag}</span>
-              <h4 class="text-xs font-semibold text-emerald-50">${story.title}</h4>
-              <p class="text-[11px] text-emerald-300/70 line-clamp-1">${story.quote}</p>
-            </div>
-          </div>
-          <i data-lucide="chevron-right" class="w-4 h-4 text-emerald-400"></i>
-        `;
-        container.appendChild(card);
-      });
-      lucide.createIcons();
-    }
-
-    function openStoryModal(index) {
-      activeStoryIndex = index;
-      const story = REFLECTIONS_DATABASE[index];
-      document.getElementById('storyModalTag').textContent = story.tag;
-      document.getElementById('storyModalTitle').textContent = story.title;
-      document.getElementById('storyModalQuote').textContent = `"${story.quote}"`;
-      document.getElementById('storyModalContent').innerHTML = story.body;
-      
-      const modal = document.getElementById('storyModal');
-      modal.classList.remove('hidden');
-      lucide.createIcons();
-    }
-
-    function closeStoryModal() {
-      document.getElementById('storyModal').classList.add('hidden');
-    }
-
-    function bookmarkCurrentStory() {
-      if (!appState.savedStoryIds.includes(activeStoryIndex)) {
-        appState.savedStoryIds.push(activeStoryIndex);
-      }
-      saveState();
-      showToast('Reflection bookmarked!');
-    }
-
-    // ========================================================
-    // SECTION 6: SETTINGS & GLOBAL SYNC
-    // ========================================================
-    function syncUIWithState() {
-      // 1. Home Progress Computation
-      const duroodRatio = Math.min(1, (appState.tasbihCounts.durood || 0) / 313);
-      const istighfarRatio = Math.min(1, (appState.tasbihCounts.istighfar || 0) / 100);
-      const mulkRatio = appState.surahMulkCompletedToday ? 1 : 0;
-      
-      const overallPercent = Math.round(((duroodRatio + istighfarRatio + mulkRatio) / 3) * 100);
-      
-      const percentEl = document.getElementById('homeProgressPercent');
-      const barEl = document.getElementById('homeProgressBar');
-      if (percentEl && barEl) {
-        percentEl.textContent = `${overallPercent}%`;
-        barEl.style.width = `${overallPercent}%`;
-      }
-
-      // Badges
-      const duroodBadge = document.getElementById('homeDuroodBadge');
-      if (duroodBadge) duroodBadge.textContent = `${appState.tasbihCounts.durood || 0} / 313`;
-
-      const istighfarBadge = document.getElementById('homeIstighfarBadge');
-      if (istighfarBadge) istighfarBadge.textContent = `${appState.tasbihCounts.istighfar || 0} / 100`;
-
-      const mulkText = document.getElementById('mulkStatusText');
-      const mulkBtn = document.getElementById('homeMulkBtn');
-      if (mulkText && mulkBtn) {
-        if (appState.surahMulkCompletedToday) {
-          mulkText.textContent = 'Completed';
-          mulkBtn.className = 'px-3 py-1.5 rounded-xl border border-brand-mint bg-emerald-500/20 text-xs font-semibold text-brand-mint flex items-center gap-1.5';
-        } else {
-          mulkText.textContent = 'Mark Done';
-          mulkBtn.className = 'px-3 py-1.5 rounded-xl border border-emerald-500/30 glass-pill text-xs font-medium text-emerald-200 flex items-center gap-1.5 touch-btn';
-        }
-      }
-
-      // Header Streak
-      const streakHeader = document.getElementById('headerStreakCount');
-      if (streakHeader) streakHeader.textContent = `${appState.streak} Days`;
-
-      // Settings screen details
-      const langDisp = document.getElementById('settingsLangDisplay');
-      if (langDisp) langDisp.textContent = `Language: ${appState.language} • ${appState.experienceLevel}`;
-
-      const totalCountsEl = document.getElementById('settingsTotalCounts');
-      if (totalCountsEl) {
-        const total = (appState.tasbihCounts.durood || 0) + (appState.tasbihCounts.istighfar || 0) + (appState.tasbihCounts.subhanallah || 0);
-        totalCountsEl.textContent = `Total Dhikr: ${total.toLocaleString()}`;
-      }
-
-      const langSelect = document.getElementById('settingLanguageSelect');
-      if (langSelect) langSelect.value = appState.language;
-
-      const hapticCheck = document.getElementById('settingHapticToggle');
-      if (hapticCheck) hapticCheck.checked = appState.hapticsEnabled;
-
-      const soundCheck = document.getElementById('settingSoundToggle');
-      if (soundCheck) soundCheck.checked = appState.soundEnabled;
-    }
-
-    function updateProfileLanguage(val) {
-      appState.language = val;
-      saveState();
-      syncUIWithState();
-      showToast(`Language updated to ${val}`);
-    }
-
-    function resetAllAppData() {
-      if (window.confirm && !confirm("Reset all Aamaal recitation counts and saved items?")) return;
-      localStorage.removeItem(STORAGE_KEY);
-      appState = Object.assign({}, defaultState);
-      saveState();
-      syncUIWithState();
-      renderTasbihHistory();
-      filterDuas();
-      showToast('All recitation logs have been reset.');
-    }
-
-    function showToast(msg) {
-      const toast = document.getElementById('toastNotification');
-      const text = document.getElementById('toastMessage');
-      if (!toast || !text) return;
-      text.textContent = msg;
-      toast.classList.remove('hidden');
+      // Redirects directly to home.html in the same folder
       setTimeout(() => {
-        toast.classList.add('hidden');
-      }, 2600);
+        window.location.href = 'home.html';
+      }, 500);
+    };
+
+    // Toast Helper
+    let toastTimer = null;
+    window.showToast = function(msg) {
+      const el = document.getElementById('toast-banner');
+      if (!el) return;
+      el.textContent = msg;
+      el.classList.remove('hidden');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => el.classList.add('hidden'), 2300);
+    };
+
+    // Custom Image Modal Functions
+    window.openAssetModal = function() {
+      const list = document.getElementById('asset-inputs-list');
+      const modal = document.getElementById('asset-modal');
+      const assetLabels = {
+        logo_light: 'Logo Light (Screen 1 Splash)',
+        logo_dark: 'Logo Dark (Screen 2 Welcome)',
+        logo_header: 'Logo Header (Screens 3–9)',
+        bg_splash: 'Background — Screen 1 Splash',
+        bg_welcome_sunrise: 'Background — Screen 2 Sunrise',
+        bg_top_sunrise: 'Background — Screens 3–9 Top Sunrise',
+        middle_screen1_splash: 'Middle Still — Screen 1 Connecting',
+        middle_screen2_welcome: 'Middle Still — Screen 2 Welcome',
+        middle_screen3_tasbih: 'Middle Still — Screen 3 Digital Tasbih',
+        middle_screen4_duas: 'Middle Still — Screen 4 Explore Duas',
+        middle_screen5_reflections: 'Middle Still — Screen 5 Reflections',
+        middle_screen6_personalize: 'Middle Still — Screen 6 Personalize',
+        middle_screen7_notifications: 'Middle Still — Screen 7 Notifications',
+        middle_screen8_haptics: 'Middle Still — Screen 8 Tactile Feedback',
+        middle_screen9_welcomeback: 'Middle Still — Screen 9 Welcome Back'
+      };
+
+      list.innerHTML = Object.keys(assetLabels).map(key => `
+        <div class="p-3 rounded-xl bg-[#041912] border border-[#d4be83]/25 space-y-1.5">
+          <label class="block font-semibold text-[#d4be83]">${assetLabels[key]} (<code class="text-[#9fe8bc]">${key}</code>)</label>
+          <input
+            type="text"
+            placeholder="Paste image URL (e.g. ./assets/${key}.png)"
+            value="${customAssets[key].startsWith('data:image/svg') ? '' : customAssets[key]}"
+            onchange="window.setCustomAssetUrl('${key}', this.value)"
+            class="w-full px-2.5 py-1.5 rounded-lg bg-[#082b1f] border border-[#d4be83]/30 text-white focus:outline-none"
+          />
+          <input
+            type="file"
+            accept="image/*"
+            onchange="window.uploadCustomAssetFile('${key}', this.files[0])"
+            class="text-[11px] text-[#a6bfb2]"
+          />
+        </div>
+      `).join('');
+
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    };
+
+    window.closeAssetModal = function() {
+      const modal = document.getElementById('asset-modal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    };
+
+    window.setCustomAssetUrl = function(key, url) {
+      if (!url.trim()) return;
+      customAssets[key] = url.trim();
+      localStorage.setItem('aamaal_onboarding_assets', JSON.stringify(customAssets));
+      applyAllCustomImages();
+      showToast(`Updated ${key}`);
+    };
+
+    window.uploadCustomAssetFile = function(key, file) {
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        customAssets[key] = e.target.result;
+        localStorage.setItem('aamaal_onboarding_assets', JSON.stringify(customAssets));
+        applyAllCustomImages();
+        showToast(`Uploaded ${key}`);
+      };
+      reader.readAsDataURL(file);
+    };
+
+    window.resetOnboardingAssets = function() {
+      customAssets = { ...DEFAULT_IMAGE_ASSETS };
+      localStorage.removeItem('aamaal_onboarding_assets');
+      applyAllCustomImages();
+      closeAssetModal();
+      showToast('Reset all onboarding images to default');
+    };
+
+    // =========================================================================
+    // 3. FIREBASE CLOUD SYNC
+    // =========================================================================
+    let db = null;
+    let currentUser = null;
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'islaah-aamaal-circle';
+
+    async function initFirebase() {
+      try {
+        if (typeof __firebase_config !== 'undefined' && __firebase_config) {
+          const firebaseConfig = JSON.parse(__firebase_config);
+          const app = initializeApp(firebaseConfig);
+          const auth = getAuth(app);
+          db = getFirestore(app);
+
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await signInWithCustomToken(auth, __initial_auth_token);
+          } else {
+            await signInAnonymously(auth);
+          }
+
+          onAuthStateChanged(auth, (user) => {
+            currentUser = user;
+          });
+        }
+      } catch (err) {
+        console.warn('Using localStorage fallback for index.html:', err);
+      }
     }
+
+    async function saveOnboardingToCloud(payload) {
+      if (db && currentUser) {
+        try {
+          const ref = doc(db, 'artifacts', appId, 'users', currentUser.uid, 'aamaal_data', 'onboarding');
+          await setDoc(ref, payload, { merge: true });
+        } catch (err) {
+          console.warn('Cloud sync skipped:', err);
+        }
+      }
+    }
+
+    // Initialize Splash Auto-Advance (First-Time -> Screen 2, Returnee -> Screen 9)
+    function startSplashFlow() {
+      applyAllCustomImages();
+      updateUserModeBadge();
+      initFirebase();
+
+      splashTimeout = setTimeout(() => {
+        if (currentScreen === 1) {
+          const isReturnee = localStorage.getItem('aamaal_onboarded') === 'true';
+          goToScreen(isReturnee ? 9 : 2);
+        }
+      }, 2500);
+    }
+
+    startSplashFlow();
   </script>
 </body>
 </html>
