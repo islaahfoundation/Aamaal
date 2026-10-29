@@ -25,16 +25,16 @@
       -webkit-user-select: none;
     }
 
-    body {
+    html, body {
       margin: 0;
       padding: 0;
-      background-color: #030d0a;
+      background-color: #061813;
       font-family: 'Inter', sans-serif;
       color: #f0fdf4;
-      overflow-x: hidden;
-      min-height: 100vh;
+      overflow: hidden;
+      height: 100dvh;
+      width: 100vw;
       display: flex;
-      align-items: center;
       justify-content: center;
     }
 
@@ -46,31 +46,17 @@
       font-family: 'Amiri', serif;
     }
 
-    /* Phone Frame */
+    /* Full-Screen Edge-to-Edge Container (Centered mobile width on larger viewports) */
     .phone-frame {
       position: relative;
-      width: 392px;
-      height: 844px;
-      border-radius: 48px;
+      width: 100%;
+      max-width: 430px;
+      height: 100dvh;
       background: #061813;
-      box-shadow:
-        0 0 0 3px #233b32,
-        0 0 0 8px #0c1713,
-        0 30px 70px rgba(0, 0, 0, 0.85),
-        inset 0 0 30px rgba(0, 0, 0, 0.6);
       overflow: hidden;
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
-    }
-
-    @media (max-width: 440px) {
-      .phone-frame {
-        width: 100vw;
-        height: 100dvh;
-        border-radius: 0;
-        box-shadow: none;
-      }
     }
 
     /* Frosted Glass Styling */
@@ -168,7 +154,7 @@
 </head>
 <body>
 
-  <!-- MAIN PHONE CONTAINER -->
+  <!-- MAIN CONTAINER -->
   <div class="phone-frame" id="phoneFrame">
 
     <!-- BACKGROUND LAYER (Supports Default Mosque Illustration + Dev Custom Upload) -->
@@ -244,7 +230,7 @@
     </div>
 
     <!-- iOS STATUS BAR -->
-    <div class="relative z-20 flex items-center justify-between px-7 pt-3 pb-1 text-xs font-semibold tracking-wide text-white/90">
+    <div class="relative z-20 flex items-center justify-between px-6 pt-3 pb-1 text-xs font-semibold tracking-wide text-white/90 shrink-0">
       <span>9:41</span>
       <div class="flex items-center gap-1.5">
         <svg class="w-4 h-3.5" fill="currentColor" viewBox="0 0 16 12">
@@ -264,24 +250,24 @@
       </div>
     </div>
 
-    <!-- HEADER: Upper-Left Back Button + Title + Dev Background Button + Settings Button (No Top Navigation Pills) -->
-    <header class="relative z-20 flex items-start justify-between px-5 pt-2 pb-2">
-      <div class="flex items-start gap-2.5">
-        <!-- 7. Back Button on Upper Left Area -->
-        <button id="backBtn" onclick="handleBackClick()" title="Back" class="mt-0.5 w-10 h-10 rounded-full flex items-center justify-center text-white/90 hover:bg-white/10 active:scale-90 transition">
+    <!-- HEADER: Upper-Left Back Button + Title + Dev Background Button + History + Settings -->
+    <header class="relative z-20 flex items-start justify-between px-5 pt-2 pb-2 shrink-0">
+      <div class="flex items-start gap-2 min-w-0 flex-1 pr-2">
+        <!-- Back Button on Upper Left Area -->
+        <button id="backBtn" onclick="handleBackClick()" title="Back" class="mt-0.5 w-9 h-9 rounded-full flex items-center justify-center text-white/90 hover:bg-white/10 active:scale-90 transition shrink-0">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m0 0l6-6m-6 6l6 6"/>
           </svg>
         </button>
-        <div>
+        <div class="min-w-0">
           <h1 class="font-serif-title text-4xl font-semibold leading-none tracking-tight text-[#f5f3eb]">Tasbih</h1>
-          <p class="text-xs text-emerald-100/75 mt-1 font-normal">Count your dhikr, earn your peace</p>
+          <p class="text-[11.5px] text-emerald-100/75 mt-1 font-normal whitespace-nowrap">Count your dhikr, earn your peace</p>
         </div>
       </div>
 
-      <!-- Right Action Buttons: Dev Background Picker + Settings -->
-      <div class="flex items-center gap-2 mt-1">
-        <!-- 6. Dev Background Image Switcher Button (Like home.html) -->
+      <!-- Right Action Buttons: Dev Background Picker + History + Settings -->
+      <div class="flex items-center gap-1.5 mt-1 shrink-0">
+        <!-- Dev Background Image Switcher Button -->
         <button onclick="openSheet('bgCustomizerSheet')" title="Developer Background Image" class="w-9 h-9 rounded-full border border-emerald-300/30 bg-emerald-950/50 backdrop-blur-md flex items-center justify-center text-emerald-200/90 hover:border-amber-300/60 hover:text-amber-200 active:scale-95 transition">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="1.9" viewBox="0 0 24 24">
             <rect x="3" y="3" width="18" height="18" rx="3"/>
@@ -308,11 +294,11 @@
     </header>
 
     <!-- WIRD / DHIKR & GOAL SELECTOR BAR -->
-    <div class="relative z-20 px-5 mt-2">
+    <div class="relative z-20 px-5 mt-1.5 shrink-0">
       <div class="glass-card rounded-3xl p-3 flex items-center justify-between">
         <!-- Left: Clickable Dhikr Selector -->
         <button onclick="openSheet('dhikrSheet')" class="flex items-center gap-3 text-left flex-1 min-w-0 pr-2 group">
-          <!-- 2. Arabic Text Fitted Inside Circle -->
+          <!-- Arabic Text Fitted Inside Circle -->
           <div class="arabic-circle group-hover:border-amber-300/70 transition">
             <span id="activeArabicBadge" class="font-arabic font-bold text-[15px]">أَسْتَغْفِرُ ٱللَّٰهَ</span>
           </div>
@@ -347,11 +333,11 @@
       </div>
     </div>
 
-    <!-- 3 & 5. INTERACTIVE TOUCH & SWIPE AREA (From below Wird dropdown to Progress Bar) -->
+    <!-- INTERACTIVE TOUCH & SWIPE AREA (From below Wird dropdown to Progress Bar) -->
     <!-- Tapping or swiping anywhere in this zone counts strictly +1 per gesture -->
-    <div id="interactiveCounterZone" class="touch-zone relative z-10 flex-1 flex flex-col items-center justify-center px-5 select-none overflow-hidden">
+    <div id="interactiveCounterZone" class="touch-zone relative z-10 flex-1 flex flex-col items-center justify-center px-5 select-none overflow-hidden min-h-0">
 
-      <!-- FIRST-POV 3D TASBIH CANVAS (Modeled after attached video) -->
+      <!-- FIRST-POV 3D TASBIH CANVAS -->
       <canvas id="povTasbihCanvas" width="380" height="430" class="w-full h-full max-h-[430px] pointer-events-none"></canvas>
 
       <!-- Counter Readout & Floating Quick Controls Overlay -->
@@ -385,15 +371,15 @@
           </div>
         </div>
 
-        <!-- 4. FLOATING +1 BADGE (Hidden by default; only appears right next to the active golden bead when triggered) -->
+        <!-- FLOATING +1 BADGE (Hidden by default; only appears right next to the active golden bead when triggered) -->
         <div id="plusOneBadge" class="plus-one-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-emerald-900/85 border border-amber-300/50 text-amber-200 font-bold text-base shadow-[0_0_20px_rgba(245,158,11,0.5)]">
           +1
         </div>
       </div>
     </div>
 
-    <!-- BOTTOM PROGRESS BAR CARD (No "Tap to count" footer below) -->
-    <div class="relative z-20 px-5 pb-6">
+    <!-- BOTTOM PROGRESS BAR CARD -->
+    <div class="relative z-20 px-5 pb-6 shrink-0">
       <div class="glass-card rounded-3xl p-4">
         <!-- Progress Track + Percentage -->
         <div class="flex items-center gap-3 mb-3.5">
@@ -442,7 +428,7 @@
     <!-- SHEET BACKDROP -->
     <div id="sheetBackdrop" onclick="closeAllSheets()" class="hidden absolute inset-0 z-30 bg-black/65 backdrop-blur-xs transition-opacity"></div>
 
-    <!-- 1. SELECT DHIKR BOTTOM SHEET (Matches Reference Image Right Phone + Fits Arabic in Circle) -->
+    <!-- 1. SELECT DHIKR BOTTOM SHEET -->
     <div id="dhikrSheet" class="hidden absolute inset-x-0 bottom-0 z-40 glass-sheet rounded-t-[34px] p-6 max-h-[78%] flex flex-col">
       <div class="w-11 h-1.5 bg-emerald-200/30 rounded-full mx-auto mb-5"></div>
       <div class="flex items-center justify-between mb-4">
@@ -556,7 +542,7 @@
       </div>
     </div>
 
-    <!-- 5. DEVELOPER BACKGROUND IMAGE SWITCHER (Like home.html) -->
+    <!-- 5. DEVELOPER BACKGROUND IMAGE SWITCHER -->
     <div id="bgCustomizerSheet" class="hidden absolute inset-x-0 bottom-0 z-40 glass-sheet rounded-t-[34px] p-6">
       <div class="w-11 h-1.5 bg-emerald-200/30 rounded-full mx-auto mb-4"></div>
       <div class="flex items-center justify-between mb-1">
@@ -704,7 +690,7 @@
       round: 1,
       soundEnabled: true,
       hapticsEnabled: true,
-      beadStyle: 'cerulean', // 'cerulean' (matches attached video), 'pearl', 'emerald'
+      beadStyle: 'cerulean', // 'cerulean', 'pearl', 'emerald'
       sessionSeconds: 42,
       history: [
         { dhikr: 'Astaghfirullah', arabic: 'أَسْتَغْفِرُ ٱللَّٰهَ', count: 100, goal: 100, duration: '02:18', date: 'Today, 5:30 AM' },
@@ -728,22 +714,15 @@
       }
     }
 
-    // --- 4. FIRST-POV 3D TASBIH CANVAS RENDERER (Modeled after attached video) ---
+    // --- 4. FIRST-POV 3D TASBIH CANVAS RENDERER ---
     const canvas = document.getElementById('povTasbihCanvas');
     const ctx = canvas.getContext('2d');
 
-    // Animation offset: when user increments, beadOffset starts at -1.0 (one slot higher up the cord)
-    // and smoothly eases to 0.0, creating the exact downward pull motion shown in the video.
     let beadAnimOffset = 0;
     let beadHighlightGlow = 0;
     let lastFrameTime = performance.now();
 
     // First-POV 3D Perspective Loop Control Points
-    // Slots along the curve:
-    // t = 0.0 (Bottom foreground exiting bead)
-    // t = 1.0 (HERO ACTIVE GOLD BEAD in foreground)
-    // t = 2.0, 3.0, 4.0, 5.0, 6.0, 7.0 (Queue of beads curving up to the top apex)
-    // t = 8.0 .. 13.0 (Left background return cord with smaller translucent beads)
     const povSlots = [
       { x: 184, y: 366, r: 30, alpha: 0.78, z: 0.85 }, // 0: Bottom bead below active bead
       { x: 184, y: 274, r: 39, alpha: 1.00, z: 1.00 }, // 1: HERO ACTIVE BEAD (Large Gold Sphere)
@@ -812,7 +791,7 @@
           heroDark: '#78350f'
         };
       }
-      // Default: 'cerulean' (Exact match to attached video: glossy azure-blue queue beads + glowing golden-orange active bead)
+      // Default: 'cerulean'
       return {
         queueLight: '#bae6fd',
         queueMid: '#2294d6',
@@ -841,7 +820,7 @@
         ctx.arc(x, y, haloRadius, 0, Math.PI * 2);
         ctx.fill();
 
-        // Outer golden indicator ring around active + bottom slot (like video)
+        // Outer golden indicator ring around active + bottom slot
         ctx.strokeStyle = `rgba(251, 191, 36, ${0.28 * heroBlend})`;
         ctx.lineWidth = 1.25;
         ctx.beginPath();
@@ -900,7 +879,7 @@
       ctx.arc(x, y, radius, 0, Math.PI * 2);
       ctx.fill();
 
-      // Bead drill-hole at top of large foreground beads (matches attached video)
+      // Bead drill-hole at top of large foreground beads
       if (radius > 16) {
         const holeX = x + Math.cos(holeAngle) * (radius * 0.08);
         const holeY = y - radius * 0.68;
@@ -935,7 +914,7 @@
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // 1. Draw the 3D Cord Loop (Back side + Front side)
+      // 1. Draw the 3D Cord Loop
       ctx.save();
       ctx.lineWidth = 3.2;
       ctx.strokeStyle = 'rgba(186, 230, 253, 0.35)';
@@ -951,7 +930,7 @@
       ctx.stroke();
       ctx.restore();
 
-      // 2. Draw Subtle Vertical Golden Pull Guide Sleeves Around Hero & Bottom Bead (Matches Video)
+      // 2. Draw Subtle Vertical Golden Pull Guide Sleeves Around Hero & Bottom Bead
       const heroSlot = povSlots[1];
       const bottomSlot = povSlots[0];
       ctx.save();
@@ -972,11 +951,9 @@
       // 3. Compute All Beads Along Loop with Current Animation Offset & Sort by Depth (z)
       const beadsToDraw = [];
       for (let i = 0; i < povSlots.length; i++) {
-        // When beadAnimOffset goes from 1 -> 0, each bead moves downward from slot i+1 to slot i
         const u = i + beadAnimOffset;
         const pt = samplePovPath(u);
 
-        // Determine if this bead is in or transitioning into the Hero Slot (index 1)
         const distToHero = Math.abs(u - 1.0);
         const isHero = i === 1;
         const heroBlend = Math.max(0, 1 - distToHero);
@@ -999,7 +976,7 @@
         draw3DBead(b.x, b.y, b.r, b.alpha, b.isHero, b.heroBlend, -Math.PI / 2);
       }
 
-      // 4. Foreground cord segment exiting bottom bead (like attached video)
+      // 4. Foreground cord segment exiting bottom bead
       ctx.save();
       const cordExitGrad = ctx.createLinearGradient(0, bottomSlot.y - 10, 0, bottomSlot.y + 42);
       cordExitGrad.addColorStop(0, 'rgba(186, 230, 253, 0.55)');
@@ -1028,7 +1005,6 @@
         }
         const now = audioCtx.currentTime;
 
-        // Short resonant woody/stone clack
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'triangle';
@@ -1056,7 +1032,6 @@
     function triggerPlusOnePopup() {
       const badge = document.getElementById('plusOneBadge');
       badge.classList.remove('pop-active');
-      // Force reflow so rapid taps restart the animation cleanly
       void badge.offsetWidth;
       badge.classList.add('pop-active');
 
@@ -1070,20 +1045,15 @@
     function incrementCount() {
       state.count += 1;
 
-      // Trigger 3D POV bead pull from queue slot into Hero slot
       beadAnimOffset = 1.0;
       beadHighlightGlow = 1.0;
 
-      // Show +1 only on selection/count
       triggerPlusOnePopup();
-
-      // Feedback
       playBeadClickSound();
       triggerHaptic(18);
 
       updateUI();
 
-      // Check if Goal Reached
       if (state.count === state.goal) {
         triggerHaptic([40, 60, 80]);
         document.getElementById('celebrationDhikrName').textContent = state.selectedDhikr.title;
@@ -1103,7 +1073,7 @@
       showToast('Last count undone');
     }
 
-    // --- 8. UNIFIED TAP & SWIPE GESTURE HANDLER (Requirement 5) ---
+    // --- 8. UNIFIED TAP & SWIPE GESTURE HANDLER ---
     // Makes the entire region from below the Wird dropdown to the Progress bar tappable & swipeable.
     // Long swipes or short taps strictly count as ONE (+1) per pointer gesture.
     const touchZone = document.getElementById('interactiveCounterZone');
@@ -1127,8 +1097,6 @@
       const dy = e.clientY - gestureStartY;
       const distance = Math.hypot(dx, dy);
 
-      // If user swipes at least 26px in any direction, trigger +1 immediately once
-      // and lock this gesture so even a very long continuous swipe only counts as 1.
       if (distance >= 26) {
         gestureCounted = true;
         incrementCount();
@@ -1137,7 +1105,6 @@
 
     touchZone.addEventListener('pointerup', (e) => {
       if (e.pointerId !== activePointerId) return;
-      // If it was a tap (didn't cross swipe distance threshold), count +1 on release
       if (!gestureCounted) {
         gestureCounted = true;
         incrementCount();
@@ -1152,7 +1119,7 @@
       }
     });
 
-    // Keyboard Spacebar / ArrowDown support
+    // Keyboard Spacebar support
     window.addEventListener('keydown', (e) => {
       if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT') {
         e.preventDefault();
@@ -1162,27 +1129,23 @@
 
     // --- 9. UI SYNC & RENDERING ---
     function updateUI() {
-      // Top Wird Bar
       const badgeEl = document.getElementById('activeArabicBadge');
       fitArabicTextInCircle(badgeEl, state.selectedDhikr.arabic);
       document.getElementById('activeDhikrTitle').textContent = state.selectedDhikr.title;
       document.getElementById('activeDhikrMeaning').textContent = state.selectedDhikr.meaning;
       document.getElementById('activeGoalTop').textContent = state.goal.toLocaleString();
 
-      // Main Readout
       document.getElementById('mainCountDisplay').textContent = state.count.toLocaleString();
       document.getElementById('mainGoalSub').textContent = state.goal.toLocaleString();
       document.getElementById('roundNumberText').textContent = state.round;
       document.getElementById('resetCountPreview').textContent = state.count.toLocaleString();
 
-      // Progress Bar & Bottom Summary
       const pct = Math.min(100, Math.round((state.count / state.goal) * 100));
       document.getElementById('progressBarFill').style.width = `${pct}%`;
       document.getElementById('progressPercentText').textContent = `${pct}%`;
       document.getElementById('bottomGoalValue').textContent = state.goal.toLocaleString();
       document.getElementById('bottomCompletedValue').textContent = state.count.toLocaleString();
 
-      // Highlight active goal preset button
       document.querySelectorAll('.goal-preset-btn').forEach(btn => {
         const g = Number(btn.getAttribute('data-goal'));
         if (g === state.goal) {
@@ -1391,7 +1354,7 @@
       });
     }
 
-    // --- 11. SETTINGS & DEV BACKGROUND IMAGE UPLOADER (Requirement 6) ---
+    // --- 11. SETTINGS & DEV BACKGROUND IMAGE UPLOADER ---
     function toggleSound() {
       state.soundEnabled = !state.soundEnabled;
       const btn = document.getElementById('soundToggleBtn');
@@ -1494,7 +1457,6 @@
     }
 
     function handleBackClick() {
-      // If any modal/sheet is open, close it first; otherwise navigate back to home.html if available
       const anyOpen = sheetIds.some(id => !document.getElementById(id).classList.contains('hidden'));
       if (anyOpen) {
         closeAllSheets();
