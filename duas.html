@@ -40,7 +40,7 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    body {
+    html, body {
       background-color: #020c0a;
       background-image: 
         radial-gradient(circle at 15% 15%, rgba(24, 97, 76, 0.22) 0%, transparent 45%),
@@ -48,53 +48,52 @@
       color: var(--text-main);
       font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+    }
+
+    body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
+      justify-content: flex-start;
     }
 
-    /* --- PHONE SHELL --- */
+    /* --- PHONE SHELL (Natural Document Scroll — No Scroll Trap) --- */
     .phone-frame {
       width: 100%;
       max-width: 412px;
-      height: 860px;
-      margin: 20px auto;
+      min-height: 100vh;
+      margin: 0 auto;
       background: var(--bg-deep);
-      border: 2px solid rgba(212, 175, 55, 0.35);
-      border-radius: 42px;
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.85),
-        0 0 0 8px rgba(9, 34, 28, 0.6),
-        inset 0 0 30px rgba(0, 0, 0, 0.5);
       position: relative;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
-    @media (max-width: 440px) {
+    @media (min-width: 441px) {
       .phone-frame {
-        margin: 0;
-        border-radius: 0;
-        border: none;
-        height: 100vh;
-        max-width: 100%;
+        min-height: 860px;
+        margin: 20px auto;
+        border: 2px solid rgba(212, 175, 55, 0.35);
+        border-radius: 42px;
+        box-shadow: 
+          0 25px 60px rgba(0, 0, 0, 0.85),
+          0 0 0 8px rgba(9, 34, 28, 0.6),
+          inset 0 0 30px rgba(0, 0, 0, 0.5);
+        overflow: clip;
       }
     }
 
     /* Screen Container */
     .app-viewport {
       flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
+      width: 100%;
       position: relative;
-      padding-bottom: 28px;
-      scrollbar-width: none;
-    }
-    .app-viewport::-webkit-scrollbar {
-      display: none;
+      padding-bottom: 36px;
+      touch-action: pan-y;
     }
 
     /* --- REUSABLE UI ELEMENTS --- */
@@ -137,8 +136,9 @@
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background 0.2s, border-color 0.2s;
       font-size: 0.95rem;
+      touch-action: manipulation;
     }
 
     .back-btn:hover, .icon-action-btn:hover {
@@ -159,7 +159,8 @@
       font-size: 0.74rem;
       font-weight: 600;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background 0.2s;
+      touch-action: manipulation;
     }
 
     .admin-pill-btn:hover {
@@ -229,6 +230,7 @@
     .featured-slide-wrap {
       position: relative;
       margin: 6px 0 20px 0;
+      touch-action: pan-y;
     }
 
     .market-featured-card {
@@ -238,7 +240,7 @@
       border: 1px solid rgba(212, 175, 55, 0.45);
       cursor: pointer;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-      transition: transform 0.25s ease, border-color 0.25s ease;
+      transition: border-color 0.2s ease;
       background-size: cover;
       background-position: center;
       padding: 18px 18px 28px 18px;
@@ -246,10 +248,10 @@
       justify-content: flex-end;
       min-height: 132px;
       align-items: center;
+      touch-action: pan-y;
     }
 
     .market-featured-card:hover {
-      transform: translateY(-2px);
       border-color: var(--gold-primary);
     }
 
@@ -385,17 +387,17 @@
       padding: 12px 6px;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      transition: background 0.2s, border-color 0.2s;
       display: flex;
       flex-direction: column;
       align-items: center;
       gap: 6px;
+      touch-action: pan-y;
     }
 
     .quick-cat-tile:hover {
       background: var(--bg-card-hover);
       border-color: var(--gold-primary);
-      transform: translateY(-2px);
     }
 
     .quick-cat-icon {
@@ -439,7 +441,8 @@
       align-items: center;
       gap: 14px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: background 0.2s ease, border-color 0.2s ease;
+      touch-action: pan-y;
     }
 
     .dua-list-card:hover {
@@ -511,6 +514,7 @@
       padding-bottom: 6px;
       margin-bottom: 14px;
       scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
     .filter-chips::-webkit-scrollbar {
       display: none;
@@ -809,6 +813,7 @@
       justify-content: space-between;
       cursor: pointer;
       transition: all 0.2s;
+      touch-action: pan-y;
     }
 
     .option-row.selected {
@@ -1016,9 +1021,9 @@
       border-color: var(--gold-primary);
     }
 
-    /* Toast feedback */
+    /* Toast feedback (Fixed to viewport bottom so it works regardless of scroll depth) */
     .toast-msg {
-      position: absolute;
+      position: fixed;
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%) translateY(20px);
@@ -1031,7 +1036,7 @@
       opacity: 0;
       pointer-events: none;
       transition: all 0.25s ease;
-      z-index: 200;
+      z-index: 2000;
       white-space: nowrap;
       box-shadow: 0 6px 20px rgba(0,0,0,0.5);
     }
@@ -1308,7 +1313,7 @@
         state.favourites.push(duaId);
         showToast('Saved to Favourites');
       }
-      renderScreen(state.currentScreen);
+      renderScreen(state.currentScreen, null, true);
     }
 
     function getTranslationText(dua) {
@@ -1334,7 +1339,9 @@
       }
 
       const vp = document.getElementById('appViewport');
-      vp.scrollTop = 0;
+      if (!preserveSlide) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+      }
 
       switch (screenNum) {
         case 37: vp.innerHTML = view37Home(); break;
@@ -1613,7 +1620,7 @@
 
           <div class="filter-chips">
             ${filters.map(f => `
-              <button class="chip ${state.searchFilter === f ? 'active' : ''}" onclick="state.searchFilter='${f}'; renderScreen(40);">
+              <button class="chip ${state.searchFilter === f ? 'active' : ''}" onclick="state.searchFilter='${f}'; renderScreen(40, null, true);">
                 ${f}
               </button>
             `).join('')}
@@ -1925,7 +1932,7 @@
       if (currentIdx < 0) currentIdx = 0;
       const nextIdx = (currentIdx + dir + DUAS_LIST.length) % DUAS_LIST.length;
       state.selectedDuaId = DUAS_LIST[nextIdx].id;
-      renderScreen(45);
+      renderScreen(45, null, true);
     }
 
     /* --- SCREEN 46: Audio Player / Recitation --- */
@@ -1965,7 +1972,7 @@
 
             <div class="player-controls">
               <button class="back-btn" onclick="showToast('Rewound to start')"><i class="bi bi-skip-start-fill"></i></button>
-              <button class="play-main-btn" onclick="state.isPlaying = !state.isPlaying; renderScreen(46);">
+              <button class="play-main-btn" onclick="state.isPlaying = !state.isPlaying; renderScreen(46, null, true);">
                 <i class="bi ${state.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'}"></i>
               </button>
               <button class="back-btn" onclick="showToast('Next Dua Recitation')"><i class="bi bi-skip-end-fill"></i></button>
@@ -1977,7 +1984,7 @@
           </div>
           <div class="option-list">
             ${reciters.map(r => `
-              <div class="option-row ${state.selectedReciter === r ? 'selected' : ''}" onclick="state.selectedReciter='${r}'; renderScreen(46);">
+              <div class="option-row ${state.selectedReciter === r ? 'selected' : ''}" onclick="state.selectedReciter='${r}'; renderScreen(46, null, true);">
                 <div class="radio-left">
                   <div class="radio-circle"></div>
                   <div>
@@ -2011,7 +2018,7 @@
           </div>
           <div class="option-list">
             ${langs.map(l => `
-              <div class="option-row ${state.language === l ? 'selected' : ''}" onclick="state.language='${l}'; renderScreen(47);">
+              <div class="option-row ${state.language === l ? 'selected' : ''}" onclick="state.language='${l}'; renderScreen(47, null, true);">
                 <div class="radio-left">
                   <div class="radio-circle"></div>
                   <span>${l}${l === 'Roman Urdu' ? ' (Transliterated Meaning)' : ''}</span>
@@ -2026,7 +2033,7 @@
           </div>
           <div class="option-list">
             ${translits.map(t => `
-              <div class="option-row ${state.translitMode === t ? 'selected' : ''}" onclick="state.translitMode='${t}'; renderScreen(47);">
+              <div class="option-row ${state.translitMode === t ? 'selected' : ''}" onclick="state.translitMode='${t}'; renderScreen(47, null, true);">
                 <div class="radio-left">
                   <div class="radio-circle"></div>
                   <span>${t}</span>
@@ -2100,7 +2107,7 @@
     function setArabicScriptStyle(styleLabel, fontStack) {
       state.arabicStyle = styleLabel;
       document.documentElement.style.setProperty('--arabic-font', fontStack);
-      renderScreen(48);
+      renderScreen(48, null, true);
     }
 
     function setFontScale(level) {
@@ -2116,7 +2123,7 @@
         root.style.setProperty('--arabic-scale', '1');
         root.style.setProperty('--body-scale', '1');
       }
-      renderScreen(48);
+      renderScreen(48, null, true);
     }
 
     /* --- SCREEN 49: Bookmarks / Favourites --- */
@@ -2131,8 +2138,8 @@
           </div>
 
           <div class="filter-chips" style="margin-top:10px;">
-            <button class="chip ${state.favTab === 'Duas' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Duas'; renderScreen(49);">Duas (${favDuas.length})</button>
-            <button class="chip ${state.favTab === 'Reflections' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Reflections'; renderScreen(49);">Reflections</button>
+            <button class="chip ${state.favTab === 'Duas' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Duas'; renderScreen(49, null, true);">Duas (${favDuas.length})</button>
+            <button class="chip ${state.favTab === 'Reflections' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Reflections'; renderScreen(49, null, true);">Reflections</button>
           </div>
 
           <div class="list-stack" style="margin-top:10px;">
@@ -2234,17 +2241,17 @@
           <div class="copy-sheet">
             <div style="text-align:center; font-weight:700; font-size:1rem; margin-bottom:12px;">Copy</div>
 
-            <div class="copy-check-row" onclick="state.copyOptions.arabic = !state.copyOptions.arabic; renderScreen(51);">
+            <div class="copy-check-row" onclick="state.copyOptions.arabic = !state.copyOptions.arabic; renderScreen(51, null, true);">
               <span><i class="bi ${state.copyOptions.arabic ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c; margin-right:8px;"></i> Arabic Text</span>
               ${state.copyOptions.arabic ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
             </div>
 
-            <div class="copy-check-row" onclick="state.copyOptions.transliteration = !state.copyOptions.transliteration; renderScreen(51);">
+            <div class="copy-check-row" onclick="state.copyOptions.transliteration = !state.copyOptions.transliteration; renderScreen(51, null, true);">
               <span><i class="bi ${state.copyOptions.transliteration ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c; margin-right:8px;"></i> Transliteration</span>
               ${state.copyOptions.transliteration ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
             </div>
 
-            <div class="copy-check-row" onclick="state.copyOptions.translation = !state.copyOptions.translation; renderScreen(51);">
+            <div class="copy-check-row" onclick="state.copyOptions.translation = !state.copyOptions.translation; renderScreen(51, null, true);">
               <span><i class="bi ${state.copyOptions.translation ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c; margin-right:8px;"></i> Translation</span>
               ${state.copyOptions.translation ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
             </div>
