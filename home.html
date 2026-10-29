@@ -43,7 +43,7 @@
       font-family: 'Cormorant Garamond', Georgia, serif;
     }
 
-    /* Mobile App Shell with generous vertical breathing room */
+    /* Mobile App Shell */
     .app-frame {
       width: 100%;
       max-width: 430px;
@@ -51,7 +51,7 @@
       position: relative;
       background: linear-gradient(180deg, #06251b 0%, #041b13 45%, #03150f 100%);
       box-shadow: 0 0 60px rgba(0, 0, 0, 0.85);
-      padding-bottom: 120px; /* Extra breathing room above bottom nav */
+      padding-bottom: 120px;
       overflow-x: hidden;
     }
 
@@ -69,7 +69,7 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* Gold-bordered glassmorphic cards with airy padding */
+    /* Gold-bordered glassmorphic cards */
     .aamaal-card {
       background: linear-gradient(155deg, rgba(13, 52, 40, 0.86) 0%, rgba(5, 29, 21, 0.94) 100%);
       border: 1px solid var(--border-gold);
@@ -175,7 +175,7 @@
     /* Subtle Divider inside Today's Progress */
     .stat-divider {
       width: 1px;
-      height: 44px;
+      height: 42px;
       background: linear-gradient(180deg, transparent, rgba(201, 181, 122, 0.32), transparent);
       flex-shrink: 0;
     }
@@ -185,25 +185,23 @@
 
   <main class="app-frame" id="app-root">
 
-    <!-- DEV / SUB-SCREEN BAR (Top Floating Pill for Testing Sub-Screens & Custom Images) -->
-    <div class="fixed top-2.5 left-1/2 -translate-x-1/2 z-50 flex items-center gap-1.5 bg-[#03150e]/90 border border-[#d4be83]/30 px-3 py-1 rounded-full backdrop-blur-md text-[11px] text-[#d4be83] shadow-lg">
-      <button onclick="switchSubView('view-home-main')" id="pill-main" class="px-2 py-0.5 rounded-full bg-[#9fe8bc]/20 text-[#9fe8bc] font-semibold transition">Home Feed</button>
-      <span>·</span>
-      <button onclick="switchSubView('view-daily-overview')" id="pill-overview" class="px-2 py-0.5 rounded-full hover:text-white transition">Daily Overview</button>
-      <span>·</span>
-      <button onclick="switchSubView('view-quick-actions')" id="pill-actions" class="px-2 py-0.5 rounded-full hover:text-white transition">Quick Actions</button>
-      <span>·</span>
-      <button onclick="switchSubView('view-continue-reading')" id="pill-continue" class="px-2 py-0.5 rounded-full hover:text-white transition">Continue</button>
-      <button onclick="openAssetModal()" title="Customize Images" class="ml-1 text-[#9fe8bc] hover:underline font-semibold">🖼️</button>
-    </div>
+    <!-- DEV ONLY: Minimal Image Upload Button (Hidden when DEV_MODE = false) -->
+    <button
+      id="dev-img-upload-btn"
+      onclick="openAssetModal()"
+      title="Development Only: Upload / Customize Images"
+      class="fixed bottom-24 right-4 z-50 w-9 h-9 rounded-full bg-[#041d15]/90 border border-[#d4be83]/45 flex items-center justify-center text-sm shadow-xl backdrop-blur-md active:scale-95 transition"
+    >
+      🖼️
+    </button>
 
     <!-- =================================================================== -->
-    <!-- SUB-SCREEN 1: MAIN HOME DASHBOARD (Spacious Reference Layout)       -->
+    <!-- SUB-SCREEN 1: MAIN HOME DASHBOARD                                   -->
     <!-- =================================================================== -->
     <section id="view-home-main" class="sub-view active">
 
-      <!-- HERO HEADER WITH SUNRISE MOSQUE SCENERY & BREATHING ROOM -->
-      <header class="relative w-full min-h-[255px] pt-14 px-6 pb-7 flex flex-col justify-between overflow-hidden">
+      <!-- HERO HEADER WITH SUNRISE MOSQUE SCENERY -->
+      <header class="relative w-full min-h-[245px] pt-10 px-5 pb-7 flex flex-col justify-between overflow-hidden">
         <!-- Custom Background Scenery Image -->
         <img data-asset="bg_home_header" alt="Sunrise Mosque Scenery" class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none" />
         <!-- Soft Gradient Vignette for Readability -->
@@ -213,19 +211,19 @@
         <div class="relative z-10 flex items-start justify-between gap-3">
           <div class="flex items-center gap-3.5">
             <!-- Profile Avatar -->
-            <button onclick="window.location.href='settings.html'" class="w-13 h-13 rounded-full p-0.5 border border-[#d4be83]/60 shadow-lg overflow-hidden shrink-0 focus:outline-none">
-              <img data-asset="user_avatar" alt="User Profile" class="w-12 h-12 rounded-full object-cover" />
+            <button onclick="window.location.href='settings.html'" class="w-12 h-12 rounded-full p-0.5 border border-[#d4be83]/60 shadow-lg overflow-hidden shrink-0 focus:outline-none">
+              <img data-asset="user_avatar" alt="User Profile" class="w-full h-full rounded-full object-cover" />
             </button>
             <div>
               <p class="text-[11px] uppercase tracking-[0.22em] text-[#d4be83] font-semibold mb-0.5">Assalamu Alaikum</p>
-              <h1 class="font-serif-display text-[29px] leading-[1.12] font-semibold text-white tracking-tight">Your spiritual journey</h1>
+              <h1 class="font-serif-display text-[28px] leading-[1.12] font-semibold text-white tracking-tight">Your spiritual journey</h1>
               <p id="current-date-label" class="text-[13px] text-[#c7dcd0] mt-1 font-normal">Thursday, 29 October</p>
             </div>
           </div>
 
           <!-- Top Right Notification & Menu Buttons -->
-          <div class="flex items-center gap-1.5 pt-1">
-            <button onclick="showToast('Reminders active: Evening Durood & Surah Mulk')" class="relative w-10 h-10 rounded-full flex items-center justify-center text-[#07261c] hover:bg-white/10 transition" aria-label="Notifications">
+          <div class="flex items-center gap-1 pt-0.5 shrink-0">
+            <button onclick="showToast('Reminders active: Evening Durood & Surah Mulk')" class="relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition" aria-label="Notifications">
               <svg class="w-6 h-6 text-[#e8f5ee] drop-shadow" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
               </svg>
@@ -239,7 +237,7 @@
           </div>
         </div>
 
-        <!-- Search Bar with Clean Breathing Space -->
+        <!-- Search Bar -->
         <div class="relative z-10 mt-6">
           <div class="search-pill flex items-center px-4 py-3.5 gap-3">
             <svg class="w-5 h-5 text-[#a6bfb2] shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -259,13 +257,13 @@
         </div>
       </header>
 
-      <!-- MAIN CONTENT FEED: Generous vertical spacing (space-y-8 = 32px between sections) -->
+      <!-- MAIN CONTENT FEED -->
       <div class="px-5 pt-3 space-y-8">
 
-        <!-- 1. TODAY'S PROGRESS CARD (Fixed Layout so Reminders never overflows) -->
+        <!-- 1. TODAY'S PROGRESS CARD (Fixed 2-line goal text + balanced 3 stat columns) -->
         <section aria-label="Today's progress">
-          <div onclick="switchSubView('view-daily-overview')" class="aamaal-card aamaal-card-interactive p-5 cursor-pointer overflow-hidden">
-            <div class="flex items-center justify-between mb-4">
+          <div onclick="switchSubView('view-daily-overview')" class="aamaal-card aamaal-card-interactive px-4 py-5 cursor-pointer overflow-hidden">
+            <div class="flex items-center justify-between mb-4 px-0.5">
               <h2 class="font-serif-display text-[25px] font-semibold text-white tracking-wide">Today’s progress</h2>
               <span class="text-[11px] uppercase tracking-wider text-[#9fe8bc] font-medium flex items-center gap-1 shrink-0">
                 Details
@@ -273,12 +271,12 @@
               </span>
             </div>
 
-            <!-- Responsive Flex/Grid Row that keeps all 3 stats + ring comfortably inside card -->
-            <div class="flex items-center justify-between gap-2.5">
-              <!-- Left: Circular Progress + Goal Count -->
-              <div class="flex items-center gap-3 min-w-0 flex-1">
-                <div class="relative w-[64px] h-[64px] shrink-0 flex items-center justify-center">
-                  <svg class="w-[64px] h-[64px]" viewBox="0 0 72 72">
+            <!-- Balanced Horizontal Layout -->
+            <div class="flex items-center justify-between gap-2">
+              <!-- Left: Circular Progress + Clean 2-Line Goal Summary -->
+              <div class="flex items-center gap-2.5 shrink-0">
+                <div class="relative w-[58px] h-[58px] shrink-0 flex items-center justify-center">
+                  <svg class="w-[58px] h-[58px]" viewBox="0 0 72 72">
                     <circle cx="36" cy="36" r="29" stroke="rgba(159, 232, 188, 0.16)" stroke-width="6" fill="transparent" />
                     <circle
                       id="home-progress-ring"
@@ -292,48 +290,50 @@
                       fill="transparent"
                     />
                   </svg>
-                  <span id="home-progress-pct" class="absolute font-serif-display text-[20px] font-bold text-white">65%</span>
+                  <span id="home-progress-pct" class="absolute font-serif-display text-[19px] font-bold text-white">65%</span>
                 </div>
 
-                <div class="leading-snug min-w-0">
-                  <p id="home-goals-summary" class="text-[13.5px] font-medium text-[#e4efe9] leading-tight">2 of 3 goals<br/>completed</p>
+                <!-- Guaranteed 2-line layout ("2 of 3 goals" / "completed") -->
+                <div id="home-goals-summary" class="text-[12.5px] font-medium text-[#e4efe9] leading-[1.35] whitespace-nowrap">
+                  <span class="block">2 of 3 goals</span>
+                  <span class="block text-[#b8cec2]">completed</span>
                 </div>
               </div>
 
-              <!-- Right: 3 Balanced Metric Columns (Dhikr | Sessions | Reminders) -->
-              <div class="flex items-center justify-end gap-2 sm:gap-3 shrink-0">
+              <!-- Right: 3 Metric Columns (Dhikr | Sessions | Reminders) -->
+              <div class="flex items-center justify-end gap-1.5 sm:gap-2.5 shrink-0">
                 <div class="stat-divider"></div>
 
                 <!-- Dhikr Stat -->
-                <div class="flex flex-col items-center text-center w-[48px]">
-                  <svg class="w-5 h-5 text-[#d4be83] mb-1.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                <div class="flex flex-col items-center text-center w-[42px]">
+                  <svg class="w-4 h-4 text-[#d4be83] mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                     <circle cx="12" cy="8" r="5.5" stroke-dasharray="2 2.2" />
                     <path stroke-linecap="round" d="M12 13.5v5.5M10 19h4" />
                   </svg>
-                  <span class="text-[10.5px] text-[#b8cec2] leading-none">Dhikr</span>
-                  <span id="stat-dhikr-val" class="font-serif-display text-[21px] font-bold text-white leading-tight mt-1">413</span>
+                  <span class="text-[10px] text-[#b8cec2] leading-none">Dhikr</span>
+                  <span id="stat-dhikr-val" class="font-serif-display text-[19px] font-bold text-white leading-tight mt-1">413</span>
                 </div>
 
                 <div class="stat-divider"></div>
 
                 <!-- Sessions Stat -->
-                <div class="flex flex-col items-center text-center w-[52px]">
-                  <svg class="w-5 h-5 text-[#d4be83] mb-1.5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                <div class="flex flex-col items-center text-center w-[46px]">
+                  <svg class="w-4 h-4 text-[#d4be83] mb-1" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
                   </svg>
-                  <span class="text-[10.5px] text-[#b8cec2] leading-none">Sessions</span>
-                  <span id="stat-sessions-val" class="font-serif-display text-[21px] font-bold text-white leading-tight mt-1">2</span>
+                  <span class="text-[10px] text-[#b8cec2] leading-none">Sessions</span>
+                  <span id="stat-sessions-val" class="font-serif-display text-[19px] font-bold text-white leading-tight mt-1">2</span>
                 </div>
 
                 <div class="stat-divider"></div>
 
                 <!-- Reminders Stat -->
-                <div class="flex flex-col items-center text-center w-[58px]">
-                  <svg class="w-5 h-5 text-[#d4be83] mb-1.5" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24">
+                <div class="flex flex-col items-center text-center w-[52px]">
+                  <svg class="w-4 h-4 text-[#d4be83] mb-1" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
                   </svg>
-                  <span class="text-[10.5px] text-[#b8cec2] leading-none">Reminders</span>
-                  <span id="stat-reminders-val" class="font-serif-display text-[21px] font-bold text-white leading-tight mt-1">1</span>
+                  <span class="text-[10px] text-[#b8cec2] leading-none">Reminders</span>
+                  <span id="stat-reminders-val" class="font-serif-display text-[19px] font-bold text-white leading-tight mt-1">1</span>
                 </div>
               </div>
             </div>
@@ -389,17 +389,15 @@
         <!-- 3. DAILY FEATURED DUA CARD -->
         <section aria-label="Daily Featured Dua">
           <div onclick="openFeaturedDuaModal()" class="aamaal-card aamaal-card-interactive p-6 flex items-center gap-5 cursor-pointer">
-            <!-- Left Ornate Mosque Crest Image -->
             <div class="w-24 h-24 shrink-0 flex items-center justify-center rounded-2xl bg-[#051c14]/60 border border-[#d4be83]/25 p-1.5">
               <img data-asset="featured_dua_emblem" alt="Featured Dua Emblem" class="w-full h-full object-contain pointer-events-none" />
             </div>
 
-            <!-- Right Copy -->
             <div class="flex-1 min-w-0">
               <p class="text-[11px] uppercase tracking-[0.2em] text-[#b7cfc2] font-semibold mb-1.5">Daily Featured Dua</p>
               <h3 class="font-serif-display text-[25px] leading-[1.15] font-semibold text-white mb-2">Dua for peace of heart</h3>
               <p class="text-[13.5px] text-[#c2d7cb] leading-relaxed mb-3.5">Ask Allah for calm and reassurance.</p>
-              <span class="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#e6f2eb] group">
+              <span class="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#e6f2eb]">
                 Read dua
                 <svg class="w-4 h-4 text-[#d4be83]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
               </span>
@@ -407,41 +405,49 @@
           </div>
         </section>
 
-        <!-- 4. DAILY REFLECTION BANNER -->
+        <!-- 4. DAILY REFLECTION BANNER (Displays the exact story cover & details from upcoming Reflections pages) -->
         <section aria-label="Daily Reflection">
-          <div onclick="switchSubView('view-continue-reading')" class="aamaal-card aamaal-card-interactive relative overflow-hidden min-h-[158px] p-6 flex flex-col justify-center cursor-pointer">
-            <!-- Scenic Lantern & River Background Image -->
-            <img data-asset="daily_reflection_bg" alt="Daily Reflection Scenery" class="absolute inset-0 w-full h-full object-cover object-right pointer-events-none" />
-            <div class="absolute inset-0 bg-gradient-to-r from-[#052219] via-[#052219]/85 to-transparent pointer-events-none"></div>
+          <div onclick="openStoryReader('daily')" class="aamaal-card aamaal-card-interactive relative overflow-hidden min-h-[168px] p-6 flex flex-col justify-center cursor-pointer">
+            <!-- Dynamically synced to the Featured Reflection Story Image -->
+            <img id="daily-reflection-card-img" data-asset="story_sabr_cover" alt="Daily Reflection Story" class="absolute inset-0 w-full h-full object-cover object-right pointer-events-none" />
+            <div class="absolute inset-0 bg-gradient-to-r from-[#052219] via-[#052219]/88 to-transparent pointer-events-none"></div>
 
-            <div class="relative z-10 max-w-[68%]">
-              <p class="text-[11px] uppercase tracking-[0.22em] text-[#c2d7cb] font-semibold mb-2">Daily Reflection</p>
-              <h3 class="font-serif-display text-[26px] leading-[1.15] font-semibold text-white mb-3.5">Small deeds, lasting change</h3>
-              <span class="inline-flex items-center gap-1.5 text-[13.5px] font-medium text-[#e4f0e9]">
-                2-minute reflection
+            <div class="relative z-10 max-w-[70%]">
+              <div class="flex items-center gap-2 mb-1.5">
+                <p class="text-[10.5px] uppercase tracking-[0.22em] text-[#9fe8bc] font-semibold">Daily Reflection</p>
+                <span class="text-[#d4be83]/60 text-xs">•</span>
+                <span id="daily-reflection-category" class="text-[10.5px] uppercase tracking-wider text-[#d4be83]">The Quran</span>
+              </div>
+              <h3 id="daily-reflection-title" class="font-serif-display text-[26px] leading-[1.15] font-semibold text-white mb-1.5">Patience (As-Sabr)</h3>
+              <p id="daily-reflection-subtitle" class="text-[12.5px] text-[#c7dcd0] line-clamp-1 mb-3">“Indeed, with hardship is ease.” (Qur'an 94:6)</p>
+              <span class="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#e4f0e9]">
+                <span id="daily-reflection-duration">2-minute reflection</span>
                 <svg class="w-4 h-4 text-[#d4be83]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
               </span>
             </div>
           </div>
         </section>
 
-        <!-- 5. CONTINUE WHERE YOU LEFT OFF ("CONTINUE READING") -->
+        <!-- 5. CONTINUE WHERE YOU LEFT OFF (Synced to the active Seerah/Reflections story cover & chapter) -->
         <section aria-label="Continue Reading">
-          <div onclick="switchSubView('view-continue-reading')" class="aamaal-card aamaal-card-interactive p-5 flex items-center gap-4 cursor-pointer">
-            <!-- Story Thumbnail -->
-            <div class="w-[104px] h-[78px] rounded-xl overflow-hidden border border-[#d4be83]/35 shrink-0">
-              <img data-asset="continue_reading_thumb" alt="The Power of Gratitude" class="w-full h-full object-cover pointer-events-none" />
+          <div onclick="openStoryReader('continue')" class="aamaal-card aamaal-card-interactive p-5 flex items-center gap-4 cursor-pointer">
+            <!-- Story Thumbnail synced directly with the active upcoming story -->
+            <div class="w-[108px] h-[84px] rounded-xl overflow-hidden border border-[#d4be83]/40 shrink-0 relative">
+              <img id="continue-reading-card-img" data-asset="story_makkah_cover" alt="The Valley of Makkah" class="w-full h-full object-cover pointer-events-none" />
+              <span id="continue-story-tag" class="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-[#041d15]/85 text-[9px] uppercase tracking-wider text-[#9fe8bc] border border-[#9fe8bc]/30">
+                The Seerah
+              </span>
             </div>
 
             <!-- Story Details & Progress Bar -->
             <div class="flex-1 min-w-0">
               <p class="text-[10.5px] uppercase tracking-[0.2em] text-[#b8cfc2] font-semibold mb-1">Continue Reading</p>
-              <h3 class="font-serif-display text-[22px] leading-tight font-semibold text-white truncate">The Power of Gratitude</h3>
-              <p id="continue-part-label" class="text-[12.5px] text-[#c2d7cb] mt-1 mb-2.5">Part 2 of 4</p>
+              <h3 id="continue-reading-title" class="font-serif-display text-[22px] leading-tight font-semibold text-white truncate">The Valley of Makkah</h3>
+              <p id="continue-part-label" class="text-[12px] text-[#c2d7cb] mt-1 mb-2.5">Episode 3 of 12 · Faith in Darkness</p>
 
               <!-- Progress Track -->
               <div class="w-full h-1.5 bg-[#0e3a2b] rounded-full overflow-hidden">
-                <div id="continue-progress-bar" class="h-full bg-gradient-to-r from-[#80dca8] to-[#b5f2ce] rounded-full transition-all duration-500" style="width: 55%;"></div>
+                <div id="continue-progress-bar" class="h-full bg-gradient-to-r from-[#80dca8] to-[#b5f2ce] rounded-full transition-all duration-500" style="width: 50%;"></div>
               </div>
             </div>
 
@@ -481,7 +487,7 @@
     <!-- =================================================================== -->
     <!-- SUB-SCREEN 2: DAILY OVERVIEW DETAIL (With Slider Toggle Switches)   -->
     <!-- =================================================================== -->
-    <section id="view-daily-overview" class="sub-view px-5 pt-14 space-y-7">
+    <section id="view-daily-overview" class="sub-view px-5 pt-10 space-y-7">
       <div class="flex items-center justify-between">
         <button onclick="switchSubView('view-home-main')" class="inline-flex items-center gap-2 text-sm text-[#9fe8bc] font-medium">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -496,9 +502,7 @@
       </div>
 
       <!-- 3 Core Aamaal Checklist Cards with Slider Toggle Switches -->
-      <div class="space-y-4" id="daily-goals-list">
-        <!-- Populated dynamically by JS -->
-      </div>
+      <div class="space-y-4" id="daily-goals-list"></div>
 
       <!-- Quick Increment Dhikr Session Box -->
       <div class="aamaal-card p-6 space-y-4">
@@ -520,7 +524,7 @@
     <!-- =================================================================== -->
     <!-- SUB-SCREEN 3: QUICK ACTIONS & SAVED HUB                             -->
     <!-- =================================================================== -->
-    <section id="view-quick-actions" class="sub-view px-5 pt-14 space-y-7">
+    <section id="view-quick-actions" class="sub-view px-5 pt-10 space-y-7">
       <div class="flex items-center justify-between">
         <button onclick="switchSubView('view-home-main')" class="inline-flex items-center gap-2 text-sm text-[#9fe8bc] font-medium">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
@@ -562,44 +566,49 @@
     </section>
 
     <!-- =================================================================== -->
-    <!-- SUB-SCREEN 4: CONTINUE WHERE YOU LEFT OFF (Reader View)             -->
+    <!-- SUB-SCREEN 4: STORY & REFLECTION PREVIEW READER                     -->
     <!-- =================================================================== -->
-    <section id="view-continue-reading" class="sub-view px-5 pt-14 space-y-7">
+    <section id="view-continue-reading" class="sub-view px-5 pt-10 space-y-6">
       <div class="flex items-center justify-between">
         <button onclick="switchSubView('view-home-main')" class="inline-flex items-center gap-2 text-sm text-[#9fe8bc] font-medium">
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
           Back to Home
         </button>
-        <span class="text-xs uppercase tracking-[0.2em] text-[#d4be83]">Continue Where You Left Off</span>
+        <span id="reader-top-category" class="text-xs uppercase tracking-[0.2em] text-[#d4be83]">Reflections Preview</span>
       </div>
 
+      <!-- Active Story Card -->
       <div class="aamaal-card overflow-hidden">
-        <div class="relative h-48 w-full">
-          <img data-asset="continue_reading_thumb" alt="The Power of Gratitude" class="w-full h-full object-cover" />
-          <div class="absolute inset-0 bg-gradient-to-t from-[#06231a] via-[#06231a]/40 to-transparent"></div>
+        <div class="relative h-56 w-full">
+          <img id="reader-cover-img" src="" alt="Story Cover" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-gradient-to-t from-[#06231a] via-[#06231a]/45 to-transparent"></div>
           <div class="absolute bottom-4 left-5 right-5">
-            <span id="reader-part-badge" class="px-2.5 py-1 rounded-full text-[11px] uppercase tracking-widest bg-[#9fe8bc]/20 text-[#9fe8bc] border border-[#9fe8bc]/40">Part 2 of 4</span>
-            <h2 class="font-serif-display text-3xl font-semibold text-white mt-2">The Power of Gratitude (Ash-Shukr)</h2>
+            <span id="reader-part-badge" class="px-2.5 py-1 rounded-full text-[11px] uppercase tracking-widest bg-[#9fe8bc]/20 text-[#9fe8bc] border border-[#9fe8bc]/40">Episode 3 of 12</span>
+            <h2 id="reader-title" class="font-serif-display text-3xl font-semibold text-white mt-2">The Valley of Makkah</h2>
+            <p id="reader-subtitle" class="text-xs uppercase tracking-widest text-[#d4be83] mt-0.5">FAITH IN A TIME OF DARKNESS</p>
           </div>
         </div>
 
         <div class="p-6 space-y-4 text-[15px] text-[#d7e8df] leading-relaxed">
-          <p class="italic text-[#d4be83] font-serif-display text-xl">
-            “If you are grateful, I will surely increase you [in favor]...” — Surah Ibrahim (14:7)
-          </p>
-          <p>
-            Gratitude in the believer’s heart is more than a fleeting word on the tongue; it is a lens that transforms ordinary mornings, quiet nights, and even moments of trial into stations of closeness with Allah.
-          </p>
-          <p>
-            When we pause to notice the blessings already resting in our hands—breath, faith, family, and the ability to remember Him—anxiety loosens its grip and contentment takes root.
-          </p>
+          <p id="reader-quote" class="italic text-[#d4be83] font-serif-display text-xl"></p>
+          <p id="reader-body-1"></p>
+          <p id="reader-body-2"></p>
 
-          <div class="pt-4 flex items-center justify-between gap-3">
-            <button onclick="advanceReadingPart()" class="flex-1 py-3.5 px-5 rounded-full bg-gradient-to-r from-[#8ce2b0] to-[#a9f1c7] text-[#052319] font-semibold text-sm shadow-lg active:scale-98 transition">
-              Mark Part Complete & Continue →
+          <div class="pt-4 flex flex-col sm:flex-row items-center gap-3">
+            <button onclick="advanceReadingPart()" class="w-full py-3.5 px-5 rounded-full bg-gradient-to-r from-[#8ce2b0] to-[#a9f1c7] text-[#052319] font-semibold text-sm shadow-lg active:scale-98 transition">
+              Mark Part Complete &amp; Next →
+            </button>
+            <button onclick="navigateToPage('reflections.html', 'Full Reflections Deck')" class="w-full py-3 px-5 rounded-full border border-[#d4be83]/45 text-xs font-semibold text-[#e6f2eb] hover:bg-white/5 transition">
+              Open in Reflections Page
             </button>
           </div>
         </div>
+      </div>
+
+      <!-- Switch between upcoming Reflections stories to preview how Home cards sync -->
+      <div class="aamaal-card p-5 space-y-3">
+        <p class="text-xs uppercase tracking-widest text-[#d4be83]">Upcoming Stories in Reflections (`reflections.html`)</p>
+        <div id="upcoming-stories-switcher" class="grid grid-cols-2 gap-3"></div>
       </div>
     </section>
 
@@ -629,15 +638,15 @@
     </div>
 
     <!-- =================================================================== -->
-    <!-- CUSTOM IMAGE ASSETS MODAL (Swap Any Image URL or Upload File)       -->
+    <!-- CUSTOM IMAGE ASSETS MODAL (Development Only)                        -->
     <!-- =================================================================== -->
     <div id="asset-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       <div class="aamaal-card max-w-md w-full p-5 max-h-[85vh] overflow-y-auto space-y-4">
         <div class="flex items-center justify-between">
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Customize Home Images</h3>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Customize Home &amp; Story Images</h3>
           <button onclick="closeAssetModal()" class="text-sm text-[#a6bfb2] hover:text-white">✕</button>
         </div>
-        <p class="text-xs text-[#b2c9bc]">Paste a GitHub/web URL or choose a local image file to replace any slot on `home.html`.</p>
+        <p class="text-xs text-[#b2c9bc]">Upload local files or paste URLs for the Home header and the upcoming Reflections story covers.</p>
         <div id="asset-inputs-container" class="space-y-3 text-xs"></div>
         <div class="flex justify-end gap-2 pt-2">
           <button onclick="resetDefaultAssets()" class="px-4 py-2 rounded-lg border border-red-400/40 text-red-300 text-xs">Reset Defaults</button>
@@ -650,7 +659,7 @@
     <div id="toast-banner" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-full bg-[#072b1f] border border-[#9fe8bc]/50 text-xs text-[#e9f7ef] shadow-xl whitespace-nowrap"></div>
 
     <!-- =================================================================== -->
-    <!-- BOTTOM NAVIGATION BAR (Matches Reference: Home · Tasbih · Duas · Stories) -->
+    <!-- BOTTOM NAVIGATION BAR (Home · Tasbih · Duas · Stories)              -->
     <!-- =================================================================== -->
     <nav class="bottom-nav" aria-label="Primary Bottom Navigation">
       <div class="grid grid-cols-4 items-center">
@@ -705,14 +714,18 @@
     import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // =========================================================================
-    // 1. CENTRALIZED CUSTOM IMAGE CONFIGURATION (`IMAGE_ASSETS`)
-    // Replace any path below with your own hosted GitHub image URLs anytime.
-    // =========================================================================
+    // Set DEV_MODE = false when deploying to production to hide the floating 🖼️ image uploader button
+    const DEV_MODE = true;
+    const devBtn = document.getElementById('dev-img-upload-btn');
+    if (devBtn && !DEV_MODE) devBtn.classList.add('hidden');
+
     const svgDataUri = (svgString) => `data:image/svg+xml;utf8,${encodeURIComponent(svgString.trim())}`;
 
+    // =========================================================================
+    // 1. CENTRALIZED CUSTOM IMAGE CONFIGURATION (`IMAGE_ASSETS`)
+    // Includes exact story covers matching the upcoming Reflections page (Step 3)
+    // =========================================================================
     const DEFAULT_IMAGE_ASSETS = {
-      // Hero Sunrise Mosque & Palm Lake Scenery
       bg_home_header: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500">
           <defs>
@@ -730,33 +743,21 @@
           </defs>
           <rect width="800" height="500" fill="url(#sky)"/>
           <circle cx="545" cy="160" r="170" fill="url(#sun)"/>
-          <!-- Distant mountains -->
           <path d="M0 310 Q140 245 290 295 T580 275 T800 300 L800 360 L0 360 Z" fill="#1d4938" opacity="0.7"/>
-          <!-- Mosque Silhouette on Right -->
           <g fill="#0c3326">
             <rect x="560" y="255" width="150" height="80"/>
             <path d="M635 195 C600 195 588 232 588 255 L682 255 C682 232 670 195 635 195 Z"/>
-            <!-- Minarets -->
             <rect x="595" y="150" width="10" height="105"/>
             <path d="M593 150 L600 132 L607 150 Z"/>
             <rect x="668" y="138" width="12" height="117"/>
             <path d="M666 138 L674 118 L682 138 Z"/>
             <rect x="550" y="180" width="8" height="75"/>
           </g>
-          <!-- Treeline & Lake -->
           <path d="M0 335 Q220 320 450 335 T800 330 L800 500 L0 500 Z" fill="#07281d"/>
           <rect x="0" y="345" width="800" height="155" fill="#052118" opacity="0.85"/>
-          <!-- Golden Water Reflections -->
-          <g fill="#d8c38a" opacity="0.28">
-            <rect x="510" y="355" width="90" height="3" rx="1.5"/>
-            <rect x="525" y="366" width="65" height="3" rx="1.5"/>
-            <rect x="500" y="378" width="110" height="3" rx="1.5"/>
-            <rect x="535" y="390" width="55" height="3" rx="1.5"/>
-          </g>
         </svg>
       `),
 
-      // User Avatar Silhouette at Sunrise
       user_avatar: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120">
           <defs>
@@ -772,7 +773,6 @@
         </svg>
       `),
 
-      // Daily Featured Dua Ornate Mosque Crest
       featured_dua_emblem: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160">
           <defs>
@@ -781,12 +781,9 @@
               <stop offset="100%" stop-color="#b49754"/>
             </linearGradient>
           </defs>
-          <!-- Outer Arabesque Arch Frame -->
           <path d="M80 12 C98 28 126 28 136 52 C146 76 142 108 126 128 C108 144 92 146 80 152 C68 146 52 144 34 128 C18 108 14 76 24 52 C34 28 62 28 80 12 Z"
                 fill="#0b3527" stroke="url(#goldGrad)" stroke-width="3"/>
-          <!-- Crescent & Star -->
           <path d="M83 34 A9 9 0 1 0 92 46 A7 7 0 1 1 83 34 Z" fill="url(#goldGrad)"/>
-          <!-- Central Dome & Minaret -->
           <path d="M80 56 C62 66 56 82 56 98 L104 98 C104 82 98 66 80 56 Z" fill="#89bfa2" opacity="0.85" stroke="url(#goldGrad)" stroke-width="2"/>
           <rect x="44" y="64" width="7" height="52" fill="#08281d" stroke="url(#goldGrad)" stroke-width="1.8"/>
           <rect x="48" y="98" width="64" height="24" fill="#08281d" stroke="url(#goldGrad)" stroke-width="2"/>
@@ -794,45 +791,88 @@
         </svg>
       `),
 
-      // Daily Reflection Lantern by the River Illustration
-      daily_reflection_bg: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 240">
+      // UPCOMING STORY 1 COVER: "Patience (As-Sabr)" — Mosque Courtyard & Palm Archway at Sunrise (from Step 3 Reflections)
+      story_sabr_cover: svgDataUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
           <defs>
-            <linearGradient id="refSky" x1="0" y1="0" x2="1" y2="0">
+            <linearGradient id="sabrSky" x1="0" y1="0" x2="1" y2="0">
               <stop offset="0%" stop-color="#052219"/>
-              <stop offset="45%" stop-color="#174535"/>
-              <stop offset="100%" stop-color="#e8c87c"/>
+              <stop offset="42%" stop-color="#174736"/>
+              <stop offset="100%" stop-color="#e5c478"/>
             </linearGradient>
-            <radialGradient id="lanternGlow" cx="0.64" cy="0.72" r="0.22">
-              <stop offset="0%" stop-color="#ffea9f"/>
-              <stop offset="45%" stop-color="#f59e0b" stop-opacity="0.55"/>
-              <stop offset="100%" stop-color="#f59e0b" stop-opacity="0"/>
+            <radialGradient id="sabrGlow" cx="0.78" cy="0.45" r="0.35">
+              <stop offset="0%" stop-color="#fff4c2"/>
+              <stop offset="55%" stop-color="#e5b869" stop-opacity="0.45"/>
+              <stop offset="100%" stop-color="#052219" stop-opacity="0"/>
             </radialGradient>
           </defs>
-          <rect width="600" height="240" fill="url(#refSky)"/>
-          <!-- Distant Mosque Silhouette -->
-          <g fill="#2b5744" opacity="0.65">
-            <path d="M510 115 C492 115 485 135 485 148 L535 148 C535 135 528 115 510 115 Z"/>
-            <rect x="472" y="90" width="6" height="58"/>
-            <rect x="542" y="84" width="6" height="64"/>
+          <rect width="600" height="260" fill="url(#sabrSky)"/>
+          <circle cx="470" cy="118" r="110" fill="url(#sabrGlow)"/>
+          <!-- Ancient Mosque Archways & Domes -->
+          <g fill="#123a2b" opacity="0.85">
+            <path d="M390 120 C368 120 358 145 358 175 L422 175 C422 145 412 120 390 120 Z"/>
+            <rect x="342" y="88" width="8" height="87"/>
+            <rect x="330" y="175" width="240" height="55"/>
           </g>
-          <!-- River & Path -->
-          <path d="M260 240 Q360 175 600 165 L600 240 Z" fill="#0a2e22"/>
-          <path d="M410 240 Q460 190 600 180 L600 240 Z" fill="#d9b872" opacity="0.45"/>
-          <!-- Glowing Lantern -->
-          <circle cx="385" cy="172" r="60" fill="url(#lanternGlow)"/>
-          <rect x="374" y="148" width="22" height="34" rx="4" fill="#23180b" stroke="#f6d27a" stroke-width="2"/>
-          <rect x="378" y="153" width="14" height="24" rx="2" fill="#ffe58f"/>
-          <!-- Tree Silhouette -->
-          <path d="M325 0 Q345 65 335 165 L350 165 Q360 70 355 0 Z" fill="#072219"/>
-          <circle cx="345" cy="32" r="55" fill="#0c3426"/>
-          <circle cx="395" cy="24" r="45" fill="#124231"/>
+          <!-- Palm Silhouette & Golden Pathway -->
+          <path d="M485 230 L492 105 L498 230 Z" fill="#072219"/>
+          <path d="M490 108 Q455 95 440 120 M490 108 Q525 90 545 115 M490 108 Q465 78 448 88 M490 108 Q518 75 538 88" stroke="#072219" stroke-width="5" fill="none" stroke-linecap="round"/>
+          <!-- Lantern Glow on Courtyard Floor -->
+          <path d="M290 260 Q410 190 600 185 L600 260 Z" fill="#08281d"/>
+          <circle cx="425" cy="195" r="24" fill="#ffdf85" opacity="0.5"/>
+          <rect x="418" y="182" width="14" height="22" rx="3" fill="#1e1509" stroke="#f7d379" stroke-width="1.8"/>
         </svg>
       `),
 
-      // Continue Reading Thumbnail (Mountain Valley Sunrise)
-      continue_reading_thumb: svgDataUri(`
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 180">
+      // UPCOMING STORY 2 COVER: "The Valley of Makkah" — Desert Canyon, Ancient Makkah & Traveler (from Step 3 Reflections)
+      story_makkah_cover: svgDataUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+          <defs>
+            <linearGradient id="makkahSky" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0b2e26"/>
+              <stop offset="48%" stop-color="#c9a86a"/>
+              <stop offset="100%" stop-color="#09231b"/>
+            </linearGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#makkahSky)"/>
+          <circle cx="265" cy="115" r="38" fill="#fff3c4" opacity="0.85"/>
+          <!-- Canyon Cliffs & Valley City -->
+          <path d="M0 220 L0 95 L95 145 L145 185 L0 220 Z" fill="#123529"/>
+          <path d="M400 230 L400 75 L295 130 L245 195 L400 230 Z" fill="#163b2e"/>
+          <!-- Ancient Makkah Houses in Valley -->
+          <g fill="#7d6b48" opacity="0.65">
+            <rect x="155" y="155" width="22" height="18"/>
+            <rect x="182" y="148" width="28" height="25"/>
+            <rect x="215" y="158" width="18" height="15"/>
+          </g>
+          <!-- Palm & Traveler Silhouette Overlooking Makkah -->
+          <path d="M0 300 Q180 195 400 215 L400 300 Z" fill="#071f17"/>
+          <circle cx="118" cy="188" r="9" fill="#04150f"/>
+          <path d="M104 235 C106 202 130 202 132 235 Z" fill="#04150f"/>
+        </svg>
+      `),
+
+      // UPCOMING STORY 3 COVER: "Leadership with Humility" (from Step 3 Reflections)
+      story_leadership_cover: svgDataUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
+          <defs>
+            <linearGradient id="leadSky" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#133d2f"/>
+              <stop offset="55%" stop-color="#d4b375"/>
+              <stop offset="100%" stop-color="#072118"/>
+            </linearGradient>
+          </defs>
+          <rect width="400" height="300" fill="url(#leadSky)"/>
+          <path d="M0 230 Q140 175 400 205 L400 300 L0 300 Z" fill="#09261c"/>
+          <!-- Standing Leader Figure Silhouette -->
+          <circle cx="210" cy="145" r="14" fill="#051a13"/>
+          <path d="M182 245 C186 170 234 170 238 245 Z" fill="#051a13"/>
+        </svg>
+      `),
+
+      // UPCOMING STORY 4 COVER: "The Power of Gratitude"
+      story_gratitude_cover: svgDataUri(`
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
           <defs>
             <linearGradient id="mSky" x1="0" y1="0" x2="1" y2="1">
               <stop offset="0%" stop-color="#5c8374"/>
@@ -840,14 +880,12 @@
               <stop offset="100%" stop-color="#194232"/>
             </linearGradient>
           </defs>
-          <rect width="240" height="180" fill="url(#mSky)"/>
-          <path d="M0 135 L55 65 L105 120 L155 58 L240 135 L240 180 L0 180 Z" fill="#173c2e"/>
-          <path d="M0 150 Q95 120 240 145 L240 180 L0 180 Z" fill="#0b261c"/>
-          <path d="M95 180 Q115 145 145 135 L165 180 Z" fill="#cfa968" opacity="0.65"/>
+          <rect width="400" height="300" fill="url(#mSky)"/>
+          <path d="M0 220 L95 105 L175 195 L265 95 L400 220 L400 300 L0 300 Z" fill="#173c2e"/>
+          <path d="M0 245 Q160 195 400 235 L400 300 L0 300 Z" fill="#0b261c"/>
         </svg>
       `),
 
-      // Gentle Reminder Subtle Misty Scenery
       reminder_banner_bg: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 140">
           <rect width="600" height="140" fill="#07281d"/>
@@ -857,13 +895,73 @@
       `)
     };
 
-    // Default Daily State
+    // =========================================================================
+    // 2. SHARED UPCOMING REFLECTIONS STORIES CATALOG
+    // Both "Daily Reflection" and "Continue Reading" pull directly from here
+    // so the image and text match what is inside the upcoming Reflections page.
+    // =========================================================================
+    const STORIES_CATALOG = {
+      sabr: {
+        id: 'sabr',
+        category: 'The Quran',
+        title: 'Patience (As-Sabr)',
+        subtitle: 'Small deeds, lasting change',
+        duration: '2-minute reflection',
+        assetKey: 'story_sabr_cover',
+        partLabel: 'Reflection 1 of 4',
+        progressPct: 50,
+        quote: '“Indeed, with hardship is ease.” — Surah Ash-Sharh (94:6)',
+        body1: 'True patience (As-Sabr) is not passive waiting—it is anchoring the heart in certainty that Allah’s relief is already woven into the very fabric of every trial.',
+        body2: 'Small, consistent deeds performed quietly each day build a spiritual resilience that outlasts any storm.'
+      },
+      makkah: {
+        id: 'makkah',
+        category: 'The Seerah',
+        title: 'The Valley of Makkah',
+        subtitle: 'FAITH IN A TIME OF DARKNESS',
+        duration: '3-minute story',
+        assetKey: 'story_makkah_cover',
+        partLabel: 'Episode 3 of 12',
+        progressPct: 35,
+        quote: '“In the heart of Makkah, a small group held on to a big truth — even when the world turned against them.”',
+        body1: 'Before the call echoed across the horizons, the valley of Makkah stood surrounded by jagged mountains and centuries of custom. Yet within its quiet streets, hearts were being prepared for revelation.',
+        body2: 'Steadfastness began with a handful of believers who chose truth over comfort, lighting a lamp that would guide generations.'
+      },
+      leadership: {
+        id: 'leadership',
+        category: 'Lessons',
+        title: 'Leadership with Humility',
+        subtitle: 'CHARACTER OVER POWER',
+        duration: '2-minute lesson',
+        assetKey: 'story_leadership_cover',
+        partLabel: 'Lesson 2 of 6',
+        progressPct: 65,
+        quote: '“True strength is not in power, but in character and service to others.”',
+        body1: 'Prophetic leadership never sought thrones or titles; it was found in mending one’s own sandals, listening to the vulnerable, and standing first in prayer and last in worldly claim.',
+        body2: 'When humility governs authority, hearts follow out of love rather than fear.'
+      },
+      gratitude: {
+        id: 'gratitude',
+        category: 'Spiritual Growth',
+        title: 'The Power of Gratitude',
+        subtitle: 'ASH-SHUKR IN DAILY LIFE',
+        duration: '2-minute reflection',
+        assetKey: 'story_gratitude_cover',
+        partLabel: 'Part 2 of 4',
+        progressPct: 55,
+        quote: '“If you are grateful, I will surely increase you [in favor]...” — Surah Ibrahim (14:7)',
+        body1: 'Gratitude in the believer’s heart is a lens that transforms ordinary mornings, quiet nights, and moments of trial into stations of closeness with Allah.',
+        body2: 'When we pause to notice the blessings already resting in our hands, anxiety loosens its grip and contentment takes root.'
+      }
+    };
+
     const DEFAULT_HOME_STATE = {
       dhikrCount: 413,
       sessionsCount: 2,
       remindersCount: 1,
-      readingPart: 2,
-      readingTotalParts: 4,
+      dailyReflectionStoryId: 'sabr',     // Pulls "Patience (As-Sabr)" cover & details
+      continueReadingStoryId: 'makkah',   // Pulls "The Valley of Makkah" cover & details
+      activeReaderStoryId: 'makkah',
       goals: [
         { id: 'durood', title: '313 Durood Shareef', subtitle: 'Send blessings upon the Prophet ﷺ', completed: true },
         { id: 'istighfar', title: '100 Istighfar', subtitle: 'Seek forgiveness & purify the heart', completed: true },
@@ -871,8 +969,14 @@
       ]
     };
 
-    let homeState = JSON.parse(localStorage.getItem('aamaal_home_state')) || DEFAULT_HOME_STATE;
-    let customAssets = JSON.parse(localStorage.getItem('aamaal_home_assets')) || { ...DEFAULT_IMAGE_ASSETS };
+    let homeState = {
+      ...DEFAULT_HOME_STATE,
+      ...(JSON.parse(localStorage.getItem('aamaal_home_state')) || {})
+    };
+    let customAssets = {
+      ...DEFAULT_IMAGE_ASSETS,
+      ...(JSON.parse(localStorage.getItem('aamaal_home_assets')) || {})
+    };
 
     // Format Date Label
     function initDateHeader() {
@@ -897,11 +1001,10 @@
       });
     }
 
-    // Render Today's Progress Ring, Stats, and Daily Overview Slider Checklist
+    // Render Today's Progress Ring, Stats, Story Cards, and Reader View
     function renderHomeState() {
       const completedCount = homeState.goals.filter(g => g.completed).length;
       const totalGoals = homeState.goals.length;
-      // Match 65% on 2/3 completed as shown in reference image
       const pct = completedCount === 2 && totalGoals === 3
         ? 65
         : Math.round((completedCount / totalGoals) * 100);
@@ -915,7 +1018,12 @@
 
       if (ringEl) ringEl.style.strokeDashoffset = offset;
       if (pctEl) pctEl.textContent = `${pct}%`;
-      if (summaryEl) summaryEl.innerHTML = `${completedCount} of ${totalGoals} goals<br/>completed`;
+      if (summaryEl) {
+        summaryEl.innerHTML = `
+          <span class="block">${completedCount} of ${totalGoals} goals</span>
+          <span class="block text-[#b8cec2]">completed</span>
+        `;
+      }
 
       const dhikrEl = document.getElementById('stat-dhikr-val');
       const sessEl = document.getElementById('stat-sessions-val');
@@ -927,17 +1035,60 @@
       if (remEl) remEl.textContent = homeState.remindersCount;
       if (overviewDhikrEl) overviewDhikrEl.textContent = homeState.dhikrCount;
 
-      // Continue Reading Progress
-      const partLabel = document.getElementById('continue-part-label');
-      const readerBadge = document.getElementById('reader-part-badge');
-      const progressBar = document.getElementById('continue-progress-bar');
-      const readPct = Math.min(100, Math.round((homeState.readingPart / homeState.readingTotalParts) * 100));
+      // 1. Sync Daily Reflection Banner with its Story from STORIES_CATALOG
+      const dailyStory = STORIES_CATALOG[homeState.dailyReflectionStoryId] || STORIES_CATALOG.sabr;
+      const dailyImg = document.getElementById('daily-reflection-card-img');
+      if (dailyImg) {
+        dailyImg.setAttribute('data-asset', dailyStory.assetKey);
+        dailyImg.src = customAssets[dailyStory.assetKey];
+      }
+      document.getElementById('daily-reflection-category').textContent = dailyStory.category;
+      document.getElementById('daily-reflection-title').textContent = dailyStory.title;
+      document.getElementById('daily-reflection-subtitle').textContent = dailyStory.quote;
+      document.getElementById('daily-reflection-duration').textContent = dailyStory.duration;
 
-      if (partLabel) partLabel.textContent = `Part ${homeState.readingPart} of ${homeState.readingTotalParts}`;
-      if (readerBadge) readerBadge.textContent = `Part ${homeState.readingPart} of ${homeState.readingTotalParts}`;
-      if (progressBar) progressBar.style.width = `${readPct}%`;
+      // 2. Sync Continue Reading Card with its Story from STORIES_CATALOG
+      const contStory = STORIES_CATALOG[homeState.continueReadingStoryId] || STORIES_CATALOG.makkah;
+      const contImg = document.getElementById('continue-reading-card-img');
+      if (contImg) {
+        contImg.setAttribute('data-asset', contStory.assetKey);
+        contImg.src = customAssets[contStory.assetKey];
+      }
+      document.getElementById('continue-story-tag').textContent = contStory.category;
+      document.getElementById('continue-reading-title').textContent = contStory.title;
+      document.getElementById('continue-part-label').textContent = `${contStory.partLabel} · ${contStory.subtitle}`;
+      document.getElementById('continue-progress-bar').style.width = `${contStory.progressPct}%`;
 
-      // Render Daily Overview Goals List with Slider Toggle Switches
+      // 3. Populate Story Reader View
+      const activeStory = STORIES_CATALOG[homeState.activeReaderStoryId] || contStory;
+      const readerImg = document.getElementById('reader-cover-img');
+      if (readerImg) readerImg.src = customAssets[activeStory.assetKey];
+      document.getElementById('reader-top-category').textContent = activeStory.category;
+      document.getElementById('reader-part-badge').textContent = activeStory.partLabel;
+      document.getElementById('reader-title').textContent = activeStory.title;
+      document.getElementById('reader-subtitle').textContent = activeStory.subtitle;
+      document.getElementById('reader-quote').textContent = activeStory.quote;
+      document.getElementById('reader-body-1').textContent = activeStory.body1;
+      document.getElementById('reader-body-2').textContent = activeStory.body2;
+
+      // 4. Populate Upcoming Stories Switcher inside Reader View
+      const switcherEl = document.getElementById('upcoming-stories-switcher');
+      if (switcherEl) {
+        switcherEl.innerHTML = Object.values(STORIES_CATALOG).map(st => `
+          <button
+            onclick="window.selectContinueStory('${st.id}')"
+            class="p-2.5 rounded-xl border text-left transition flex items-center gap-2.5 ${homeState.continueReadingStoryId === st.id ? 'border-[#9fe8bc] bg-[#9fe8bc]/15' : 'border-[#d4be83]/30 bg-[#051d15]/70'}"
+          >
+            <img src="${customAssets[st.assetKey]}" alt="${st.title}" class="w-11 h-11 rounded-lg object-cover shrink-0 border border-[#d4be83]/30" />
+            <div class="min-w-0">
+              <p class="text-[10px] uppercase tracking-wider text-[#9fe8bc] truncate">${st.category}</p>
+              <p class="font-serif-display text-sm font-semibold text-white truncate">${st.title}</p>
+            </div>
+          </button>
+        `).join('');
+      }
+
+      // 5. Render Daily Overview Goals List with Slider Toggle Switches
       const goalsContainer = document.getElementById('daily-goals-list');
       if (goalsContainer) {
         goalsContainer.innerHTML = homeState.goals.map(goal => `
@@ -970,28 +1121,31 @@
       }
     }
 
+    // Open Story Reader for either "Daily Reflection" or "Continue Reading"
+    window.openStoryReader = function(mode) {
+      if (mode === 'daily') {
+        homeState.activeReaderStoryId = homeState.dailyReflectionStoryId;
+      } else {
+        homeState.activeReaderStoryId = homeState.continueReadingStoryId;
+      }
+      renderHomeState();
+      switchSubView('view-continue-reading');
+    };
+
+    // Change which upcoming story is pinned to "Continue Reading"
+    window.selectContinueStory = function(storyId) {
+      homeState.continueReadingStoryId = storyId;
+      homeState.activeReaderStoryId = storyId;
+      saveHomeState();
+      renderHomeState();
+      showToast(`Continue Reading synced to: ${STORIES_CATALOG[storyId].title}`);
+    };
+
     // Sub-screen navigation inside home.html
     window.switchSubView = function(viewId) {
       document.querySelectorAll('.sub-view').forEach(section => {
         section.classList.toggle('active', section.id === viewId);
       });
-
-      const pillMap = {
-        'view-home-main': 'pill-main',
-        'view-daily-overview': 'pill-overview',
-        'view-quick-actions': 'pill-actions',
-        'view-continue-reading': 'pill-continue'
-      };
-      Object.entries(pillMap).forEach(([id, pillId]) => {
-        const btn = document.getElementById(pillId);
-        if (!btn) return;
-        if (id === viewId) {
-          btn.className = 'px-2 py-0.5 rounded-full bg-[#9fe8bc]/20 text-[#9fe8bc] font-semibold transition';
-        } else {
-          btn.className = 'px-2 py-0.5 rounded-full hover:text-white transition';
-        }
-      });
-
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -1016,27 +1170,26 @@
       showToast(`+${amount} Dhikr added to today's progress`);
     };
 
-    // Advance Continue Reading Part
+    // Advance Story Progress & Cycle Next Upcoming Story
     window.advanceReadingPart = function() {
-      if (homeState.readingPart < homeState.readingTotalParts) {
-        homeState.readingPart += 1;
-        showToast(`Moved to Part ${homeState.readingPart} of ${homeState.readingTotalParts}`);
-      } else {
-        homeState.readingPart = 1;
-        showToast('Reflection completed! Restarted at Part 1.');
-      }
+      const keys = Object.keys(STORIES_CATALOG);
+      const currentIdx = keys.indexOf(homeState.continueReadingStoryId);
+      const nextKey = keys[(currentIdx + 1) % keys.length];
+      homeState.continueReadingStoryId = nextKey;
+      homeState.activeReaderStoryId = nextKey;
       saveHomeState();
       renderHomeState();
+      showToast(`Up Next: ${STORIES_CATALOG[nextKey].title}`);
     };
 
     // Search Duas & Reflections on Home
     const SEARCH_ITEMS = [
       { title: 'Dua for peace of heart', category: 'Daily Featured Dua', action: () => openFeaturedDuaModal() },
-      { title: 'Small deeds, lasting change', category: 'Daily Reflection (2 min)', action: () => switchSubView('view-continue-reading') },
-      { title: 'The Power of Gratitude', category: 'Continue Reading · Part 2 of 4', action: () => switchSubView('view-continue-reading') },
+      { title: 'Patience (As-Sabr)', category: 'Daily Reflection · The Quran', action: () => openStoryReader('daily') },
+      { title: 'The Valley of Makkah', category: 'Continue Reading · The Seerah', action: () => openStoryReader('continue') },
+      { title: 'Leadership with Humility', category: 'Reflections · Lessons', action: () => { selectContinueStory('leadership'); switchSubView('view-continue-reading'); } },
       { title: '313 Durood Shareef', category: 'Daily Aamaal · Tasbih', action: () => switchSubView('view-daily-overview') },
-      { title: 'Surah Al-Mulk', category: 'Night Protection', action: () => switchSubView('view-daily-overview') },
-      { title: '100 Istighfar', category: 'Daily Forgiveness', action: () => switchSubView('view-daily-overview') }
+      { title: 'Surah Al-Mulk', category: 'Night Protection', action: () => switchSubView('view-daily-overview') }
     ];
 
     window.handleHomeSearch = function(query) {
@@ -1130,8 +1283,10 @@
         bg_home_header: 'Top Header Sunrise Mosque Scenery',
         user_avatar: 'Top-Left User Profile Avatar',
         featured_dua_emblem: 'Daily Featured Dua Mosque Emblem',
-        daily_reflection_bg: 'Daily Reflection Lantern Banner',
-        continue_reading_thumb: 'Continue Reading Thumbnail',
+        story_sabr_cover: 'Story Cover 1: Patience (As-Sabr) — Daily Reflection',
+        story_makkah_cover: 'Story Cover 2: The Valley of Makkah — Continue Reading',
+        story_leadership_cover: 'Story Cover 3: Leadership with Humility',
+        story_gratitude_cover: 'Story Cover 4: The Power of Gratitude',
         reminder_banner_bg: 'Gentle Reminder Background'
       };
 
@@ -1141,7 +1296,7 @@
           <input
             type="text"
             placeholder="Paste image URL..."
-            value="${customAssets[key].startsWith('data:image/svg') ? '' : customAssets[key]}"
+            value="${customAssets[key]?.startsWith('data:image/svg') ? '' : (customAssets[key] || '')}"
             onchange="window.updateAssetUrl('${key}', this.value)"
             class="w-full px-3 py-1.5 rounded-lg bg-[#082b1f] border border-[#d4be83]/30 text-white focus:outline-none"
           />
@@ -1169,6 +1324,7 @@
       customAssets[key] = url.trim();
       localStorage.setItem('aamaal_home_assets', JSON.stringify(customAssets));
       applyAllCustomImages();
+      renderHomeState();
       showToast(`Updated ${key}`);
     };
 
@@ -1179,6 +1335,7 @@
         customAssets[key] = e.target.result;
         localStorage.setItem('aamaal_home_assets', JSON.stringify(customAssets));
         applyAllCustomImages();
+        renderHomeState();
         showToast(`Uploaded ${key}`);
       };
       reader.readAsDataURL(file);
@@ -1188,12 +1345,13 @@
       customAssets = { ...DEFAULT_IMAGE_ASSETS };
       localStorage.removeItem('aamaal_home_assets');
       applyAllCustomImages();
+      renderHomeState();
       closeAssetModal();
       showToast('Reset to default artwork');
     };
 
     // =========================================================================
-    // 2. FIREBASE CLOUD PERSISTENCE + LOCALSTORAGE FALLBACK
+    // 3. FIREBASE CLOUD PERSISTENCE + LOCALSTORAGE FALLBACK
     // =========================================================================
     let db = null;
     let currentUser = null;
