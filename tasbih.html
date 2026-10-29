@@ -105,7 +105,7 @@
       text-overflow: clip;
     }
 
-    /* Floating +1 animation (Hidden by default, shown only on count interaction) */
+    /* Floating +1 / -1 animation (Hidden by default, shown only on count interaction) */
     .plus-one-indicator {
       opacity: 0;
       transform: translateY(10px) scale(0.8);
@@ -334,7 +334,7 @@
     </div>
 
     <!-- INTERACTIVE TOUCH & SWIPE AREA (From below Wird dropdown to Progress Bar) -->
-    <!-- Tapping or swiping anywhere in this zone counts strictly +1 per gesture -->
+    <!-- Tapping or swiping down/left/right increments (+1); long upward swipe undoes (-1) -->
     <div id="interactiveCounterZone" class="touch-zone relative z-10 flex-1 flex flex-col items-center justify-center px-5 select-none overflow-hidden min-h-0">
 
       <!-- FIRST-POV 3D TASBIH CANVAS -->
@@ -358,7 +358,7 @@
 
           <!-- Quick Undo & Reset Buttons (Stop propagation so tapping them doesn't increment count) -->
           <div class="flex items-center gap-1.5 pointer-events-auto" onpointerdown="event.stopPropagation()" onclick="event.stopPropagation()">
-            <button onclick="undoCount()" title="Undo Last Count" class="w-9 h-9 rounded-full bg-emerald-950/65 border border-emerald-300/25 flex items-center justify-center text-emerald-100/80 hover:text-white active:scale-90 transition">
+            <button onclick="undoCount()" title="Undo Last Count (or Long Swipe Up)" class="w-9 h-9 rounded-full bg-emerald-950/65 border border-emerald-300/25 flex items-center justify-center text-emerald-100/80 hover:text-white active:scale-90 transition">
               <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M3 10h10a5 5 0 015 5v2M3 10l4-4M3 10l4 4"/>
               </svg>
@@ -371,7 +371,7 @@
           </div>
         </div>
 
-        <!-- FLOATING +1 BADGE (Hidden by default; only appears right next to the active golden bead when triggered) -->
+        <!-- FLOATING +1 / -1 BADGE (Hidden by default; appears next to the active golden bead when triggered) -->
         <div id="plusOneBadge" class="plus-one-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-emerald-900/85 border border-amber-300/50 text-amber-200 font-bold text-base shadow-[0_0_20px_rgba(245,158,11,0.5)]">
           +1
         </div>
@@ -994,7 +994,7 @@
 
     // --- 5. WEB AUDIO SYNTHESIZED WOODEN / STONE BEAD CLICK ---
     let audioCtx = null;
-    function playBeadClickSound() {
+    function playBeadClickSound(isUndo = false) {
       if (!state.soundEnabled) return;
       try {
         if (!audioCtx) {
@@ -1008,10 +1008,16 @@
         const osc = audioCtx.createOscillator();
         const gain = audioCtx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(320, now);
-        osc.frequency.exponentialRampToValueAtTime(115, now + 0.045);
-
-        gain.gain.setValueAtTime(0.32, now);
+        if (isUndo) {
+          // Slightly softer, upward pitch inflection for undo
+          osc.frequency.setValueAtTime(160, now);
+          osc.frequency.exponentialRampToValueAtTime(280, now + 0.045);
+          gain.gain.setValueAtTime(0.24, now);
+        } else {
+          osc.frequency.setValueAtTime(320, now);
+          osc.frequency.exponentialRampToValueAtTime(115, now + 0.045);
+          gain.gain.setValueAtTime(0.32, now);
+        }
         gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
 
         osc.connect(gain);
@@ -1027,11 +1033,16 @@
       }
     }
 
-    // --- 6. FLOATING +1 POP (Only visible when selected / incremented) ---
+    // --- 6. FLOATING +1 / -1 POP (Only visible when selected / incremented / undone) ---
     let plusOneTimer = null;
-    function triggerPlusOnePopup() {
+    function triggerFloatingBadgePopup(label = '+1') {
       const badge = document.getElementById('plusOneBadge');
-      badge.classList.remove('pop-active');
+      badge.textContent = label;
+      if (label === '-1') {
+        badge.className = 'plus-one-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-rose-950/90 border border-rose-300/50 text-rose-200 font-bold text-base shadow-[0_0_20px_rgba(244,63,94,0.45)]';
+      } else {
+        badge.className = 'plus-one-indicator absolute left-[62%] top-[53%] px-3 py-1 rounded-full bg-emerald-900/85 border border-amber-300/50 text-amber-200 font-bold text-base shadow-[0_0_20px_rgba(245,158,11,0.5)]';
+      }
       void badge.offsetWidth;
       badge.classList.add('pop-active');
 
@@ -1048,8 +1059,8 @@
       beadAnimOffset = 1.0;
       beadHighlightGlow = 1.0;
 
-      triggerPlusOnePopup();
-      playBeadClickSound();
+      triggerFloatingBadgePopup('+1');
+      playBeadClickSound(false);
       triggerHaptic(18);
 
       updateUI();
@@ -1065,49 +1076,83 @@
     }
 
     function undoCount() {
-      if (state.count <= 0) return;
+      if (state.count <= 0) {
+        showToast('Count is already at 0');
+        return;
+      }
       state.count -= 1;
-      beadAnimOffset = -0.75;
-      triggerHaptic(12);
+      // Push the bead back up the cord in 3D POV
+      beadAnimOffset = -1.0;
+      beadHighlightGlow = 0.7;
+
+      triggerFloatingBadgePopup('-1');
+      playBeadClickSound(true);
+      triggerHaptic([12, 30, 12]);
       updateUI();
-      showToast('Last count undone');
+      showToast('Undid last count (-1)');
     }
 
-    // --- 8. UNIFIED TAP & SWIPE GESTURE HANDLER ---
-    // Makes the entire region from below the Wird dropdown to the Progress bar tappable & swipeable.
-    // Long swipes or short taps strictly count as ONE (+1) per pointer gesture.
+    // --- 8. UNIFIED TAP, SWIPE (+1) & LONG UPPER SWIPE TO UNDO (-1) GESTURE HANDLER ---
+    // - Tap or swipe down/left/right: increments count (+1) once per gesture.
+    // - Long upward swipe (dy <= -85px with predominantly vertical upward motion): undoes last count (-1) once per gesture.
     const touchZone = document.getElementById('interactiveCounterZone');
     let activePointerId = null;
     let gestureStartX = 0;
     let gestureStartY = 0;
-    let gestureCounted = false;
+    let gestureHandled = false;
+
+    const NORMAL_SWIPE_THRESHOLD = 28; // px for downward / horizontal swipe (+1)
+    const LONG_UP_SWIPE_THRESHOLD = 85; // px upward for undo (-1)
 
     touchZone.addEventListener('pointerdown', (e) => {
       if (activePointerId !== null) return;
       activePointerId = e.pointerId;
       gestureStartX = e.clientX;
       gestureStartY = e.clientY;
-      gestureCounted = false;
+      gestureHandled = false;
       touchZone.setPointerCapture(e.pointerId);
     });
 
     touchZone.addEventListener('pointermove', (e) => {
-      if (e.pointerId !== activePointerId || gestureCounted) return;
+      if (e.pointerId !== activePointerId || gestureHandled) return;
       const dx = e.clientX - gestureStartX;
       const dy = e.clientY - gestureStartY;
+      const absDx = Math.abs(dx);
+      const absDy = Math.abs(dy);
       const distance = Math.hypot(dx, dy);
 
-      if (distance >= 26) {
-        gestureCounted = true;
-        incrementCount();
+      // Check if user is swiping primarily upward (dy < 0 and vertical movement dominates)
+      const isMovingUpward = dy < 0 && absDy > absDx * 1.15;
+
+      if (isMovingUpward) {
+        // Wait until the upward swipe reaches the long swipe threshold to trigger Undo
+        if (dy <= -LONG_UP_SWIPE_THRESHOLD) {
+          gestureHandled = true;
+          undoCount();
+        }
+      } else {
+        // Downward or horizontal swipe triggers +1 immediately once threshold is crossed
+        if (distance >= NORMAL_SWIPE_THRESHOLD) {
+          gestureHandled = true;
+          incrementCount();
+        }
       }
     });
 
     touchZone.addEventListener('pointerup', (e) => {
       if (e.pointerId !== activePointerId) return;
-      if (!gestureCounted) {
-        gestureCounted = true;
-        incrementCount();
+      if (!gestureHandled) {
+        const dx = e.clientX - gestureStartX;
+        const dy = e.clientY - gestureStartY;
+        // If user did a long upward swipe and released right at threshold
+        if (dy <= -LONG_UP_SWIPE_THRESHOLD && Math.abs(dy) > Math.abs(dx) * 1.15) {
+          gestureHandled = true;
+          undoCount();
+        } else {
+          // Tap or short swipe -> +1
+          gestureHandled = true;
+          incrementCount();
+        }
       }
       activePointerId = null;
     });
@@ -1115,15 +1160,19 @@
     touchZone.addEventListener('pointercancel', (e) => {
       if (e.pointerId === activePointerId) {
         activePointerId = null;
-        gestureCounted = false;
+        gestureHandled = false;
       }
     });
 
-    // Keyboard Spacebar support
+    // Keyboard Spacebar (+1) & Backspace/ArrowUp (-1) support
     window.addEventListener('keydown', (e) => {
-      if (e.code === 'Space' && document.activeElement.tagName !== 'INPUT') {
+      if (document.activeElement.tagName === 'INPUT') return;
+      if (e.code === 'Space') {
         e.preventDefault();
         if (!e.repeat) incrementCount();
+      } else if (e.code === 'Backspace' || e.code === 'ArrowUp') {
+        e.preventDefault();
+        if (!e.repeat) undoCount();
       }
     });
 
