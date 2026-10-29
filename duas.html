@@ -2,2363 +2,2244 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>D. Dua Library — Screens 37–54 | Interactive Prototype & Spec</title>
-  <!-- Google Fonts for UI, Serif Headers, and Classical Arabic Uthmani Script -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Duas — Authentic Sunnah Supplications</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-canvas: #071914;
-      --bg-canvas-grad: radial-gradient(circle at 15% 15%, #0d2b22 0%, #05130f 65%, #030b08 100%);
-      --phone-bg: #0b221b;
-      --phone-card: #122e25;
-      --phone-card-hover: #17382d;
-      --phone-surface: #15352b;
-      --parchment: #f5efe1;
-      --parchment-dark: #e6dcc5;
-      --parchment-text: #2c2519;
-      --gold-primary: #d4af37;
-      --gold-light: #eadd96;
-      --gold-muted: #9e8547;
-      --gold-border: rgba(212, 175, 55, 0.35);
-      --gold-subtle: rgba(212, 175, 55, 0.12);
-      --emerald-accent: #1d5943;
-      --emerald-pill: #184736;
-      --text-primary: #f2f5f3;
-      --text-secondary: #a7bdb4;
-      --text-muted: #6b887d;
-      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --bg-deep: #061812;
+      --bg-main: #0a231b;
+      --bg-elevated: #113227;
+      --bg-card: rgba(18, 50, 39, 0.82);
+      --bg-card-solid: #13362a;
+      --bg-glass: rgba(10, 35, 27, 0.88);
+      --parchment-light: #f6f0e2;
+      --parchment-dark: #e6dac2;
+      --parchment-ink: #292216;
+      --gold: #d4af37;
+      --gold-soft: #e6cc75;
+      --gold-border: rgba(212, 175, 55, 0.32);
+      --emerald-border: rgba(74, 165, 130, 0.28);
+      --emerald-pill: #184a38;
+      --text-white: #f3f7f5;
+      --text-muted: #9ab3a9;
+      --text-dim: #668579;
+      --font-ui: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
       --font-serif: 'Cormorant Garamond', Georgia, serif;
       --font-arabic: 'Amiri', serif;
-      --arabic-scale: 1;
-      --trans-scale: 1;
+      --arabic-size: 24px;
+      --body-size: 14px;
+      --arabic-dir: rtl;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      -webkit-font-smoothing: antialiased;
+      -webkit-tap-highlight-color: transparent;
     }
 
-    body {
-      background: var(--bg-canvas-grad);
-      color: var(--text-primary);
-      font-family: var(--font-sans);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
-
-    /* Custom Scrollbars */
-    ::-webkit-scrollbar {
-      width: 5px;
-      height: 5px;
-    }
-    ::-webkit-scrollbar-track {
-      background: rgba(5, 19, 15, 0.4);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: rgba(212, 175, 55, 0.3);
-      border-radius: 99px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(212, 175, 55, 0.6);
-    }
-
-    /* ================= TOP HEADER ================= */
-    .board-header {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-between;
-      align-items: center;
-      padding: 28px 40px 22px;
-      border-bottom: 1px solid rgba(212, 175, 55, 0.2);
-      background: linear-gradient(180deg, rgba(8, 28, 22, 0.95) 0%, rgba(7, 25, 20, 0.75) 100%);
-      backdrop-filter: blur(12px);
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      gap: 20px;
-    }
-
-    .brand-cluster {
-      display: flex;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .brand-icon {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      border: 1.5px solid var(--gold-primary);
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(11, 34, 27, 0.9) 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 20px rgba(212, 175, 55, 0.15);
-      flex-shrink: 0;
-    }
-
-    .brand-title h1 {
-      font-family: var(--font-serif);
-      font-size: 34px;
-      font-weight: 600;
-      color: var(--gold-light);
-      letter-spacing: 0.02em;
-      line-height: 1.05;
-    }
-
-    .brand-title p {
-      color: var(--text-secondary);
-      font-size: 13.5px;
-      margin-top: 3px;
-    }
-
-    .header-controls {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-      flex-wrap: wrap;
-    }
-
-    .mode-switcher {
-      display: flex;
-      background: #05130f;
-      padding: 4px;
-      border-radius: 999px;
-      border: 1px solid var(--gold-border);
-    }
-
-    .mode-btn {
-      background: transparent;
-      border: none;
-      color: var(--text-secondary);
-      padding: 8px 18px;
-      border-radius: 999px;
-      font-size: 12.5px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      display: flex;
-      align-items: center;
-      gap: 7px;
-      font-family: var(--font-sans);
-    }
-
-    .mode-btn.active {
-      background: linear-gradient(135deg, #d4af37 0%, #aa8220 100%);
-      color: #061510;
-      box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
-    }
-
-    .header-ornament {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      color: var(--gold-light);
-      font-family: var(--font-serif);
-      font-style: italic;
-      font-size: 16px;
-    }
-
-    .header-ornament::before {
-      content: "";
-      width: 48px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--gold-primary));
-    }
-
-    /* ================= SPEC & CHECKLIST DRAWER / BAR ================= */
-    .spec-summary-bar {
-      background: rgba(13, 39, 31, 0.75);
-      border-bottom: 1px solid rgba(212, 175, 55, 0.15);
-      padding: 12px 40px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-      font-size: 12.5px;
-    }
-
-    .spec-note {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-secondary);
-    }
-
-    .spec-badge {
-      background: rgba(212, 175, 55, 0.16);
-      color: var(--gold-light);
-      border: 1px solid var(--gold-border);
-      padding: 3px 10px;
-      border-radius: 99px;
-      font-weight: 600;
-      font-size: 11px;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-    }
-
-    .progress-pill {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      background: rgba(5, 19, 15, 0.7);
-      padding: 6px 14px;
-      border-radius: 99px;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-    }
-
-    .progress-bar-wrap {
-      width: 110px;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.1);
-      border-radius: 99px;
-      overflow: hidden;
-    }
-
-    .progress-bar-fill {
-      height: 100%;
-      background: linear-gradient(90deg, #d4af37, #f3dc86);
+    html, body {
       width: 100%;
-      transition: width 0.3s ease;
+      height: 100%;
+      background: #04100c;
+      color: var(--text-white);
+      font-family: var(--font-ui);
+      overflow: hidden;
+      user-select: none;
     }
 
-    /* ================= VIEWS ================= */
-    .view-section {
-      display: none;
-      padding: 32px 36px 60px;
-    }
-
-    .view-section.active {
-      display: block;
-    }
-
-    /* ================= 18-SCREEN BOARD GRID (3x6) ================= */
-    .screens-grid {
-      display: grid;
-      grid-template-columns: repeat(6, 290px);
-      gap: 28px 22px;
-      justify-content: center;
+    .app-shell {
+      width: 100%;
+      max-width: 480px;
+      height: 100dvh;
       margin: 0 auto;
-    }
-
-    @media (max-width: 1880px) {
-      .screens-grid {
-        grid-template-columns: repeat(auto-fit, 290px);
-      }
-    }
-
-    .screen-wrapper {
+      background: radial-gradient(circle at 50% 0%, #143d2f 0%, #092119 45%, #061711 100%);
       display: flex;
       flex-direction: column;
-      align-items: center;
-      gap: 10px;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
     }
 
-    .screen-caption {
-      font-family: var(--font-serif);
-      font-size: 15px;
+    /* Status Bar matching tasbih.html */
+    .ios-status-bar {
+      height: 36px;
+      padding: 8px 20px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 13px;
       font-weight: 600;
-      color: var(--gold-light);
-      letter-spacing: 0.02em;
-      text-align: center;
+      color: var(--text-white);
+      flex-shrink: 0;
+      z-index: 30;
+    }
+
+    .status-right {
       display: flex;
       align-items: center;
       gap: 6px;
-      cursor: pointer;
-      transition: color 0.2s;
     }
 
-    .screen-caption:hover {
-      color: #fff;
+    /* Toast Banner matching tasbih.html */
+    .toast-banner {
+      position: absolute;
+      top: 44px;
+      left: 16px;
+      right: 16px;
+      background: rgba(19, 68, 51, 0.96);
+      border: 1px solid rgba(110, 210, 168, 0.45);
+      color: #e9f7f1;
+      padding: 11px 16px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 500;
+      text-align: center;
+      z-index: 100;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(10px);
+      transform: translateY(-20px);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* ================= PHONE FRAME STYLING ================= */
-    .phone-frame {
-      width: 290px;
-      height: 590px;
-      background: var(--phone-bg);
-      border-radius: 34px;
-      border: 2px solid rgba(212, 175, 55, 0.55);
-      box-shadow: 
-        0 18px 40px rgba(0, 0, 0, 0.65),
-        inset 0 0 0 2px #05120e,
-        0 0 18px rgba(212, 175, 55, 0.08);
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+    .toast-banner.visible {
+      transform: translateY(0);
+      opacity: 1;
     }
 
-    .phone-frame:hover {
-      transform: translateY(-4px);
-      border-color: var(--gold-light);
-      box-shadow: 
-        0 22px 48px rgba(0, 0, 0, 0.8),
-        0 0 24px rgba(212, 175, 55, 0.2);
-    }
-
-    /* Status Bar */
-    .status-bar {
-      height: 28px;
-      padding: 6px 18px 0;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 10px;
-      font-weight: 600;
-      color: rgba(242, 245, 243, 0.85);
-      z-index: 10;
-      flex-shrink: 0;
-    }
-
-    .status-icons {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* Screen Body */
-    .screen-body {
+    /* Screen Container */
+    .screen-viewport {
       flex: 1;
       overflow-y: auto;
       overflow-x: hidden;
-      position: relative;
-      display: flex;
-      flex-direction: column;
+      padding-bottom: 84px;
+      scroll-behavior: smooth;
     }
 
-    /* Screen Top Bar */
-    .app-topbar {
-      padding: 8px 14px 10px;
+    .screen-viewport::-webkit-scrollbar {
+      width: 0px;
+    }
+
+    .screen {
+      display: none;
+      flex-direction: column;
+      min-height: 100%;
+      animation: fadeScreen 0.2s ease-out;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    @keyframes fadeScreen {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* App Header Row */
+    .top-nav {
+      padding: 10px 18px 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 8px;
-      flex-shrink: 0;
+      gap: 10px;
     }
 
-    .topbar-left {
+    .top-nav-left {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 12px;
+      min-width: 0;
     }
 
-    .back-btn, .icon-btn {
-      width: 26px;
-      height: 26px;
+    .circle-btn {
+      width: 38px;
+      height: 38px;
       border-radius: 50%;
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      background: rgba(18, 46, 37, 0.7);
-      color: var(--gold-light);
+      background: rgba(20, 58, 45, 0.78);
+      border: 1px solid var(--gold-border);
+      color: var(--text-white);
       display: inline-flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 12px;
-      transition: all 0.15s;
+      flex-shrink: 0;
+      transition: transform 0.12s, background 0.15s, border-color 0.15s;
     }
 
-    .back-btn:hover, .icon-btn:hover {
-      background: rgba(212, 175, 55, 0.25);
-      color: #fff;
+    .circle-btn:active {
+      transform: scale(0.93);
     }
 
-    .screen-h1 {
+    .circle-btn.gold-active {
+      background: rgba(212, 175, 55, 0.22);
+      border-color: var(--gold);
+      color: var(--gold-soft);
+    }
+
+    .page-title {
       font-family: var(--font-serif);
-      font-size: 19px;
+      font-size: 28px;
       font-weight: 600;
-      color: #fff;
-      line-height: 1.1;
+      color: var(--text-white);
+      line-height: 1.05;
+      letter-spacing: 0.01em;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .screen-subtitle {
-      font-size: 10.5px;
-      color: var(--text-secondary);
-      line-height: 1.35;
-      margin-top: 2px;
+    .page-subtitle {
+      font-size: 13px;
+      color: var(--text-muted);
+      padding: 0 18px 12px;
+      line-height: 1.4;
     }
 
-    /* Search Input */
-    .search-box {
-      margin: 4px 14px 10px;
-      background: rgba(9, 27, 21, 0.85);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      border-radius: 99px;
-      padding: 7px 12px;
+    .top-actions {
       display: flex;
       align-items: center;
       gap: 8px;
-      font-size: 11px;
-      color: var(--text-secondary);
     }
 
-    .search-box input {
+    /* Search Bar */
+    .search-bar-wrap {
+      padding: 0 18px 14px;
+    }
+
+    .search-bar {
+      background: rgba(8, 28, 21, 0.85);
+      border: 1px solid var(--gold-border);
+      border-radius: 999px;
+      padding: 11px 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .search-bar:focus-within {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.14);
+    }
+
+    .search-bar input {
+      flex: 1;
       background: transparent;
       border: none;
       outline: none;
-      color: #fff;
-      font-size: 11px;
-      width: 100%;
-      font-family: var(--font-sans);
+      color: var(--text-white);
+      font-size: 14px;
+      font-family: var(--font-ui);
     }
 
-    .search-box input::placeholder {
+    .search-bar input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .clear-search-btn {
+      background: rgba(255,255,255,0.1);
+      border: none;
       color: var(--text-muted);
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 12px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    /* Marketplace Featured Card (Screen 37) */
-    .featured-market-card {
-      margin: 2px 14px 12px;
-      border-radius: 14px;
-      border: 1px solid rgba(212, 175, 55, 0.45);
-      overflow: hidden;
+    /* Featured Marketplace Story Banner (Screen 37) */
+    .market-story-banner {
+      margin: 0 18px 18px;
+      border-radius: 18px;
+      border: 1px solid rgba(212, 175, 55, 0.48);
+      min-height: 142px;
       position: relative;
-      height: 112px;
-      background: 
-        linear-gradient(90deg, rgba(12, 32, 25, 0.15) 0%, rgba(12, 32, 25, 0.88) 52%, rgba(11, 31, 24, 0.98) 100%),
-        url('https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=600&q=80') center/cover no-repeat;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(8, 26, 20, 0.2) 0%, rgba(10, 33, 25, 0.88) 48%, rgba(9, 30, 23, 0.98) 100%),
+        url('https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=900&q=80') left center / cover no-repeat;
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      padding: 12px;
+      padding: 16px;
       cursor: pointer;
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
     }
 
-    .featured-market-content {
-      width: 58%;
+    .market-story-content {
+      width: 60%;
       text-align: left;
     }
 
-    .featured-market-content h3 {
+    .market-badge {
+      display: inline-block;
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--gold-soft);
+      background: rgba(212, 175, 55, 0.16);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      padding: 2px 8px;
+      border-radius: 99px;
+      margin-bottom: 6px;
+    }
+
+    .market-story-content h3 {
       font-family: var(--font-serif);
-      font-size: 14.5px;
-      color: var(--gold-light);
-      font-weight: 600;
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--gold-soft);
       line-height: 1.15;
     }
 
-    .featured-market-content p {
-      font-size: 9.5px;
-      color: var(--text-secondary);
-      margin: 3px 0 7px;
-      line-height: 1.3;
+    .market-story-content p {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin: 4px 0 10px;
     }
 
-    .pill-cta {
+    .story-cta {
       display: inline-flex;
       align-items: center;
-      gap: 4px;
-      font-size: 9.5px;
-      color: var(--gold-light);
-      background: rgba(212, 175, 55, 0.15);
-      border: 1px solid rgba(212, 175, 55, 0.4);
-      padding: 3px 8px;
-      border-radius: 99px;
-      font-weight: 500;
-    }
-
-    /* Section Header inside Phone */
-    .section-label {
-      padding: 4px 14px 8px;
-      font-family: var(--font-serif);
-      font-size: 14px;
+      gap: 6px;
+      font-size: 12px;
       font-weight: 600;
-      color: var(--gold-light);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      color: var(--text-white);
+      background: rgba(24, 74, 56, 0.9);
+      border: 1px solid var(--gold-border);
+      padding: 6px 12px;
+      border-radius: 99px;
     }
 
-    /* 4-Column Mini Category Icons (Screen 37) */
-    .cat-mini-grid {
+    /* Section Headings */
+    .section-header {
+      padding: 4px 18px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .section-header h2 {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--gold-soft);
+    }
+
+    .text-link-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-ui);
+    }
+
+    /* 4-Icon Quick Category Row (Screen 37) */
+    .quick-cats-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 8px;
-      padding: 0 14px 12px;
+      gap: 10px;
+      padding: 0 18px 20px;
     }
 
-    .cat-mini-item {
+    .quick-cat-card {
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
-      gap: 5px;
+      gap: 7px;
       cursor: pointer;
     }
 
-    .cat-mini-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 12px;
-      background: linear-gradient(145deg, #16382d, #0d241c);
-      border: 1px solid rgba(212, 175, 55, 0.35);
+    .quick-cat-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: linear-gradient(145deg, #173f31, #0d271e);
+      border: 1px solid var(--gold-border);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--gold-primary);
-      font-size: 18px;
-      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      font-size: 24px;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08), 0 6px 14px rgba(0, 0, 0, 0.28);
       transition: transform 0.15s, border-color 0.15s;
     }
 
-    .cat-mini-item:hover .cat-mini-icon {
-      transform: scale(1.05);
-      border-color: var(--gold-light);
+    .quick-cat-card:active .quick-cat-icon {
+      transform: scale(0.95);
+      border-color: var(--gold);
     }
 
-    .cat-mini-label {
-      font-size: 9px;
-      color: var(--text-secondary);
-      line-height: 1.2;
+    .quick-cat-label {
+      font-size: 11.5px;
+      color: var(--text-muted);
+      line-height: 1.25;
+      font-weight: 500;
     }
 
-    /* List Rows (Categories & Duas) */
-    .phone-list {
+    /* Card List (Categories, Duas, Search Results, Favourites) */
+    .card-list {
       display: flex;
       flex-direction: column;
-      gap: 7px;
-      padding: 0 14px 14px;
+      gap: 10px;
+      padding: 0 18px 18px;
     }
 
-    .list-card {
-      background: rgba(18, 46, 37, 0.85);
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      border-radius: 12px;
-      padding: 9px 11px;
+    .row-card {
+      background: var(--bg-card);
+      border: 1px solid var(--emerald-border);
+      border-radius: 16px;
+      padding: 13px 14px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 13px;
       cursor: pointer;
-      transition: background 0.15s, border-color 0.15s;
+      transition: background 0.15s, border-color 0.15s, transform 0.12s;
     }
 
-    .list-card:hover {
-      background: var(--phone-card-hover);
-      border-color: rgba(212, 175, 55, 0.45);
+    .row-card:active {
+      transform: scale(0.985);
+      border-color: var(--gold);
     }
 
-    .list-thumb {
-      width: 36px;
-      height: 36px;
+    .row-medallion {
+      width: 48px;
+      height: 48px;
       border-radius: 50%;
-      border: 1px solid rgba(212, 175, 55, 0.45);
-      background: radial-gradient(circle, #1d493a 0%, #0d241c 100%);
+      border: 1.5px solid var(--gold-border);
+      background: radial-gradient(circle, #1a4938 0%, #0c241b 100%);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: var(--gold-light);
+      color: var(--gold-soft);
       font-family: var(--font-arabic);
-      font-size: 13px;
+      font-size: 15px;
       flex-shrink: 0;
-      overflow: hidden;
     }
 
-    .list-thumb.square {
-      border-radius: 9px;
+    .row-medallion.rounded-sq {
+      border-radius: 13px;
+      font-size: 20px;
     }
 
-    .list-info {
+    .row-body {
       flex: 1;
       min-width: 0;
     }
 
-    .list-title {
-      font-size: 11.5px;
+    .row-title {
+      font-size: 15px;
       font-weight: 600;
-      color: #fff;
+      color: var(--text-white);
+      margin-bottom: 2px;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .list-sub {
-      font-size: 9.5px;
-      color: var(--text-secondary);
-      margin-top: 1px;
+    .row-subtitle {
+      font-size: 12.5px;
+      color: var(--text-muted);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .list-meta {
-      font-size: 9px;
-      color: var(--gold-light);
-      margin-top: 2px;
+    .row-meta {
+      font-size: 11px;
+      color: var(--gold-soft);
+      margin-top: 3px;
+      font-weight: 500;
     }
 
-    .list-chev {
-      color: var(--gold-muted);
-      font-size: 12px;
+    .row-arrow {
+      color: var(--gold-soft);
+      font-size: 18px;
+      opacity: 0.75;
     }
 
-    /* Illustrated Banner Header (Screens 39, 42, 43, 44, 50) */
-    .hero-banner {
-      height: 135px;
-      position: relative;
+    /* Filter Chips Row */
+    .chips-scroll {
+      display: flex;
+      gap: 8px;
+      padding: 0 18px 14px;
+      overflow-x: auto;
+    }
+
+    .chips-scroll::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip {
+      padding: 7px 14px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      background: rgba(16, 46, 36, 0.9);
+      border: 1px solid var(--emerald-border);
+      color: var(--text-muted);
+      white-space: nowrap;
+      cursor: pointer;
+      font-family: var(--font-ui);
+    }
+
+    .filter-chip.active {
+      background: var(--emerald-pill);
+      color: var(--gold-soft);
+      border-color: var(--gold);
+    }
+
+    /* Segmented Pill Toggle */
+    .segmented-toggle {
+      margin: 0 18px 16px;
+      background: #061711;
+      border: 1px solid var(--gold-border);
+      border-radius: 999px;
+      padding: 4px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .seg-btn {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      padding: 8px 12px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: var(--font-ui);
+      transition: all 0.2s;
+    }
+
+    .seg-btn.active {
+      background: var(--emerald-pill);
+      color: var(--gold-soft);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    }
+
+    /* Hero Banner for Category & Dua Detail */
+    .illustrated-hero {
+      min-height: 175px;
+      padding: 12px 18px 16px;
       background-size: cover;
       background-position: center;
+      position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 8px 14px 12px;
-      flex-shrink: 0;
+      transition: min-height 0.25s ease;
     }
 
-    .hero-banner::after {
+    .illustrated-hero.tall-art {
+      min-height: 235px;
+    }
+
+    .illustrated-hero::after {
       content: "";
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, rgba(7, 25, 20, 0.35) 0%, rgba(11, 34, 27, 0.85) 75%, #0b221b 100%);
+      background: linear-gradient(180deg, rgba(6, 24, 18, 0.3) 0%, rgba(10, 35, 27, 0.82) 72%, #0a231b 100%);
       pointer-events: none;
     }
 
-    .hero-banner > * {
+    .illustrated-hero > * {
       position: relative;
       z-index: 2;
     }
 
-    .hero-Sunrise {
-      background-image: url('https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=600&q=80');
-    }
-
-    .hero-Camel {
-      background-image: url('https://images.unsplash.com/photo-1542401886-65d6c61db217?auto=format&fit=crop&w=600&q=80');
-    }
-
-    .hero-Market {
-      background-image: url('https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=600&q=80');
-    }
-
-    /* Filter Chips */
-    .chip-row {
-      display: flex;
-      gap: 5px;
-      padding: 0 14px 10px;
-      overflow-x: auto;
-      flex-shrink: 0;
-    }
-
-    .chip {
-      padding: 4px 10px;
-      border-radius: 99px;
-      font-size: 9.5px;
-      font-weight: 500;
-      background: rgba(18, 46, 37, 0.9);
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      color: var(--text-secondary);
-      white-space: nowrap;
-      cursor: pointer;
-    }
-
-    .chip.active {
-      background: var(--emerald-accent);
-      color: var(--gold-light);
-      border-color: var(--gold-primary);
-    }
-
-    /* Dua Content Card (Dark & Parchment) */
-    .dua-card {
-      margin: 0 14px 10px;
-      background: rgba(18, 46, 37, 0.75);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-      border-radius: 14px;
-      padding: 12px;
+    /* Dua Reading Card (Standard & Parchment) */
+    .dua-reading-card {
+      margin: 0 18px 14px;
+      background: rgba(17, 49, 38, 0.85);
+      border: 1px solid var(--gold-border);
+      border-radius: 20px;
+      padding: 20px 18px;
       text-align: center;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.3);
     }
 
-    .dua-card.parchment {
-      background: linear-gradient(180deg, var(--parchment) 0%, var(--parchment-dark) 100%);
-      color: var(--parchment-text);
-      border: 1.5px solid #c5a667;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+    .dua-reading-card.parchment-theme {
+      background: linear-gradient(180deg, var(--parchment-light) 0%, var(--parchment-dark) 100%);
+      color: var(--parchment-ink);
+      border: 1.5px solid #c5a459;
     }
 
-    .arabic-text {
+    .dua-arabic {
       font-family: var(--font-arabic);
-      font-size: calc(18px * var(--arabic-scale));
-      line-height: 1.75;
-      color: var(--gold-light);
-      direction: rtl;
-      margin-bottom: 8px;
+      font-size: var(--arabic-size);
+      line-height: 1.85;
+      color: var(--gold-soft);
+      direction: var(--arabic-dir);
+      margin-bottom: 14px;
     }
 
-    .dua-card.parchment .arabic-text {
-      color: #1c160d;
+    .dua-reading-card.parchment-theme .dua-arabic {
+      color: #1c150b;
       font-weight: 700;
     }
 
-    .translit-text {
-      font-size: calc(10px * var(--trans-scale));
+    .dua-translit {
+      font-size: var(--body-size);
       font-style: italic;
-      color: #c7d7d0;
-      line-height: 1.45;
-      margin-bottom: 7px;
+      color: #c7ddd4;
+      line-height: 1.55;
+      margin-bottom: 12px;
     }
 
-    .dua-card.parchment .translit-text {
-      color: #5c4e36;
+    .dua-reading-card.parchment-theme .dua-translit {
+      color: #5b4c33;
     }
 
-    .translation-text {
-      font-size: calc(10.5px * var(--trans-scale));
-      color: #ffffff;
-      line-height: 1.45;
-      margin-bottom: 8px;
+    .dua-translation {
+      font-size: var(--body-size);
+      color: var(--text-white);
+      line-height: 1.55;
+      margin-bottom: 14px;
     }
 
-    .dua-card.parchment .translation-text {
-      color: #2c2519;
+    .dua-reading-card.parchment-theme .dua-translation {
+      color: #261f13;
       font-weight: 500;
     }
 
-    .source-tag {
-      font-size: 9px;
-      color: var(--gold-primary);
-      border-top: 1px solid rgba(212, 175, 55, 0.2);
-      padding-top: 6px;
-      display: inline-block;
-    }
-
-    .dua-card.parchment .source-tag {
-      color: #795d21;
-      border-top-color: rgba(121, 93, 33, 0.25);
-      font-weight: 600;
-    }
-
-    /* Benefits Box */
-    .context-box {
-      margin: 0 14px 10px;
-      padding: 9px 11px;
-      border-radius: 10px;
-      background: rgba(13, 35, 28, 0.8);
-      border: 1px solid rgba(212, 175, 55, 0.18);
-    }
-
-    .context-box.parchment-ctx {
-      background: rgba(245, 239, 225, 0.92);
-      color: #2c2519;
-      border-color: #c5a667;
-    }
-
-    .context-title {
-      font-size: 10px;
-      font-weight: 700;
-      color: var(--gold-light);
-      margin-bottom: 4px;
-    }
-
-    .context-box.parchment-ctx .context-title {
-      color: #694f18;
-    }
-
-    .context-list {
-      padding-left: 13px;
-      font-size: 9.5px;
-      color: var(--text-secondary);
-      line-height: 1.45;
-    }
-
-    .context-box.parchment-ctx .context-list {
-      color: #3d3322;
-    }
-
-    /* Bottom Action Bar (Bookmark / Share) */
-    .dua-action-bar {
-      margin-top: auto;
-      padding: 8px 14px 12px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-      background: linear-gradient(180deg, transparent, rgba(7, 25, 20, 0.95) 35%);
-    }
-
-    .action-pill-btn {
-      background: rgba(18, 46, 37, 0.95);
-      border: 1px solid rgba(212, 175, 55, 0.35);
-      color: var(--text-primary);
-      border-radius: 10px;
-      padding: 7px 10px;
-      font-size: 10px;
-      font-weight: 600;
-      display: flex;
+    .dua-source-pill {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 6px;
+      font-size: 12px;
+      color: var(--gold-soft);
+      background: rgba(212, 175, 55, 0.12);
+      border: 1px solid var(--gold-border);
+      padding: 5px 12px;
+      border-radius: 99px;
       cursor: pointer;
-      transition: all 0.15s;
     }
 
-    .action-pill-btn:hover, .action-pill-btn.active {
-      background: rgba(212, 175, 55, 0.22);
-      border-color: var(--gold-light);
-      color: var(--gold-light);
+    .dua-reading-card.parchment-theme .dua-source-pill {
+      background: rgba(122, 92, 26, 0.12);
+      border-color: rgba(122, 92, 26, 0.35);
+      color: #6b4e14;
+      font-weight: 600;
     }
 
-    /* Bottom Tab Navigation (Screen 37 & 49) */
-    .bottom-tabbar {
-      height: 50px;
-      background: #081b15;
-      border-top: 1px solid rgba(212, 175, 55, 0.25);
+    /* Benefits / Context Box */
+    .benefits-panel {
+      margin: 0 18px 16px;
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(12, 38, 29, 0.85);
+      border: 1px solid var(--emerald-border);
+    }
+
+    .benefits-panel.parchment-ctx {
+      background: rgba(246, 240, 226, 0.94);
+      color: var(--parchment-ink);
+      border-color: #c5a459;
+    }
+
+    .benefits-panel h4 {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--gold-soft);
+      margin-bottom: 6px;
+    }
+
+    .benefits-panel.parchment-ctx h4 {
+      color: #6b4e14;
+    }
+
+    .benefits-panel ul {
+      padding-left: 18px;
+      font-size: 13px;
+      color: var(--text-muted);
+      line-height: 1.55;
+    }
+
+    .benefits-panel.parchment-ctx ul {
+      color: #3c311f;
+    }
+
+    /* Detail Action Grid */
+    .detail-actions-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      padding: 4px 6px;
-      flex-shrink: 0;
+      gap: 8px;
+      padding: 0 18px 18px;
     }
 
-    .tab-item {
+    .action-btn {
+      background: rgba(18, 52, 40, 0.92);
+      border: 1px solid var(--gold-border);
+      color: var(--text-white);
+      border-radius: 14px;
+      padding: 10px 6px;
+      font-size: 11.5px;
+      font-weight: 600;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 2px;
-      color: var(--text-muted);
-      font-size: 8.5px;
+      gap: 5px;
       cursor: pointer;
+      font-family: var(--font-ui);
     }
 
-    .tab-item.active {
-      color: var(--gold-light);
-      font-weight: 600;
+    .action-btn.active {
+      background: rgba(212, 175, 55, 0.22);
+      border-color: var(--gold);
+      color: var(--gold-soft);
     }
 
-    .tab-item svg {
-      width: 16px;
-      height: 16px;
+    /* Option Rows (Audio Reciters, Languages, Fonts) */
+    .options-group {
+      padding: 0 18px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
     }
 
-    /* Audio Player Controls (Screen 46) */
-    .audio-card {
-      margin: 6px 14px 12px;
-      background: rgba(18, 46, 37, 0.9);
-      border: 1px solid rgba(212, 175, 55, 0.35);
+    .radio-card {
+      background: var(--bg-card);
+      border: 1px solid var(--emerald-border);
       border-radius: 14px;
-      padding: 12px;
-    }
-
-    .progress-track {
-      width: 100%;
-      height: 4px;
-      background: rgba(255, 255, 255, 0.15);
-      border-radius: 99px;
-      margin: 8px 0 12px;
-      position: relative;
-      cursor: pointer;
-    }
-
-    .progress-Track-fill {
-      width: 45%;
-      height: 100%;
-      background: var(--gold-primary);
-      border-radius: 99px;
-      position: relative;
-    }
-
-    .progress-Track-fill::after {
-      content: "";
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--gold-light);
-      position: absolute;
-      right: -5px;
-      top: -3px;
-      box-shadow: 0 0 6px rgba(0, 0, 0, 0.5);
-    }
-
-    .playback-btns {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 20px;
-    }
-
-    .play-main-btn {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #d4af37, #9e7a1c);
-      color: #071914;
-      border: none;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 15px;
-      cursor: pointer;
-      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.35);
-    }
-
-    /* Radio & Checkbox Options (Screens 46, 47, 48, 51) */
-    .option-row {
-      background: rgba(18, 46, 37, 0.75);
-      border: 1px solid rgba(212, 175, 55, 0.22);
-      border-radius: 10px;
-      padding: 8px 11px;
+      padding: 13px 15px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 6px;
-      font-size: 10.5px;
       cursor: pointer;
+      font-size: 14px;
     }
 
-    .option-row.selected {
-      border-color: var(--gold-primary);
-      background: rgba(29, 89, 67, 0.55);
+    .radio-card.selected {
+      border-color: var(--gold);
+      background: rgba(24, 74, 56, 0.72);
     }
 
-    .radio-dot {
-      width: 14px;
-      height: 14px;
+    .radio-indicator {
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      border: 1.5px solid var(--gold-primary);
+      border: 2px solid var(--gold);
       display: flex;
       align-items: center;
       justify-content: center;
     }
 
-    .option-row.selected .radio-dot::after {
+    .radio-card.selected .radio-indicator::after {
       content: "";
-      width: 7px;
-      height: 7px;
+      width: 9px;
+      height: 9px;
       border-radius: 50%;
-      background: var(--gold-light);
+      background: var(--gold-soft);
     }
 
-    .primary-cta-btn {
-      margin: 8px 14px 12px;
-      background: linear-gradient(135deg, #1f5c46 0%, #143f30 100%);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-light);
-      padding: 9px;
-      border-radius: 10px;
-      font-size: 11px;
+    /* Primary Button */
+    .primary-btn {
+      margin: 8px 18px 16px;
+      background: linear-gradient(135deg, #1f5f48 0%, #134030 100%);
+      border: 1px solid var(--gold);
+      color: var(--gold-soft);
+      padding: 13px 18px;
+      border-radius: 14px;
+      font-size: 14px;
       font-weight: 600;
       text-align: center;
       cursor: pointer;
-      transition: all 0.2s;
+      font-family: var(--font-ui);
     }
 
-    .primary-cta-btn:hover {
-      background: linear-gradient(135deg, #d4af37 0%, #aa8220 100%);
-      color: #061510;
+    .primary-btn:active {
+      transform: scale(0.98);
     }
 
     /* Bottom Sheet Modal (Screen 51 Copy Dua) */
-    .sheet-backdrop {
-      flex: 1;
-      background: rgba(4, 13, 10, 0.55);
-      display: flex;
+    .modal-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(3, 12, 9, 0.72);
+      backdrop-filter: blur(4px);
+      display: none;
       flex-direction: column;
       justify-content: flex-end;
+      z-index: 90;
     }
 
-    .parchment-sheet {
-      background: var(--parchment);
-      color: var(--parchment-text);
-      border-radius: 22px 22px 0 0;
-      padding: 16px 16px 18px;
-      border-top: 2px solid var(--gold-primary);
-      box-shadow: 0 -10px 25px rgba(0, 0, 0, 0.5);
+    .modal-overlay.open {
+      display: flex;
     }
 
-    .check-row {
+    .copy-sheet {
+      background: var(--parchment-light);
+      color: var(--parchment-ink);
+      border-radius: 26px 26px 0 0;
+      padding: 20px 20px 28px;
+      border-top: 2px solid var(--gold);
+      box-shadow: 0 -12px 34px rgba(0, 0, 0, 0.6);
+      animation: slideUp 0.22s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-check-row {
       display: flex;
       align-items: center;
-      gap: 9px;
-      padding: 8px 10px;
-      border-radius: 8px;
-      background: rgba(44, 37, 25, 0.06);
-      margin-bottom: 6px;
-      font-size: 11px;
+      gap: 12px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      background: rgba(41, 34, 22, 0.06);
+      margin-bottom: 8px;
+      font-size: 14px;
       font-weight: 600;
       cursor: pointer;
     }
 
-    .check-box {
-      width: 15px;
-      height: 15px;
-      border-radius: 4px;
-      border: 1.5px solid #1d5943;
+    .sheet-checkbox {
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      border: 2px solid #184a38;
       background: #fff;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #fff;
-      font-size: 10px;
+      font-size: 13px;
     }
 
-    .check-row.checked .check-box {
-      background: #1d5943;
+    .sheet-check-row.checked .sheet-checkbox {
+      background: #184a38;
     }
 
-    /* ================= INTERACTIVE SIMULATOR MODE ================= */
-    .simulator-layout {
+    /* Bottom Navigation Bar */
+    .bottom-nav {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 68px;
+      background: rgba(7, 25, 19, 0.96);
+      border-top: 1px solid var(--gold-border);
+      backdrop-filter: blur(12px);
       display: grid;
-      grid-template-columns: 350px 410px 1fr;
-      gap: 32px;
-      max-width: 1540px;
-      margin: 0 auto;
-      align-items: start;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 6px 10px 10px;
+      z-index: 40;
     }
 
-    @media (max-width: 1250px) {
-      .simulator-layout {
-        grid-template-columns: 1fr;
-        justify-items: center;
-      }
-    }
-
-    .sim-panel {
-      background: rgba(13, 38, 30, 0.85);
-      border: 1px solid var(--gold-border);
-      border-radius: 20px;
-      padding: 22px;
-      width: 100%;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
-    }
-
-    .sim-panel h2 {
-      font-family: var(--font-serif);
-      font-size: 22px;
-      color: var(--gold-light);
-      margin-bottom: 6px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .sim-panel p.panel-desc {
-      font-size: 12.5px;
-      color: var(--text-secondary);
-      margin-bottom: 16px;
-      line-height: 1.45;
-    }
-
-    /* Interactive Checklist */
-    .checklist-container {
+    .nav-tab {
+      background: none;
+      border: none;
+      color: var(--text-dim);
       display: flex;
       flex-direction: column;
-      gap: 7px;
-      max-height: 600px;
-      overflow-y: auto;
-      padding-right: 4px;
-    }
-
-    .spec-check-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 9px 11px;
-      border-radius: 10px;
-      background: rgba(7, 25, 20, 0.65);
-      border: 1px solid rgba(212, 175, 55, 0.18);
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .spec-check-item:hover {
-      border-color: var(--gold-primary);
-      background: rgba(21, 53, 43, 0.8);
-    }
-
-    .spec-check-item.active-screen {
-      border-color: var(--gold-light);
-      background: rgba(212, 175, 55, 0.15);
-    }
-
-    .spec-check-item input[type="checkbox"] {
-      accent-color: var(--gold-primary);
-      margin-top: 3px;
-      cursor: pointer;
-    }
-
-    .spec-item-text {
-      flex: 1;
-    }
-
-    .spec-item-title {
-      font-size: 12px;
-      font-weight: 600;
-      color: #fff;
-      display: flex;
-      justify-content: space-between;
-    }
-
-    .spec-item-desc {
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
       font-size: 11px;
-      color: var(--text-secondary);
-      margin-top: 2px;
-      line-height: 1.35;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font-ui);
     }
 
-    /* Live Interactive Phone Stage */
-    .live-phone-stage {
-      display: flex;
+    .nav-tab.active {
+      color: var(--gold-soft);
+      font-weight: 600;
+    }
+
+    /* Quick Screen Jump Drawer for Testing All 37-54 States */
+    .screen-jumper-drawer {
+      position: absolute;
+      inset: 0;
+      background: rgba(4, 15, 11, 0.96);
+      z-index: 95;
+      display: none;
       flex-direction: column;
-      align-items: center;
-      gap: 14px;
+      padding: 46px 18px 24px;
+      overflow-y: auto;
     }
 
-    .live-phone-stage .phone-frame {
-      width: 350px;
-      height: 700px;
-      border-width: 3px;
+    .screen-jumper-drawer.open {
+      display: flex;
     }
 
-    /* 21 Future Categories Matrix */
-    .future-cats-grid {
+    .jumper-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(195px, 1fr));
-      gap: 10px;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
       margin-top: 12px;
     }
 
-    .future-cat-pill {
-      background: rgba(7, 25, 20, 0.75);
-      border: 1px solid rgba(212, 175, 55, 0.25);
-      border-radius: 10px;
+    .jumper-btn {
+      background: var(--bg-elevated);
+      border: 1px solid var(--gold-border);
+      color: var(--text-white);
       padding: 10px 12px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-
-    .future-cat-pill:hover {
-      border-color: var(--gold-light);
-      transform: translateY(-2px);
-    }
-
-    .future-cat-name {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-primary);
-    }
-
-    .status-dot {
-      font-size: 9.5px;
-      padding: 2px 7px;
-      border-radius: 99px;
-      font-weight: 600;
-    }
-
-    .status-dot.launched {
-      background: rgba(46, 160, 115, 0.2);
-      color: #6ee7b7;
-      border: 1px solid rgba(110, 231, 183, 0.4);
-    }
-
-    .status-dot.planned {
-      background: rgba(212, 175, 55, 0.12);
-      color: var(--gold-light);
-      border: 1px solid rgba(212, 175, 55, 0.3);
-    }
-
-    /* Toast Notification */
-    .toast-msg {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: linear-gradient(135deg, #163d2f, #0b221b);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-light);
-      padding: 12px 20px;
       border-radius: 12px;
-      font-size: 13px;
-      font-weight: 600;
-      box-shadow: 0 12px 30px rgba(0,0,0,0.6);
-      z-index: 999;
-      opacity: 0;
-      transform: translateY(15px);
-      pointer-events: none;
-      transition: all 0.25s ease;
+      text-align: left;
+      font-size: 12px;
+      cursor: pointer;
+      font-family: var(--font-ui);
     }
 
-    .toast-msg.show {
-      opacity: 1;
-      transform: translateY(0);
+    .jumper-btn strong {
+      color: var(--gold-soft);
+      display: block;
+      margin-bottom: 2px;
     }
   </style>
 </head>
 <body>
 
-  <!-- ================= HEADER ================= -->
-  <header class="board-header">
-    <div class="brand-cluster">
-      <div class="brand-icon" aria-hidden="true">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
-          <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
-        </svg>
-      </div>
-      <div class="brand-title">
-        <h1>Dua Library</h1>
-        <p>Find, read, listen and live the Sunnah. · Section D (Screens 37–54)</p>
+  <div class="app-shell">
+    <!-- iOS Status Bar matching tasbih.html -->
+    <div class="ios-status-bar">
+      <span>9:41</span>
+      <div class="status-right">
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="currentColor"><rect x="1" y="8" width="2.5" height="4" rx="0.5"/><rect x="4.5" y="6" width="2.5" height="6" rx="0.5"/><rect x="8" y="3.5" width="2.5" height="8.5" rx="0.5"/><rect x="11.5" y="1" width="2.5" height="11" rx="0.5"/></svg>
+        <svg width="15" height="12" viewBox="0 0 16 12" fill="currentColor"><path d="M8 9.5a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm-3.6-1.8a5.5 5.5 0 017.2 0l1.2-1.4a7.3 7.3 0 00-9.6 0l1.2 1.4zm-2.6-3a9.5 9.5 0 0112.4 0l1.2-1.4a11.3 11.3 0 00-14.8 0l1.2 1.4z"/></svg>
+        <svg width="22" height="12" viewBox="0 0 24 12" fill="none"><rect x="1" y="1" width="19" height="10" rx="2.5" stroke="currentColor" stroke-width="1.5"/><rect x="3" y="3" width="15" height="6" rx="1" fill="currentColor"/><path d="M21.5 4v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
       </div>
     </div>
 
-    <div class="header-controls">
-      <div class="mode-switcher" role="tablist">
-        <button class="mode-btn active" id="btn-board-view" onclick="switchView('board')">
-          <span>❖</span> All 18 Screens Board (37–54)
-        </button>
-        <button class="mode-btn" id="btn-sim-view" onclick="switchView('simulator')">
-          <span>▶</span> Interactive Prototype & Spec (17/17)
-        </button>
-      </div>
+    <!-- Floating Toast Notification matching tasbih.html -->
+    <div id="toast-banner" class="toast-banner">Saved to Favourites</div>
 
-      <div class="header-ornament">
-        <span>Guidance for every moment</span>
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#d4af37" stroke-width="1.4">
-          <polygon points="12 2 15 8 22 9 17 14 18 21 12 18 6 21 7 14 2 9 9 8 12 2"/>
-        </svg>
-      </div>
-    </div>
-  </header>
+    <!-- ===================================================================
+         MAIN VIEWPORT CONTAINING ALL INTERACTIVE SCREENS (37 TO 54)
+         =================================================================== -->
+    <main class="screen-viewport" id="viewport">
 
-  <!-- ================= SPEC SUMMARY BAR ================= -->
-  <div class="spec-summary-bar">
-    <div class="spec-note">
-      <span class="spec-badge">Architecture Note</span>
-      <span>The old <strong>Market Dua</strong> tab becomes <strong>Duas</strong>. The <em>Marketplace Supplication</em> is retained as a featured library entry with its illustrated story experience &amp; Sahih al-Bukhari (7375) reference.</span>
-    </div>
-    <div class="progress-pill">
-      <span id="checked-counter-label" style="color: var(--gold-light); font-weight: 600;">17 of 17 checked</span>
-      <div class="progress-bar-wrap">
-        <div class="progress-bar-fill" id="spec-progress-bar"></div>
+      <!-- ================= SCREEN 37: DUA LIBRARY HOME ================= -->
+      <section class="screen active" id="scr-home">
+        <div class="top-nav">
+          <div class="top-nav-left">
+            <h1 class="page-title">Duas</h1>
+          </div>
+          <div class="top-actions">
+            <button class="circle-btn" onclick="navigate('scr-search')" title="Search Duas">🔍</button>
+            <button class="circle-btn" onclick="navigate('scr-favourites')" title="Favourites">🔖</button>
+            <button class="circle-btn" onclick=" openScreenJumper()" title="Jump to any Screen (37-54)">☷</button>
+          </div>
+        </div>
+        <p class="page-subtitle">A collection of authentic duas for everyday life</p>
+
+        <div class="search-bar-wrap">
+          <div class="search-bar" onclick="navigate('scr-search')">
+            <span>🔍</span>
+            <input type="text" placeholder="Search by title, occasion, Arabic or transliteration..." readonly />
+          </div>
+        </div>
+
+        <!-- Retained Marketplace Supplication Story Entry -->
+        <div class="market-story-banner" onclick="openDuaDetail('market', 'marketplace')">
+          <div class="market-story-content">
+            <span class="market-badge">Featured Sunnah</span>
+            <h3>Marketplace Supplication</h3>
+            <p>Dua inside the marketplace</p>
+            <span class="story-cta">See full story ›</span>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h2>Browse by Category</h2>
+          <button class="text-link-btn" onclick="navigate('scr-categories')">See all (21) ›</button>
+        </div>
+
+        <div class="quick-cats-grid">
+          <div class="quick-cat-card" onclick="openCategory('everyday')">
+            <div class="quick-cat-icon">🏠</div>
+            <span class="quick-cat-label">Everyday Life</span>
+          </div>
+          <div class="quick-cat-card" onclick="openCategory('morning_evening')">
+            <div class="quick-cat-icon">🌅</div>
+            <span class="quick-cat-label">Morning &amp; Evening</span>
+          </div>
+          <div class="quick-cat-card" onclick="openCategory('protection')">
+            <div class="quick-cat-icon">🛡️</div>
+            <span class="quick-cat-label">Protection</span>
+          </div>
+          <div class="quick-cat-card" onclick="openCategory('forgiveness')">
+            <div class="quick-cat-icon">🤲</div>
+            <span class="quick-cat-label">Forgiveness</span>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h2>Essential Supplications</h2>
+          <button class="text-link-btn" onclick="navigate('scr-categories')">All categories ›</button>
+        </div>
+
+        <div class="card-list" id="home-essential-list"></div>
+      </section>
+
+      <!-- ================= SCREEN 38: DUA CATEGORIES (ALL 21) ================= -->
+      <section class="screen" id="scr-categories">
+        <div class="top-nav">
+          <div class="top-nav-left">
+            <button class="circle-btn" onclick="navigate('scr-home')">←</button>
+            <h1 class="page-title">Dua Categories</h1>
+          </div>
+          <div class="top-actions">
+            <button class="circle-btn" onclick="openScreenJumper()">☷</button>
+          </div>
+        </div>
+
+        <div class="search-bar-wrap">
+          <div class="search-bar">
+            <span>🔍</span>
+            <input type="text" id="cat-search-input" placeholder="Search 21 categories..." oninput="renderCategoriesList(this.value)" />
+          </div>
+        </div>
+
+        <div class="chips-scroll">
+          <button class="filter-chip active" id="cat-filter-all" onclick="filterCategoriesMode('all')">All 21 Groupings</button>
+          <button class="filter-chip" id="cat-filter-core" onclick="filterCategoriesMode('core')">Core Launch (6)</button>
+        </div>
+
+        <div class="card-list" id="categories-list-mount"></div>
+      </section>
+
+      <!-- ================= SCREEN 39: CATEGORY DETAIL ================= -->
+      <section class="screen" id="scr-category-detail">
+        <div class="illustrated-hero" id="cat-hero-banner" style="background-image: url('https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80');">
+          <div class="top-nav" style="padding: 0;">
+            <button class="circle-btn" onclick="navigate('scr-categories')">←</button>
+            <button class="circle-btn" onclick="navigate('scr-search')">🔍</button>
+          </div>
+          <div>
+            <h1 class="page-title" id="cat-detail-title">Morning &amp; Evening</h1>
+            <p class="page-subtitle" id="cat-detail-subtitle" style="padding: 4px 0 0;">Start and end your day with remembrance.</p>
+          </div>
+        </div>
+
+        <div class="card-list" id="cat-duas-mount" style="padding-top: 14px;"></div>
+      </section>
+
+      <!-- ================= SCREENS 40, 41, 53, 54: DUA SEARCH & STATES ================= -->
+      <section class="screen" id="scr-search">
+        <div class="top-nav">
+          <div class="top-nav-left">
+            <button class="circle-btn" onclick="navigate('scr-home')">←</button>
+            <h1 class="page-title">Search Duas</h1>
+          </div>
+          <div class="top-actions">
+            <button class="circle-btn" onclick="openScreenJumper()">☷</button>
+          </div>
+        </div>
+
+        <div class="search-bar-wrap">
+          <div class="search-bar">
+            <span>🔍</span>
+            <input type="text" id="dua-search-input" placeholder="Search title, Arabic, transliteration..." oninput="runDuaSearch()" />
+            <button class="clear-search-btn" onclick="clearDuaSearch()">✕</button>
+          </div>
+        </div>
+
+        <div class="chips-scroll">
+          <button class="filter-chip active" data-scope="all" onclick="setSearchScope('all', this)">All</button>
+          <button class="filter-chip" data-scope="arabic" onclick="setSearchScope('arabic', this)">Arabic</button>
+          <button class="filter-chip" data-scope="translit" onclick="setSearchScope('translit', this)">Transliteration</button>
+          <button class="filter-chip" data-scope="translation" onclick="setSearchScope('translation', this)">Translation</button>
+          <button class="filter-chip" data-scope="empty53" onclick="triggerEmptyState(53)">Test #53 Empty</button>
+          <button class="filter-chip" data-scope="nomatch54" onclick="triggerEmptyState(54)">Test #54 No Match</button>
+        </div>
+
+        <div class="card-list" id="search-results-mount"></div>
+      </section>
+
+      <!-- ================= SCREENS 42, 43, 44: DUA DETAIL (STANDARD / ILLUSTRATED / MARKETPLACE) ================= -->
+      <section class="screen" id="scr-dua-detail">
+        <div class="illustrated-hero" id="detail-hero" style="background-image: url('https://images.unsplash.com/photo-1542401886-65d6c61db217?auto=format&fit=crop&w=900&q=80');">
+          <div class="top-nav" style="padding: 0;">
+            <button class="circle-btn" onclick="goBackFromDetail()">←</button>
+            <div class="top-actions">
+              <button class="circle-btn" id="btn-toggle-illustrated" onclick="toggleIllustratedMode()" title="Toggle Illustrated Artwork (#43)">🎨</button>
+              <button class="circle-btn" onclick="navigate('scr-focus')" title="Reading / Focus Mode (#45)">⛶</button>
+              <button class="circle-btn" onclick="navigate('scr-audio')" title="Audio Recitation (#46)">🔊</button>
+              <button class="circle-btn" onclick="navigate('scr-language')" title="Language & Translation (#47)">🌐</button>
+              <button class="circle-btn" onclick="navigate('scr-font')" title="Font & Arabic Controls (#48)">Aa</button>
+            </div>
+          </div>
+          <div>
+            <span class="market-badge" id="detail-mode-badge">Standard Detail</span>
+            <h1 class="page-title" id="detail-title">Dua for Travelling</h1>
+            <p class="page-subtitle" id="detail-subtitle" style="padding: 2px 0 0;">Protection and ease in travel</p>
+          </div>
+        </div>
+
+        <div class="dua-reading-card" id="detail-reading-card" style="margin-top: 10px;">
+          <div class="dua-arabic" id="detail-arabic"></div>
+          <div class="dua-translit" id="detail-translit"></div>
+          <div class="dua-translation" id="detail-translation"></div>
+          <div class="dua-source-pill" onclick="navigate('scr-source')">
+            <span id="detail-source-short">Source: Surah Az-Zukhruf (43:13)</span>
+            <span>ⓘ</span>
+          </div>
+        </div>
+
+        <div class="benefits-panel" id="detail-benefits-box">
+          <h4>Benefits / Context</h4>
+          <ul id="detail-benefits-list"></ul>
+        </div>
+
+        <div class="detail-actions-grid">
+          <button class="action-btn" id="detail-bookmark-btn" onclick="toggleBookmarkCurrent()">
+            <span>🔖</span>
+            <span id="detail-bookmark-label">Bookmark</span>
+          </button>
+          <button class="action-btn" onclick="navigate('scr-audio')">
+            <span>▶️</span>
+            <span>Listen</span>
+          </button>
+          <button class="action-btn" onclick="openCopyModal()">
+            <span>📋</span>
+            <span>Copy</span>
+          </button>
+          <button class="action-btn" onclick="navigate('scr-share')">
+            <span>📤</span>
+            <span>Share</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= SCREEN 45: DUA READING / FOCUS MODE ================= -->
+      <section class="screen" id="scr-focus">
+        <div class="top-nav">
+          <button class="circle-btn" onclick="navigate('scr-dua-detail')">←</button>
+          <span id="focus-counter" style="font-size: 14px; font-weight: 600; color: var(--gold-soft);">1 / 8</span>
+          <button class="circle-btn" onclick="navigate('scr-font')">Aa</button>
+        </div>
+
+        <div style="flex: 1; display: flex; flex-direction: column; justify-content: center; padding: 20px 26px; text-align: center;">
+          <div class="dua-arabic" id="focus-arabic" style="font-size: calc(var(--arabic-size) * 1.2); margin-bottom: 22px;"></div>
+          <div class="dua-translit" id="focus-translit" style="font-size: 15px; margin-bottom: 18px;"></div>
+          <div class="dua-translation" id="focus-translation" style="font-size: 16px; margin-bottom: 20px;"></div>
+          <div>
+            <span class="dua-source-pill" id="focus-source" onclick="navigate('scr-source')"></span>
+          </div>
+        </div>
+
+        <div style="padding: 16px 24px 28px; display: flex; flex-direction: column; align-items: center; gap: 18px;">
+          <button class="circle-btn gold-active" style="width: 52px; height: 52px; font-size: 20px;" onclick="playRecitationAudio()">🔊</button>
+          <div style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
+            <button class="circle-btn" onclick="cycleDua(-1)">←</button>
+            <span style="font-size: 12px; color: var(--text-muted);">Distraction-Free Memorisation View</span>
+            <button class="circle-btn" onclick="cycleDua(1)">→</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SCREEN 46: AUDIO PLAYER & RECITER SELECTION ================= -->
+      <section class="screen" id="scr-audio">
+        <div class="top-nav">
+          <div class="top-nav-left">
+            <button class="circle-btn" onclick="navigate('scr-dua-detail')">←</button>
+            <h1 class="page-title" id="audio-dua-title">Dua for Travelling</h1>
+          </div>
+        </div>
+
+        <div class="card-list" style="padding-bottom: 8px;">
+          <div class="row-card" style="cursor: default;">
+            <div class="row-medallion">🎙️</div>
+            <div class="row-body">
+              <div class="row-title" id="active-reciter-name">Sheikh Mishary Rashid Alafasy</div>
+              <div class="row-subtitle">Arabic Recitation · Clear Tartil</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="dua-reading-card" style="padding: 18px;">
+          <div style="display: flex; justify-content: space-between; font-size: 12px; color: var(--text-muted); margin-bottom: 8px;">
+            <span id="audio-time-current">0:00</span>
+            <span id="audio-time-total">0:42</span>
+          </div>
+          <div style="width: 100%; height: 6px; background: rgba(255,255,255,0.14); border-radius: 99px; overflow: hidden; margin-bottom: 18px; cursor: pointer;" onclick="seekAudio(event)">
+            <div id="audio-progress-bar" style="width: 0%; height: 100%; background: var(--gold); transition: width 0.2s;"></div>
+          </div>
+          <div style="display: flex; align-items: center; justify-content: center; gap: 24px;">
+            <button class="circle-btn" onclick="restartAudio()">⏮</button>
+            <button class="circle-btn gold-active" id="audio-play-btn" style="width: 56px; height: 56px; font-size: 22px;" onclick="toggleAudioPlayback()">▶</button>
+            <button class="circle-btn" onclick="restartAudio()">🔁</button>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h2>Available Reciters</h2>
+        </div>
+
+        <div class="options-group" id="reciters-list">
+          <div class="radio-card selected" onclick="selectReciter('Sheikh Mishary Rashid Alafasy', this)">
+            <div>
+              <div style="font-weight: 600;">Sheikh Mishary Rashid Alafasy</div>
+              <div style="font-size: 12px; color: var(--text-muted);">(Arabic)</div>
+            </div>
+            <div class="radio-indicator"></div>
+          </div>
+          <div class="radio-card" onclick="selectReciter('Sheikh Abdul Basit Abdul Samad', this)">
+            <div>
+              <div style="font-weight: 600;">Sheikh Abdul Basit Abdul Samad</div>
+              <div style="font-size: 12px; color: var(--text-muted);">(Arabic)</div>
+            </div>
+            <div class="radio-indicator"></div>
+          </div>
+          <div class="radio-card" onclick="selectReciter('Sheikh Abdur-Rahman As-Sudais', this)">
+            <div>
+              <div style="font-weight: 600;">Sheikh Sudais</div>
+              <div style="font-size: 12px; color: var(--text-muted);">(Arabic)</div>
+            </div>
+            <div class="radio-indicator"></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SCREEN 47: TRANSLATION & LANGUAGE SELECTOR ================= -->
+      <section class="screen" id="scr-language">
+        <div class="top-nav">
+          <div class="top-nav-left">
+            <button class="circle-btn" onclick="navigate('scr-dua-detail')">←</button>
+            <h1 class="page-title">Language Options</h1>
+          </div>
+        </div>
+
+        <div class="segmented-toggle">
+          <button class="seg-btn active" id="seg-trans-btn" onclick="toggleDisplayLayer('translation')">Translation On</button>
+          <button class="seg-btn active" id="seg-translit-btn" onclick="toggleDisplayLayer('translit')">Transliteration On</button>
+        </div>
+
+        <div class="section-header"><h2>Translation Language</h2></div>
+        <div class="options-group">
+          <div class="radio-card selected" data-lang="en" onclick="setLanguage('en', this)">
+            <span>English</span>
+            <div class="radio-indicator"></div>
+          </div>
+          <div class="radio-card" data-lang="ur" onclick="setLanguage('ur', this)">
+            <span>Urdu (اردو)</span>
+            <div class="radio-indicator"></div>
+          </div>
+          <div class="radio-card" data-lang="hi" onclick="setLanguage('hi', this)">
+            <span>Hindi (हिन्दी)</span>
+            <div class="radio-indicator"></div>
+          </div>
+        </div>
+
+        <div class="section-header"><h2>Transliteration Script</h2></div>
+        <div class="options-group">
+          <div class="radio-card selected" onclick="selectSingleRadio(this)">
+            <span>Roman English / Urdu</span>
+            <div class="radio-indicator"></div>
+          </div>
+          <div class="radio-card" onclick="selectSingleRadio(this)">
+            <span>Phonetic Arabic Guide</span>
+            <div class="radio-indicator"></div>
+          </div>
+        </div>
+
+        <div class="benefits-panel">
+          <h4>Live Preview</h4>
+          <p id="lang-preview-text" style="font-size: 13px; color: var(--text-white); line-height: 1.5;"></p>
+        </div>
+
+        <button class="primary-btn" onclick="saveLanguageAndReturn()">Save Preferences</button>
+      </section>
+
+      <!-- ================= SCREEN 48: FONT & ARABIC DISPLAY CONTROLS ================= -->
+      <section class="screen" id="scr-font">
+        <div class="top-nav">
+          <div class="top-nav-left">
+            <button class="circle-btn" onclick="navigate('scr-dua-detail')">←</button>
+            <h1 class="page-title">Display Controls</h1>
+          </div>
+        </div>
+
+        <div class="section-header"><h2>Text Size</h2></div>
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; padding: 0 18px 16px;">
+          <button class="action-btn" id="size-btn-sm" onclick="setTextScale('sm', this)">A-</button>
+          <button class="action-btn active" id="size-btn-md" onclick="setTextScale('md', this)">A (Default)</button>
+          <button class="action-btn" id="size-btn-lg" onclick="setTextScale('lg', this)">A+</button>
+        </div>
+
+        <div class="section-header"><h2>Arabic Display</h2></div>
+        <div class="options-group">
+          <div class="radio-card selected" onclick="setArabicStyle('standard', this)">
+            <span>Standard</span>
+            <div class="radio-indicator"></div>
+          </div>
+          <div class="radio-card" onclick="setArabicStyle('uthmani', this)">
+            <span>Uthmani (Classic)</span>
+            <div class="radio-indicator"></div>
+          </div>
+          <div class="radio-card" onclick="setArabicStyle('simple', this)">
+            <span>Simple (No Tashkeel)</span>
+            <div class="radio-indicator"></div>
+          </div>
+        </div>
+
+        <div class="section-header"><h2>Text Direction</h2></div>
+        <div class="options-group">
+          <div class="radio-card selected" onclick="selectSingleRadio(this)">
+            <span>Auto (Recommended)</span>
+            <div class="radio-indicator"></div>
+          </div>
+          <div class="radio-card" onclick="selectSingleRadio(this)">
+            <span>Right to Left</span>
+            <div class="radio-indicator"></div>
+          </div>
+        </div>
+
+        <div class="dua-reading-card">
+          <div class="dua-arabic" id="font-preview-arabic" style="margin-bottom: 0;">سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا</div>
+        </div>
+      </section>
+
+      <!-- ================= SCREEN 49: BOOKMARK / FAVOURITES ================= -->
+      <section class="screen" id="scr-favourites">
+        <div class="top-nav">
+          <div class="top-nav-left">
+            <button class="circle-btn" onclick="navigate('scr-home')">←</button>
+            <h1 class="page-title">Favourites</h1>
+          </div>
+        </div>
+
+        <div class="segmented-toggle">
+          <button class="seg-btn active">Saved Duas</button>
+          <button class="seg-btn" onclick="showToast('Reflections synced with your personal journal')">Reflections</button>
+        </div>
+
+        <div class="card-list" id="favourites-list-mount"></div>
+      </section>
+
+      <!-- ================= SCREEN 50: SHARE DUA CARD ================= -->
+      <section class="screen" id="scr-share">
+        <div class="top-nav">
+          <div class="top-nav-left">
+            <button class="circle-btn" onclick="navigate('scr-dua-detail')">←</button>
+            <h1 class="page-title">Share Dua</h1>
+          </div>
+        </div>
+
+        <div class="dua-reading-card parchment-theme" style="padding: 0; overflow: hidden; margin-top: 6px;">
+          <div id="share-card-banner" style="height: 120px; background-size: cover; background-position: center;"></div>
+          <div style="padding: 18px;">
+            <div style="font-family: var(--font-serif); font-size: 20px; font-weight: 700; margin-bottom: 10px;" id="share-card-title"></div>
+            <div class="dua-arabic" id="share-card-arabic" style="font-size: 21px;"></div>
+            <div class="dua-translit" id="share-card-translit"></div>
+            <div class="dua-translation" id="share-card-translation"></div>
+            <div class="dua-source-pill" id="share-card-source"></div>
+          </div>
+        </div>
+
+        <div class="detail-actions-grid" style="margin-top: 8px;">
+          <button class="action-btn" onclick="shareExternal('WhatsApp')">
+            <span>💬</span>
+            <span>WhatsApp</span>
+          </button>
+          <button class="action-btn" onclick="shareExternal('Telegram')">
+            <span>✈️</span>
+            <span>Telegram</span>
+          </button>
+          <button class="action-btn" onclick="copyFormattedDua()">
+            <span>🔗</span>
+            <span>Copy Text</span>
+          </button>
+          <button class="action-btn" onclick="shareExternal('System')">
+            <span>•••</span>
+            <span>More</span>
+          </button>
+        </div>
+      </section>
+
+      <!-- ================= SCREEN 52: DUA SOURCE & REFERENCE ================= -->
+      <section class="screen" id="scr-source">
+        <div class="top-nav">
+          <div class="top-nav-left">
+            <button class="circle-btn" onclick="navigate('scr-dua-detail')">←</button>
+            <h1 class="page-title" id="source-page-title">Source &amp; Reference</h1>
+          </div>
+        </div>
+
+        <div class="benefits-panel" style="padding: 18px; margin-top: 8px;">
+          <h4 style="font-size: 16px; margin-bottom: 6px;">Primary Citation</h4>
+          <p id="source-primary-text" style="font-size: 15px; font-weight: 600; color: var(--text-white); margin-bottom: 16px;"></p>
+
+          <h4>Also mentioned in:</h4>
+          <ul id="source-secondary-list" style="margin-bottom: 16px;"></ul>
+
+          <h4>Context &amp; Scholarly Notes</h4>
+          <p id="source-notes-text" style="font-size: 13.5px; color: var(--text-muted); line-height: 1.6;"></p>
+        </div>
+
+        <button class="primary-btn" onclick="navigate('scr-dua-detail')">Back to Dua</button>
+      </section>
+
+    </main>
+
+    <!-- ================= SCREEN 51: COPY DUA BOTTOM SHEET MODAL ================= -->
+    <div class="modal-overlay" id="copy-modal" onclick="if(event.target===this) closeCopyModal()">
+      <div class="copy-sheet">
+        <h3 style="text-align: center; font-family: var(--font-serif); font-size: 22px; margin-bottom: 14px;">Copy Selection</h3>
+
+        <div class="sheet-check-row checked" id="chk-copy-arabic" onclick="this.classList.toggle('checked')">
+          <div class="sheet-checkbox">✓</div>
+          <span>Arabic Text</span>
+        </div>
+        <div class="sheet-check-row checked" id="chk-copy-translit" onclick="this.classList.toggle('checked')">
+          <div class="sheet-checkbox">✓</div>
+          <span>Transliteration</span>
+        </div>
+        <div class="sheet-check-row checked" id="chk-copy-translation" onclick="this.classList.toggle('checked')">
+          <div class="sheet-checkbox">✓</div>
+          <span>Translation &amp; Reference</span>
+        </div>
+
+        <button class="primary-btn" style="width: 100%; margin: 14px 0 8px; color: #fff;" onclick="executeSelectiveCopy()">Copy to Clipboard</button>
+        <div style="text-align: center; font-size: 13.5px; font-weight: 600; color: #5b4c33; padding: 6px; cursor: pointer;" onclick="closeCopyModal()">Cancel</div>
       </div>
-      <span style="color: var(--text-secondary); font-size: 11px;">Click any screen to test live</span>
     </div>
+
+    <!-- ================= QUICK JUMPER FOR ALL 18 SCREENS (37-54) ================= -->
+    <div class="screen-jumper-drawer" id="screen-jumper">
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="font-family: var(--font-serif); color: var(--gold-soft); font-size: 24px;">Jump to Screen (37–54)</h2>
+        <button class="circle-btn" onclick="closeScreenJumper()">✕</button>
+      </div>
+      <p style="font-size: 12.5px; color: var(--text-muted); margin-top: 4px;">Direct access to verify every specification state:</p>
+      <div class="jumper-grid">
+        <button class="jumper-btn" onclick="jumpToSpec(37)"><strong>37. Dua Library Home</strong>Main Duas tab &amp; Market card</button>
+        <button class="jumper-btn" onclick="jumpToSpec(38)"><strong>38. Dua Categories</strong>Browse all 21 groupings</button>
+        <button class="jumper-btn" onclick="jumpToSpec(39)"><strong>39. Category Detail</strong>Morning &amp; Evening Adhkar</button>
+        <button class="jumper-btn" onclick="jumpToSpec(40)"><strong>40. Dua Search</strong>Search "forgiveness"</button>
+        <button class="jumper-btn" onclick="jumpToSpec(41)"><strong>41. Search Results</strong>Search "travel" results</button>
+        <button class="jumper-btn" onclick="jumpToSpec(42)"><strong>42. Dua Detail (Standard)</strong>Dua for Travelling</button>
+        <button class="jumper-btn" onclick="jumpToSpec(43)"><strong>43. Dua Detail (Illustrated)</strong>Expanded artwork header</button>
+        <button class="jumper-btn" onclick="jumpToSpec(44)"><strong>44. Marketplace Dua</strong>Parchment card &amp; Bukhari 7375</button>
+        <button class="jumper-btn" onclick="jumpToSpec(45)"><strong>45. Reading / Focus Mode</strong>Distraction-free memorisation</button>
+        <button class="jumper-btn" onclick="jumpToSpec(46)"><strong>46. Audio &amp; Reciters</strong>Play/Pause &amp; 3 Sheikh options</button>
+        <button class="jumper-btn" onclick="jumpToSpec(47)"><strong>47. Translation &amp; Lang</strong>English / Urdu / Hindi</button>
+        <button class="jumper-btn" onclick="jumpToSpec(48)"><strong>48. Font &amp; Arabic Display</strong>A- / A / A+ &amp; Uthmani</button>
+        <button class="jumper-btn" onclick="jumpToSpec(49)"><strong>49. Bookmarks / Favourites</strong>Saved Duas list</button>
+        <button class="jumper-btn" onclick="jumpToSpec(50)"><strong>50. Share Dua Card</strong>Illustrated parchment card</button>
+        <button class="jumper-btn" onclick="jumpToSpec(51)"><strong>51. Copy Dua Sheet</strong>Selective copy checkboxes</button>
+        <button class="jumper-btn" onclick="jumpToSpec(52)"><strong>52. Source &amp; Reference</strong>Full citation &amp; notes</button>
+        <button class="jumper-btn" onclick="jumpToSpec(53)"><strong>53. Empty State</strong>No results found</button>
+        <button class="jumper-btn" onclick="jumpToSpec(54)"><strong>54. No Matches State</strong>Browse all categories CTA</button>
+      </div>
+    </div>
+
+    <!-- Bottom Tab Bar (Old Market Dua tab is now Duas) -->
+    <nav class="bottom-nav">
+      <button class="nav-tab" onclick="navigate('scr-home')">
+        <span>🏠</span>
+        <span>Home</span>
+      </button>
+      <button class="nav-tab active" id="tab-duas" onclick="navigate('scr-home')">
+        <span>📖</span>
+        <span>Duas</span>
+      </button>
+      <button class="nav-tab" onclick="openDuaDetail('market', 'marketplace')">
+        <span>🕌</span>
+        <span>Stories</span>
+      </button>
+      <button class="nav-tab" onclick="navigate('scr-favourites')">
+        <span>🔖</span>
+        <span>Saved</span>
+      </button>
+    </nav>
   </div>
 
-  <!-- =========================================================================
-       VIEW 1: COMPLETE 18-SCREEN BOARD (SCREENS 37 TO 54)
-       ========================================================================= -->
-  <main id="view-board" class="view-section active">
-    <div class="screens-grid">
-
-      <!-- ================= 37. DUA LIBRARY HOME ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(37)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="app-topbar">
-              <div>
-                <div class="topbar-left">
-                  <span class="back-btn">‹</span>
-                  <span class="screen-h1">Duas</span>
-                </div>
-                <p class="screen-subtitle" style="padding-left: 34px;">A collection of authentic duas for everyday life</p>
-              </div>
-              <button class="icon-btn" title="Bookmarks">🔖</button>
-            </div>
-
-            <div class="search-box">
-              <span>🔍</span>
-              <input type="text" placeholder="Search duas..." readonly />
-            </div>
-
-            <div class="featured-market-card" title="Retained Marketplace Supplication Story Experience">
-              <div class="featured-market-content">
-                <h3>Marketplace Supplication</h3>
-                <p>Dua inside the marketplace</p>
-                <span class="pill-cta">See full story ›</span>
-              </div>
-            </div>
-
-            <div class="section-label">
-              <span>Browse by Category</span>
-              <span style="font-size: 10px; color: var(--text-secondary);">See all ›</span>
-            </div>
-
-            <div class="cat-mini-grid">
-              <div class="cat-mini-item">
-                <div class="cat-mini-icon">🏠</div>
-                <span class="cat-mini-label">Everyday Life</span>
-              </div>
-              <div class="cat-mini-item">
-                <div class="cat-mini-icon">🌅</div>
-                <span class="cat-mini-label">Morning &amp; Evening</span>
-              </div>
-              <div class="cat-mini-item">
-                <div class="cat-mini-icon">🛡️</div>
-                <span class="cat-mini-label">Protection</span>
-              </div>
-              <div class="cat-mini-item">
-                <div class="cat-mini-icon">🤲</div>
-                <span class="cat-mini-label">Forgiveness</span>
-              </div>
-            </div>
-
-            <div class="phone-list" style="padding-top:2px;">
-              <div class="list-card">
-                <div class="list-thumb">سُبْحَانَ</div>
-                <div class="list-info">
-                  <div class="list-title">Dua for Travelling</div>
-                  <div class="list-sub">Protection and ease in travel</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="bottom-tabbar">
-            <div class="tab-item"><span>🏠</span><span>Home</span></div>
-            <div class="tab-item active"><span>📖</span><span>Duas</span></div>
-            <div class="tab-item"><span>🕌</span><span>Stories</span></div>
-            <div class="tab-item"><span>•••</span><span>More</span></div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(37)">37. Dua Library Home</div>
-      </div>
-
-      <!-- ================= 38. DUA CATEGORIES ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(38)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="app-topbar">
-              <div class="topbar-left">
-                <span class="back-btn">‹</span>
-                <span class="screen-h1">Dua Categories</span>
-              </div>
-            </div>
-
-            <div class="search-box">
-              <span>🔍</span>
-              <input type="text" placeholder="Search categories..." readonly />
-            </div>
-
-            <div class="phone-list">
-              <div class="list-card">
-                <div class="list-thumb square">🏠</div>
-                <div class="list-info">
-                  <div class="list-title">Everyday Life</div>
-                  <div class="list-sub">Daily habits and routine</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb square">🌅</div>
-                <div class="list-info">
-                  <div class="list-title">Morning &amp; Evening</div>
-                  <div class="list-sub">Adhkar and daily protection</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb square">🛡️</div>
-                <div class="list-info">
-                  <div class="list-title">Protection &amp; Safety</div>
-                  <div class="list-sub">From harm and evil</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb square">🤲</div>
-                <div class="list-info">
-                  <div class="list-title">Forgiveness &amp; Repentance</div>
-                  <div class="list-sub">Seek Allah's mercy</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb square">🕌</div>
-                <div class="list-info">
-                  <div class="list-title">Worship</div>
-                  <div class="list-sub">Prayer and Quran</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb square">🐪</div>
-                <div class="list-info">
-                  <div class="list-title">Travel</div>
-                  <div class="list-sub">For journeys and travel</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(38)">38. Dua Categories</div>
-      </div>
-
-      <!-- ================= 39. CATEGORY DETAIL ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(39)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="hero-banner hero-Sunrise">
-              <div class="topbar-left">
-                <span class="back-btn">‹</span>
-              </div>
-              <div>
-                <div class="screen-h1">Morning &amp; Evening</div>
-                <p class="screen-subtitle">Start and end your day with remembrance.</p>
-              </div>
-            </div>
-
-            <div class="phone-list" style="margin-top: 6px;">
-              <div class="list-card">
-                <div class="list-thumb">☀️</div>
-                <div class="list-info">
-                  <div class="list-title">Morning Adhkar</div>
-                  <div class="list-sub">8 duas</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb">🌙</div>
-                <div class="list-info">
-                  <div class="list-title">Evening Adhkar</div>
-                  <div class="list-sub">7 duas</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb">🌤️</div>
-                <div class="list-info">
-                  <div class="list-title">Upon Waking</div>
-                  <div class="list-sub">5 duas</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb">🌌</div>
-                <div class="list-info">
-                  <div class="list-title">Before Sleeping</div>
-                  <div class="list-sub">6 duas</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(39)">39. Category Detail</div>
-      </div>
-
-      <!-- ================= 40. DUA SEARCH ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(40)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="app-topbar">
-              <div class="topbar-left">
-                <span class="back-btn">‹</span>
-                <span class="screen-h1">Search Duas</span>
-              </div>
-            </div>
-
-            <div class="search-box">
-              <span>🔍</span>
-              <input type="text" value="forgiveness" readonly />
-              <span style="font-size: 11px; cursor: pointer;">✕</span>
-            </div>
-
-            <div class="chip-row">
-              <span class="chip active">All</span>
-              <span class="chip">Arabic</span>
-              <span class="chip">Transliteration</span>
-              <span class="chip">Translation</span>
-            </div>
-
-            <div class="phone-list">
-              <div class="list-card">
-                <div class="list-thumb">🤲</div>
-                <div class="list-info">
-                  <div class="list-title">Forgiveness and Repentance</div>
-                  <div class="list-sub">Seek Allah's mercy and forgiveness</div>
-                  <div class="list-meta">12 duas</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb">أَسْتَغْفِرُ</div>
-                <div class="list-info">
-                  <div class="list-title">Astaghfirullah</div>
-                  <div class="list-sub">I seek forgiveness from Allah</div>
-                  <div class="list-meta">(3 variants)</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb">رَبِّ اغْفِرْ</div>
-                <div class="list-info">
-                  <div class="list-title">Rabbighfir Li</div>
-                  <div class="list-sub">My Lord, forgive me</div>
-                  <div class="list-meta">(2 variants)</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(40)">40. Dua Search</div>
-      </div>
-
-      <!-- ================= 41. SEARCH RESULTS ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(41)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="search-box" style="margin-top: 8px;">
-              <span>🔍</span>
-              <input type="text" value="travel" readonly />
-            </div>
-
-            <div class="chip-row">
-              <span class="chip active">All</span>
-              <span class="chip">Duas</span>
-              <span class="chip">Stories</span>
-            </div>
-
-            <div class="phone-list">
-              <div class="list-card">
-                <div class="list-thumb">سُبْحَانَ</div>
-                <div class="list-info">
-                  <div class="list-title">Dua for Travelling</div>
-                  <div class="list-sub">Protection and ease in travel</div>
-                  <div class="list-meta">(3 variants)</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb">بِسْمِ</div>
-                <div class="list-info">
-                  <div class="list-title">On Boarding a Vehicle</div>
-                  <div class="list-sub">Safety and blessing</div>
-                  <div class="list-meta">(1 variant)</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb">اللَّهُمَّ</div>
-                <div class="list-info">
-                  <div class="list-title">Dua for When It Rains</div>
-                  <div class="list-sub">Mercy and blessings</div>
-                  <div class="list-meta">(1 variant)</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-            </div>
-
-            <div style="text-align: center; font-size: 10px; color: var(--text-muted); margin-top: 12px;">
-              No more results
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(41)">41. Search Results</div>
-      </div>
-
-      <!-- ================= 42. DUA DETAIL (STANDARD) ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(42)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="hero-banner hero-Camel" style="height: 112px;">
-              <div style="display:flex; justify-content:space-between; width:100%;">
-                <span class="back-btn">‹</span>
-                <div style="display:flex; gap:5px;">
-                  <span class="icon-btn" title="Audio">🔊</span>
-                  <span class="icon-btn" title="Display Controls">Aa</span>
-                </div>
-              </div>
-              <div>
-                <div class="screen-h1">Dua for Travelling</div>
-                <p class="screen-subtitle">Protection and ease in travel</p>
-              </div>
-            </div>
-
-            <div class="dua-card">
-              <div class="arabic-text">سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ</div>
-              <div class="translit-text">Subhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin.</div>
-              <div class="translation-text">Glory be to Him who has subjected this for us, and we could not have done it on our own.</div>
-              <div class="source-tag">Source: Surah Az-Zukhruf (43:13)</div>
-            </div>
-
-            <div class="context-box">
-              <div class="context-title">Benefits / Context</div>
-              <ul class="context-list">
-                <li>Seeks Allah's protection during travel.</li>
-                <li>Brings ease and blessings.</li>
-              </ul>
-            </div>
-
-            <div class="dua-action-bar">
-              <button class="action-pill-btn">🔖 Bookmark</button>
-              <button class="action-pill-btn">📤 Share</button>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(42)">42. Dua Detail (Standard)</div>
-      </div>
-
-      <!-- ================= 43. DUA DETAIL (ILLUSTRATED) ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(43)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="hero-banner hero-Camel" style="height: 145px;">
-              <div style="display:flex; justify-content:space-between; width:100%;">
-                <span class="back-btn">‹</span>
-                <span class="pill-cta" style="font-size:8.5px;">🎨 Illustrated</span>
-              </div>
-              <div>
-                <div class="screen-h1">Dua for Travelling</div>
-                <p class="screen-subtitle">Protection and ease in travel</p>
-              </div>
-            </div>
-
-            <div class="dua-card" style="background: rgba(15, 40, 32, 0.92);">
-              <div class="arabic-text">سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ</div>
-              <div class="translit-text">Subhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin.</div>
-              <div class="translation-text">Glory be to Him who has subjected this for us, and we could not have done it on our own.</div>
-              <div class="source-tag">Source: Surah Az-Zukhruf (43:13)</div>
-            </div>
-
-            <div class="context-box">
-              <div class="context-title">Benefits / Context</div>
-              <ul class="context-list">
-                <li>Seeks Allah's protection during travel.</li>
-              </ul>
-            </div>
-
-            <div class="dua-action-bar">
-              <button class="action-pill-btn">🔖 Bookmark</button>
-              <button class="action-pill-btn">📤 Share</button>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(43)">43. Dua Detail (Illustrated)</div>
-      </div>
-
-      <!-- ================= 44. MARKETPLACE SUPPLICATION ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(44)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="hero-banner hero-Market" style="height: 120px;">
-              <div style="display:flex; justify-content:space-between; width:100%;">
-                <span class="back-btn">‹</span>
-                <span class="pill-cta" style="font-size:8.5px;">📜 Story Retained</span>
-              </div>
-              <div>
-                <div class="screen-h1">Marketplace Supplication</div>
-                <p class="screen-subtitle">A dua for the marketplace</p>
-              </div>
-            </div>
-
-            <div class="dua-card parchment">
-              <div class="arabic-text" style="font-size: 15px;">لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ</div>
-              <div class="translit-text">La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu wa huwa 'ala kulli shay'in qadeer.</div>
-              <div class="translation-text">There is no god but Allah alone, with no partner. His is the dominion and praise, and He is able to do all things.</div>
-              <div class="source-tag">Source: Sahih al-Bukhari (7375)</div>
-            </div>
-
-            <div class="context-box parchment-ctx">
-              <div class="context-title">Benefits / Context</div>
-              <ul class="context-list">
-                <li>Brings barakah in trade and earnings.</li>
-                <li>Removes anxiety and difficulties.</li>
-              </ul>
-            </div>
-
-            <div class="dua-action-bar">
-              <button class="action-pill-btn">🔖 Bookmark</button>
-              <button class="action-pill-btn">📤 Share</button>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(44)">44. Marketplace Supplication</div>
-      </div>
-
-      <!-- ================= 45. DUA READING / FOCUS MODE ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(45)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body" style="justify-content: space-between;">
-            <div class="app-topbar">
-              <span class="back-btn">‹</span>
-              <span style="font-size: 11px; color: var(--gold-light); font-weight: 600;">1 / 3</span>
-              <span style="width:26px;"></span>
-            </div>
-
-            <div style="padding: 0 20px; text-align: center;">
-              <div class="arabic-text" style="font-size: 23px; margin-bottom: 16px;">
-                سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ
-              </div>
-              <div class="translit-text" style="font-size: 11.5px; margin-bottom: 14px;">
-                Subhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin.
-              </div>
-              <div class="translation-text" style="font-size: 12px; margin-bottom: 14px;">
-                Glory be to Him who has subjected this for us, and we could not have done it on our own.
-              </div>
-              <div class="source-tag">Source: Surah Az-Zukhruf (43:13)</div>
-            </div>
-
-            <div style="padding: 14px 20px 18px; display: flex; flex-direction: column; align-items: center; gap: 14px;">
-              <span class="icon-btn" title="Audio Recitation">🔊</span>
-              <div style="display: flex; width: 100%; justify-content: space-between; align-items: center;">
-                <span class="back-btn">‹</span>
-                <span class="icon-btn" style="width: 34px; height: 34px; font-weight: 700;">AA</span>
-                <span class="back-btn">›</span>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(45)">45. Dua Reading / Focus Mode</div>
-      </div>
-
-      <!-- ================= 46. AUDIO PLAYER / RECITATION ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(46)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="app-topbar">
-              <div class="topbar-left">
-                <span class="back-btn">‹</span>
-                <span class="screen-h1">Dua for Travelling</span>
-              </div>
-            </div>
-
-            <div class="list-card" style="margin: 4px 14px 8px;">
-              <div class="list-thumb">🎙️</div>
-              <div class="list-info">
-                <div class="list-title">Sheikh Mishary Rashid Alafasy</div>
-                <div class="list-sub">Active Reciter</div>
-              </div>
-            </div>
-
-            <div class="audio-card">
-              <div style="display:flex; justify-content:space-between; font-size: 9.5px; color: var(--text-secondary);">
-                <span>0:32 / 1:12</span>
-                <span>1:12</span>
-              </div>
-              <div class="progress-track">
-                <div class="progress-Track-fill"></div>
-              </div>
-              <div class="playback-btns">
-                <button class="icon-btn">⏮</button>
-                <button class="play-main-btn">▶</button>
-                <button class="icon-btn">⏭</button>
-              </div>
-            </div>
-
-            <div class="section-label">Available Reciters</div>
-
-            <div style="padding: 0 14px;">
-              <div class="option-row selected">
-                <div>
-                  <div style="font-weight:600; color:#fff;">Sheikh Mishary Rashid Alafasy</div>
-                  <div style="font-size:9px; color:var(--text-secondary);">(Arabic)</div>
-                </div>
-                <div class="radio-dot"></div>
-              </div>
-
-              <div class="option-row">
-                <div>
-                  <div style="font-weight:600; color:#fff;">Sheikh Abdul Basit Abdul Samad</div>
-                  <div style="font-size:9px; color:var(--text-secondary);">(Arabic)</div>
-                </div>
-                <div class="radio-dot"></div>
-              </div>
-
-              <div class="option-row">
-                <div>
-                  <div style="font-weight:600; color:#fff;">Sheikh Sudais</div>
-                  <div style="font-size:9px; color:var(--text-secondary);">(Arabic)</div>
-                </div>
-                <div class="radio-dot"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(46)">46. Audio Player / Recitation</div>
-      </div>
-
-      <!-- ================= 47. TRANSLATION & LANGUAGE ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(47)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="app-topbar">
-              <div class="topbar-left">
-                <span class="back-btn">‹</span>
-                <span class="screen-h1">Dua for Travelling</span>
-              </div>
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; margin: 4px 14px 10px; background:#071712; padding:3px; border-radius:99px; border:1px solid var(--gold-border);">
-              <div style="background:var(--emerald-accent); color:var(--gold-light); text-align:center; padding:5px; border-radius:99px; font-size:10px; font-weight:600;">Translation</div>
-              <div style="color:var(--text-secondary); text-align:center; padding:5px; font-size:10px;">Transliteration</div>
-            </div>
-
-            <div class="section-label">Language</div>
-            <div style="padding: 0 14px;">
-              <div class="option-row selected"><span>English</span><div class="radio-dot"></div></div>
-              <div class="option-row"><span>Urdu</span><div class="radio-dot"></div></div>
-              <div class="option-row"><span>Hindi</span><div class="radio-dot"></div></div>
-            </div>
-
-            <div class="section-label">Transliteration</div>
-            <div style="padding: 0 14px;">
-              <div class="option-row selected"><span>Roman Urdu</span><div class="radio-dot"></div></div>
-              <div class="option-row"><span>Arabic Script</span><div class="radio-dot"></div></div>
-            </div>
-
-            <div class="context-box" style="margin-top:4px;">
-              <div class="translit-text" style="margin:0;">Subhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin.</div>
-            </div>
-
-            <div class="primary-cta-btn">Save</div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(47)">47. Translation &amp; Language</div>
-      </div>
-
-      <!-- ================= 48. FONT & ARABIC DISPLAY ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(48)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="app-topbar">
-              <div class="topbar-left">
-                <span class="back-btn">‹</span>
-                <span class="screen-h1">Dua for Travelling</span>
-              </div>
-            </div>
-
-            <div class="section-label">Text Size</div>
-            <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:8px; padding:0 14px 10px;">
-              <button class="action-pill-btn">A-</button>
-              <button class="action-pill-btn active">A</button>
-              <button class="action-pill-btn">A+</button>
-            </div>
-
-            <div class="section-label">Arabic Display</div>
-            <div style="padding: 0 14px;">
-              <div class="option-row selected"><span>Standard</span><div class="radio-dot"></div></div>
-              <div class="option-row"><span>Uthmani (Classic)</span><div class="radio-dot"></div></div>
-              <div class="option-row"><span>Simple</span><div class="radio-dot"></div></div>
-            </div>
-
-            <div class="section-label">Text Direction</div>
-            <div style="padding: 0 14px;">
-              <div class="option-row selected"><span>Auto (Recommended)</span><div class="radio-dot"></div></div>
-              <div class="option-row"><span>Right to Left</span><div class="radio-dot"></div></div>
-            </div>
-
-            <div class="dua-card" style="margin-top:auto; margin-bottom:12px;">
-              <div class="arabic-text" style="margin:0; font-size:17px;">سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا</div>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(48)">48. Font &amp; Arabic Display</div>
-      </div>
-
-      <!-- ================= 49. BOOKMARK / FAVOURITES ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(49)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="app-topbar">
-              <div class="topbar-left">
-                <span class="back-btn">‹</span>
-                <span class="screen-h1">Favourites</span>
-              </div>
-            </div>
-
-            <div style="display:grid; grid-template-columns:1fr 1fr; margin: 4px 14px 12px; background:#071712; padding:3px; border-radius:99px; border:1px solid var(--gold-border);">
-              <div style="background:var(--emerald-accent); color:var(--gold-light); text-align:center; padding:5px; border-radius:99px; font-size:10px; font-weight:600;">Duas</div>
-              <div style="color:var(--text-secondary); text-align:center; padding:5px; font-size:10px;">Reflections</div>
-            </div>
-
-            <div class="phone-list">
-              <div class="list-card">
-                <div class="list-thumb">🐪</div>
-                <div class="list-info">
-                  <div class="list-title">Dua for Travelling</div>
-                  <div class="list-sub">Protection and ease in travel</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb">أَسْتَغْفِرُ</div>
-                <div class="list-info">
-                  <div class="list-title">Astaghfirullah</div>
-                  <div class="list-sub">I seek forgiveness from Allah</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-
-              <div class="list-card">
-                <div class="list-thumb">رَبِّ ارْحَمْ</div>
-                <div class="list-info">
-                  <div class="list-title">Dua for Parents</div>
-                  <div class="list-sub">Kindness and mercy</div>
-                </div>
-                <span class="list-chev">›</span>
-              </div>
-            </div>
-          </div>
-
-          <div class="bottom-tabbar">
-            <div class="tab-item"><span>🏠</span><span>Home</span></div>
-            <div class="tab-item active"><span>📖</span><span>Duas</span></div>
-            <div class="tab-item"><span>🕌</span><span>Stories</span></div>
-            <div class="tab-item"><span>•••</span><span>More</span></div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(49)">49. Bookmark / Favourites</div>
-      </div>
-
-      <!-- ================= 50. SHARE DUA ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(50)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body" style="justify-content: space-between;">
-            <div class="app-topbar">
-              <span class="back-btn">‹</span>
-              <span class="screen-h1" style="font-size:15px;">Share Dua Card</span>
-              <span style="width:26px;"></span>
-            </div>
-
-            <div class="dua-card parchment" style="margin: 0 14px; padding: 0; overflow: hidden;">
-              <div class="hero-Camel" style="height: 85px; background-size: cover; background-position: center;"></div>
-              <div style="padding: 12px;">
-                <div style="font-family: var(--font-serif); font-size: 14px; font-weight: 700; margin-bottom: 6px;">Dua for Travelling</div>
-                <div class="arabic-text" style="font-size: 15px;">سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ</div>
-                <div class="translit-text">Subhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin.</div>
-                <div class="translation-text">Glory be to Him who has subjected this for us, and we could not have done it on our own.</div>
-                <div class="source-tag">Source: Surah Az-Zukhruf (43:13)</div>
-              </div>
-            </div>
-
-            <div style="padding: 10px 14px 14px; display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; font-size: 8.5px; color: var(--text-secondary);">
-              <div>
-                <div class="icon-btn" style="width:36px; height:36px; margin:0 auto 4px; background:#1f5c46;">💬</div>
-                WhatsApp
-              </div>
-              <div>
-                <div class="icon-btn" style="width:36px; height:36px; margin:0 auto 4px; background:#1c4c66;">✈️</div>
-                Telegram
-              </div>
-              <div>
-                <div class="icon-btn" style="width:36px; height:36px; margin:0 auto 4px;">🔗</div>
-                Copy Link
-              </div>
-              <div>
-                <div class="icon-btn" style="width:36px; height:36px; margin:0 auto 4px;">•••</div>
-                More
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(50)">50. Share Dua</div>
-      </div>
-
-      <!-- ================= 51. COPY DUA ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(51)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="hero-banner hero-Camel" style="height: 110px; opacity: 0.45;">
-              <span class="back-btn">‹</span>
-              <div class="screen-h1">Dua for Travelling</div>
-            </div>
-
-            <div class="sheet-backdrop">
-              <div class="parchment-sheet">
-                <div style="text-align:center; font-family:var(--font-serif); font-size:16px; font-weight:700; margin-bottom:12px;">
-                  Copy
-                </div>
-
-                <div class="check-row checked">
-                  <div class="check-box">✓</div>
-                  <span>Arabic Text</span>
-                </div>
-                <div class="check-row checked">
-                  <div class="check-box">✓</div>
-                  <span>Transliteration</span>
-                </div>
-                <div class="check-row">
-                  <div class="check-box"></div>
-                  <span>Translation</span>
-                </div>
-
-                <div class="primary-cta-btn" style="margin: 12px 0 6px; color:#fff;">Copy</div>
-                <div style="text-align:center; font-size:10.5px; color:#5c4e36; cursor:pointer; padding:4px;">Cancel</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(51)">51. Copy Dua</div>
-      </div>
-
-      <!-- ================= 52. DUA SOURCE & REFERENCE ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(52)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body">
-            <div class="app-topbar">
-              <div class="topbar-left">
-                <span class="back-btn">‹</span>
-                <span class="screen-h1">Dua for Travelling</span>
-              </div>
-            </div>
-
-            <div class="context-box" style="margin-top:8px; padding:14px;">
-              <div style="font-family:var(--font-serif); font-size:15px; color:var(--gold-light); font-weight:600; margin-bottom:4px;">
-                Source &amp; Reference
-              </div>
-              <div style="font-size:11.5px; color:#fff; font-weight:600; margin-bottom:12px;">
-                Surah Az-Zukhruf (43:13)
-              </div>
-
-              <div class="context-title">Also mentioned in:</div>
-              <ul class="context-list" style="margin-bottom:14px;">
-                <li>Sahih al-Bukhari (7375)</li>
-                <li>Sahih Muslim (1342)</li>
-              </ul>
-
-              <div class="context-title">Notes</div>
-              <p style="font-size:10px; color:var(--text-secondary); line-height:1.5;">
-                This dua is recommended before starting a journey and when boarding a mount or vehicle for long distances.
-              </p>
-            </div>
-
-            <div class="primary-cta-btn" style="margin-top:auto;">Back</div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(52)">52. Dua Source &amp; Reference</div>
-      </div>
-
-      <!-- ================= 53. EMPTY STATE (NO RESULTS) ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(53)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body" style="justify-content: space-between; text-align: center; padding: 10px 18px 20px;">
-            <div style="text-align:left;">
-              <span class="back-btn">‹</span>
-            </div>
-
-            <div>
-              <div style="width:115px; height:115px; border-radius:20px; margin:0 auto 16px; background:radial-gradient(circle, rgba(212,175,55,0.2) 0%, rgba(18,46,37,0.8) 100%); border:1px solid var(--gold-border); display:flex; align-items:center; justify-content:center; font-size:42px;">
-                🕌
-              </div>
-              <div class="screen-h1" style="margin-bottom:6px;">No results found</div>
-              <p class="screen-subtitle">Try a different keyword or check your spelling.</p>
-            </div>
-
-            <div class="primary-cta-btn" style="margin:0;">Clear search</div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(53)">53. Empty State (No Results)</div>
-      </div>
-
-      <!-- ================= 54. NO MATCHES STATE ================= -->
-      <div class="screen-wrapper">
-        <div class="phone-frame" onclick="openInSimulator(54)">
-          <div class="status-bar"><span>9:41</span><div class="status-icons"><span>▂▄▆</span><span>🛜</span><span>🔋</span></div></div>
-          <div class="screen-body" style="justify-content: space-between; text-align: center; padding: 10px 18px 20px;">
-            <div style="text-align:left;">
-              <span class="back-btn">‹</span>
-            </div>
-
-            <div>
-              <div style="width:96px; height:96px; border-radius:50%; margin:0 auto 16px; background:rgba(18,46,37,0.8); border:1.5px solid var(--gold-primary); display:flex; align-items:center; justify-content:center; font-size:34px; color:var(--gold-light);">
-                🔍
-              </div>
-              <div class="screen-h1" style="margin-bottom:6px;">No matching duas</div>
-              <p class="screen-subtitle">We couldn't find any duas for your search.</p>
-            </div>
-
-            <div class="primary-cta-btn" style="margin:0;">Browse all categories</div>
-          </div>
-        </div>
-        <div class="screen-caption" onclick="openInSimulator(54)">54. No Matches State</div>
-      </div>
-
-    </div>
-  </main>
-
-  <!-- =========================================================================
-       VIEW 2: INTERACTIVE SIMULATOR, 17 CHECKLIST ITEMS & 21 FUTURE CATEGORIES
-       ========================================================================= -->
-  <section id="view-simulator" class="view-section">
-    <div class="simulator-layout">
-
-      <!-- LEFT COLUMN: 17 SPEC REQUIREMENTS CHECKLIST -->
-      <div class="sim-panel">
-        <h2>
-          <span>17 Functional Specs</span>
-          <button class="pill-cta" style="cursor:pointer;" onclick="toggleAllChecks()">Toggle All</button>
-        </h2>
-        <p class="panel-desc">Click any specification below to preview its live interactive screen in the center device simulator.</p>
-
-        <div class="checklist-container" id="spec-checklist"></div>
-      </div>
-
-      <!-- CENTER COLUMN: LIVE INTERACTIVE PHONE -->
-      <div class="live-phone-stage">
-        <div style="display:flex; align-items:center; gap:10px;">
-          <button class="back-btn" onclick="stepSimulator(-1)">‹</button>
-          <span id="sim-screen-indicator" style="font-family:var(--font-serif); font-size:18px; color:var(--gold-light); font-weight:600;">
-            Screen 37 · Dua Library Home
-          </span>
-          <button class="back-btn" onclick="stepSimulator(1)">›</button>
-        </div>
-
-        <div id="live-phone-mount"></div>
-      </div>
-
-      <!-- RIGHT COLUMN: 21 CONTENT CATEGORIES ARCHITECTURE & LIVE CONTROLS -->
-      <div class="sim-panel">
-        <h2>
-          <span>21 Content Groupings</span>
-          <span class="spec-badge">Content Architecture</span>
-        </h2>
-        <p class="panel-desc">
-          These are content groupings prepared for future expansion—not separate hardcoded app pages. Launch with populated core categories and toggle additional groupings anytime:
-        </p>
-
-        <!-- Live Display & Audio Controls for Simulator -->
-        <div style="background:rgba(7,25,20,0.8); border:1px solid var(--gold-border); border-radius:12px; padding:12px 14px; margin-bottom:16px;">
-          <div style="font-size:11.5px; font-weight:600; color:var(--gold-light); margin-bottom:8px; display:flex; justify-content:space-between;">
-            <span>Live Typography &amp; Recitation Test</span>
-            <span id="audio-status-label" style="color:#6ee7b7;">Ready</span>
-          </div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap;">
-            <button class="action-pill-btn" onclick="adjustArabicScale(-0.12)">Arabic A-</button>
-            <button class="action-pill-btn" onclick="adjustArabicScale(0)">Reset A</button>
-            <button class="action-pill-btn" onclick="adjustArabicScale(0.15)">Arabic A+</button>
-            <button class="action-pill-btn" onclick="openInSimulator(44)">📜 View Market Dua</button>
-            <button class="action-pill-btn" onclick="copySampleDua()">📋 Copy Active Dua</button>
-          </div>
-        </div>
-
-        <div class="future-cats-grid" id="future-cats-mount"></div>
-      </div>
-
-    </div>
-  </section>
-
-  <div id="toast" class="toast-msg">Copied to clipboard!</div>
-
   <script>
-    // 17 Spec Checklist Items mapped to Screens 37–54
-    const specItems = [
-      { id: 1, screen: 37, title: "Dua library home", desc: "Browse the full collection & retained Marketplace Supplication story card.", checked: true },
-      { id: 2, screen: 38, title: "Dua categories", desc: "Everyday life, morning/evening, protection, forgiveness, worship & travel.", checked: true },
-      { id: 3, screen: 39, title: "Category detail", desc: "Duas belonging to a selected category with counts.", checked: true },
-      { id: 4, screen: 40, title: "Dua search", desc: "Search by title, occasion, Arabic text or transliteration.", checked: true },
-      { id: 5, screen: 41, title: "Dua search results", desc: "Matching duas with clear empty (53) and no-match (54) states.", checked: true },
-      { id: 6, screen: 42, title: "Dua detail — standard", desc: "Arabic, transliteration, translation, source/reference & benefits.", checked: true },
-      { id: 7, screen: 43, title: "Dua detail — illustrated", desc: "Optional artwork-led detail for selected duas.", checked: true },
-      { id: 8, screen: 44, title: "Dua detail — marketplace supplication", desc: "Retain content from Market Dua with Sahih al-Bukhari (7375) reference.", checked: true },
-      { id: 9, screen: 45, title: "Dua reading / focus mode", desc: "Optional distraction-free view for reading and memorisation.", checked: true },
-      { id: 10, screen: 46, title: "Audio player / recitation", desc: "Play, pause, replay and show playback progress when audio exists.", checked: true },
-      { id: 11, screen: 46, title: "Audio selection", desc: "Optional: select available reciter (Alafasy, Abdul Basit, Sudais).", checked: true },
-      { id: 12, screen: 47, title: "Translation and language selector", desc: "Choose supported translation (EN/UR/HI) & transliteration options.", checked: true },
-      { id: 13, screen: 48, title: "Font and Arabic display controls", desc: "Adjust text size (A-/A/A+) and Arabic script preferences.", checked: true },
-      { id: 14, screen: 49, title: "Dua bookmarks / favourites", desc: "Save or remove a dua in Favourites.", checked: true },
-      { id: 15, screen: 50, title: "Share Dua", desc: "Prepare a shareable illustrated dua card or text.", checked: true },
-      { id: 16, screen: 51, title: "Copy Dua", desc: "Copy selected Arabic, transliteration or translation.", checked: true },
-      { id: 17, screen: 52, title: "Dua source and reference", desc: "Show full citation and relevant authentic source notes.", checked: true }
+    // ==================== COMPLETE AUTHENTIC DUA DATABASE ====================
+    const DUAS = [
+      {
+        id: 'market',
+        category: 'everyday',
+        title: 'Marketplace Supplication',
+        subtitle: 'A dua for entering the marketplace',
+        variants: 'Retained Story Experience',
+        medallion: 'لَا إِلَٰهَ',
+        banner: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=900&q=80',
+        arabic: 'لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ وَهُوَ حَيٌّ لَا يَمُوتُ، بِيَدِهِ الْخَيْرُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
+        arabicSimple: 'لا إله إلا الله وحده لا شريك له، له الملك وله الحمد وهو على كل شيء قدير',
+        translit: "La ilaha illallahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu yuhyi wa yumitu wa huwa hayyun la yamutu, biyadihil-khayru wa huwa 'ala kulli shay'in qadeer.",
+        translations: {
+          en: 'There is no god but Allah alone, with no partner. His is the dominion and praise, He gives life and causes death, and He is Ever-Living and does not die. In His Hand is all good, and He is able to do all things.',
+          ur: 'اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں، اسی کی بادشاہی ہے اور اسی کے لیے تمام تعریف ہے، اور وہ ہر چیز پر قادر ہے۔',
+          hi: 'अल्लाह के सिवा कोई माबूद नहीं, वह अकेला है, उसका कोई साझी नहीं। उसी की बादशाही है और उसी के लिए सब प्रशंसा है, और वह हर चीज़ पर क़ादिर है।'
+        },
+        sourceShort: 'Source: Sahih al-Bukhari (7375) & Tirmidhi (3428)',
+        alsoIn: ['Sahih al-Bukhari (7375 — Book of Tawhid)', 'Jami at-Tirmidhi (3428)', 'Sunan Ibn Majah (2235)'],
+        notes: 'Retained from the original Market Dua tab experience. Reciting this remembrance in a place of trade and heedlessness earns immense reward and brings barakah in commerce.',
+        benefits: [
+          'Brings barakah in trade and daily earnings.',
+          'Removes anxiety and difficulties in the marketplace.',
+          'Remembers Allah where people are busy with worldly trade.'
+        ]
+      },
+      {
+        id: 'travel',
+        category: 'travel',
+        title: 'Dua for Travelling',
+        subtitle: 'Protection and ease in travel',
+        variants: '(3 variants)',
+        medallion: 'سُبْحَانَ',
+        banner: 'https://images.unsplash.com/photo-1542401886-65d6c61db217?auto=format&fit=crop&w=900&q=80',
+        arabic: 'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَىٰ رَبِّنَا لَمُنقَلِبُونَ',
+        arabicSimple: 'سبحان الذي سخر لنا هذا وما كنا له مقرنين وإنا إلى ربنا لمنقلبون',
+        translit: 'Subhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin, wa inna ila Rabbina lamunqalibun.',
+        translations: {
+          en: 'Glory be to Him who has subjected this for us, and we could not have done it on our own. And indeed, to our Lord we will surely return.',
+          ur: 'پاک ہے وہ ذات جس نے اسے ہمارے قابو میں کر دیا حالانکہ ہم اسے قابو میں کرنے والے نہ تھے، اور بے شک ہم اپنے رب ہی کی طرف لوٹ کر جانے والے ہیں۔',
+          hi: 'पाक है वह ज़ात जिसने इसे हमारे वश में कर दिया और हम इसे वश में करने में सक्षम न थे, और निश्चय ही हम अपने रब की ओर लौटने वाले हैं।'
+        },
+        sourceShort: 'Source: Surah Az-Zukhruf (43:13–14)',
+        alsoIn: ['Sahih al-Bukhari (7375)', 'Sahih Muslim (1342)'],
+        notes: 'This dua is recommended before starting a journey and when boarding any mount, car, train, or aircraft for long distances.',
+        benefits: [
+          "Seeks Allah's protection during travel.",
+          'Brings ease and blessings on the journey.'
+        ]
+      },
+      {
+        id: 'astaghfirullah',
+        category: 'forgiveness',
+        title: 'Astaghfirullah (Sayyidul Istighfar)',
+        subtitle: 'I seek forgiveness from Allah',
+        variants: '(3 variants)',
+        medallion: 'أَسْتَغْفِرُ',
+        banner: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80',
+        arabic: 'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ',
+        arabicSimple: 'أستغفر الله العظيم الذي لا إله إلا هو الحي القيوم وأتوب إليه',
+        translit: "Astaghfirullahal-'Azimal-ladhi la ilaha illa Huwal-Hayyul-Qayyumu wa atubu ilayh.",
+        translations: {
+          en: 'I seek forgiveness from Allah the Mighty, Whom there is none worthy of worship except Him, the Ever-Living, the Self-Subsisting, and I turn to Him in repentance.',
+          ur: 'میں عظمت والے اللہ سے بخشش مانگتا ہوں جس کے سوا کوئی معبود نہیں، جو زندہ اور قائم رکھنے والا ہے، اور میں اسی کی طرف توبہ کرتا ہوں۔',
+          hi: 'मैं महान अल्लाह से क्षमा मांगता हूँ जिसके सिवा कोई पूज्य नहीं, जो सदा जीवित और क़ायम रखने वाला है, और मैं उसी की ओर तौबा करता हूँ।'
+        },
+        sourceShort: 'Source: Sunan Abi Dawud (1517) & Tirmidhi (3577)',
+        alsoIn: ['Sahih al-Bukhari (6306)', 'Jami at-Tirmidhi (3577)'],
+        notes: 'Recited regularly after obligatory prayers and during morning and evening remembrance.',
+        benefits: [
+          'Wipes away minor and major shortcomings with sincere repentance.',
+          'Opens doors of relief from anxiety and tight provision.'
+        ]
+      },
+      {
+        id: 'rabbighfir',
+        category: 'forgiveness',
+        title: 'Rabbighfir Li',
+        subtitle: 'My Lord, forgive me',
+        variants: '(2 variants)',
+        medallion: 'رَبِّ اغْفِرْ',
+        banner: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80',
+        arabic: 'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ',
+        arabicSimple: 'رب اغفر لي وتب علي إنك أنت التواب الرحيم',
+        translit: 'Rabbighfir li wa tub alayya innaka Antat-Tawwabur-Rahim.',
+        translations: {
+          en: 'My Lord, forgive me and accept my repentance; indeed, You are the Accepting of Repentance, the Merciful.',
+          ur: 'اے میرے رب! مجھے بخش دے اور میری توبہ قبول فرما، بے شک تو ہی توبہ قبول کرنے والا مہربان ہے۔',
+          hi: 'ऐ मेरे रब! मुझे बख़्श दे और मेरी तौबा क़बूल फ़रमा, बेशक तू ही तौबा क़बूल करने वाला मेहरबान है।'
+        },
+        sourceShort: 'Source: Sunan Abi Dawud (1516)',
+        alsoIn: ['Jami at-Tirmidhi (3434)', 'Sunan Ibn Majah (3814)'],
+        notes: 'Ibn Umar (may Allah be pleased with him) reported that the Companions used to count the Prophet ﷺ saying this supplication 100 times in a single sitting.',
+        benefits: [
+          'Revives the Prophetic Sunnah of frequent Istighfar in gatherings.',
+          'Softens the heart and brings tranquility.'
+        ]
+      },
+      {
+        id: 'morning_adhkar',
+        category: 'morning_evening',
+        title: 'Morning Adhkar (Entering the Morning)',
+        subtitle: 'Start your day with Allah’s remembrance',
+        variants: '8 duas',
+        medallion: '☀️',
+        banner: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80',
+        arabic: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ، لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ',
+        arabicSimple: 'أصبحنا وأصبح الملك لله والحمد لله لا إله إلا الله وحده لا شريك له',
+        translit: 'Asbahna wa asbahal-mulku lillah, walhamdu lillah, la ilaha illallahu wahdahu la sharika lah.',
+        translations: {
+          en: 'We have entered the morning and at this very time the whole kingdom belongs to Allah, and all praise is due to Allah. There is none worthy of worship except Allah alone.',
+          ur: 'ہم نے صبح کی اور اللہ کے ملک نے صبح کی، اور تمام تعریف اللہ کے لیے ہے، اللہ کے سوا کوئی معبود نہیں۔',
+          hi: 'हमने सुबह की और सारा राज्य अल्लाह ही के लिए है, और सब प्रशंसा अल्लाह के लिए है।'
+        },
+        sourceShort: 'Source: Sahih Muslim (2723)',
+        alsoIn: ['Sunan Abi Dawud (5071)'],
+        notes: 'Best recited between Fajr prayer and sunrise.',
+        benefits: [
+          'Places the believer under divine protection throughout the day.',
+          'Renews gratitude for waking up in faith.'
+        ]
+      },
+      {
+        id: 'boarding_vehicle',
+        category: 'travel',
+        title: 'On Boarding a Vehicle',
+        subtitle: 'Safety and blessing at departure',
+        variants: '(1 variant)',
+        medallion: 'بِسْمِ',
+        banner: 'https://images.unsplash.com/photo-1542401886-65d6c61db217?auto=format&fit=crop&w=900&q=80',
+        arabic: 'بِسْمِ اللَّهِ، الْحَمْدُ لِلَّهِ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ، اللَّهُ أَكْبَرُ',
+        arabicSimple: 'بسم الله الحمد لله الله أكبر الله أكبر الله أكبر',
+        translit: 'Bismillah, Alhamdulillah, Allahu Akbar, Allahu Akbar, Allahu Akbar.',
+        translations: {
+          en: 'In the Name of Allah, all praise is for Allah. Allah is the Greatest, Allah is the Greatest, Allah is the Greatest.',
+          ur: 'اللہ کے نام کے ساتھ، تمام تعریفیں اللہ کے لیے ہیں، اللہ سب سے بڑا ہے۔',
+          hi: 'अल्लाह के नाम से, सब प्रशंसा अल्लाह के लिए है, अल्लाह सबसे बड़ा है।'
+        },
+        sourceShort: 'Source: Sunan Abi Dawud (2602)',
+        alsoIn: ['Jami at-Tirmidhi (3446)'],
+        notes: 'Recited upon placing one’s foot in the vehicle before reciting the verse of travel.',
+        benefits: ['Begins every commute with mindfulness of Allah.']
+      },
+      {
+        id: 'rain_dua',
+        category: 'rain',
+        title: 'Dua for When It Rains',
+        subtitle: 'Mercy and beneficial rain',
+        variants: '(1 variant)',
+        medallion: 'اللَّهُمَّ',
+        banner: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=900&q=80',
+        arabic: 'اللَّهُمَّ صَيِّبًا نَافِعًا',
+        arabicSimple: 'اللهم صيبا نافعا',
+        translit: 'Allahumma sayyiban nafi‘an.',
+        translations: {
+          en: 'O Allah, may it be a beneficial raincloud.',
+          ur: 'اے اللہ! اسے فائدہ مند بارش بنا دے۔',
+          hi: 'ऐ अल्लाह! इसे लाभदायक बारिश बना दे।'
+        },
+        sourceShort: 'Source: Sahih al-Bukhari (1032)',
+        alsoIn: ['Sunan an-Nasa’i (1523)'],
+        notes: 'The time of rainfall is a blessed moment when supplications are readily answered.',
+        benefits: ['Asks Allah for blessing and protection from flooding or harm.']
+      },
+      {
+        id: 'parents_dua',
+        category: 'family',
+        title: 'Dua for Parents',
+        subtitle: 'Kindness and mercy upon parents',
+        variants: 'Quranic Dua',
+        medallion: 'رَبِّ ارْحَمْ',
+        banner: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80',
+        arabic: 'رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا',
+        arabicSimple: 'رب ارحمهما كما ربياني صغيرا',
+        translit: 'Rabbir-hamhuma kama rabbayani saghira.',
+        translations: {
+          en: 'My Lord, have mercy upon them as they brought me up when I was small.',
+          ur: 'اے میرے رب! ان دونوں پر رحم فرما جیسا کہ انہوں نے بچپن میں میری پرورش کی۔',
+          hi: 'ऐ मेरे रब! उन दोनों पर दया कर जैसे उन्होंने बचपन में मेरा पालन-पोषण किया।'
+        },
+        sourceShort: 'Source: Surah Al-Isra (17:24)',
+        alsoIn: ['Al-Adab Al-Mufrad (34)'],
+        notes: 'One of the greatest ongoing charities (Sadaqah Jariyah) a child offers for parents.',
+        benefits: ['Fulfills the Quranic command of gratitude and honour toward parents.']
+      }
     ];
 
-    // 21 Future Content Categories from Specification
-    const futureCategories = [
-      { name: "Before eating", status: "launched", count: "4 duas" },
-      { name: "After eating", status: "launched", count: "3 duas" },
-      { name: "Before sleeping", status: "launched", count: "6 duas" },
-      { name: "Upon waking", status: "launched", count: "5 duas" },
-      { name: "Leaving home", status: "launched", count: "3 duas" },
-      { name: "Entering home", status: "launched", count: "3 duas" },
-      { name: "Entering and leaving the mosque", status: "launched", count: "4 duas" },
-      { name: "Morning adhkar", status: "launched", count: "8 duas" },
-      { name: "Evening adhkar", status: "launched", count: "7 duas" },
-      { name: "Protection and safety", status: "launched", count: "9 duas" },
-      { name: "Forgiveness and repentance", status: "launched", count: "12 duas" },
-      { name: "Anxiety, distress and hardship", status: "planned", count: "Ready" },
-      { name: "Gratitude", status: "planned", count: "Ready" },
-      { name: "Travel", status: "launched", count: "5 duas" },
-      { name: "Rain and weather", status: "launched", count: "4 duas" },
-      { name: "Illness and healing", status: "planned", count: "Ready" },
-      { name: "Family and children", status: "planned", count: "Ready" },
-      { name: "Prayer-related duas", status: "launched", count: "10 duas" },
-      { name: "Quranic duas", status: "launched", count: "15 duas" },
-      { name: "Prophetic duas", status: "launched", count: "18 duas" },
-      { name: "General remembrance", status: "planned", count: "Ready" }
+    // All 21 Content Groupings from the specification
+    const CATEGORIES_21 = [
+      { id: 'everyday', name: 'Everyday Life', sub: 'Daily habits, home, eating & marketplace', icon: '🏠', core: true },
+      { id: 'morning_evening', name: 'Morning & Evening', sub: 'Adhkar and daily protection', icon: '🌅', core: true },
+      { id: 'protection', name: 'Protection and safety', sub: 'From harm and evil', icon: '🛡️', core: true },
+      { id: 'forgiveness', name: 'Forgiveness and repentance', sub: "Seek Allah's mercy", icon: '🤲', core: true },
+      { id: 'worship', name: 'Worship', sub: 'Prayer and Quran', icon: '🕌', core: true },
+      { id: 'travel', name: 'Travel', sub: 'For journeys and travel', icon: '🐪', core: true },
+      { id: 'before_eating', name: 'Before eating', sub: 'Blessing your meal with Bismillah', icon: '🍽️', core: false },
+      { id: 'after_eating', name: 'After eating', sub: 'Praising Allah who fed and provided', icon: '🥣', core: false },
+      { id: 'before_sleeping', name: 'Before sleeping', sub: 'Closing the day in remembrance', icon: '🌌', core: false },
+      { id: 'upon_waking', name: 'Upon waking', sub: 'Gratitude for returning to life', icon: '🌤️', core: false },
+      { id: 'leaving_home', name: 'Leaving home', sub: 'Tawakkul and protection outside', icon: '🚪', core: false },
+      { id: 'entering_home', name: 'Entering home', sub: 'Bringing peace into the household', icon: '🏡', core: false },
+      { id: 'mosque', name: 'Entering and leaving the mosque', sub: 'Asking for gates of mercy and bounty', icon: '🕋', core: false },
+      { id: 'morning_adhkar', name: 'Morning adhkar', sub: 'Complete Fajr remembrance sequence', icon: '☀️', core: false },
+      { id: 'evening_adhkar', name: 'Evening adhkar', sub: 'Complete Asr/Maghrib sequence', icon: '🌙', core: false },
+      { id: 'anxiety', name: 'Anxiety, distress and hardship', sub: 'Prophetic relief for heavy hearts', icon: '🌿', core: false },
+      { id: 'gratitude', name: 'Gratitude', sub: 'Shukr for blessings and ease', icon: '✨', core: false },
+      { id: 'rain', name: 'Rain and weather', sub: 'Supplications for rain, wind & thunder', icon: '🌧️', core: false },
+      { id: 'illness', name: 'Illness and healing', sub: 'Ruqyah and visiting the sick', icon: '💚', core: false },
+      { id: 'family', name: 'Family and children', sub: 'Duas for parents, spouse & offspring', icon: '👨‍👩‍👧', core: false },
+      { id: 'prayer_duas', name: 'Prayer-related duas', sub: 'Ruku, Sujud, Tashahhud & Witr', icon: '🧎', core: false },
+      { id: 'quranic', name: 'Quranic duas', sub: 'Rabbana supplications from the Quran', icon: '📖', core: false },
+      { id: 'prophetic', name: 'Prophetic duas', sub: 'Comprehensive Jawami al-Kalim', icon: '📿', core: false },
+      { id: 'general', name: 'General remembrance', sub: 'Tasbih, Tahmid, Tahlil & Takbir', icon: '💫', core: false }
     ];
 
-    let currentSimScreen = 37;
+    // ==================== APPLICATION STATE ====================
+    let state = {
+      currentScreen: 'scr-home',
+      previousScreen: 'scr-home',
+      activeCategoryId: 'morning_evening',
+      activeDuaId: 'travel',
+      detailStyle: 'standard', // 'standard' (#42), 'illustrated' (#43), 'marketplace' (#44)
+      language: 'en',
+      showTranslation: true,
+      showTranslit: true,
+      arabicStyle: 'standard',
+      searchScope: 'all',
+      catFilterMode: 'all',
+      bookmarks: JSON.parse(localStorage.getItem('duas_bookmarks') || '["travel", "astaghfirullah", "parents_dua"]'),
+      audioPlaying: false,
+      audioSeconds: 0,
+      audioTimer: null
+    };
 
-    function switchView(mode) {
-      document.getElementById('view-board').classList.toggle('active', mode === 'board');
-      document.getElementById('view-simulator').classList.toggle('active', mode === 'simulator');
-      document.getElementById('btn-board-view').classList.toggle('active', mode === 'board');
-      document.getElementById('btn-sim-view').classList.toggle('active', mode === 'simulator');
-      if (mode === 'simulator') {
-        renderLivePhone(currentSimScreen);
+    // ==================== NAVIGATION & TOAST ====================
+    function navigate(screenId) {
+      if (state.currentScreen !== screenId) {
+        state.previousScreen = state.currentScreen;
       }
+      state.currentScreen = screenId;
+      document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+      const target = document.getElementById(screenId);
+      if (target) target.classList.add('active');
+      document.getElementById('viewport').scrollTop = 0;
+
+      if (screenId === 'scr-favourites') renderFavourites();
+      if (screenId === 'scr-focus') populateFocusScreen();
+      if (screenId === 'scr-share') populateShareScreen();
+      if (screenId === 'scr-source') populateSourceScreen();
+      if (screenId === 'scr-language') updateLanguagePreview();
     }
 
-    function openInSimulator(screenNumber) {
-      currentSimScreen = screenNumber;
-      switchView('simulator');
-      renderChecklist();
-      showToast(`Loaded Screen ${screenNumber} in Interactive Simulator`);
+    function goBackFromDetail() {
+      navigate(state.previousScreen || 'scr-home');
     }
 
-    function stepSimulator(delta) {
-      currentSimScreen += delta;
-      if (currentSimScreen < 37) currentSimScreen = 54;
-      if (currentSimScreen > 54) currentSimScreen = 37;
-      renderLivePhone(currentSimScreen);
-      renderChecklist();
-    }
-
-    function renderLivePhone(screenNum) {
-      const allWrappers = document.querySelectorAll('#view-board .screen-wrapper');
-      const idx = screenNum - 37;
-      if (!allWrappers[idx]) return;
-
-      const sourceFrame = allWrappers[idx].querySelector('.phone-frame');
-      const captionText = allWrappers[idx].querySelector('.screen-caption').textContent;
-      document.getElementById('sim-screen-indicator').textContent = `Screen ${captionText}`;
-
-      const mount = document.getElementById('live-phone-mount');
-      mount.innerHTML = '';
-      const clone = sourceFrame.cloneNode(true);
-      clone.onclick = null;
-      mount.appendChild(clone);
-    }
-
-    function renderChecklist() {
-      const container = document.getElementById('spec-checklist');
-      container.innerHTML = '';
-
-      let checkedCount = 0;
-      specItems.forEach((item) => {
-        if (item.checked) checkedCount++;
-        const row = document.createElement('div');
-        row.className = `spec-check-item ${item.screen === currentSimScreen ? 'active-screen' : ''}`;
-        row.onclick = (e) => {
-          if (e.target.tagName !== 'INPUT') {
-            currentSimScreen = item.screen;
-            renderLivePhone(currentSimScreen);
-            renderChecklist();
-          }
-        };
-
-        row.innerHTML = `
-          <input type="checkbox" ${item.checked ? 'checked' : ''} onchange="toggleCheckItem(${item.id}, this.checked)" />
-          <div class="spec-item-text">
-            <div class="spec-item-title">
-              <span>${item.id}. ${item.title}</span>
-              <span style="color:var(--gold-primary); font-size:10.5px;">#${item.screen}</span>
-            </div>
-            <div class="spec-item-desc">${item.desc}</div>
-          </div>
-        `;
-        container.appendChild(row);
-      });
-
-      document.getElementById('checked-counter-label').textContent = `${checkedCount} of 17 checked`;
-      document.getElementById('spec-progress-bar').style.width = `${(checkedCount / 17) * 100}%`;
-    }
-
-    function toggleCheckItem(id, state) {
-      const target = specItems.find(i => i.id === id);
-      if (target) target.checked = state;
-      renderChecklist();
-    }
-
-    function toggleAllChecks() {
-      const allChecked = specItems.every(i => i.checked);
-      specItems.forEach(i => i.checked = !allChecked);
-      renderChecklist();
-    }
-
-    function renderFutureCategories() {
-      const mount = document.getElementById('future-cats-mount');
-      mount.innerHTML = '';
-      futureCategories.forEach((cat, idx) => {
-        const pill = document.createElement('div');
-        pill.className = 'future-cat-pill';
-        pill.onclick = () => {
-          cat.status = cat.status === 'launched' ? 'planned' : 'launched';
-          renderFutureCategories();
-          showToast(`"${cat.name}" set to ${cat.status === 'launched' ? 'Populated (Launch)' : 'Planned Content Grouping'}`);
-        };
-        pill.innerHTML = `
-          <div>
-            <div class="future-cat-name">${idx + 1}. ${cat.name}</div>
-            <div style="font-size:10px; color:var(--text-secondary); margin-top:2px;">${cat.count}</div>
-          </div>
-          <span class="status-dot ${cat.status}">${cat.status === 'launched' ? 'Populated' : 'Future'}</span>
-        `;
-        mount.appendChild(pill);
-      });
-    }
-
-    let arabicScale = 1;
-    function adjustArabicScale(delta) {
-      if (delta === 0) {
-        arabicScale = 1;
-      } else {
-        arabicScale = Math.max(0.8, Math.min(1.45, arabicScale + delta));
-      }
-      document.documentElement.style.setProperty('--arabic-scale', arabicScale.toFixed(2));
-      showToast(`Arabic font scale set to ${Math.round(arabicScale * 100)}%`);
-    }
-
-    function copySampleDua() {
-      const sample = "سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَٰذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ\nSubhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin.\nGlory be to Him who has subjected this for us, and we could not have done it on our own. — Surah Az-Zukhruf (43:13)";
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(sample).catch(() => {});
-      }
-      showToast("Dua Arabic, Transliteration & Translation copied!");
-    }
-
-    let toastTimeout;
+    let toastTimer;
     function showToast(msg) {
-      const t = document.getElementById('toast');
-      t.textContent = msg;
-      t.classList.add('show');
-      clearTimeout(toastTimeout);
-      toastTimeout = setTimeout(() => t.classList.remove('show'), 2600);
+      const banner = document.getElementById('toast-banner');
+      banner.textContent = msg;
+      banner.classList.add('visible');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => banner.classList.remove('visible'), 2500);
     }
 
-    // Initialize
-    renderChecklist();
-    renderFutureCategories();
+    // ==================== SCREEN 37 & 38: HOME & CATEGORIES ====================
+    function renderHomeEssentials() {
+      const mount = document.getElementById('home-essential-list');
+      mount.innerHTML = DUAS.slice(1, 5).map(d => `
+        <div class="row-card" onclick="openDuaDetail('${d.id}', 'standard')">
+          <div class="row-medallion">${d.medallion}</div>
+          <div class="row-body">
+            <div class="row-title">${d.title}</div>
+            <div class="row-subtitle">${d.subtitle}</div>
+            <div class="row-meta">${d.variants}</div>
+          </div>
+          <span class="row-arrow">›</span>
+        </div>
+      `).join('');
+    }
+
+    function filterCategoriesMode(mode) {
+      state.catFilterMode = mode;
+      document.getElementById('cat-filter-all').classList.toggle('active', mode === 'all');
+      document.getElementById('cat-filter-core').classList.toggle('active', mode === 'core');
+      renderCategoriesList(document.getElementById('cat-search-input').value);
+    }
+
+    function renderCategoriesList(query = '') {
+      const q = query.trim().toLowerCase();
+      const filtered = CATEGORIES_21.filter(c => {
+        if (state.catFilterMode === 'core' && !c.core) return false;
+        return !q || c.name.toLowerCase().includes(q) || c.sub.toLowerCase().includes(q);
+      });
+
+      const mount = document.getElementById('categories-list-mount');
+      mount.innerHTML = filtered.map(c => `
+        <div class="row-card" onclick="openCategory('${c.id}')">
+          <div class="row-medallion rounded-sq">${c.icon}</div>
+          <div class="row-body">
+            <div class="row-title">${c.name}</div>
+            <div class="row-subtitle">${c.sub}</div>
+          </div>
+          <span class="row-arrow">›</span>
+        </div>
+      `).join('');
+    }
+
+    // ==================== SCREEN 39: CATEGORY DETAIL ====================
+    function openCategory(catId) {
+      state.activeCategoryId = catId;
+      const catObj = CATEGORIES_21.find(c => c.id === catId) || CATEGORIES_21[1];
+      document.getElementById('cat-detail-title').textContent = catObj.name;
+      document.getElementById('cat-detail-subtitle').textContent = catObj.sub;
+
+      const mount = document.getElementById('cat-duas-mount');
+      if (catId === 'morning_evening') {
+        mount.innerHTML = `
+          <div class="row-card" onclick="openDuaDetail('morning_adhkar', 'standard')">
+            <div class="row-medallion">☀️</div>
+            <div class="row-body"><div class="row-title">Morning Adhkar</div><div class="row-subtitle">8 duas</div></div>
+            <span class="row-arrow">›</span>
+          </div>
+          <div class="row-card" onclick="openDuaDetail('morning_adhkar', 'standard')">
+            <div class="row-medallion">🌙</div>
+            <div class="row-body"><div class="row-title">Evening Adhkar</div><div class="row-subtitle">7 duas</div></div>
+            <span class="row-arrow">›</span>
+          </div>
+          <div class="row-card" onclick="openDuaDetail('morning_adhkar', 'standard')">
+            <div class="row-medallion">🌤️</div>
+            <div class="row-body"><div class="row-title">Upon Waking</div><div class="row-subtitle">5 duas</div></div>
+            <span class="row-arrow">›</span>
+          </div>
+          <div class="row-card" onclick="openDuaDetail('morning_adhkar', 'standard')">
+            <div class="row-medallion">🌌</div>
+            <div class="row-body"><div class="row-title">Before Sleeping</div><div class="row-subtitle">6 duas</div></div>
+            <span class="row-arrow">›</span>
+          </div>
+        `;
+      } else {
+        const matches = DUAS.filter(d => d.category === catId);
+        const listToShow = matches.length ? matches : DUAS;
+        mount.innerHTML = listToShow.map(d => `
+          <div class="row-card" onclick="openDuaDetail('${d.id}', '${d.id === 'market' ? 'marketplace' : 'standard'}')">
+            <div class="row-medallion">${d.medallion}</div>
+            <div class="row-body">
+              <div class="row-title">${d.title}</div>
+              <div class="row-subtitle">${d.subtitle}</div>
+              <div class="row-meta">${d.variants}</div>
+            </div>
+            <span class="row-arrow">›</span>
+          </div>
+        `).join('');
+      }
+      navigate('scr-category-detail');
+    }
+
+    // ==================== SCREENS 40, 41, 53, 54: SEARCH ====================
+    function setSearchScope(scope, btn) {
+      state.searchScope = scope;
+      document.querySelectorAll('#scr-search .filter-chip').forEach(b => b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+      runDuaSearch();
+    }
+
+    function clearDuaSearch() {
+      document.getElementById('dua-search-input').value = '';
+      runDuaSearch();
+    }
+
+    function runDuaSearch() {
+      const q = document.getElementById('dua-search-input').value.trim().toLowerCase();
+      const mount = document.getElementById('search-results-mount');
+
+      const results = DUAS.filter(d => {
+        if (!q) return true;
+        if (state.searchScope === 'arabic') return d.arabic.includes(q) || d.arabicSimple.includes(q);
+        if (state.searchScope === 'translit') return d.translit.toLowerCase().includes(q);
+        if (state.searchScope === 'translation') return d.translations.en.toLowerCase().includes(q);
+        return (
+          d.title.toLowerCase().includes(q) ||
+          d.subtitle.toLowerCase().includes(q) ||
+          d.translit.toLowerCase().includes(q) ||
+          d.translations.en.toLowerCase().includes(q) ||
+          d.arabic.includes(q) ||
+          d.category.toLowerCase().includes(q)
+        );
+      });
+
+      if (results.length === 0) {
+        renderEmptySearchState(53);
+        return;
+      }
+
+      mount.innerHTML = results.map(d => `
+        <div class="row-card" onclick="openDuaDetail('${d.id}', '${d.id === 'market' ? 'marketplace' : 'standard'}')">
+          <div class="row-medallion">${d.medallion}</div>
+          <div class="row-body">
+            <div class="row-title">${d.title}</div>
+            <div class="row-subtitle">${d.subtitle}</div>
+            <div class="row-meta">${d.variants}</div>
+          </div>
+          <span class="row-arrow">›</span>
+        </div>
+      `).join('') + `<div style="text-align:center; font-size:12px; color:var(--text-dim); padding:10px 0;">No more results</div>`;
+    }
+
+    function triggerEmptyState(screenNum) {
+      document.getElementById('dua-search-input').value = screenNum === 53 ? 'xyz_unmatched_keyword' : 'no_matching_dua';
+      renderEmptySearchState(screenNum);
+    }
+
+    function renderEmptySearchState(screenNum) {
+      const mount = document.getElementById('search-results-mount');
+      if (screenNum === 53) {
+        mount.innerHTML = `
+          <div style="text-align:center; padding: 36px 20px;">
+            <div style="width:110px; height:110px; border-radius:24px; margin:0 auto 18px; background:radial-gradient(circle, rgba(212,175,55,0.22), rgba(18,50,39,0.85)); border:1px solid var(--gold-border); display:flex; align-items:center; justify-content:center; font-size:46px;">🕌</div>
+            <h3 style="font-family:var(--font-serif); font-size:24px; margin-bottom:6px;">No results found</h3>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:24px;">Try a different keyword or check your spelling.</p>
+            <button class="primary-btn" style="margin:0; width:100%;" onclick="clearDuaSearch()">Clear search</button>
+          </div>
+        `;
+      } else {
+        mount.innerHTML = `
+          <div style="text-align:center; padding: 36px 20px;">
+            <div style="width:96px; height:96px; border-radius:50%; margin:0 auto 18px; background:rgba(18,50,39,0.85); border:1.5px solid var(--gold); display:flex; align-items:center; justify-content:center; font-size:38px;">🔍</div>
+            <h3 style="font-family:var(--font-serif); font-size:24px; margin-bottom:6px;">No matching duas</h3>
+            <p style="font-size:13px; color:var(--text-muted); margin-bottom:24px;">We couldn't find any duas for your search.</p>
+            <button class="primary-btn" style="margin:0; width:100%;" onclick="navigate('scr-categories')">Browse all categories</button>
+          </div>
+        `;
+      }
+    }
+
+    // ==================== SCREENS 42, 43, 44: DUA DETAIL ====================
+    function getActiveDua() {
+      return DUAS.find(d => d.id === state.activeDuaId) || DUAS[1];
+    }
+
+    function openDuaDetail(duaId, styleMode = 'standard') {
+      state.activeDuaId = duaId;
+      state.detailStyle = styleMode;
+      renderDuaDetailView();
+      navigate('scr-dua-detail');
+    }
+
+    function toggleIllustratedMode() {
+      if (state.detailStyle === 'marketplace') {
+        state.detailStyle = 'standard';
+      } else {
+        state.detailStyle = state.detailStyle === 'illustrated' ? 'standard' : 'illustrated';
+      }
+      renderDuaDetailView();
+      showToast(state.detailStyle === 'illustrated' ? 'Illustrated Artwork View (#43)' : 'Standard Detail View (#42)');
+    }
+
+    function renderDuaDetailView() {
+      const dua = getActiveDua();
+      const hero = document.getElementById('detail-hero');
+      const card = document.getElementById('detail-reading-card');
+      const ctxBox = document.getElementById('detail-benefits-box');
+      const badge = document.getElementById('detail-mode-badge');
+      const artBtn = document.getElementById('btn-toggle-illustrated');
+
+      hero.style.backgroundImage = `url('${dua.banner}')`;
+      hero.classList.toggle('tall-art', state.detailStyle === 'illustrated');
+      artBtn.classList.toggle('gold-active', state.detailStyle === 'illustrated');
+
+      const isParchment = state.detailStyle === 'marketplace' || dua.id === 'market';
+      card.classList.toggle('parchment-theme', isParchment);
+      ctxBox.classList.toggle('parchment-ctx', isParchment);
+
+      badge.textContent = isParchment
+        ? 'Screen 44 · Marketplace Story Retained'
+        : state.detailStyle === 'illustrated'
+          ? 'Screen 43 · Illustrated Detail'
+          : 'Screen 42 · Standard Detail';
+
+      document.getElementById('detail-title').textContent = dua.title;
+      document.getElementById('detail-subtitle').textContent = dua.subtitle;
+
+      const arabicText = state.arabicStyle === 'simple' ? dua.arabicSimple : dua.arabic;
+      document.getElementById('detail-arabic').textContent = arabicText;
+
+      const translitEl = document.getElementById('detail-translit');
+      translitEl.textContent = dua.translit;
+      translitEl.style.display = state.showTranslit ? 'block' : 'none';
+
+      const transEl = document.getElementById('detail-translation');
+      transEl.textContent = dua.translations[state.language] || dua.translations.en;
+      transEl.style.display = state.showTranslation ? 'block' : 'none';
+
+      document.getElementById('detail-source-short').textContent = dua.sourceShort;
+      document.getElementById('detail-benefits-list').innerHTML = dua.benefits.map(b => `<li>${b}</li>`).join('');
+
+      const isSaved = state.bookmarks.includes(dua.id);
+      const bmBtn = document.getElementById('detail-bookmark-btn');
+      bmBtn.classList.toggle('active', isSaved);
+      document.getElementById('detail-bookmark-label').textContent = isSaved ? 'Saved' : 'Bookmark';
+    }
+
+    // ==================== SCREEN 45: FOCUS MODE ====================
+    function populateFocusScreen() {
+      const dua = getActiveDua();
+      const idx = DUAS.findIndex(d => d.id === dua.id);
+      document.getElementById('focus-counter').textContent = `${idx + 1} / ${DUAS.length}`;
+      document.getElementById('focus-arabic').textContent = state.arabicStyle === 'simple' ? dua.arabicSimple : dua.arabic;
+      document.getElementById('focus-translit').textContent = dua.translit;
+      document.getElementById('focus-translation').textContent = dua.translations[state.language] || dua.translations.en;
+      document.getElementById('focus-source').textContent = dua.sourceShort;
+    }
+
+    function cycleDua(delta) {
+      const idx = DUAS.findIndex(d => d.id === state.activeDuaId);
+      const nextIdx = (idx + delta + DUAS.length) % DUAS.length;
+      state.activeDuaId = DUAS[nextIdx].id;
+      populateFocusScreen();
+      renderDuaDetailView();
+    }
+
+    // ==================== SCREEN 46: AUDIO & RECITATION ====================
+    function selectReciter(name, rowEl) {
+      document.getElementById('active-reciter-name').textContent = name;
+      document.querySelectorAll('#reciters-list .radio-card').forEach(r => r.classList.remove('selected'));
+      rowEl.classList.add('selected');
+      restartAudio();
+      showToast(`Reciter switched to ${name}`);
+    }
+
+    function toggleAudioPlayback() {
+      if (state.audioPlaying) {
+        pauseRecitationAudio();
+      } else {
+        playRecitationAudio();
+      }
+    }
+
+    function playRecitationAudio() {
+      const dua = getActiveDua();
+      state.audioPlaying = true;
+      document.getElementById('audio-play-btn').textContent = '⏸';
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(dua.arabic);
+        utter.lang = 'ar-SA';
+        utter.rate = 0.85;
+        window.speechSynthesis.speak(utter);
+      }
+
+      clearInterval(state.audioTimer);
+      state.audioTimer = setInterval(() => {
+        state.audioSeconds = Math.min(42, state.audioSeconds + 1);
+        updateAudioUI();
+        if (state.audioSeconds >= 42) pauseRecitationAudio();
+      }, 1000);
+      showToast(`Playing recitation: ${dua.title}`);
+    }
+
+    function pauseRecitationAudio() {
+      state.audioPlaying = false;
+      document.getElementById('audio-play-btn').textContent = '▶';
+      clearInterval(state.audioTimer);
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function restartAudio() {
+      pauseRecitationAudio();
+      state.audioSeconds = 0;
+      updateAudioUI();
+    }
+
+    function seekAudio(e) {
+      const rect = e.currentTarget.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+      state.audioSeconds = Math.round(pct * 42);
+      updateAudioUI();
+    }
+
+    function updateAudioUI() {
+      const mins = Math.floor(state.audioSeconds / 60);
+      const secs = String(state.audioSeconds % 60).padStart(2, '0');
+      document.getElementById('audio-time-current').textContent = `${mins}:${secs}`;
+      document.getElementById('audio-progress-bar').style.width = `${(state.audioSeconds / 42) * 100}%`;
+    }
+
+    // ==================== SCREEN 47 & 48: LANGUAGE & FONT CONTROLS ====================
+    function setLanguage(lang, rowEl) {
+      state.language = lang;
+      rowEl.parentElement.querySelectorAll('.radio-card').forEach(r => r.classList.remove('selected'));
+      rowEl.classList.add('selected');
+      updateLanguagePreview();
+      renderDuaDetailView();
+    }
+
+    function toggleDisplayLayer(layer) {
+      if (layer === 'translation') {
+        state.showTranslation = !state.showTranslation;
+        document.getElementById('seg-trans-btn').classList.toggle('active', state.showTranslation);
+      } else {
+        state.showTranslit = !state.showTranslit;
+        document.getElementById('seg-translit-btn').classList.toggle('active', state.showTranslit);
+      }
+      renderDuaDetailView();
+    }
+
+    function updateLanguagePreview() {
+      const dua = getActiveDua();
+      document.getElementById('lang-preview-text').textContent = dua.translations[state.language] || dua.translations.en;
+    }
+
+    function saveLanguageAndReturn() {
+      renderDuaDetailView();
+      showToast('Language & display preferences saved');
+      navigate('scr-dua-detail');
+    }
+
+    function setTextScale(size, btn) {
+      const map = { sm: ['20px', '12.5px'], md: ['24px', '14px'], lg: ['30px', '16px'] };
+      document.documentElement.style.setProperty('--arabic-size', map[size][0]);
+      document.documentElement.style.setProperty('--body-size', map[size][1]);
+      btn.parentElement.querySelectorAll('.action-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      showToast(`Text size set to ${size.toUpperCase()}`);
+    }
+
+    function setArabicStyle(style, rowEl) {
+      state.arabicStyle = style;
+      selectSingleRadio(rowEl);
+      const dua = getActiveDua();
+      document.getElementById('font-preview-arabic').textContent = style === 'simple' ? dua.arabicSimple : dua.arabic;
+      renderDuaDetailView();
+    }
+
+    function selectSingleRadio(rowEl) {
+      rowEl.parentElement.querySelectorAll('.radio-card').forEach(r => r.classList.remove('selected'));
+      rowEl.classList.add('selected');
+    }
+
+    // ==================== SCREEN 49: FAVOURITES / BOOKMARKS ====================
+    function toggleBookmarkCurrent() {
+      const id = state.activeDuaId;
+      const idx = state.bookmarks.indexOf(id);
+      if (idx >= 0) {
+        state.bookmarks.splice(idx, 1);
+        showToast('Removed from Favourites');
+      } else {
+        state.bookmarks.push(id);
+        showToast('Saved to Favourites');
+      }
+      localStorage.setItem('duas_bookmarks', JSON.stringify(state.bookmarks));
+      renderDuaDetailView();
+    }
+
+    function renderFavourites() {
+      const mount = document.getElementById('favourites-list-mount');
+      const savedList = DUAS.filter(d => state.bookmarks.includes(d.id));
+      if (!savedList.length) {
+        mount.innerHTML = `<div style="text-align:center; padding:40px 20px; color:var(--text-muted);">No bookmarked duas yet. Tap Bookmark on any dua to save it here.</div>`;
+        return;
+      }
+      mount.innerHTML = savedList.map(d => `
+        <div class="row-card" onclick="openDuaDetail('${d.id}', '${d.id === 'market' ? 'marketplace' : 'standard'}')">
+          <div class="row-medallion">${d.medallion}</div>
+          <div class="row-body">
+            <div class="row-title">${d.title}</div>
+            <div class="row-subtitle">${d.subtitle}</div>
+          </div>
+          <span class="row-arrow">›</span>
+        </div>
+      `).join('');
+    }
+
+    // ==================== SCREENS 50, 51, 52: SHARE, COPY & SOURCE ====================
+    function populateShareScreen() {
+      const dua = getActiveDua();
+      document.getElementById('share-card-banner').style.backgroundImage = `url('${dua.banner}')`;
+      document.getElementById('share-card-title').textContent = dua.title;
+      document.getElementById('share-card-arabic').textContent = dua.arabic;
+      document.getElementById('share-card-translit').textContent = dua.translit;
+      document.getElementById('share-card-translation').textContent = dua.translations[state.language] || dua.translations.en;
+      document.getElementById('share-card-source').textContent = dua.sourceShort;
+    }
+
+    function shareExternal(channel) {
+      const dua = getActiveDua();
+      const text = `${dua.title}\n\n${dua.arabic}\n\n${dua.translit}\n\n"${dua.translations[state.language]}"\n(${dua.sourceShort})`;
+      if (navigator.share && channel === 'System') {
+        navigator.share({ title: dua.title, text }).catch(() => {});
+      } else {
+        if (navigator.clipboard) navigator.clipboard.writeText(text).catch(() => {});
+        showToast(`Prepared & copied for ${channel}!`);
+      }
+    }
+
+    function copyFormattedDua() {
+      shareExternal('Clipboard');
+    }
+
+    function openCopyModal() {
+      document.getElementById('copy-modal').classList.add('open');
+    }
+
+    function closeCopyModal() {
+      document.getElementById('copy-modal').classList.remove('open');
+    }
+
+    function executeSelectiveCopy() {
+      const dua = getActiveDua();
+      const parts = [];
+      if (document.getElementById('chk-copy-arabic').classList.contains('checked')) parts.push(dua.arabic);
+      if (document.getElementById('chk-copy-translit').classList.contains('checked')) parts.push(dua.translit);
+      if (document.getElementById('chk-copy-translation').classList.contains('checked')) {
+        parts.push(`${dua.translations[state.language]}\n— ${dua.sourceShort}`);
+      }
+      if (navigator.clipboard) navigator.clipboard.writeText(parts.join('\n\n')).catch(() => {});
+      closeCopyModal();
+      showToast('Selected dua fields copied to clipboard!');
+    }
+
+    function populateSourceScreen() {
+      const dua = getActiveDua();
+      document.getElementById('source-page-title').textContent = dua.title;
+      document.getElementById('source-primary-text').textContent = dua.sourceShort.replace('Source: ', '');
+      document.getElementById('source-secondary-list').innerHTML = dua.alsoIn.map(item => `<li>${item}</li>`).join('');
+      document.getElementById('source-notes-text').textContent = dua.notes;
+    }
+
+    // ==================== SCREEN JUMPER (37-54) ====================
+    function openScreenJumper() {
+      document.getElementById('screen-jumper').classList.add('open');
+    }
+    function closeScreenJumper() {
+      document.getElementById('screen-jumper').classList.remove('open');
+    }
+    function jumpToSpec(num) {
+      closeScreenJumper();
+      closeCopyModal();
+      switch (num) {
+        case 37: navigate('scr-home'); break;
+        case 38: navigate('scr-categories'); break;
+        case 39: openCategory('morning_evening'); break;
+        case 40:
+          navigate('scr-search');
+          document.getElementById('dua-search-input').value = 'forgiveness';
+          runDuaSearch();
+          break;
+        case 41:
+          navigate('scr-search');
+          document.getElementById('dua-search-input').value = 'travel';
+          runDuaSearch();
+          break;
+        case 42: openDuaDetail('travel', 'standard'); break;
+        case 43: openDuaDetail('travel', 'illustrated'); break;
+        case 44: openDuaDetail('market', 'marketplace'); break;
+        case 45: openDuaDetail('travel', 'standard'); navigate('scr-focus'); break;
+        case 46: openDuaDetail('travel', 'standard'); navigate('scr-audio'); break;
+        case 47: openDuaDetail('travel', 'standard'); navigate('scr-language'); break;
+        case 48: openDuaDetail('travel', 'standard'); navigate('scr-font'); break;
+        case 49: navigate('scr-favourites'); break;
+        case 50: openDuaDetail('travel', 'standard'); navigate('scr-share'); break;
+        case 51: openDuaDetail('travel', 'standard'); openCopyModal(); break;
+        case 52: openDuaDetail('travel', 'standard'); navigate('scr-source'); break;
+        case 53: navigate('scr-search'); triggerEmptyState(53); break;
+        case 54: navigate('scr-search'); triggerEmptyState(54); break;
+      }
+      showToast(`Opened Screen #${num}`);
+    }
+
+    // Initialize App
+    renderHomeEssentials();
+    renderCategoriesList();
+    runDuaSearch();
+    renderDuaDetailView();
   </script>
 </body>
 </html>
