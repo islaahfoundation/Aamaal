@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Duas Library — File 4 of 6</title>
-  <!-- Google Fonts: Cinzel, Plus Jakarta Sans, Amiri (Uthmani/Standard), Lateef & Noto Nastaliq Urdu (IndoPak) -->
+  <!-- Google Fonts: Cinzel, Plus Jakarta Sans, Amiri (Uthmani), Lateef & Noto Nastaliq Urdu (IndoPak) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&family=Lateef:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -110,7 +110,7 @@
       overflow-y: auto;
       overflow-x: hidden;
       position: relative;
-      padding-bottom: 84px;
+      padding-bottom: 24px;
       scrollbar-width: none;
     }
     .app-viewport::-webkit-scrollbar {
@@ -1036,14 +1036,13 @@
       border-color: var(--gold-primary);
     }
 
-    /* --- BOTTOM NAVIGATION BAR --- */
+    /* --- ALWAYS-VISIBLE BOTTOM NAVIGATION BAR --- */
     .bottom-nav {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
+      width: 100%;
       height: 68px;
-      background: rgba(4, 20, 16, 0.96);
+      flex-shrink: 0;
+      position: relative;
+      background: rgba(4, 20, 16, 0.98);
       border-top: 1px solid var(--gold-border);
       display: flex;
       justify-content: space-around;
@@ -1119,9 +1118,9 @@
     <!-- Toast Notification -->
     <div class="toast-msg" id="toastMsg">Saved to Favourites</div>
 
-    <!-- Bottom Tab Navigation -->
+    <!-- Always-Visible Bottom Tab Navigation -->
     <nav class="bottom-nav" id="bottomNav">
-      <button class="nav-tab" onclick="window.location.href='index.html'">
+      <button class="nav-tab" onclick="window.location.href='home.html'">
         <i class="bi bi-house-door"></i>
         <span>Home</span>
       </button>
@@ -1457,7 +1456,7 @@
         <div class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80');">
           <div class="hero-content">
             <div class="top-nav-row">
-              <button class="back-btn" onclick="window.location.href='index.html'" title="Back to Home"><i class="bi bi-chevron-left"></i></button>
+              <button class="back-btn" onclick="window.location.href='home.html'" title="Back to Home"><i class="bi bi-chevron-left"></i></button>
               <div style="display:flex; gap:8px;">
                 <button class="admin-pill-btn" onclick="renderScreen(99)" title="Admin: Add Dua & Background">
                   <i class="bi bi-plus-circle"></i> Admin
@@ -1480,7 +1479,7 @@
             <div class="market-featured-card" 
                  style="background-image: linear-gradient(90deg, rgba(8, 28, 22, 0.35) 0%, rgba(8, 28, 22, 0.88) 52%, rgba(8, 28, 22, 0.96) 100%), url('${featuredDua.heroImg}');"
                  onclick="openDuaDetail('${featuredDua.id}')">
-              <span class="market-card-badge"><i class="bi bi-stars"></i> Featured Supplication (${slideIdx + 1}/${DUAS_LIST.length})</span>
+              <span class="market-card-badge"><i class="bi bi-stars"></i> Featured (${slideIdx + 1}/${DUAS_LIST.length})</span>
               <div class="market-card-info">
                 <div class="market-card-title">${featuredDua.title}</div>
                 <div class="market-card-desc">${featuredDua.subtitle}</div>
@@ -1807,7 +1806,7 @@
       }
     }
 
-    /* --- SCREEN 42: Dua Detail — Standard (Duplicate fullscreen icon removed) --- */
+    /* --- SCREEN 42: Dua Detail — Standard --- */
     function view42DetailStandard() {
       const dua = getDua(state.selectedDuaId);
       const isFav = state.favourites.includes(dua.id);
@@ -1973,7 +1972,7 @@
       const displayNum = currentIdx >= 0 ? currentIdx + 1 : 1;
 
       return `
-        <div style="padding: 18px 20px; display:flex; flex-direction:column; justify-content:space-between; min-height: 720px;">
+        <div style="padding: 18px 20px; display:flex; flex-direction:column; justify-content:space-between; min-height: 700px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
             <span style="font-size:0.9rem; font-weight:600; color:var(--gold-light);">${displayNum} / ${DUAS_LIST.length}</span>
@@ -2081,7 +2080,7 @@
       `;
     }
 
-    /* --- SCREEN 47: Translation & Language Selector (Tabs removed + Roman Urdu added in Translation) --- */
+    /* --- SCREEN 47: Translation & Language Selector --- */
     function view47Language() {
       const dua = getDua(state.selectedDuaId);
       const langs = ['English', 'Urdu', 'Roman Urdu', 'Hindi'];
@@ -2134,14 +2133,12 @@
       `;
     }
 
-    /* --- SCREEN 48: Font & Arabic Display Controls (IndoPak added, Text Direction removed, Proper Title) --- */
+    /* --- SCREEN 48: Font & Arabic Display Controls (Only Uthmani & IndoPak) --- */
     function view48FontSettings() {
       const dua = getDua(state.selectedDuaId);
       const arabicStyles = [
         { label: 'Uthmani (Classic)', font: "'Amiri', serif" },
-        { label: 'IndoPak (Nastaleeq)', font: "'Lateef', 'Noto Nastaliq Urdu', serif" },
-        { label: 'Standard', font: "'Amiri', serif" },
-        { label: 'Simple', font: "sans-serif" }
+        { label: 'IndoPak (Nastaleeq)', font: "'Lateef', 'Noto Nastaliq Urdu', serif" }
       ];
       return `
         <div style="padding: 16px 18px;">
