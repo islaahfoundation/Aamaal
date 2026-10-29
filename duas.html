@@ -84,26 +84,6 @@
       }
     }
 
-    /* Status Bar */
-    .status-bar {
-      height: 36px;
-      padding: 0 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      font-size: 0.78rem;
-      font-weight: 600;
-      color: var(--text-main);
-      z-index: 30;
-      flex-shrink: 0;
-    }
-
-    .status-icons {
-      display: flex;
-      gap: 6px;
-      font-size: 0.8rem;
-    }
-
     /* Screen Container */
     .app-viewport {
       flex: 1;
@@ -1102,16 +1082,6 @@
 
   <!-- MOBILE APP SHELL -->
   <main class="phone-frame">
-    <!-- iOS/Android Status Bar -->
-    <div class="status-bar">
-      <span>9:41</span>
-      <div class="status-icons">
-        <i class="bi bi-reception-4"></i>
-        <i class="bi bi-wifi"></i>
-        <i class="bi bi-battery-full"></i>
-      </div>
-    </div>
-
     <!-- Dynamic Screen Viewport -->
     <div class="app-viewport" id="appViewport"></div>
 
