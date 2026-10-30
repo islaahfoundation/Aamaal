@@ -730,12 +730,13 @@
       justify-content: center;
       color: var(--gold-light);
       font-size: 1.3rem;
+      flex-shrink: 0;
     }
 
     .progress-track {
       width: 100%;
-      height: 5px;
-      background: rgba(255, 255, 255, 0.12);
+      height: 6px;
+      background: rgba(255, 255, 255, 0.14);
       border-radius: 99px;
       position: relative;
       margin-bottom: 8px;
@@ -743,11 +744,12 @@
     }
 
     .progress-fill {
-      width: 45%;
+      width: 0%;
       height: 100%;
       background: linear-gradient(90deg, var(--gold-primary), var(--gold-light));
       border-radius: 99px;
       position: relative;
+      transition: width 0.12s linear;
     }
 
     .progress-knob {
@@ -790,6 +792,39 @@
       justify-content: center;
       cursor: pointer;
       box-shadow: 0 0 18px rgba(212, 175, 55, 0.3);
+    }
+
+    /* Audio Failure Fallback Banner (K10, K11) */
+    .audio-fallback-alert {
+      margin-top: 14px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(180, 48, 48, 0.18);
+      border: 1px solid rgba(235, 110, 95, 0.55);
+      color: #ffd7d2;
+      font-size: 0.76rem;
+      line-height: 1.45;
+    }
+
+    .audio-fallback-actions {
+      display: flex;
+      gap: 8px;
+      margin-top: 9px;
+      flex-wrap: wrap;
+    }
+
+    .fallback-pill-btn {
+      background: rgba(212, 175, 55, 0.2);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      border-radius: 99px;
+      padding: 5px 11px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
     }
 
     /* Radio Option Rows (Screens 46, 47, 48) */
@@ -1082,6 +1117,9 @@
 
   <!-- MOBILE APP SHELL -->
   <main class="phone-frame">
+    <!-- Persistent HTML5 Audio Element with Fallback Handlers (K10, K11) -->
+    <audio id="duaAudioElement" preload="metadata" crossorigin="anonymous"></audio>
+
     <!-- Dynamic Screen Viewport -->
     <div class="app-viewport" id="appViewport"></div>
 
@@ -1111,9 +1149,10 @@
 
   <script>
     /* ==========================================================================
-       1. DATA REPOSITORY: Categories & Authentic Duas (with Admin Persistence)
+       1. DATA REPOSITORY: 6 Core Collections + Full 21 Separate Content Groupings
        ========================================================================== */
     const DEFAULT_CATEGORIES = [
+      /* 6 Primary Collections (Quick-Access Tiles & Core Browsing) */
       { id: 'everyday', title: 'Everyday Life', subtitle: 'Daily needs and routine', icon: 'bi-sun', group: 'core', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
       { id: 'morning-evening', title: 'Morning & Evening', subtitle: 'Start and end your day with remembrance', icon: 'bi-sunrise', group: 'core', hero: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80' },
       { id: 'protection', title: 'Protection & Safety', subtitle: 'From harm and evil', icon: 'bi-shield-check', group: 'core', hero: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80' },
@@ -1121,23 +1160,35 @@
       { id: 'worship', title: 'Worship & Prayer', subtitle: 'Prayer and Quranic supplications', icon: 'bi-moon-stars', group: 'core', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
       { id: 'travel', title: 'Travel', subtitle: 'For journeys and travel', icon: 'bi-compass', group: 'core', hero: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80' },
 
-      /* Full 21 Content Groupings */
+      /* Full 21 Separate Content Groupings from the Specification */
       { id: 'before-eating', title: 'Before Eating', subtitle: 'Blessing the meal with Bismillah', icon: 'bi-cup-hot', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'after-eating', title: 'After Eating', subtitle: 'Gratitude for provision', icon: 'bi-check2-circle', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'before-sleeping', title: 'Before Sleeping', subtitle: 'Night protection and rest', icon: 'bi-cloud-moon', group: 'future', hero: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80' },
+      { id: 'after-eating', title: 'After Eating', subtitle: 'Gratitude for provision and sustenance', icon: 'bi-check2-circle', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
+      { id: 'before-sleeping', title: 'Before Sleeping', subtitle: 'Night protection and peaceful rest', icon: 'bi-cloud-moon', group: 'future', hero: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80' },
       { id: 'upon-waking', title: 'Upon Waking', subtitle: 'Praise upon returning to life', icon: 'bi-brightness-alt-high', group: 'future', hero: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80' },
-      { id: 'leaving-home', title: 'Leaving Home', subtitle: 'Reliance and safe departure', icon: 'bi-door-open', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'entering-home', title: 'Entering Home', subtitle: 'Bringing peace into the house', icon: 'bi-house-heart', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'mosque', title: 'Entering & Leaving Mosque', subtitle: 'Doors of mercy and bounty', icon: 'bi-building', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
-      { id: 'morning-adhkar', title: 'Morning Adhkar', subtitle: 'Complete morning shield', icon: 'bi-brightness-high', group: 'future', hero: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80' },
-      { id: 'evening-adhkar', title: 'Evening Adhkar', subtitle: 'Complete evening shield', icon: 'bi-sunset', group: 'future', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-      { id: 'anxiety', title: 'Anxiety, Distress & Hardship', subtitle: 'Relief from sorrow and debt', icon: 'bi-water', group: 'future', hero: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80' },
-      { id: 'gratitude', title: 'Gratitude', subtitle: 'Thankfulness for blessings', icon: 'bi-stars', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'rain', title: 'Rain & Weather', subtitle: 'Mercy and beneficial rain', icon: 'bi-cloud-rain', group: 'future', hero: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80' },
-      { id: 'illness', title: 'Illness & Healing', subtitle: 'Ruqyah and visiting the sick', icon: 'bi-bandaid', group: 'future', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-      { id: 'family', title: 'Family & Children', subtitle: 'Righteous offspring and parents', icon: 'bi-people', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'quranic-prophetic', title: 'Quranic & Prophetic Duas', subtitle: 'Comprehensive Rabbana & Sunnah duas', icon: 'bi-journal-bookmark', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' }
+      { id: 'leaving-home', title: 'Leaving Home', subtitle: 'Reliance upon Allah and safe departure', icon: 'bi-door-open', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
+      { id: 'entering-home', title: 'Entering Home', subtitle: 'Bringing peace and barakah into the house', icon: 'bi-house-heart', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
+      { id: 'entering-mosque', title: 'Entering Mosque', subtitle: 'Asking Allah to open the doors of mercy', icon: 'bi-building-check', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
+      { id: 'leaving-mosque', title: 'Leaving Mosque', subtitle: 'Asking Allah from His immense bounty', icon: 'bi-building-up', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
+      { id: 'morning-adhkar', title: 'Morning Adhkar', subtitle: 'Complete morning remembrance shield', icon: 'bi-brightness-high', group: 'future', hero: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80' },
+      { id: 'evening-adhkar', title: 'Evening Adhkar', subtitle: 'Complete evening remembrance shield', icon: 'bi-sunset', group: 'future', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
+      { id: 'prayer-adhkar', title: 'Prayer & After Prayer', subtitle: 'Supplications during and after Salah', icon: 'bi-person-arms-up', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
+      { id: 'anxiety', title: 'Anxiety, Distress & Hardship', subtitle: 'Relief from sorrow, grief, and debt', icon: 'bi-water', group: 'future', hero: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80' },
+      { id: 'gratitude', title: 'Gratitude & Praise', subtitle: 'Thankfulness for Allah’s blessings', icon: 'bi-stars', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
+      { id: 'rain', title: 'Rain & Weather', subtitle: 'Mercy, wind, thunder, and beneficial rain', icon: 'bi-cloud-rain', group: 'future', hero: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80' },
+      { id: 'illness', title: 'Illness & Healing', subtitle: 'Ruqyah, shifa, and visiting the sick', icon: 'bi-bandaid', group: 'future', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
+      { id: 'family', title: 'Family, Marriage & Children', subtitle: 'Righteous spouse, offspring, and parents', icon: 'bi-people', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
+      { id: 'knowledge-guidance', title: 'Knowledge & Guidance', subtitle: 'Beneficial knowledge and steadfast hearts', icon: 'bi-lightbulb', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
+      { id: 'marketplace-trade', title: 'Marketplace & Provision', subtitle: 'Barakah in trade, rizq, and busy markets', icon: 'bi-shop', group: 'future', hero: 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80' },
+      { id: 'general-remembrance', title: 'General Remembrance', subtitle: 'Daily dhikr and constant mindfulness of Allah', icon: 'bi-infinity', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
+      { id: 'quranic-duas', title: 'Quranic Duas', subtitle: 'Rabbana and prophetic prayers from the Quran', icon: 'bi-journal-bookmark', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
+      { id: 'prophetic-duas', title: 'Prophetic Duas', subtitle: 'Comprehensive jawami al-kalim from the Sunnah', icon: 'bi-award', group: 'future', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' }
     ];
+
+    const RECITER_STREAMS = {
+      'Sheikh Mishary Rashid Alafasy': 'https://everyayah.com/data/Alafasy_128kbps/001001.mp3',
+      'Sheikh Abdul Basit Abdul Samad': 'https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/001001.mp3',
+      'Sheikh Abdur-Rahman As-Sudais': 'https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001001.mp3'
+    };
 
     const DEFAULT_DUAS = [
       {
@@ -1145,11 +1196,13 @@
         title: 'Marketplace Supplication',
         subtitle: 'A dua for entering the marketplace',
         category: 'everyday',
+        grouping: 'marketplace-trade',
         variants: 'Illustrated Story & Sunnah',
         arabicMedallion: 'سوق',
         isMarket: true,
         illustrated: true,
         heroImg: 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=80',
+        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/112001.mp3',
         arabic: 'لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ وَهُوَ حَيٌّ لَا يَمُوتُ، بِيَدِهِ الْخَيْرُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
         transliteration: 'La ilaha ill-Allahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu yuhyi wa yumitu wa Huwa hayyun la yamut, biyadihil-khayru wa Huwa ‘ala kulli shay’in qadeer.',
         translation: 'There is no god but Allah alone, with no partner. His is the dominion and praise; He gives life and causes death, and He is Ever-Living and never dies. In His Hand is all good, and He is able to do all things.',
@@ -1170,10 +1223,12 @@
         title: 'Dua for Travelling',
         subtitle: 'Protection and ease in travel',
         category: 'travel',
+        grouping: 'general-remembrance',
         variants: '3 variants',
         arabicMedallion: 'سفر',
         illustrated: true,
         heroImg: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=900&q=80',
+        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/043013.mp3',
         arabic: 'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ',
         transliteration: 'Subhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin, wa inna ila Rabbina lamunqalibun.',
         translation: 'Glory be to Him who has subjected this for us, and we could not have done it on our own. And indeed, to our Lord we will surely return.',
@@ -1194,10 +1249,12 @@
         title: 'Sayyidul Istighfar',
         subtitle: 'Seek Allah’s mercy and forgiveness',
         category: 'morning-evening',
+        grouping: 'morning-adhkar',
         variants: '3 variants',
         arabicMedallion: 'غفر',
         illustrated: false,
         heroImg: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=80',
+        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/002255.mp3',
         arabic: 'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ',
         transliteration: 'Astaghfirullahal-‘Azim alladhi la ilaha illa Huwal-Hayyul-Qayyumu wa atubu ilayh.',
         translation: 'I seek forgiveness from Allah the Mighty, Whom there is none worthy of worship except Him, the Ever-Living, the Self-Subsisting, and I turn in repentance to Him.',
@@ -1218,10 +1275,12 @@
         title: 'Rabbighfir Li',
         subtitle: 'My Lord, forgive me and accept my repentance',
         category: 'forgiveness',
+        grouping: 'prophetic-duas',
         variants: '2 variants',
         arabicMedallion: 'رب',
         illustrated: false,
         heroImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
+        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/110003.mp3',
         arabic: 'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ',
         transliteration: 'Rabbighfir li wa tub ‘alayya innaka Antat-Tawwabur-Rahim.',
         translation: 'My Lord, forgive me and accept my repentance; indeed, You are the Accepting of Repentance, the Merciful.',
@@ -1242,10 +1301,12 @@
         title: 'On Boarding a Vehicle',
         subtitle: 'Safety and blessing at departure',
         category: 'protection',
+        grouping: 'leaving-home',
         variants: '1 variant',
         arabicMedallion: 'ركب',
         illustrated: false,
         heroImg: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80',
+        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/011041.mp3',
         arabic: 'بِسْمِ اللَّهِ مَجْرَاهَا وَمُرْسَاهَا إِنَّ رَبِّي لَغَفُورٌ رَحِيمٌ',
         transliteration: 'Bismillahi majraha wa mursaha inna Rabbi la-Ghafurun Rahim.',
         translation: 'In the name of Allah is its course and its anchorage. Indeed, my Lord is Forgiving and Merciful.',
@@ -1265,10 +1326,12 @@
         title: 'Dua for When It Rains',
         subtitle: 'Mercy and beneficial blessings',
         category: 'rain',
+        grouping: 'rain',
         variants: '1 variant',
         arabicMedallion: 'مطر',
         illustrated: false,
         heroImg: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=900&q=80',
+        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/001001.mp3',
         arabic: 'اللَّهُمَّ صَيِّبًا نَافِعًا',
         transliteration: 'Allahumma sayyiban nafi‘a.',
         translation: 'O Allah, make it a beneficial rain.',
@@ -1288,10 +1351,12 @@
         title: 'Dua for Parents',
         subtitle: 'Kindness and mercy for parents',
         category: 'worship',
+        grouping: 'quranic-duas',
         variants: 'Quranic Dua',
         arabicMedallion: 'بر',
         illustrated: false,
         heroImg: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=900&q=80',
+        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/017024.mp3',
         arabic: 'رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا',
         transliteration: 'Rabbir-hamhuma kama rabbayani saghira.',
         translation: 'My Lord, have mercy upon them as they brought me up when I was small.',
@@ -1308,22 +1373,22 @@
       }
     ];
 
-    // Load from localStorage so Admin additions persist
-    let DUA_CATEGORIES = JSON.parse(localStorage.getItem('DUA_CATEGORIES_V2')) || DEFAULT_CATEGORIES;
-    let DUAS_LIST = JSON.parse(localStorage.getItem('DUAS_LIST_V2')) || DEFAULT_DUAS;
+    // Load from localStorage (V3 key ensures the 21 separate groupings load cleanly)
+    let DUA_CATEGORIES = JSON.parse(localStorage.getItem('DUA_CATEGORIES_V3')) || DEFAULT_CATEGORIES;
+    let DUAS_LIST = JSON.parse(localStorage.getItem('DUAS_LIST_V3')) || DEFAULT_DUAS;
 
     function saveRepository() {
-      localStorage.setItem('DUA_CATEGORIES_V2', JSON.stringify(DUA_CATEGORIES));
-      localStorage.setItem('DUAS_LIST_V2', JSON.stringify(DUAS_LIST));
+      localStorage.setItem('DUA_CATEGORIES_V3', JSON.stringify(DUA_CATEGORIES));
+      localStorage.setItem('DUAS_LIST_V3', JSON.stringify(DUAS_LIST));
     }
 
-    // Dynamic count helper: returns the exact number of duas currently inside a category
+    // Dynamic count helper: matches either primary category or 21-grouping id
     function getCategoryDuaCount(catId) {
-      return DUAS_LIST.filter(d => d.category === catId).length;
+      return DUAS_LIST.filter(d => d.category === catId || d.grouping === catId).length;
     }
 
     /* ==========================================================================
-       2. APPLICATION STATE
+       2. APPLICATION STATE & REAL HTML5 AUDIO ENGINE (WITH K10/K11 FALLBACK)
        ========================================================================== */
     let state = {
       currentScreen: 37,
@@ -1336,6 +1401,12 @@
       favourites: ['travel-main', 'astaghfirullah', 'parents-dua'],
       favTab: 'Duas',
       isPlaying: false,
+      audioCurrentTime: 0,
+      audioDuration: 0,
+      audioProgressPct: 0,
+      audioError: false,
+      audioErrorMessage: '',
+      usingSpeechFallback: false,
       selectedReciter: 'Sheikh Mishary Rashid Alafasy',
       language: 'English',
       translitMode: 'Roman Urdu / Latin',
@@ -1344,6 +1415,244 @@
       focusSlide: 1,
       copyOptions: { arabic: true, transliteration: true, translation: false }
     };
+
+    function formatSeconds(sec) {
+      if (!sec || isNaN(sec) || !isFinite(sec)) return '0:00';
+      const m = Math.floor(sec / 60);
+      const s = Math.floor(sec % 60);
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function getAudioElement() {
+      return document.getElementById('duaAudioElement');
+    }
+
+    function resolveAudioSource(dua) {
+      if (state.selectedReciter === 'Sheikh Abdul Basit Abdul Samad') {
+        return RECITER_STREAMS['Sheikh Abdul Basit Abdul Samad'];
+      }
+      if (state.selectedReciter === 'Sheikh Abdur-Rahman As-Sudais') {
+        return RECITER_STREAMS['Sheikh Abdur-Rahman As-Sudais'];
+      }
+      return dua.audioUrl || RECITER_STREAMS['Sheikh Mishary Rashid Alafasy'];
+    }
+
+    function setupAudioListeners() {
+      const audio = getAudioElement();
+      if (!audio) return;
+
+      audio.addEventListener('loadedmetadata', () => {
+        state.audioDuration = audio.duration || 0;
+        state.audioError = false;
+        state.audioErrorMessage = '';
+        updateAudioPlayerDOM();
+      });
+
+      audio.addEventListener('timeupdate', () => {
+        state.audioCurrentTime = audio.currentTime || 0;
+        if (audio.duration && isFinite(audio.duration)) {
+          state.audioDuration = audio.duration;
+          state.audioProgressPct = Math.min(100, Math.round((audio.currentTime / audio.duration) * 100));
+        }
+        updateAudioPlayerDOM();
+      });
+
+      audio.addEventListener('play', () => {
+        state.isPlaying = true;
+        state.audioError = false;
+        updateAudioPlayerDOM();
+      });
+
+      audio.addEventListener('pause', () => {
+        state.isPlaying = false;
+        updateAudioPlayerDOM();
+      });
+
+      audio.addEventListener('ended', () => {
+        state.isPlaying = false;
+        state.audioProgressPct = 100;
+        updateAudioPlayerDOM();
+      });
+
+      // K10 / K11 Audio Failure Fallback Handler
+      audio.addEventListener('error', () => {
+        state.isPlaying = false;
+        state.audioError = true;
+        state.audioErrorMessage = 'Audio stream unavailable or failed to load (K10/K11). Please retry, switch reciter, or use offline Arabic speech synthesis.';
+        showToast('Audio playback error — fallback ready');
+        if (state.currentScreen === 46) {
+          renderScreen(46);
+        }
+      });
+    }
+
+    function updateAudioPlayerDOM() {
+      if (state.currentScreen !== 46) return;
+      const fillEl = document.getElementById('audioProgressFill');
+      const timeCurEl = document.getElementById('audioCurrentTimeLabel');
+      const timeDurEl = document.getElementById('audioDurationLabel');
+      const playIconEl = document.getElementById('audioPlayIcon');
+      const dua = getDua(state.selectedDuaId);
+
+      if (fillEl) fillEl.style.width = `${state.audioProgressPct}%`;
+      if (timeCurEl) {
+        const durText = state.audioDuration ? formatSeconds(state.audioDuration) : dua.duration;
+        timeCurEl.textContent = `${formatSeconds(state.audioCurrentTime)} / ${durText}`;
+      }
+      if (timeDurEl) {
+        timeDurEl.textContent = state.audioDuration ? formatSeconds(state.audioDuration) : dua.duration;
+      }
+      if (playIconEl) {
+        playIconEl.className = `bi ${state.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'}`;
+      }
+    }
+
+    function toggleAudioPlayback() {
+      const audio = getAudioElement();
+      const dua = getDua(state.selectedDuaId);
+      if (!audio) return;
+
+      // Stop speech synthesis if active
+      if (window.speechSynthesis && window.speechSynthesis.speaking) {
+        window.speechSynthesis.cancel();
+        state.usingSpeechFallback = false;
+      }
+
+      const targetSrc = resolveAudioSource(dua);
+      if (audio.src !== targetSrc) {
+        audio.src = targetSrc;
+      }
+
+      if (state.isPlaying) {
+        audio.pause();
+      } else {
+        const playPromise = audio.play();
+        if (playPromise !== undefined) {
+          playPromise.catch(() => {
+            state.isPlaying = false;
+            state.audioError = true;
+            state.audioErrorMessage = 'Unable to stream recitation audio (K10/K11 network or codec fallback triggered).';
+            renderScreen(46);
+          });
+        }
+      }
+    }
+
+    function seekAudioTrack(event) {
+      const audio = getAudioElement();
+      const track = event.currentTarget;
+      const rect = track.getBoundingClientRect();
+      const clickX = Math.max(0, Math.min(event.clientX - rect.left, rect.width));
+      const pct = clickX / rect.width;
+
+      state.audioProgressPct = Math.round(pct * 100);
+      if (audio && audio.duration && isFinite(audio.duration)) {
+        audio.currentTime = pct * audio.duration;
+        state.audioCurrentTime = audio.currentTime;
+      }
+      updateAudioPlayerDOM();
+    }
+
+    function rewindAudio() {
+      const audio = getAudioElement();
+      if (audio) {
+        audio.currentTime = 0;
+        state.audioCurrentTime = 0;
+        state.audioProgressPct = 0;
+        updateAudioPlayerDOM();
+      }
+      showToast('Rewound to start');
+    }
+
+    function nextDuaAudio() {
+      const idx = DUAS_LIST.findIndex(d => d.id === state.selectedDuaId);
+      const nextIdx = (idx + 1) % DUAS_LIST.length;
+      state.selectedDuaId = DUAS_LIST[nextIdx].id;
+      const audio = getAudioElement();
+      if (audio) {
+        audio.pause();
+        audio.src = resolveAudioSource(DUAS_LIST[nextIdx]);
+        state.audioCurrentTime = 0;
+        state.audioProgressPct = 0;
+        state.isPlaying = false;
+      }
+      renderScreen(46);
+      showToast(`Switched to ${DUAS_LIST[nextIdx].title}`);
+    }
+
+    function selectReciterOption(reciterName) {
+      state.selectedReciter = reciterName;
+      state.audioError = false;
+      state.audioErrorMessage = '';
+      const audio = getAudioElement();
+      const dua = getDua(state.selectedDuaId);
+      if (audio) {
+        const wasPlaying = state.isPlaying;
+        audio.pause();
+        audio.src = resolveAudioSource(dua);
+        audio.load();
+        state.audioCurrentTime = 0;
+        state.audioProgressPct = 0;
+        if (wasPlaying) {
+          audio.play().catch(() => {
+            state.audioError = true;
+            renderScreen(46);
+          });
+        }
+      }
+      renderScreen(46);
+    }
+
+    // Trigger K10/K11 broken stream fallback for verification or retry
+    function simulateAudioFailure() {
+      const audio = getAudioElement();
+      if (audio) {
+        audio.pause();
+        audio.src = 'https://invalid.domain.local/nonexistent-recitation-k10-k11.mp3';
+        audio.load();
+      }
+    }
+
+    function retryAudioStream() {
+      state.audioError = false;
+      state.audioErrorMessage = '';
+      const audio = getAudioElement();
+      const dua = getDua(state.selectedDuaId);
+      if (audio) {
+        audio.src = resolveAudioSource(dua);
+        audio.load();
+        audio.play().catch(() => {
+          state.audioError = true;
+          renderScreen(46);
+        });
+      }
+      renderScreen(46);
+    }
+
+    function playOfflineSpeechFallback() {
+      const dua = getDua(state.selectedDuaId);
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        const utter = new SpeechSynthesisUtterance(dua.arabic);
+        utter.lang = 'ar-SA';
+        utter.rate = 0.85;
+        utter.onstart = () => {
+          state.isPlaying = true;
+          state.usingSpeechFallback = true;
+          updateAudioPlayerDOM();
+        };
+        utter.onend = () => {
+          state.isPlaying = false;
+          state.usingSpeechFallback = false;
+          state.audioProgressPct = 100;
+          updateAudioPlayerDOM();
+        };
+        window.speechSynthesis.speak(utter);
+        showToast('Playing offline Arabic voice fallback');
+      } else {
+        showToast('Offline speech synthesis not supported on this browser');
+      }
+    }
 
     function showToast(msg) {
       const t = document.getElementById('toastMsg');
@@ -1418,7 +1727,8 @@
 
     /* --- SCREEN 37: Dua Library Home --- */
     function view37Home() {
-      const quickCats = DUA_CATEGORIES.slice(0, 4);
+      const quickCats = DUA_CATEGORIES.filter(c => c.group === 'core').slice(0, 4);
+      const futureGroupingsCount = DUA_CATEGORIES.filter(c => c.group === 'future').length;
       const slideIdx = state.featuredSlideIndex >= 0 ? state.featuredSlideIndex : 0;
       const featuredDua = DUAS_LIST[slideIdx] || DUAS_LIST[0];
 
@@ -1470,10 +1780,10 @@
             </div>
           </div>
 
-          <!-- Browse by Category (4 Quick Tiles + View All) -->
+          <!-- Browse by Category (4 Quick Tiles + View All 21 Groupings) -->
           <div class="section-head">
             <span class="section-title">Browse by Category</span>
-            <button class="section-action" onclick="renderScreen(38)">View all (${DUA_CATEGORIES.length}) <i class="bi bi-chevron-right"></i></button>
+            <button class="section-action" onclick="renderScreen(38)">View all (${futureGroupingsCount} groupings) <i class="bi bi-chevron-right"></i></button>
           </div>
           <div class="quick-cat-grid">
             ${quickCats.map(c => {
@@ -1520,7 +1830,7 @@
       renderScreen(37, null, true);
     }
 
-    /* --- SCREEN 38: Dua Categories (Live Dynamic Counts) --- */
+    /* --- SCREEN 38: Dua Categories (6 Primary Collections + All 21 Separate Groupings) --- */
     function view38Categories() {
       const coreCats = DUA_CATEGORIES.filter(c => c.group === 'core');
       const futureCats = DUA_CATEGORIES.filter(c => c.group === 'future');
@@ -1534,11 +1844,11 @@
 
           <div class="search-bar-wrap">
             <i class="bi bi-search search-icon"></i>
-            <input type="text" class="search-input" placeholder="Search categories..." oninput="filterCategoryList(this.value)" />
+            <input type="text" class="search-input" placeholder="Search 6 collections & 21 groupings..." oninput="filterCategoryList(this.value)" />
           </div>
 
           <div class="section-head" style="margin-top:8px;">
-            <span class="section-title">Primary Collections</span>
+            <span class="section-title">Primary Collections (6)</span>
             <span style="font-size:0.72rem; color:var(--text-muted);">Live counts</span>
           </div>
           <div class="list-stack" id="coreCategoryStack">
@@ -1560,16 +1870,16 @@
 
           <div class="section-head" style="margin-top:22px;">
             <span class="section-title">All Occasions & Sunnah Groupings</span>
-            <span style="font-size:0.72rem; color:var(--gold-primary);">${DUA_CATEGORIES.length} Categories</span>
+            <span style="font-size:0.72rem; color:var(--gold-primary);">${futureCats.length} Groupings</span>
           </div>
           <div class="list-stack" id="futureCategoryStack">
-            ${futureCats.map(c => {
+            ${futureCats.map((c, idx) => {
               const count = getCategoryDuaCount(c.id);
               return `
                 <div class="dua-list-card category-item" data-title="${c.title.toLowerCase()}" onclick="openCategory('${c.id}')">
                   <div class="medallion-icon"><i class="bi ${c.icon}"></i></div>
                   <div class="card-body-text">
-                    <div class="card-title">${c.title}</div>
+                    <div class="card-title">${idx + 1}. ${c.title}</div>
                     <div class="card-sub">${c.subtitle}</div>
                     <div class="card-meta">${count} ${count === 1 ? 'dua' : 'duas'}</div>
                   </div>
@@ -1597,7 +1907,7 @@
     /* --- SCREEN 39: Category Detail (Shows Exact Duas in Category + Live Count + Admin Add) --- */
     function view39CategoryDetail() {
       const cat = DUA_CATEGORIES.find(c => c.id === state.selectedCategoryId) || DUA_CATEGORIES[0];
-      const categoryDuas = DUAS_LIST.filter(d => d.category === cat.id);
+      const categoryDuas = DUAS_LIST.filter(d => d.category === cat.id || d.grouping === cat.id);
       const count = categoryDuas.length;
 
       return `
@@ -1698,7 +2008,6 @@
 
     function renderSearchMatchesHTML(query) {
       const q = (query || '').toLowerCase().trim();
-      // When search bar is empty, show every dua in the list by default
       const matches = !q ? DUAS_LIST : DUAS_LIST.filter(d => {
         if (state.searchFilter === 'Arabic') return d.arabic.includes(q);
         if (state.searchFilter === 'Transliteration') return d.transliteration.toLowerCase().includes(q);
@@ -1985,7 +2294,7 @@
       renderScreen(45);
     }
 
-    /* --- SCREEN 46: Audio Player / Recitation --- */
+    /* --- SCREEN 46: Real HTML5 Audio Player / Recitation + K10/K11 Fallback --- */
     function view46AudioPlayer() {
       const dua = getDua(state.selectedDuaId);
       const reciters = [
@@ -1993,40 +2302,61 @@
         'Sheikh Abdul Basit Abdul Samad',
         'Sheikh Abdur-Rahman As-Sudais'
       ];
+      const durText = state.audioDuration ? formatSeconds(state.audioDuration) : dua.duration;
+
       return `
         <div style="padding: 16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.15rem;">${dua.title}</h1>
-            <div style="width:34px;"></div>
+            <button class="icon-action-btn" onclick="simulateAudioFailure()" title="Test Audio Failure Fallback (K10/K11)">
+              <i class="bi bi-shield-exclamation"></i>
+            </button>
           </div>
 
           <div class="audio-card" style="margin-top:12px;">
             <div class="reciter-head">
               <div class="reciter-avatar"><i class="bi bi-mic-fill"></i></div>
-              <div>
+              <div style="flex:1;">
                 <div style="font-weight:600; font-size:0.9rem; color:var(--text-main);">${state.selectedReciter}</div>
-                <div style="font-size:0.75rem; color:var(--gold-primary);">Arabic Recitation · High Clarity</div>
+                <div style="font-size:0.75rem; color:var(--gold-primary);">
+                  ${state.usingSpeechFallback ? 'Offline Arabic Speech Synthesis Active' : 'HTML5 Audio Stream · High Clarity'}
+                </div>
               </div>
             </div>
 
-            <div class="progress-track" onclick="showToast('Seeked audio position')">
-              <div class="progress-fill" style="width:${state.isPlaying ? '62%' : '38%'};">
+            <div class="progress-track" onclick="seekAudioTrack(event)" title="Tap to seek audio position">
+              <div class="progress-fill" id="audioProgressFill" style="width:${state.audioProgressPct}%;">
                 <div class="progress-knob"></div>
               </div>
             </div>
             <div class="time-row">
-              <span>${state.isPlaying ? '0:44' : '0:32'} / ${dua.duration}</span>
-              <span>${dua.duration}</span>
+              <span id="audioCurrentTimeLabel">${formatSeconds(state.audioCurrentTime)} / ${durText}</span>
+              <span id="audioDurationLabel">${durText}</span>
             </div>
 
             <div class="player-controls">
-              <button class="back-btn" onclick="showToast('Rewound to start')"><i class="bi bi-skip-start-fill"></i></button>
-              <button class="play-main-btn" onclick="state.isPlaying = !state.isPlaying; renderScreen(46);">
-                <i class="bi ${state.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'}"></i>
+              <button class="back-btn" onclick="rewindAudio()" title="Rewind to start"><i class="bi bi-skip-start-fill"></i></button>
+              <button class="play-main-btn" onclick="toggleAudioPlayback()" title="Play / Pause HTML5 Audio">
+                <i id="audioPlayIcon" class="bi ${state.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'}"></i>
               </button>
-              <button class="back-btn" onclick="showToast('Next Dua Recitation')"><i class="bi bi-skip-end-fill"></i></button>
+              <button class="back-btn" onclick="nextDuaAudio()" title="Next Dua Recitation"><i class="bi bi-skip-end-fill"></i></button>
             </div>
+
+            ${state.audioError ? `
+              <!-- Audio Failure Fallback UI (K10, K11) -->
+              <div class="audio-fallback-alert" role="alert">
+                <div><i class="bi bi-exclamation-triangle-fill"></i> <strong>Audio Playback Issue (K10/K11):</strong> ${state.audioErrorMessage}</div>
+                <div class="audio-fallback-actions">
+                  <button class="fallback-pill-btn" onclick="retryAudioStream()">
+                    <i class="bi bi-arrow-clockwise"></i> Retry Stream
+                  </button>
+                  <button class="fallback-pill-btn" onclick="playOfflineSpeechFallback()">
+                    <i class="bi bi-volume-up"></i> Offline Voice Fallback
+                  </button>
+                </div>
+              </div>
+            ` : ''}
           </div>
 
           <div class="section-head">
@@ -2034,12 +2364,12 @@
           </div>
           <div class="option-list">
             ${reciters.map(r => `
-              <div class="option-row ${state.selectedReciter === r ? 'selected' : ''}" onclick="state.selectedReciter='${r}'; renderScreen(46);">
+              <div class="option-row ${state.selectedReciter === r ? 'selected' : ''}" onclick="selectReciterOption('${r}')">
                 <div class="radio-left">
                   <div class="radio-circle"></div>
                   <div>
                     <div style="font-weight:600;">${r}</div>
-                    <div style="font-size:0.73rem; color:var(--text-muted);">(Arabic)</div>
+                    <div style="font-size:0.73rem; color:var(--text-muted);">(Arabic MP3 Stream)</div>
                   </div>
                 </div>
                 ${state.selectedReciter === r ? '<i class="bi bi-check-circle-fill" style="color:var(--gold-primary);"></i>' : ''}
@@ -2411,7 +2741,7 @@
 
           <div class="dua-content-box" style="margin-top:8px;">
             <div class="admin-form-group">
-              <label class="admin-label">Select Target Category</label>
+              <label class="admin-label">Select Target Category / Grouping</label>
               <select id="adminCatSelect" class="admin-select" onchange="updateAdminCatBgInput(this.value)">
                 ${DUA_CATEGORIES.map(c => `
                   <option value="${c.id}" ${c.id === selectedCat.id ? 'selected' : ''}>
@@ -2469,6 +2799,11 @@
             </div>
 
             <div class="admin-form-group">
+              <label class="admin-label">Recitation Audio URL (MP3)</label>
+              <input type="url" id="adminDuaAudioUrl" class="admin-input" placeholder="https://everyayah.com/data/Alafasy_128kbps/001001.mp3" />
+            </div>
+
+            <div class="admin-form-group">
               <label class="admin-label">Dua Detail Background Image URL</label>
               <input type="url" id="adminDuaHeroUrl" class="admin-input" placeholder="https://images.unsplash.com/..." />
               <input type="file" accept="image/*" class="admin-input" style="margin-top:6px;" onchange="handleImageUpload(this, 'adminDuaHeroUrl')" />
@@ -2508,6 +2843,7 @@
       const translation = document.getElementById('adminDuaTranslation').value.trim();
       const romanUrdu = document.getElementById('adminDuaRomanUrdu').value.trim();
       const source = document.getElementById('adminDuaSource').value.trim() || 'Authentic Sunnah';
+      const audioUrl = document.getElementById('adminDuaAudioUrl').value.trim() || RECITER_STREAMS['Sheikh Mishary Rashid Alafasy'];
       const duaHeroUrl = document.getElementById('adminDuaHeroUrl').value.trim();
 
       const catObj = DUA_CATEGORIES.find(c => c.id === catId);
@@ -2515,7 +2851,6 @@
         catObj.hero = catBgUrl;
       }
 
-      // Allow updating just the category background if dua fields are left blank
       if (!title && !arabic && catBgUrl) {
         saveRepository();
         state.selectedCategoryId = catId;
@@ -2534,10 +2869,12 @@
         title,
         subtitle: subtitle || 'Authentic Supplication',
         category: catId,
+        grouping: catId,
         variants: '1 variant',
         arabicMedallion: 'دعا',
         illustrated: true,
         heroImg: duaHeroUrl || catBgUrl || 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80',
+        audioUrl,
         arabic,
         transliteration: transliteration || '',
         translation,
@@ -2557,8 +2894,9 @@
       renderScreen(39);
     }
 
-    // Boot on Screen 37 (Dua Library Home)
+    // Boot on Screen 37 (Dua Library Home) & wire HTML5 Audio listeners
     window.addEventListener('DOMContentLoaded', () => {
+      setupAudioListeners();
       renderScreen(37);
     });
   </script>
