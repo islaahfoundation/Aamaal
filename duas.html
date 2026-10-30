@@ -11,6 +11,23 @@
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
+  (function syncAamaalGlobalPrefs() {
+  try {
+    const prefs = JSON.parse(localStorage.getItem('aamaal_global_prefs') || '{}');
+    const root = document.documentElement;
+    if (prefs.theme) {
+      const resolved = prefs.theme === 'system'
+        ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'parchment' : 'emerald')
+        : prefs.theme;
+      root.setAttribute('data-theme', resolved);
+    }
+    if (prefs.arabicScale) root.style.setProperty('--arabic-scale', prefs.arabicScale);
+    if (prefs.bodyScale) root.style.setProperty('--body-scale', prefs.bodyScale);
+    if (prefs.reducedMotion !== undefined) root.setAttribute('data-reduced-motion', String(prefs.reducedMotion));
+  } catch (e) {}
+})();
+
+  
   <style>
     :root {
       --bg-deep: #041612;
