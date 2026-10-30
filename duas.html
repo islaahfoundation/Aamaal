@@ -40,46 +40,45 @@
       -webkit-tap-highlight-color: transparent;
     }
 
-    body {
+    html, body {
       background-color: #020c0a;
       background-image: 
         radial-gradient(circle at 15% 15%, rgba(24, 97, 76, 0.22) 0%, transparent 45%),
         radial-gradient(circle at 85% 85%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
       color: var(--text-main);
       font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100vh;
+      min-height: 100%;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      touch-action: pan-y;
+    }
+
+    body {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      overflow-x: hidden;
+      justify-content: flex-start;
     }
 
-    /* --- PHONE SHELL --- */
+    /* --- PHONE SHELL (Natural Document Scroll — Never Traps Touch Events) --- */
     .phone-frame {
       width: 100%;
       max-width: 412px;
-      height: 860px;
-      margin: 20px auto;
+      min-height: 100vh;
+      margin: 0 auto;
       background: var(--bg-deep);
-      border: 2px solid rgba(212, 175, 55, 0.35);
-      border-radius: 42px;
-      box-shadow: 
-        0 25px 60px rgba(0, 0, 0, 0.85),
-        0 0 0 8px rgba(9, 34, 28, 0.6),
-        inset 0 0 30px rgba(0, 0, 0, 0.5);
+      border-left: 1px solid rgba(212, 175, 55, 0.25);
+      border-right: 1px solid rgba(212, 175, 55, 0.25);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
       position: relative;
-      overflow: hidden;
       display: flex;
       flex-direction: column;
     }
 
     @media (max-width: 440px) {
       .phone-frame {
-        margin: 0;
-        border-radius: 0;
         border: none;
-        height: 100vh;
         max-width: 100%;
       }
     }
@@ -87,14 +86,9 @@
     /* Screen Container */
     .app-viewport {
       flex: 1;
-      overflow-y: auto;
-      overflow-x: hidden;
+      width: 100%;
       position: relative;
-      padding-bottom: 28px;
-      scrollbar-width: none;
-    }
-    .app-viewport::-webkit-scrollbar {
-      display: none;
+      padding-bottom: 36px;
     }
 
     /* --- REUSABLE UI ELEMENTS --- */
@@ -112,6 +106,7 @@
       inset: 0;
       background: linear-gradient(180deg, rgba(4, 22, 18, 0.45) 0%, rgba(4, 22, 18, 0.88) 75%, var(--bg-deep) 100%);
       z-index: 1;
+      pointer-events: none;
     }
 
     .hero-content {
@@ -211,6 +206,7 @@
       transform: translateY(-50%);
       color: var(--gold-primary);
       font-size: 0.9rem;
+      pointer-events: none;
     }
 
     .clear-search-btn {
@@ -511,6 +507,7 @@
       padding-bottom: 6px;
       margin-bottom: 14px;
       scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
     }
     .filter-chips::-webkit-scrollbar {
       display: none;
@@ -1051,9 +1048,9 @@
       border-color: var(--gold-primary);
     }
 
-    /* Toast feedback */
+    /* Toast feedback fixed to viewport bottom */
     .toast-msg {
-      position: absolute;
+      position: fixed;
       bottom: 24px;
       left: 50%;
       transform: translateX(-50%) translateY(20px);
@@ -1631,7 +1628,8 @@
        3. MASTER SCREEN ROUTER
        ========================================================================== */
     function renderScreen(screenNum, customDuaId = null, preserveSlide = false) {
-      if (screenNum !== state.currentScreen) {
+      const isSameScreen = (screenNum === state.currentScreen);
+      if (!isSameScreen) {
         state.previousScreen = state.currentScreen;
       }
       state.currentScreen = screenNum;
@@ -1643,7 +1641,9 @@
       }
 
       const vp = document.getElementById('appViewport');
-      vp.scrollTop = 0;
+      if (!isSameScreen && !preserveSlide) {
+        window.scrollTo(0, 0);
+      }
 
       switch (screenNum) {
         case 37: vp.innerHTML = view37Home(); break;
@@ -1923,7 +1923,7 @@
 
           <div class="filter-chips">
             ${filters.map(f => `
-              <button class="chip ${state.searchFilter === f ? 'active' : ''}" onclick="state.searchFilter='${f}'; renderScreen(40);">
+              <button class="chip ${state.searchFilter === f ? 'active' : ''}" onclick="state.searchFilter='${f}'; renderScreen(40, null, true);">
                 ${f}
               </button>
             `).join('')}
@@ -2194,7 +2194,7 @@
       const displayNum = currentIdx >= 0 ? currentIdx + 1 : 1;
 
       return `
-        <div style="padding: 18px 20px; display:flex; flex-direction:column; justify-content:space-between; min-height: 700px;">
+        <div style="padding: 18px 20px; display:flex; flex-direction:column; justify-content:space-between; min-height: 85vh;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
             <span style="font-size:0.9rem; font-weight:600; color:var(--gold-light);">${displayNum} / ${DUAS_LIST.length}</span>
@@ -2341,7 +2341,7 @@
           </div>
           <div class="option-list">
             ${langs.map(l => `
-              <div class="option-row ${state.language === l ? 'selected' : ''}" onclick="state.language='${l}'; renderScreen(47);">
+              <div class="option-row ${state.language === l ? 'selected' : ''}" onclick="state.language='${l}'; renderScreen(47, null, true);">
                 <div class="radio-left">
                   <div class="radio-circle"></div>
                   <span>${l}${l === 'Roman Urdu' ? ' (Transliterated Meaning)' : ''}</span>
@@ -2356,7 +2356,7 @@
           </div>
           <div class="option-list">
             ${translits.map(t => `
-              <div class="option-row ${state.translitMode === t ? 'selected' : ''}" onclick="state.translitMode='${t}'; renderScreen(47);">
+              <div class="option-row ${state.translitMode === t ? 'selected' : ''}" onclick="state.translitMode='${t}'; renderScreen(47, null, true);">
                 <div class="radio-left">
                   <div class="radio-circle"></div>
                   <span>${t}</span>
@@ -2430,7 +2430,7 @@
     function setArabicScriptStyle(styleLabel, fontStack) {
       state.arabicStyle = styleLabel;
       document.documentElement.style.setProperty('--arabic-font', fontStack);
-      renderScreen(48);
+      renderScreen(48, null, true);
     }
 
     function setFontScale(level) {
@@ -2446,7 +2446,7 @@
         root.style.setProperty('--arabic-scale', '1');
         root.style.setProperty('--body-scale', '1');
       }
-      renderScreen(48);
+      renderScreen(48, null, true);
     }
 
     /* --- SCREEN 49: Bookmarks / Favourites --- */
@@ -2461,8 +2461,8 @@
           </div>
 
           <div class="filter-chips" style="margin-top:10px;">
-            <button class="chip ${state.favTab === 'Duas' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Duas'; renderScreen(49);">Duas (${favDuas.length})</button>
-            <button class="chip ${state.favTab === 'Reflections' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Reflections'; renderScreen(49);">Reflections</button>
+            <button class="chip ${state.favTab === 'Duas' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Duas'; renderScreen(49, null, true);">Duas (${favDuas.length})</button>
+            <button class="chip ${state.favTab === 'Reflections' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Reflections'; renderScreen(49, null, true);">Reflections</button>
           </div>
 
           <div class="list-stack" style="margin-top:10px;">
@@ -2564,17 +2564,17 @@
           <div class="copy-sheet">
             <div style="text-align:center; font-weight:700; font-size:1rem; margin-bottom:12px;">Copy</div>
 
-            <div class="copy-check-row" onclick="state.copyOptions.arabic = !state.copyOptions.arabic; renderScreen(51);">
+            <div class="copy-check-row" onclick="state.copyOptions.arabic = !state.copyOptions.arabic; renderScreen(51, null, true);">
               <span><i class="bi ${state.copyOptions.arabic ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c; margin-right:8px;"></i> Arabic Text</span>
               ${state.copyOptions.arabic ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
             </div>
 
-            <div class="copy-check-row" onclick="state.copyOptions.transliteration = !state.copyOptions.transliteration; renderScreen(51);">
+            <div class="copy-check-row" onclick="state.copyOptions.transliteration = !state.copyOptions.transliteration; renderScreen(51, null, true);">
               <span><i class="bi ${state.copyOptions.transliteration ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c; margin-right:8px;"></i> Transliteration</span>
               ${state.copyOptions.transliteration ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
             </div>
 
-            <div class="copy-check-row" onclick="state.copyOptions.translation = !state.copyOptions.translation; renderScreen(51);">
+            <div class="copy-check-row" onclick="state.copyOptions.translation = !state.copyOptions.translation; renderScreen(51, null, true);">
               <span><i class="bi ${state.copyOptions.translation ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c; margin-right:8px;"></i> Translation</span>
               ${state.copyOptions.translation ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
             </div>
