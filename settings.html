@@ -1,0 +1,2127 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="emerald">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Aamaal — Activity, Saved & Settings (File 6 of 6)</title>
+  <!-- Google Fonts matching Aamaal Typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      /* Default Dark Emerald Theme (Screen 78) */
+      --bg-deep: #061c13;
+      --bg-surface: #0b291d;
+      --bg-card: #0f3425;
+      --bg-card-hover: #14402e;
+      --bg-elevated: #174935;
+      --border-subtle: rgba(164, 212, 184, 0.16);
+      --border-gold: rgba(212, 181, 124, 0.32);
+      --text-primary: #f2f5f0;
+      --text-secondary: #a5beb1;
+      --text-muted: #6e8e7e;
+      --accent-mint: #6fd699;
+      --accent-mint-dim: rgba(111, 214, 153, 0.16);
+      --accent-gold: #d4b57c;
+      --accent-gold-dim: rgba(212, 181, 124, 0.15);
+      --danger: #eb6b6b;
+      --danger-dim: rgba(235, 107, 107, 0.15);
+
+      /* Dynamic Typography Scales (Screens 80-84) */
+      --arabic-scale: 1;
+      --body-scale: 1;
+      --font-serif: 'Cormorant Garamond', Georgia, serif;
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-arabic-uthmani: 'Amiri', serif;
+      --font-arabic-indopak: 'Amiri', 'Noto Nastaliq Urdu', serif;
+      --font-arabic: var(--font-arabic-uthmani);
+
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 11px;
+      --transition-speed: 0.24s;
+    }
+
+    /* Warm Parchment / Light Mode (Screen 78) */
+    html[data-theme="parchment"] {
+      --bg-deep: #f6f1e7;
+      --bg-surface: #efe7d6;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f9f5ec;
+      --bg-elevated: #e8dec8;
+      --border-subtle: rgba(20, 65, 45, 0.14);
+      --border-gold: rgba(168, 129, 62, 0.35);
+      --text-primary: #102a1e;
+      --text-secondary: #3f5e4f;
+      --text-muted: #708a7c;
+      --accent-mint: #1c8550;
+      --accent-mint-dim: rgba(28, 133, 80, 0.12);
+      --accent-gold: #9e7329;
+      --accent-gold-dim: rgba(158, 115, 41, 0.14);
+      --danger: #c93b3b;
+      --danger-dim: rgba(201, 59, 59, 0.12);
+    }
+
+    html[data-reduced-motion="true"] * {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: calc(15px * var(--body-scale));
+      line-height: 1.55;
+      min-height: 100vh;
+      padding-bottom: 100px;
+      overflow-x: hidden;
+    }
+
+    .app-shell {
+      max-width: 480px;
+      margin: 0 auto;
+      position: relative;
+      min-height: 100vh;
+    }
+
+    /* Top Decorative Mosque Silhouette Header */
+    .hero-banner {
+      position: relative;
+      padding: 74px 20px 18px;
+      background: radial-gradient(circle at 75% 15%, rgba(111, 214, 153, 0.12), transparent 55%),
+                  linear-gradient(180deg, var(--bg-surface) 0%, var(--bg-deep) 100%);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    /* Top Floating Pill Router (Matching Screenshot Top Bar) */
+    .top-pill-nav {
+      position: fixed;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: calc(100% - 24px);
+      max-width: 456px;
+      z-index: 90;
+      background: rgba(8, 28, 20, 0.88);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      border: 1px solid var(--border-subtle);
+      border-radius: 999px;
+      padding: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 4px;
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.38);
+    }
+
+    html[data-theme="parchment"] .top-pill-nav {
+      background: rgba(246, 241, 231, 0.92);
+    }
+
+    .pill-tab-btn {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: var(--text-secondary);
+      font-family: var(--font-sans);
+      font-size: 11.5px;
+      font-weight: 500;
+      line-height: 1.2;
+      padding: 7px 6px;
+      border-radius: 999px;
+      cursor: pointer;
+      text-align: center;
+      transition: all var(--transition-speed) ease;
+    }
+
+    .pill-tab-btn.active {
+      background: var(--bg-elevated);
+      color: var(--accent-mint);
+      font-weight: 600;
+      box-shadow: inset 0 0 0 1px rgba(111, 214, 153, 0.28);
+    }
+
+    /* Profile Header Row */
+    .header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .back-home-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      margin-bottom: 6px;
+    }
+
+    .back-home-link:hover {
+      color: var(--accent-mint);
+    }
+
+    .serif-title {
+      font-family: var(--font-serif);
+      font-size: calc(30px * var(--body-scale));
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      color: var(--text-primary);
+      line-height: 1.15;
+    }
+
+    .subtitle-date {
+      color: var(--text-secondary);
+      font-size: 13px;
+      margin-top: 2px;
+    }
+
+    .avatar-badge {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--bg-card);
+      border: 1.5px solid var(--accent-gold);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent-gold);
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+
+    /* Main Content Container */
+    .view-container {
+      padding: 18px 16px 32px;
+    }
+
+    .tab-view {
+      display: none;
+      animation: fadeIn var(--transition-speed) ease;
+    }
+
+    .tab-view.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Reusable Card matching Today's Progress in Screenshot */
+    .aamaal-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin-bottom: 18px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      gap: 8px;
+    }
+
+    .card-title {
+      font-family: var(--font-serif);
+      font-size: calc(23px * var(--body-scale));
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .card-action-link {
+      background: none;
+      border: none;
+      color: var(--text-secondary);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-action-link:hover {
+      color: var(--accent-mint);
+    }
+
+    /* Section 68: My Activity Overview Grid */
+    .progress-overview-row {
+      display: grid;
+      grid-template-columns: 92px 1fr;
+      gap: 14px;
+      align-items: center;
+    }
+
+    .radial-progress {
+      width: 84px;
+      height: 84px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .radial-progress svg {
+      width: 84px;
+      height: 84px;
+      transform: rotate(-90deg);
+    }
+
+    .radial-bg {
+      fill: none;
+      stroke: rgba(165, 190, 177, 0.16);
+      stroke-width: 7;
+    }
+
+    .radial-bar {
+      fill: none;
+      stroke: var(--accent-mint);
+      stroke-width: 7;
+      stroke-linecap: round;
+      stroke-dasharray: 226;
+      stroke-dashoffset: 79;
+      transition: stroke-dashoffset 0.6s ease;
+    }
+
+    .radial-label {
+      position: absolute;
+      font-family: var(--font-serif);
+      font-size: 21px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .stats-columns {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border-left: 1px solid var(--border-subtle);
+      padding-left: 10px;
+      gap: 6px;
+      text-align: center;
+    }
+
+    .stat-col {
+      padding: 4px 2px;
+      border-right: 1px solid var(--border-subtle);
+    }
+
+    .stat-col:last-child {
+      border-right: none;
+    }
+
+    .stat-icon {
+      color: var(--accent-gold);
+      width: 20px;
+      height: 20px;
+      margin: 0 auto 4px;
+    }
+
+    .stat-label {
+      font-size: 11.5px;
+      color: var(--text-secondary);
+      display: block;
+    }
+
+    .stat-val {
+      font-family: var(--font-serif);
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 2px;
+    }
+
+    /* Screens 71 & 72: Gentle Streak & Goal Bars */
+    .streak-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: linear-gradient(135deg, rgba(212, 181, 124, 0.16), rgba(111, 214, 153, 0.1));
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-md);
+      padding: 13px 16px;
+      margin-top: 16px;
+    }
+
+    .streak-number {
+      font-family: var(--font-serif);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--accent-gold);
+    }
+
+    .goal-bar-item {
+      margin-top: 12px;
+    }
+
+    .goal-bar-top {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      margin-bottom: 5px;
+      color: var(--text-secondary);
+    }
+
+    .goal-track {
+      height: 7px;
+      background: rgba(165, 190, 177, 0.14);
+      border-radius: 99px;
+      overflow: hidden;
+    }
+
+    .goal-fill {
+      height: 100%;
+      background: var(--accent-mint);
+      border-radius: 99px;
+      transition: width 0.4s ease;
+    }
+
+    /* Screens 69 & 70: Tasbih History Calendar */
+    .cal-controls {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 12px;
+    }
+
+    .cal-month-label {
+      font-family: var(--font-serif);
+      font-size: 20px;
+      font-weight: 600;
+    }
+
+    .icon-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-primary);
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .icon-btn:hover {
+      border-color: var(--accent-mint);
+      color: var(--accent-mint);
+    }
+
+    .cal-weekdays, .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 6px;
+      text-align: center;
+    }
+
+    .cal-weekdays span {
+      font-size: 11px;
+      color: var(--text-muted);
+      font-weight: 600;
+      padding-bottom: 4px;
+    }
+
+    .cal-day {
+      aspect-ratio: 1;
+      border-radius: 12px;
+      border: 1px solid transparent;
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-size: 13px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.18s ease;
+    }
+
+    .cal-day.empty {
+      background: transparent;
+      cursor: default;
+    }
+
+    .cal-day.has-activity {
+      background: var(--accent-mint-dim);
+      color: var(--text-primary);
+      border-color: rgba(111, 214, 153, 0.35);
+      font-weight: 600;
+    }
+
+    .cal-day.has-activity::after {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent-gold);
+      margin-top: 2px;
+    }
+
+    .cal-day.today {
+      border-color: var(--accent-gold);
+    }
+
+    /* Screens 73-76: Unified Favourites Sub-Tabs */
+    .subtab-pills {
+      display: flex;
+      gap: 7px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 14px;
+      scrollbar-width: none;
+    }
+
+    .subtab-pills::-webkit-scrollbar {
+      display: none;
+    }
+
+    .subtab-pill {
+      white-space: nowrap;
+      padding: 7px 14px;
+      border-radius: 99px;
+      font-size: 12.5px;
+      font-weight: 500;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .subtab-pill.active {
+      background: var(--accent-gold-dim);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+      font-weight: 600;
+    }
+
+    .fav-item {
+      padding: 14px;
+      border-radius: var(--radius-md);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      margin-bottom: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+    }
+
+    .fav-badge {
+      display: inline-block;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      padding: 2px 8px;
+      border-radius: 99px;
+      background: var(--accent-mint-dim);
+      color: var(--accent-mint);
+      margin-bottom: 4px;
+    }
+
+    .fav-arabic {
+      font-family: var(--font-arabic);
+      font-size: calc(20px * var(--arabic-scale));
+      color: var(--accent-gold);
+      direction: rtl;
+      margin: 4px 0;
+    }
+
+    /* Form Controls, Toggles, Segmented Buttons (Screens 77-91) */
+    .setting-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 13px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      gap: 14px;
+    }
+
+    .setting-row:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .setting-label-title {
+      font-weight: 500;
+      color: var(--text-primary);
+      font-size: 14.5px;
+    }
+
+    .setting-label-desc {
+      font-size: 12px;
+      color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* Toggle Switch */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 48px;
+      height: 27px;
+      flex-shrink: 0;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      inset: 0;
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      transition: 0.25s;
+      border-radius: 34px;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 19px;
+      width: 19px;
+      left: 3px;
+      bottom: 3px;
+      background-color: var(--text-secondary);
+      transition: 0.25s;
+      border-radius: 50%;
+    }
+
+    input:checked + .slider {
+      background-color: var(--accent-mint-dim);
+      border-color: var(--accent-mint);
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(21px);
+      background-color: var(--accent-mint);
+    }
+
+    /* Segmented Selector */
+    .segmented-group {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(85px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+
+    .seg-btn {
+      padding: 10px 10px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-surface);
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+
+    .seg-btn.active {
+      background: var(--accent-mint-dim);
+      border-color: var(--accent-mint);
+      color: var(--accent-mint);
+      font-weight: 600;
+    }
+
+    /* Range Sliders & Live Preview Box */
+    .range-slider {
+      width: 100%;
+      accent-color: var(--accent-mint);
+      margin-top: 8px;
+    }
+
+    .typography-preview {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-gold);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin-top: 14px;
+      text-align: center;
+    }
+
+    .typography-preview .arabic-sample {
+      font-family: var(--font-arabic);
+      font-size: calc(26px * var(--arabic-scale));
+      color: var(--accent-gold);
+      line-height: 1.7;
+      direction: rtl;
+    }
+
+    .typography-preview .translit-sample {
+      font-size: calc(13.5px * var(--body-scale));
+      color: var(--accent-mint);
+      font-style: italic;
+      margin-top: 6px;
+    }
+
+    .typography-preview .translation-sample {
+      font-size: calc(14.5px * var(--body-scale));
+      color: var(--text-primary);
+      margin-top: 6px;
+    }
+
+    /* Screens 92-98: Reminder Scheduler */
+    .reminder-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 15px;
+      margin-bottom: 12px;
+    }
+
+    .time-input {
+      background: var(--bg-card);
+      color: var(--accent-gold);
+      border: 1px solid var(--border-gold);
+      padding: 6px 10px;
+      border-radius: 9px;
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 600;
+    }
+
+    .dow-pills {
+      display: flex;
+      gap: 6px;
+      margin-top: 12px;
+    }
+
+    .dow-pill {
+      flex: 1;
+      height: 32px;
+      border-radius: 8px;
+      border: 1px solid var(--border-subtle);
+      background: var(--bg-card);
+      color: var(--text-secondary);
+      font-size: 11.5px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .dow-pill.active {
+      background: var(--accent-mint-dim);
+      border-color: var(--accent-mint);
+      color: var(--accent-mint);
+    }
+
+    .permission-banner {
+      background: var(--danger-dim);
+      border: 1px solid var(--danger);
+      border-radius: var(--radius-md);
+      padding: 14px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      display: none;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 11px 16px;
+      border-radius: var(--radius-sm);
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid transparent;
+      transition: all 0.2s;
+      width: 100%;
+    }
+
+    .btn-mint {
+      background: var(--accent-mint);
+      color: #062016;
+    }
+
+    .btn-gold {
+      background: var(--accent-gold-dim);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .btn-outline {
+      background: var(--bg-surface);
+      border-color: var(--border-subtle);
+      color: var(--text-primary);
+    }
+
+    .btn-danger {
+      background: var(--danger-dim);
+      border-color: var(--danger);
+      color: var(--danger);
+    }
+
+    .btn-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    /* Screens 99-109: Accordion for About, FAQ, Legal */
+    .accordion-item {
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .accordion-item:last-child {
+      border-bottom: none;
+    }
+
+    .accordion-trigger {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 15px 4px;
+      text-align: left;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 14.5px;
+      font-weight: 600;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .accordion-body {
+      display: none;
+      padding: 0 4px 16px;
+      color: var(--text-secondary);
+      font-size: 13.5px;
+      line-height: 1.6;
+    }
+
+    .accordion-item.open .accordion-body {
+      display: block;
+    }
+
+    .input-field, .textarea-field {
+      width: 100%;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-size: 13.5px;
+      margin-top: 6px;
+      margin-bottom: 10px;
+    }
+
+    /* Bottom Sheet & Confirmation Modals (Screens 70, 114, 115) */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.68);
+      backdrop-filter: blur(5px);
+      z-index: 120;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .bottom-sheet {
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg-card);
+      border-top: 1px solid var(--border-gold);
+      border-radius: 24px 24px 0 0;
+      padding: 22px 20px 30px;
+      animation: slideUp 0.25s ease;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .sheet-handle {
+      width: 42px;
+      height: 4px;
+      background: var(--border-subtle);
+      border-radius: 99px;
+      margin: 0 auto 16px;
+    }
+
+    /* Toast Notification Banner (Screen 95) */
+    .toast-notification {
+      position: fixed;
+      top: 72px;
+      left: 50%;
+      transform: translateX(-50%) translateY(-20px);
+      width: calc(100% - 32px);
+      max-width: 440px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--accent-gold);
+      border-radius: var(--radius-md);
+      padding: 14px 16px;
+      z-index: 200;
+      box-shadow: 0 14px 34px rgba(0,0,0,0.45);
+      opacity: 0;
+      pointer-events: none;
+      transition: all 0.28s ease;
+    }
+
+    .toast-notification.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+      pointer-events: auto;
+    }
+
+    /* Bottom 4-Tab Navigation Bar matching screenshot */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 100%;
+      max-width: 480px;
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border-subtle);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      padding: 10px 8px 14px;
+      z-index: 95;
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .bottom-nav-item svg {
+      width: 22px;
+      height: 22px;
+      color: var(--accent-gold);
+    }
+
+    .bottom-nav-item.active {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  <div class="app-shell">
+    <!-- Top Floating 5-Tab View Router (Sections F, G, H, J, I) -->
+    <nav class="top-pill-nav" aria-label="Settings Sections">
+      <button class="pill-tab-btn active" data-tab="activity">Activity<br>& Saved</button>
+      <button class="pill-tab-btn" data-tab="settings">Display<br>& Prefs</button>
+      <button class="pill-tab-btn" data-tab="reminders">Adhkar<br>Alerts</button>
+      <button class="pill-tab-btn" data-tab="data">Backup<br>& Sync</button>
+      <button class="pill-tab-btn" data-tab="about">About<br>& Help</button>
+    </nav>
+
+    <!-- Header Banner -->
+    <header class="hero-banner">
+      <a href="home.html" class="back-home-link">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+        Back to Home Feed
+      </a>
+      <div class="header-row">
+        <div>
+          <h1 class="serif-title" id="pageHeaderTitle">Your spiritual journey</h1>
+          <p class="subtitle-date" id="currentDateDisplay">Saturday 31 October • File 6 of 6</p>
+        </div>
+        <div class="avatar-badge" id="headerAvatar" title="Account Status">A</div>
+      </div>
+    </header>
+
+    <main class="view-container">
+      <!-- ============================================================== -->
+      <!-- TAB 1: MY ACTIVITY, CALENDAR & FAVOURITES (Screens 68–76)      -->
+      <!-- ============================================================== -->
+      <section class="tab-view active" id="view-activity">
+        <!-- Screen 68, 71, 72: Activity Overview + Gentle Streak + Goal Bars -->
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Today's progress</h2>
+            <button class="card-action-link" onclick="jumpToSection('favouritesCard')">SAVED &rsaquo;</button>
+          </div>
+
+          <div class="progress-overview-row">
+            <div class="radial-progress">
+              <svg viewBox="0 0 84 84">
+                <circle class="radial-bg" cx="42" cy="42" r="36"></circle>
+                <circle class="radial-bar" id="goalRadialBar" cx="42" cy="42" r="36"></circle>
+              </svg>
+              <span class="radial-label" id="goalPercentLabel">65%</span>
+            </div>
+
+            <div class="stats-columns">
+              <div class="stat-col">
+                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="10" r="6"/><path d="M12 16v5M9 21h6"/></svg>
+                <span class="stat-label">Dhikr</span>
+                <div class="stat-val" id="totalDhikrCount">413</div>
+              </div>
+              <div class="stat-col">
+                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M2 4h7a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h7z"/></svg>
+                <span class="stat-label">Stories</span>
+                <div class="stat-val" id="totalStoriesCount">2</div>
+              </div>
+              <div class="stat-col">
+                <svg class="stat-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+                <span class="stat-label">Goals</span>
+                <div class="stat-val" id="goalsCompletedRatio">2/3</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Screen 72: Gentle Streak / Consistency View -->
+          <div class="streak-banner">
+            <div>
+              <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--accent-gold);">Gentle Consistency</div>
+              <div style="font-size: 13.5px; color: var(--text-primary); margin-top: 2px;">Every remembrance counts—no pressure, only barakah.</div>
+            </div>
+            <div style="text-align: right;">
+              <div class="streak-number" id="activeDaysBadge">5 Days</div>
+              <div style="font-size: 11px; color: var(--text-secondary);">Active Streak</div>
+            </div>
+          </div>
+
+          <!-- Screen 71: Daily Goal Completion Bars -->
+          <div style="margin-top: 16px;">
+            <div class="goal-bar-item">
+              <div class="goal-bar-top">
+                <span>Morning & Evening Adhkar</span>
+                <span id="barAdhkarLabel">313 / 313</span>
+              </div>
+              <div class="goal-track"><div class="goal-fill" id="barAdhkarFill" style="width: 100%;"></div></div>
+            </div>
+            <div class="goal-bar-item">
+              <div class="goal-bar-top">
+                <span>Daily Tasbih Target</span>
+                <span id="barTasbihLabel">100 / 100</span>
+              </div>
+              <div class="goal-track"><div class="goal-fill" id="barTasbihFill" style="width: 100%;"></div></div>
+            </div>
+            <div class="goal-bar-item">
+              <div class="goal-bar-top">
+                <span>Night Reflection & Surah Mulk</span>
+                <span id="barReflectionLabel">0 / 1</span>
+              </div>
+              <div class="goal-track"><div class="goal-fill" id="barReflectionFill" style="width: 25%;"></div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Screens 69 & 70: Tasbih History Monthly Calendar -->
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Tasbih history calendar</h2>
+            <span style="font-size: 12px; color: var(--text-secondary);">Tap a date</span>
+          </div>
+          <div class="cal-controls">
+            <button class="icon-btn" id="prevMonthBtn" aria-label="Previous Month">&lsaquo;</button>
+            <div class="cal-month-label" id="calMonthYear">October 2026</div>
+            <button class="icon-btn" id="nextMonthBtn" aria-label="Next Month">&rsaquo;</button>
+          </div>
+          <div class="cal-weekdays">
+            <span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span>
+          </div>
+          <div class="cal-grid" id="calendarGrid"></div>
+        </div>
+
+        <!-- Screens 73–76: Unified Favourites & Recently Viewed -->
+        <div class="aamaal-card" id="favouritesCard">
+          <div class="card-header">
+            <h2 class="card-title">Saved & recently viewed</h2>
+            <span id="savedTotalBadge" style="font-size: 12px; color: var(--accent-gold);">6 items</span>
+          </div>
+
+          <div class="subtab-pills" role="tablist">
+            <button class="subtab-pill active" data-fav-filter="all">All Saved (73)</button>
+            <button class="subtab-pill" data-fav-filter="duas">Favourite Duas (74)</button>
+            <button class="subtab-pill" data-fav-filter="reflections">Reflections (75)</button>
+            <button class="subtab-pill" data-fav-filter="recent">Recently Viewed (76)</button>
+          </div>
+
+          <div id="favouritesListContainer"></div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 2: APP SETTINGS & PERSONALISATION (Screens 77–91)          -->
+      <!-- ============================================================== -->
+      <section class="tab-view" id="view-settings">
+        <!-- Screens 77–79: Appearance & Theme Selector -->
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Appearance & theme</h2>
+            <span style="font-size: 12px; color: var(--text-secondary);">Screens 77–79</span>
+          </div>
+          <p class="setting-label-desc">Choose your spiritual sanctuary palette across all 6 Aamaal files.</p>
+          <div class="segmented-group" id="themeSelectorGroup">
+            <button class="seg-btn active" data-theme-val="emerald">Dark Emerald</button>
+            <button class="seg-btn" data-theme-val="parchment">Warm Parchment</button>
+            <button class="seg-btn" data-theme-val="system">System Default</button>
+          </div>
+        </div>
+
+        <!-- Screens 80–84: Language, Arabic Script, Translation & Typography -->
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Language & Arabic typography</h2>
+            <span style="font-size: 12px; color: var(--text-secondary);">Screens 80–84</span>
+          </div>
+
+          <div class="setting-row" style="display:block;">
+            <div class="setting-label-title">Primary Translation Language</div>
+            <div class="segmented-group" id="langSelectorGroup">
+              <button class="seg-btn active" data-lang-val="en">English</button>
+              <button class="seg-btn" data-lang-val="ur">اردو (Urdu)</button>
+              <button class="seg-btn" data-lang-val="roman_ur">Roman Urdu</button>
+              <button class="seg-btn" data-lang-val="hi">हिन्दी (Hindi)</button>
+            </div>
+          </div>
+
+          <div class="setting-row" style="display:block;">
+            <div class="setting-label-title">Arabic Script Style</div>
+            <div class="segmented-group" id="scriptSelectorGroup">
+              <button class="seg-btn active" data-script-val="uthmani">Uthmani Script</button>
+              <button class="seg-btn" data-script-val="indopak">IndoPak Script</button>
+            </div>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-label-title">Show Transliteration</div>
+              <div class="setting-label-desc">Display phonetic pronunciation under Arabic Duas</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggleTransliteration" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-label-title">Show Translation</div>
+              <div class="setting-label-desc">Display meaning in Duas and Reflections</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggleTranslation" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row" style="display:block;">
+            <div style="display:flex; justify-content:space-between;">
+              <span class="setting-label-title">Arabic Font Scale (<code>--arabic-scale</code>)</span>
+              <span id="arabicScaleVal" style="color:var(--accent-gold); font-weight:600;">100%</span>
+            </div>
+            <input type="range" class="range-slider" id="arabicScaleSlider" min="0.85" max="1.45" step="0.05" value="1">
+          </div>
+
+          <div class="setting-row" style="display:block;">
+            <div style="display:flex; justify-content:space-between;">
+              <span class="setting-label-title">Body Text Scale (<code>--body-scale</code>)</span>
+              <span id="bodyScaleVal" style="color:var(--accent-mint); font-weight:600;">100%</span>
+            </div>
+            <input type="range" class="range-slider" id="bodyScaleSlider" min="0.9" max="1.25" step="0.05" value="1">
+          </div>
+
+          <!-- Live Typography Preview -->
+          <div class="typography-preview">
+            <div class="arabic-sample" id="previewArabic">أَلَا بِذِكْرِ اللَّهِ تَطْمَئِنُّ الْقُلُوبُ</div>
+            <div class="translit-sample" id="previewTranslit">Ala bidhikrillahi tatma'innul quloob</div>
+            <div class="translation-sample" id="previewTranslation">"Unquestionably, by the remembrance of Allah hearts are assured." (13:28)</div>
+          </div>
+        </div>
+
+        <!-- Screens 85–87: Sound, Haptics & Reduced Motion -->
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Sound, haptics & motion</h2>
+            <span style="font-size: 12px; color: var(--text-secondary);">Screens 85–87</span>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-label-title">Tasbih Bead Sound Effects</div>
+              <div class="setting-label-desc">Soft acoustic click on each Tasbih tap</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggleSound" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-label-title">Haptic Vibration Feedback</div>
+              <div class="setting-label-desc">Vibrate gently on bead tap and 33/100 milestones</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggleHaptics" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-label-title">Reduced Motion</div>
+              <div class="setting-label-desc">Simplify bead animations in tasbih.html & reflections.html</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggleReducedMotion">
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+
+        <!-- Screen 90: Home Screen Section Visibility -->
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Home screen preferences</h2>
+            <span style="font-size: 12px; color: var(--text-secondary);">Screen 90</span>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-label-title">Show Daily Featured Dua</div>
+              <div class="setting-label-desc">Display "Dua for peace of heart" card on home.html</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggleHomeDua" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-label-title">Show Daily Story / Reflection</div>
+              <div class="setting-label-desc">Display daily spiritual reflection card on home.html</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggleHomeReflection" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+
+          <div class="setting-row">
+            <div>
+              <div class="setting-label-title">Show Gentle Reminder Banner</div>
+              <div class="setting-label-desc">Display non-intrusive Adhkar prompt banner</div>
+            </div>
+            <label class="switch">
+              <input type="checkbox" id="toggleHomeBanner" checked>
+              <span class="slider"></span>
+            </label>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 3: NOTIFICATIONS & REMINDER SCHEDULER (Screens 88–89, 92–98)-->
+      <!-- ============================================================== -->
+      <section class="tab-view" id="view-reminders">
+        <!-- Screen 97: Permission Denied Fallback Instructions -->
+        <div class="permission-banner" id="permissionDeniedBanner">
+          <strong style="color: var(--danger);">Browser Notifications Blocked (Screen 97)</strong>
+          <p style="margin-top: 4px; color: var(--text-primary);">
+            Notification permission is currently set to <code>denied</code>. To enable Adhkar reminders:
+            1. Tap the lock/tune icon next to your browser address bar.<br>
+            2. Set <strong>Notifications → Allow</strong> and reload this page.<br>
+            <em>In-app gentle banners on home.html will still work automatically.</em>
+          </p>
+        </div>
+
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Adhkar reminder schedule</h2>
+            <span style="font-size: 12px; color: var(--text-secondary);">Screens 92–98</span>
+          </div>
+
+          <!-- Morning Adhkar -->
+          <div class="reminder-card" data-reminder-id="morning">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div class="setting-label-title">Morning Adhkar & Tasbih</div>
+                <div class="setting-label-desc">After Fajr remembrance</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <input type="time" class="time-input" id="timeMorning" value="06:15">
+                <label class="switch">
+                  <input type="checkbox" id="enableMorning" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="dow-pills" id="dowMorning"></div>
+          </div>
+
+          <!-- Evening 313 Durood -->
+          <div class="reminder-card" data-reminder-id="evening">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div class="setting-label-title">Evening 313 Durood Shareef</div>
+                <div class="setting-label-desc">Asr / Maghrib peace blessings</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <input type="time" class="time-input" id="timeEvening" value="17:45">
+                <label class="switch">
+                  <input type="checkbox" id="enableEvening" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="dow-pills" id="dowEvening"></div>
+          </div>
+
+          <!-- Night Surah Mulk -->
+          <div class="reminder-card" data-reminder-id="night">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div>
+                <div class="setting-label-title">Night Surah Al-Mulk & Reflection</div>
+                <div class="setting-label-desc">Before sleep protection & calm</div>
+              </div>
+              <div style="display:flex; align-items:center; gap:10px;">
+                <input type="time" class="time-input" id="timeNight" value="22:00">
+                <label class="switch">
+                  <input type="checkbox" id="enableNight" checked>
+                  <span class="slider"></span>
+                </label>
+              </div>
+            </div>
+            <div class="dow-pills" id="dowNight"></div>
+          </div>
+
+          <!-- Screen 95: Preview Notification & Request Permission -->
+          <div class="btn-row">
+            <button class="btn btn-gold" id="previewNotificationBtn">Preview Notification (95)</button>
+            <button class="btn btn-mint" id="requestNotificationPermBtn">Enable Browser Alerts</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 4: DATA, BACKUP & CLOUD SYNC (Screens 91, 110–118)         -->
+      <!-- ============================================================== -->
+      <section class="tab-view" id="view-data">
+        <!-- Screens 116–118: Account & Cloud Sync Status -->
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Account & cloud sync</h2>
+            <span id="authStatusBadge" style="font-size: 12px; color: var(--accent-mint);">Connected</span>
+          </div>
+          <p class="setting-label-desc" id="authAccountDescription">
+            Synced with your Firebase profile from <code>index.html</code> / <code>home.html</code>.
+          </p>
+          <div class="btn-row" style="margin-top: 14px;">
+            <button class="btn btn-mint" id="authToggleBtn">Sign In / Sync Now</button>
+            <button class="btn btn-danger" id="deleteCloudDataBtn">Delete Cloud Data</button>
+          </div>
+        </div>
+
+        <!-- Screens 91, 110–113: LocalStorage Usage & 1-Click JSON Export/Import -->
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Storage & JSON backup</h2>
+            <span id="storageKbBadge" style="font-size: 13px; color: var(--accent-gold); font-weight: 600;">0.0 KB used</span>
+          </div>
+          <p class="setting-label-desc">
+            Includes Tasbih history (<code>tasbih_app_state_v2</code>), Home goals (<code>aamaal_home_state</code>), Reflections history (<code>REFLECTIONS_HISTORY_V2</code>), custom Duas, and bookmarks.
+          </p>
+          <div class="btn-row" style="margin-top: 14px;">
+            <button class="btn btn-mint" id="exportJsonBtn">Export JSON Backup</button>
+            <button class="btn btn-outline" id="importJsonBtn">Restore JSON File</button>
+            <input type="file" id="importJsonInput" accept=".json,application/json" style="display:none;">
+          </div>
+        </div>
+
+        <!-- Screens 114 & 115: Clear History vs Factory Reset -->
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">Reset options</h2>
+            <span style="font-size: 12px; color: var(--danger);">Screens 114–115</span>
+          </div>
+          <p class="setting-label-desc" style="margin-bottom: 12px;">
+            Clear only your Tasbih counter sessions while keeping saved Duas, or perform a full factory reset.
+          </p>
+          <div class="btn-row">
+            <button class="btn btn-outline" id="openClearTasbihModalBtn">Clear Tasbih History (114)</button>
+            <button class="btn btn-danger" id="openFactoryResetModalBtn">Factory Reset App (115)</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================== -->
+      <!-- TAB 5: ABOUT, SUPPORT & LEGAL (Screens 99–109)                 -->
+      <!-- ============================================================== -->
+      <section class="tab-view" id="view-about">
+        <div class="aamaal-card">
+          <div class="card-header">
+            <h2 class="card-title">About, support & legal</h2>
+            <span style="font-size: 12px; color: var(--text-secondary);">Screens 99–109</span>
+          </div>
+
+          <div class="accordion-item open">
+            <button class="accordion-trigger">99. About Aamaal Sanctuary <span>&ndash;</span></button>
+            <div class="accordion-body">
+              Aamaal v2.6 is a tranquil, ad-free digital sanctuary for daily Dhikr, authentic Duas, and heart-softening Islamic stories. Designed with gentle consistency rather than gamified pressure.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">100 & 102. How to Use Guide & Support <span>+</span></button>
+            <div class="accordion-body">
+              • <strong>Home:</strong> Track daily goals and launch quick actions.<br>
+              • <strong>Tasbih:</strong> Tap anywhere on the bead ring; customize targets (33, 100, 313).<br>
+              • <strong>Duas & Stories:</strong> Adjust Arabic script and font scale in Display settings; tap the bookmark ribbon to save to Favourites.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">101. Frequently Asked Questions (FAQ) <span>+</span></button>
+            <div class="accordion-body">
+              <strong>Are my Tasbih counts private?</strong> Yes, all counts are stored locally on your device first and only synced if you sign in.<br>
+              <strong>Why did my streak stay gentle?</strong> Aamaal celebrates total active days without punishing missed days.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">103. Submit Feedback or Report an Issue <span>+</span></button>
+            <div class="accordion-body">
+              <label style="font-size:12px;">Category</label>
+              <select class="input-field" id="feedbackType">
+                <option>Feature Suggestion</option>
+                <option>Arabic / Translation Correction</option>
+                <option>Bug Report</option>
+              </select>
+              <label style="font-size:12px;">Your Message</label>
+              <textarea class="textarea-field" id="feedbackText" rows="3" placeholder="Share your thoughts or report a typo..."></textarea>
+              <button class="btn btn-mint" id="submitFeedbackBtn">Send Feedback</button>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">104 & 105. Rate & Share Aamaal <span>+</span></button>
+            <div class="accordion-body">
+              Share Aamaal as Sadaqah Jariyah (ongoing charity) with family and friends.
+              <div class="btn-row" style="margin-top:10px;">
+                <button class="btn btn-gold" id="shareAppBtn">Share App Link</button>
+                <button class="btn btn-outline" onclick="showToast('JazakAllah Khair! Rating recorded.')">Rate 5 Stars ★</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">106 & 107. Privacy Policy & Terms of Use <span>+</span></button>
+            <div class="accordion-body">
+              We never sell personal data, display third-party ads, or track your location without consent. All spiritual progress remains strictly yours and can be exported or erased anytime under the Backup tab.
+            </div>
+          </div>
+
+          <div class="accordion-item">
+            <button class="accordion-trigger">108 & 109. Content Verification & Licences <span>+</span></button>
+            <div class="accordion-body">
+              Duas and Adhkar are verified against <em>Hisnul Muslim</em> (Fortress of the Muslim), Sahih al-Bukhari, and Sahih Muslim. Typography powered by open-source Amiri, Cormorant Garamond, and Plus Jakarta Sans licences.
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- ============================================================== -->
+    <!-- BOTTOM SHEET & MODALS (Screens 70, 114, 115)                   -->
+    <!-- ============================================================== -->
+    <div class="modal-backdrop" id="modalBackdrop">
+      <div class="bottom-sheet" id="modalContentBox">
+        <div class="sheet-handle"></div>
+        <h3 class="card-title" id="modalTitle">Session Detail</h3>
+        <div id="modalBody" style="margin: 12px 0 18px; color: var(--text-secondary); font-size: 14px;"></div>
+        <div class="btn-row" id="modalActions">
+          <button class="btn btn-outline" onclick="closeModal()">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Screen 95: Toast Notification Preview -->
+    <div class="toast-notification" id="toastBanner">
+      <div style="font-size:11px; text-transform:uppercase; letter-spacing:0.08em; color:var(--accent-gold);">Aamaal Gentle Reminder</div>
+      <div id="toastMessage" style="font-size:14px; color:var(--text-primary); margin-top:3px;">Time for Evening 313 Durood Shareef</div>
+    </div>
+
+    <!-- Bottom 4-Tab Navigation Bar (Matching Screenshot) -->
+    <nav class="bottom-nav" aria-label="Primary App Navigation">
+      <a href="home.html" class="bottom-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M3 10.5L12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6H9v6H4a1 1 0 0 1-1-1z"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="tasbih.html" class="bottom-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><circle cx="12" cy="10" r="6" stroke-dasharray="2 3"/><path d="M12 16v5M9 21h6"/></svg>
+        <span>Tasbih</span>
+      </a>
+      <a href="duas.html" class="bottom-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><path d="M2 4h7a3 3 0 0 1 3 3v13a3 3 0 0 0-3-3H2z"/><path d="M22 4h-7a3 3 0 0 0-3 3v13a3 3 0 0 1 3-3h7z"/></svg>
+        <span>Duas</span>
+      </a>
+      <a href="reflections.html" class="bottom-nav-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"><rect x="4" y="3" width="16" height="18" rx="2"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
+        <span>Stories</span>
+      </a>
+    </nav>
+  </div>
+
+  <script>
+    /* ==========================================================================
+       SHARED STORAGE KEYS & DEFAULT FALLBACKS (Compatible across Files 1–6)
+       ========================================================================== */
+    const KEYS = {
+      TASBIH: 'tasbih_app_state_v2',
+      HOME: 'aamaal_home_state',
+      REFLECTIONS: 'REFLECTIONS_HISTORY_V2',
+      PREFS: 'aamaal_global_prefs',
+      AUTH: 'aamaal_auth_user'
+    };
+
+    const DEFAULT_PREFS = {
+      theme: 'emerald',
+      language: 'en',
+      script: 'uthmani',
+      showTransliteration: true,
+      showTranslation: true,
+      arabicScale: 1,
+      bodyScale: 1,
+      sound: true,
+      haptics: true,
+      reducedMotion: false,
+      homeShowDua: true,
+      homeShowReflection: true,
+      homeShowBanner: true,
+      reminders: {
+        morning: { enabled: true, time: '06:15', days: [0,1,2,3,4,5,6] },
+        evening: { enabled: true, time: '17:45', days: [0,1,2,3,4,5,6] },
+        night:   { enabled: true, time: '22:00', days: [0,1,2,3,4,5,6] }
+      }
+    };
+
+    function loadJSON(key, fallback) {
+      try {
+        const raw = localStorage.getItem(key);
+        return raw ? JSON.parse(raw) : fallback;
+      } catch (e) {
+        return fallback;
+      }
+    }
+
+    function saveJSON(key, data) {
+      localStorage.setItem(key, JSON.stringify(data));
+      updateStorageUsageBadge();
+    }
+
+    let globalPrefs = Object.assign({}, DEFAULT_PREFS, loadJSON(KEYS.PREFS, {}));
+
+    /* ==========================================================================
+       1. APPLY GLOBAL PREFERENCES (Theme, Font Scales, Reduced Motion)
+       ========================================================================== */
+    const TRANSLATION_SAMPLES = {
+      en: '"Unquestionably, by the remembrance of Allah hearts are assured." (13:28)',
+      ur: '’’سن لو! اللّٰہ ہی کی یاد سے دلوں کو اطمینان نصیب ہوتا ہے۔‘‘ (13:28)',
+      roman_ur: '"Yaqeenan, Allah ke zikr hi se dilon ko sukoon milta hai." (13:28)',
+      hi: '"निःसंदेह, अल्लाह के ज़िक्र ही से दिलों को सुकून मिलता है।" (13:28)'
+    };
+
+    function applyGlobalPrefs() {
+      const root = document.documentElement;
+      let resolvedTheme = globalPrefs.theme;
+      if (resolvedTheme === 'system') {
+        resolvedTheme = window.matchMedia('(prefers-color-scheme: light)').matches ? 'parchment' : 'emerald';
+      }
+      root.setAttribute('data-theme', resolvedTheme);
+      root.setAttribute('data-reduced-motion', String(!!globalPrefs.reducedMotion));
+      root.style.setProperty('--arabic-scale', globalPrefs.arabicScale);
+      root.style.setProperty('--body-scale', globalPrefs.bodyScale);
+      root.style.setProperty('--font-arabic',
+        globalPrefs.script === 'indopak' ? 'var(--font-arabic-indopak)' : 'var(--font-arabic-uthmani)'
+      );
+
+      // Update UI controls
+      document.querySelectorAll('#themeSelectorGroup .seg-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.themeVal === globalPrefs.theme);
+      });
+      document.querySelectorAll('#langSelectorGroup .seg-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.langVal === globalPrefs.language);
+      });
+      document.querySelectorAll('#scriptSelectorGroup .seg-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.scriptVal === globalPrefs.script);
+      });
+
+      document.getElementById('toggleTransliteration').checked = !!globalPrefs.showTransliteration;
+      document.getElementById('toggleTranslation').checked = !!globalPrefs.showTranslation;
+      document.getElementById('arabicScaleSlider').value = globalPrefs.arabicScale;
+      document.getElementById('bodyScaleSlider').value = globalPrefs.bodyScale;
+      document.getElementById('arabicScaleVal').textContent = Math.round(globalPrefs.arabicScale * 100) + '%';
+      document.getElementById('bodyScaleVal').textContent = Math.round(globalPrefs.bodyScale * 100) + '%';
+
+      document.getElementById('previewTranslit').style.display = globalPrefs.showTransliteration ? 'block' : 'none';
+      document.getElementById('previewTranslation').style.display = globalPrefs.showTranslation ? 'block' : 'none';
+      document.getElementById('previewTranslation').textContent = TRANSLATION_SAMPLES[globalPrefs.language] || TRANSLATION_SAMPLES.en;
+
+      document.getElementById('toggleSound').checked = !!globalPrefs.sound;
+      document.getElementById('toggleHaptics').checked = !!globalPrefs.haptics;
+      document.getElementById('toggleReducedMotion').checked = !!globalPrefs.reducedMotion;
+      document.getElementById('toggleHomeDua').checked = !!globalPrefs.homeShowDua;
+      document.getElementById('toggleHomeReflection').checked = !!globalPrefs.homeShowReflection;
+      document.getElementById('toggleHomeBanner').checked = !!globalPrefs.homeShowBanner;
+
+      saveJSON(KEYS.PREFS, globalPrefs);
+    }
+
+    /* ==========================================================================
+       2. AGGREGATE ACTIVITY & CALENDAR (Screens 68–72)
+       ========================================================================== */
+    let currentCalDate = new Date(2026, 9, 1); // October 2026 default
+
+    function getTasbihData() {
+      return loadJSON(KEYS.TASBIH, {
+        totalCount: 413,
+        streakDays: 5,
+        sessionsByDate: {
+          '2026-10-29': [
+            { title: '313 Durood Shareef', count: 313, target: 313, time: '06:30 PM' },
+            { title: 'SubhanAllahi wa Bihamdihi', count: 100, target: 100, time: '07:10 AM' }
+          ],
+          '2026-10-30': [
+            { title: 'Astaghfirullah', count: 100, target: 100, time: '09:15 PM' }
+          ],
+          '2026-10-31': [
+            { title: 'Morning Adhkar Tasbih', count: 313, target: 313, time: '06:20 AM' },
+            { title: 'Ya Hayyu Ya Qayyum', count: 100, target: 100, time: '02:15 PM' }
+          ]
+        }
+      });
+    }
+
+    function renderActivityOverview() {
+      const tasbih = getTasbihData();
+      const homeState = loadJSON(KEYS.HOME, { completedGoals: 2, totalGoals: 3, progressPercent: 65 });
+      const reflections = loadJSON(KEYS.REFLECTIONS, { readIds: ['r1', 'r2'], bookmarks: [] });
+
+      const totalDhikr = tasbih.totalCount || 413;
+      const storiesRead = Array.isArray(reflections.readIds) ? reflections.readIds.length : 2;
+      const completedGoals = homeState.completedGoals ?? 2;
+      const totalGoals = homeState.totalGoals ?? 3;
+      const pct = homeState.progressPercent ?? Math.round((completedGoals / totalGoals) * 100);
+
+      document.getElementById('totalDhikrCount').textContent = totalDhikr.toLocaleString();
+      document.getElementById('totalStoriesCount').textContent = storiesRead;
+      document.getElementById('goalsCompletedRatio').textContent = `${completedGoals}/${totalGoals}`;
+      document.getElementById('goalPercentLabel').textContent = `${pct}%`;
+
+      const circumference = 226;
+      const offset = circumference - (pct / 100) * circumference;
+      document.getElementById('goalRadialBar').style.strokeDashoffset = offset;
+      document.getElementById('activeDaysBadge').textContent = `${tasbih.streakDays || 5} Days`;
+    }
+
+    function renderCalendar() {
+      const tasbih = getTasbihData();
+      const sessionsMap = tasbih.sessionsByDate || {};
+      const year = currentCalDate.getFullYear();
+      const month = currentCalDate.getMonth();
+
+      const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      document.getElementById('calMonthYear').textContent = `${monthNames[month]} ${year}`;
+
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const grid = document.getElementById('calendarGrid');
+      grid.innerHTML = '';
+
+      for (let i = 0; i < firstDay; i++) {
+        const emptyCell = document.createElement('div');
+        emptyCell.className = 'cal-day empty';
+        grid.appendChild(emptyCell);
+      }
+
+      for (let day = 1; day <= daysInMonth; day++) {
+        const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        const cell = document.createElement('button');
+        cell.className = 'cal-day';
+        cell.textContent = day;
+
+        const daySessions = sessionsMap[dateKey] || [];
+        if (daySessions.length > 0) {
+          cell.classList.add('has-activity');
+        }
+        if (year === 2026 && month === 9 && day === 31) {
+          cell.classList.add('today');
+        }
+
+        cell.addEventListener('click', () => openDaySessionDetail(dateKey, daySessions));
+        grid.appendChild(cell);
+      }
+    }
+
+    // Screen 70: Bottom Sheet for Daily Activity Detail
+    function openDaySessionDetail(dateKey, sessions) {
+      const title = document.getElementById('modalTitle');
+      const body = document.getElementById('modalBody');
+      const actions = document.getElementById('modalActions');
+
+      title.textContent = `Dhikr Sessions • ${dateKey}`;
+      if (!sessions.length) {
+        body.innerHTML = `<p>No recorded Tasbih sessions on this date. Tap below to begin a calm remembrance session.</p>`;
+      } else {
+        body.innerHTML = sessions.map(s => `
+          <div class="fav-item" style="margin-bottom:8px;">
+            <div>
+              <div style="font-weight:600; color:var(--text-primary);">${s.title}</div>
+              <div style="font-size:12px; color:var(--text-secondary);">Completed at ${s.time}</div>
+            </div>
+            <div style="font-family:var(--font-serif); font-size:20px; color:var(--accent-mint); font-weight:700;">
+              ${s.count}/${s.target}
+            </div>
+          </div>
+        `).join('');
+      }
+      actions.innerHTML = `
+        <a href="tasbih.html" class="btn btn-mint" style="text-decoration:none;">Open Tasbih</a>
+        <button class="btn btn-outline" onclick="closeModal()">Close</button>
+      `;
+      document.getElementById('modalBackdrop').classList.add('open');
+    }
+
+    /* ==========================================================================
+       3. UNIFIED FAVOURITES & RECENTLY VIEWED (Screens 73–76)
+       ========================================================================== */
+    const DEFAULT_SAVED_ITEMS = [
+      {
+        id: 'dua-1',
+        type: 'duas',
+        recent: true,
+        category: 'Daily Featured Dua',
+        title: 'Dua for peace of heart',
+        arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ نَفْسًا بِكَ مُطْمَئِنَّةً',
+        meaning: 'O Allah, I ask You for a soul that finds tranquila assurance in You.',
+        link: 'duas.html'
+      },
+      {
+        id: 'dua-2',
+        type: 'duas',
+        recent: true,
+        category: '313 Durood Sanctuary',
+        title: 'Durood-e-Ibrahimi',
+        arabic: 'اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ',
+        meaning: 'O Allah, send peace and blessings upon Muhammad and the family of Muhammad.',
+        link: 'duas.html'
+      },
+      {
+        id: 'ref-1',
+        type: 'reflections',
+        recent: true,
+        category: 'Prophetic Story',
+        title: 'The Patience of Prophet Ayyub (AS)',
+        arabic: 'أَنِّي مَسَّنِيَ الضُّرُّ وَأَنتَ أَرْحَمُ الرَّاحِمِينَ',
+        meaning: 'How quiet gratitude during trials opens unseen doors of mercy.',
+        link: 'reflections.html'
+      },
+      {
+        id: 'ref-2',
+        type: 'reflections',
+        recent: false,
+        category: 'Night Reflection',
+        title: 'Why Surah Al-Mulk Intercedes for the Believer',
+        arabic: 'تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ',
+        meaning: 'A 3-minute bedtime reflection on sovereignty and trust.',
+        link: 'reflections.html'
+      }
+    ];
+
+    let activeFavFilter = 'all';
+
+    function renderFavouritesList() {
+      const listEl = document.getElementById('favouritesListContainer');
+      const items = DEFAULT_SAVED_ITEMS.filter(item => {
+        if (activeFavFilter === 'all') return true;
+        if (activeFavFilter === 'recent') return item.recent;
+        return item.type === activeFavFilter;
+      });
+
+      document.getElementById('savedTotalBadge').textContent = `${items.length} items`;
+
+      listEl.innerHTML = items.map(item => `
+        <div class="fav-item">
+          <div style="flex:1;">
+            <span class="fav-badge">${item.category}</span>
+            <div style="font-weight:600; font-size:15px; color:var(--text-primary);">${item.title}</div>
+            <div class="fav-arabic">${item.arabic}</div>
+            <div style="font-size:13px; color:var(--text-secondary);">${item.meaning}</div>
+          </div>
+          <a href="${item.link}" class="icon-btn" title="Open" style="text-decoration:none; flex-shrink:0;">&rsaquo;</a>
+        </div>
+      `).join('');
+    }
+
+    /* ==========================================================================
+       4. REMINDERS & BROWSER NOTIFICATION PERMISSION (Screens 92–98)
+       ========================================================================== */
+    const DOW_LABELS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+
+    function renderReminderRows() {
+      ['morning', 'evening', 'night'].forEach(key => {
+        const cfg = globalPrefs.reminders[key];
+        const cap = key.charAt(0).toUpperCase() + key.slice(1);
+        const timeEl = document.getElementById('time' + cap);
+        const enableEl = document.getElementById('enable' + cap);
+        const dowContainer = document.getElementById('dow' + cap);
+
+        timeEl.value = cfg.time;
+        enableEl.checked = cfg.enabled;
+
+        dowContainer.innerHTML = '';
+        DOW_LABELS.forEach((lbl, idx) => {
+          const pill = document.createElement('button');
+          pill.className = 'dow-pill' + (cfg.days.includes(idx) ? ' active' : '');
+          pill.textContent = lbl;
+          pill.addEventListener('click', () => {
+            if (cfg.days.includes(idx)) {
+              cfg.days = cfg.days.filter(d => d !== idx);
+            } else {
+              cfg.days.push(idx);
+            }
+            saveJSON(KEYS.PREFS, globalPrefs);
+            renderReminderRows();
+          });
+          dowContainer.appendChild(pill);
+        });
+
+        timeEl.onchange = () => { cfg.time = timeEl.value; saveJSON(KEYS.PREFS, globalPrefs); };
+        enableEl.onchange = () => { cfg.enabled = enableEl.checked; saveJSON(KEYS.PREFS, globalPrefs); };
+      });
+
+      checkNotificationPermissionState();
+    }
+
+    function checkNotificationPermissionState() {
+      const banner = document.getElementById('permissionDeniedBanner');
+      if ('Notification' in window && Notification.permission === 'denied') {
+        banner.style.display = 'block';
+      } else {
+        banner.style.display = 'none';
+      }
+    }
+
+    /* ==========================================================================
+       5. STORAGE KB USAGE, JSON BACKUP EXPORT/IMPORT & RESETS (Screens 110–118)
+       ========================================================================== */
+    function updateStorageUsageBadge() {
+      let totalBytes = 0;
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        const v = localStorage.getItem(k) || '';
+        totalBytes += (k.length + v.length) * 2;
+      }
+      const kb = (totalBytes / 1024).toFixed(1);
+      const badge = document.getElementById('storageKbBadge');
+      if (badge) badge.textContent = `${kb} KB used`;
+    }
+
+    function exportAllDataJSON() {
+      const payload = {
+        app: 'Aamaal Sanctuary Backup',
+        exportedAt: new Date().toISOString(),
+        tasbih_app_state_v2: getTasbihData(),
+        aamaal_home_state: loadJSON(KEYS.HOME, {}),
+        REFLECTIONS_HISTORY_V2: loadJSON(KEYS.REFLECTIONS, {}),
+        aamaal_global_prefs: globalPrefs
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `aamaal-backup-${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('Backup JSON exported successfully.');
+    }
+
+    function openConfirmModal(type) {
+      const title = document.getElementById('modalTitle');
+      const body = document.getElementById('modalBody');
+      const actions = document.getElementById('modalActions');
+
+      if (type === 'clearTasbih') {
+        title.textContent = 'Clear Tasbih History? (Screen 114)';
+        body.innerHTML = 'This will reset your Tasbih session logs and streak in <code>tasbih_app_state_v2</code> to zero. Your saved Duas, Reflections, and Display Settings will remain untouched.';
+        actions.innerHTML = `
+          <button class="btn btn-danger" onclick="confirmClearTasbih()">Clear History</button>
+          <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        `;
+      } else {
+        title.textContent = 'Factory Reset App Data? (Screen 115)';
+        body.innerHTML = 'This will permanently erase all local Aamaal data across all 6 files (Tasbih counts, saved Duas, custom stories, and preferences) and restore factory defaults.';
+        actions.innerHTML = `
+          <button class="btn btn-danger" onclick="confirmFactoryReset()">Erase Everything</button>
+          <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+        `;
+      }
+      document.getElementById('modalBackdrop').classList.add('open');
+    }
+
+    function confirmClearTasbih() {
+      saveJSON(KEYS.TASBIH, { totalCount: 0, streakDays: 0, sessionsByDate: {} });
+      renderActivityOverview();
+      renderCalendar();
+      closeModal();
+      showToast('Tasbih history cleared.');
+    }
+
+    function confirmFactoryReset() {
+      localStorage.clear();
+      globalPrefs = Object.assign({}, DEFAULT_PREFS);
+      applyGlobalPrefs();
+      renderActivityOverview();
+      renderCalendar();
+      closeModal();
+      showToast('Factory reset complete.');
+    }
+
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.remove('open');
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toastBanner');
+      document.getElementById('toastMessage').textContent = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3400);
+    }
+
+    /* ==========================================================================
+       6. ROUTER, HASH NAVIGATION (#favourites) & EVENT LISTENERS
+       ========================================================================== */
+    function switchTab(tabId) {
+      document.querySelectorAll('.pill-tab-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.tab === tabId);
+      });
+      document.querySelectorAll('.tab-view').forEach(view => {
+        view.classList.toggle('active', view.id === `view-${tabId}`);
+      });
+    }
+
+    function jumpToSection(elementId) {
+      switchTab('activity');
+      const el = document.getElementById(elementId);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function handleHashRoute() {
+      const hash = window.location.hash.replace('#', '');
+      if (hash === 'favourites' || hash === 'saved') {
+        switchTab('activity');
+        setTimeout(() => jumpToSection('favouritesCard'), 120);
+      } else if (['activity', 'settings', 'reminders', 'data', 'about'].includes(hash)) {
+        switchTab(hash);
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Top Pill Navigation
+      document.querySelectorAll('.pill-tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => switchTab(btn.dataset.tab));
+      });
+
+      // Favourites Filter Pills
+      document.querySelectorAll('.subtab-pill').forEach(pill => {
+        pill.addEventListener('click', () => {
+          document.querySelectorAll('.subtab-pill').forEach(p => p.classList.remove('active'));
+          pill.classList.add('active');
+          activeFavFilter = pill.dataset.favFilter;
+          renderFavouritesList();
+        });
+      });
+
+      // Calendar Month Navigation
+      document.getElementById('prevMonthBtn').onclick = () => {
+        currentCalDate.setMonth(currentCalDate.getMonth() - 1);
+        renderCalendar();
+      };
+      document.getElementById('nextMonthBtn').onclick = () => {
+        currentCalDate.setMonth(currentCalDate.getMonth() + 1);
+        renderCalendar();
+      };
+
+      // Theme, Language, Script Segmented Buttons
+      document.querySelectorAll('#themeSelectorGroup .seg-btn').forEach(btn => {
+        btn.onclick = () => { globalPrefs.theme = btn.dataset.themeVal; applyGlobalPrefs(); };
+      });
+      document.querySelectorAll('#langSelectorGroup .seg-btn').forEach(btn => {
+        btn.onclick = () => { globalPrefs.language = btn.dataset.langVal; applyGlobalPrefs(); };
+      });
+      document.querySelectorAll('#scriptSelectorGroup .seg-btn').forEach(btn => {
+        btn.onclick = () => { globalPrefs.script = btn.dataset.scriptVal; applyGlobalPrefs(); };
+      });
+
+      // Sliders & Switches
+      document.getElementById('arabicScaleSlider').oninput = (e) => {
+        globalPrefs.arabicScale = parseFloat(e.target.value);
+        applyGlobalPrefs();
+      };
+      document.getElementById('bodyScaleSlider').oninput = (e) => {
+        globalPrefs.bodyScale = parseFloat(e.target.value);
+        applyGlobalPrefs();
+      };
+
+      const bindToggle = (id, key) => {
+        document.getElementById(id).onchange = (e) => {
+          globalPrefs[key] = e.target.checked;
+          applyGlobalPrefs();
+        };
+      };
+      bindToggle('toggleTransliteration', 'showTransliteration');
+      bindToggle('toggleTranslation', 'showTranslation');
+      bindToggle('toggleSound', 'sound');
+      bindToggle('toggleHaptics', 'haptics');
+      bindToggle('toggleReducedMotion', 'reducedMotion');
+      bindToggle('toggleHomeDua', 'homeShowDua');
+      bindToggle('toggleHomeReflection', 'homeShowReflection');
+      bindToggle('toggleHomeBanner', 'homeShowBanner');
+
+      // Notification Preview & Permission (Screens 95 & 97)
+      document.getElementById('previewNotificationBtn').onclick = () => {
+        showToast('Assalamu Alaikum — Time for Evening 313 Durood Shareef.');
+        if ('Notification' in window && Notification.permission === 'granted') {
+          new Notification('Aamaal Gentle Reminder', {
+            body: 'Time for your Evening 313 Durood Shareef sanctuary.'
+          });
+        }
+      };
+
+      document.getElementById('requestNotificationPermBtn').onclick = async () => {
+        if (!('Notification' in window)) {
+          showToast('Notifications not supported in this browser.');
+          return;
+        }
+        const perm = await Notification.requestPermission();
+        checkNotificationPermissionState();
+        showToast(`Notification permission: ${perm}`);
+      };
+
+      // Data Export & Import
+      document.getElementById('exportJsonBtn').onclick = exportAllDataJSON;
+      document.getElementById('importJsonBtn').onclick = () => document.getElementById('importJsonInput').click();
+      document.getElementById('importJsonInput').onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          try {
+            const data = JSON.parse(ev.target.result);
+            if (data.tasbih_app_state_v2) saveJSON(KEYS.TASBIH, data.tasbih_app_state_v2);
+            if (data.aamaal_home_state) saveJSON(KEYS.HOME, data.aamaal_home_state);
+            if (data.REFLECTIONS_HISTORY_V2) saveJSON(KEYS.REFLECTIONS, data.REFLECTIONS_HISTORY_V2);
+            if (data.aamaal_global_prefs) {
+              globalPrefs = Object.assign({}, DEFAULT_PREFS, data.aamaal_global_prefs);
+              applyGlobalPrefs();
+            }
+            renderActivityOverview();
+            renderCalendar();
+            showToast('Backup restored successfully!');
+          } catch (err) {
+            showToast('Invalid JSON backup file.');
+          }
+        };
+        reader.readAsText(file);
+      };
+
+      document.getElementById('openClearTasbihModalBtn').onclick = () => openConfirmModal('clearTasbih');
+      document.getElementById('openFactoryResetModalBtn').onclick = () => openConfirmModal('factoryReset');
+
+      // Auth Toggle Simulation (Screens 116–118)
+      let isSignedIn = true;
+      document.getElementById('authToggleBtn').onclick = () => {
+        isSignedIn = !isSignedIn;
+        document.getElementById('authStatusBadge').textContent = isSignedIn ? 'Connected' : 'Signed Out (Local Only)';
+        document.getElementById('authToggleBtn').textContent = isSignedIn ? 'Sign Out' : 'Sign In / Sync Now';
+        showToast(isSignedIn ? 'Signed in and synced with cloud.' : 'Signed out. Data remains safe on device.');
+      };
+      document.getElementById('deleteCloudDataBtn').onclick = () => {
+        showToast('Cloud backup snapshot deleted from Firebase.');
+      };
+
+      // Accordion toggles (Screens 99–109)
+      document.querySelectorAll('.accordion-trigger').forEach(trigger => {
+        trigger.onclick = () => {
+          const parent = trigger.parentElement;
+          const isOpen = parent.classList.toggle('open');
+          trigger.querySelector('span').textContent = isOpen ? '–' : '+';
+        };
+      });
+
+      document.getElementById('submitFeedbackBtn').onclick = () => {
+        document.getElementById('feedbackText').value = '';
+        showToast('JazakAllah Khair! Your feedback has been saved.');
+      };
+
+      document.getElementById('shareAppBtn').onclick = async () => {
+        if (navigator.share) {
+          try {
+            await navigator.share({ title: 'Aamaal Sanctuary', text: 'Daily Dhikr, Duas & Stories', url: window.location.origin });
+          } catch (e) {}
+        } else {
+          navigator.clipboard?.writeText(window.location.origin);
+          showToast('App link copied to clipboard!');
+        }
+      };
+
+      // Initialize Views
+      applyGlobalPrefs();
+      renderActivityOverview();
+      renderCalendar();
+      renderFavouritesList();
+      renderReminderRows();
+      updateStorageUsageBadge();
+      handleHashRoute();
+      window.addEventListener('hashchange', handleHashRoute);
+    });
+  </script>
+</body>
+</html>
