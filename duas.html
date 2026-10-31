@@ -1678,7 +1678,7 @@ async function saveRepository() {
     /* ==========================================================================
        3. MASTER SCREEN ROUTER
        ========================================================================== */
-    function renderScreen(screenNum, customDuaId = null, preserveSlide = false) {
+    function renderScreen(screenNum, customDuaId = null, preserveSlide = false, fromHistory = false) {
       const isSameScreen = (screenNum === state.currentScreen);
       if (!isSameScreen) {
         state.previousScreen = state.currentScreen;
@@ -1686,16 +1686,21 @@ async function saveRepository() {
       state.currentScreen = screenNum;
       if (customDuaId) state.selectedDuaId = customDuaId;
 
+      // Push state to browser history so hardware back button knows where we are
+      if (!fromHistory) {
+        window.history.pushState({ screen: screenNum, duaId: state.selectedDuaId }, '', '');
+      }
+
       // Rotate Featured Slide automatically whenever user visits Screen 37
       if (screenNum === 37 && !preserveSlide) {
         state.featuredSlideIndex = (state.featuredSlideIndex + 1) % DUAS_LIST.length;
       }
-
+      
       const vp = document.getElementById('appViewport');
       if (!isSameScreen && !preserveSlide) {
         window.scrollTo(0, 0);
       }
-
+      
       switch (screenNum) {
         case 37: vp.innerHTML = view37Home(); break;
         case 38: vp.innerHTML = view38Categories(); break;
@@ -2887,34 +2892,43 @@ async function saveRepository() {
       showToast(`Added to ${catObj.title} (${getCategoryDuaCount(catId)} duas)`);
       renderScreen(39);
     }
-
-    window.addEventListener('DOMContentLoaded', async () => {
-  setupAudioListeners();
-  
-  // Wait for the window.db to be initialized by the module script
-  setTimeout(async () => {
-    try {
-      const docRef = window.doc(window.db, "aamaalApp", "libraryData");
-      const docSnap = await window.getDoc(docRef);
-
-      if (docSnap.exists()) {
-        // Load data from Firebase if it exists
-        const data = docSnap.data();
-        DUA_CATEGORIES = data.categories || DEFAULT_CATEGORIES;
-        DUAS_LIST = data.duas || DEFAULT_DUAS;
+// Listen for mobile hardware back button
+    window.addEventListener('popstate', (event) => {
+      if (event.state && event.state.screen) {
+        // Pass 'true' at the end so it doesn't push another state into history
+        renderScreen(event.state.screen, event.state.duaId, false, true); 
       } else {
-        // If the document doesn't exist yet, create it using defaults
-        await saveRepository();
+        // Fallback to home screen if no history state is found
+        renderScreen(37, null, false, true);
       }
-    } catch (error) {
-      console.error("Error fetching data, falling back to defaults: ", error);
-      // Fallback to DEFAULT_CATEGORIES and DEFAULT_DUAS if offline
-    }
+    });
+    window.addEventListener('DOMContentLoaded', async () => {
+      setupAudioListeners();
+      
+      // Replace the initial history state so the browser knows we started on Screen 37
+      window.history.replaceState({ screen: 37, duaId: state.selectedDuaId }, '', '');
 
-    // Only render the screen AFTER data is loaded
-    renderScreen(37);
-  }, 100); // Slight delay to ensure module script sets window.db
-});
+      // Load data from Firebase (assuming you implemented the previous Firebase code)
+      setTimeout(async () => {
+        try {
+          const docRef = window.doc(window.db, "aamaalApp", "libraryData");
+          const docSnap = await window.getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            DUA_CATEGORIES = data.categories || DEFAULT_CATEGORIES;
+            DUAS_LIST = data.duas || DEFAULT_DUAS;
+          } else {
+            await saveRepository();
+          }
+        } catch (error) {
+          console.error("Error fetching data: ", error);
+        }
+
+        // Render initial screen with 'true' to prevent duplicate history entry
+        renderScreen(37, null, false, true); 
+      }, 100);
+    });
   </script>
 </body>
 </html>
