@@ -7,7 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@700&family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-deep: #041d15;
@@ -41,6 +41,10 @@
 
     .font-serif-display {
       font-family: 'Cormorant Garamond', Georgia, serif;
+    }
+
+    .font-arabic {
+      font-family: 'Amiri', Georgia, serif;
     }
 
     /* Mobile App Shell */
@@ -166,7 +170,7 @@
       width: 100%;
       max-width: 430px;
       background: rgba(4, 23, 17, 0.96);
-      border-top: 1px solid rgba(201, 181, 122, 0.25);
+      border-top: 1px solid rgba(201, 181, 181, 0.25);
       backdrop-filter: blur(16px);
       z-index: 40;
       padding: 10px 12px 18px;
@@ -211,7 +215,7 @@
         <div class="relative z-10 flex items-start justify-between gap-3">
           <div class="flex items-center gap-3.5">
             <!-- Profile Avatar -->
-            <button onclick="window.location.href='settings.html'" class="w-12 h-12 rounded-full p-0.5 border border-[#d4be83]/60 shadow-lg overflow-hidden shrink-0 focus:outline-none">
+            <button onclick="navigateToPage('settings.html', 'Settings & Profile')" class="w-12 h-12 rounded-full p-0.5 border border-[#d4be83]/60 shadow-lg overflow-hidden shrink-0 focus:outline-none">
               <img data-asset="user_avatar" alt="User Profile" class="w-full h-full rounded-full object-cover" />
             </button>
             <div>
@@ -221,7 +225,7 @@
             </div>
           </div>
 
-          <!-- Top Right Notification & Menu Buttons -->
+          <!-- Top Right Notification & Settings Buttons (Replaced 3-dots with Settings) -->
           <div class="flex items-center gap-1 pt-0.5 shrink-0">
             <button onclick="showToast('Reminders active: Evening Durood & Surah Mulk')" class="relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition" aria-label="Notifications">
               <svg class="w-6 h-6 text-[#e8f5ee] drop-shadow" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -229,9 +233,10 @@
               </svg>
               <span class="absolute top-2 right-2.5 w-2 h-2 rounded-full bg-[#9fe8bc] ring-2 ring-[#06231a]"></span>
             </button>
-            <button onclick="switchSubView('view-daily-overview')" class="w-9 h-10 rounded-full flex items-center justify-center text-[#e8f5ee] hover:bg-white/10 transition" aria-label="More Options">
-              <svg class="w-5 h-5 drop-shadow" fill="currentColor" viewBox="0 0 20 20">
-                <path d="M10 6a1.75 1.75 0 110-3.5A1.75 1.75 0 0110 6zm0 5.75a1.75 1.75 0 110-3.5 1.75 1.75 0 010 3.5zm0 5.75a1.75 1.75 0 110-3.5 1.75 1.75 0 010 3.5z" />
+            <button onclick="navigateToPage('settings.html', 'Settings & Profile')" class="w-10 h-10 rounded-full flex items-center justify-center text-[#e8f5ee] hover:bg-white/10 transition" aria-label="Settings" title="Settings & Profile">
+              <svg class="w-5 h-5 drop-shadow text-[#d4be83]" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </button>
           </div>
@@ -260,13 +265,13 @@
       <!-- MAIN CONTENT FEED -->
       <div class="px-5 pt-3 space-y-8">
 
-        <!-- 1. TODAY'S PROGRESS CARD (Fixed 2-line goal text + balanced 3 stat columns) -->
+        <!-- 1. TODAY'S PROGRESS CARD (Opens Aamaal Tracker with editable counts) -->
         <section aria-label="Today's progress">
           <div onclick="switchSubView('view-daily-overview')" class="aamaal-card aamaal-card-interactive px-4 py-5 cursor-pointer overflow-hidden">
             <div class="flex items-center justify-between mb-4 px-0.5">
               <h2 class="font-serif-display text-[25px] font-semibold text-white tracking-wide">Today’s progress</h2>
               <span class="text-[11px] uppercase tracking-wider text-[#9fe8bc] font-medium flex items-center gap-1 shrink-0">
-                Details
+                Edit Counts
                 <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
               </span>
             </div>
@@ -376,7 +381,7 @@
               <span class="text-[13px] font-medium text-[#edf5f0]">Stories</span>
             </button>
 
-           <!-- Saved (Redirects directly to settings.html#favourites) -->
+            <!-- Saved (Redirects directly to settings.html#favourites) -->
             <button onclick="navigateToPage('settings.html#favourites', 'Saved & Favourites')" class="quick-tile">
               <svg class="w-8 h-8 text-[#d4be83]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
@@ -405,10 +410,9 @@
           </div>
         </section>
 
-        <!-- 4. DAILY REFLECTION BANNER (Displays the exact story cover & details from upcoming Reflections pages) -->
+        <!-- 4. DAILY REFLECTION BANNER -->
         <section aria-label="Daily Reflection">
           <div onclick="openStoryReader('daily')" class="aamaal-card aamaal-card-interactive relative overflow-hidden min-h-[168px] p-6 flex flex-col justify-center cursor-pointer">
-            <!-- Dynamically synced to the Featured Reflection Story Image -->
             <img id="daily-reflection-card-img" data-asset="story_sabr_cover" alt="Daily Reflection Story" class="absolute inset-0 w-full h-full object-cover object-right pointer-events-none" />
             <div class="absolute inset-0 bg-gradient-to-r from-[#052219] via-[#052219]/88 to-transparent pointer-events-none"></div>
 
@@ -428,10 +432,9 @@
           </div>
         </section>
 
-        <!-- 5. CONTINUE WHERE YOU LEFT OFF (Synced to the active Seerah/Reflections story cover & chapter) -->
+        <!-- 5. CONTINUE WHERE YOU LEFT OFF -->
         <section aria-label="Continue Reading">
           <div onclick="openStoryReader('continue')" class="aamaal-card aamaal-card-interactive p-5 flex items-center gap-4 cursor-pointer">
-            <!-- Story Thumbnail synced directly with the active upcoming story -->
             <div class="w-[108px] h-[84px] rounded-xl overflow-hidden border border-[#d4be83]/40 shrink-0 relative">
               <img id="continue-reading-card-img" data-asset="story_makkah_cover" alt="The Valley of Makkah" class="w-full h-full object-cover pointer-events-none" />
               <span id="continue-story-tag" class="absolute bottom-1.5 left-1.5 px-1.5 py-0.5 rounded bg-[#041d15]/85 text-[9px] uppercase tracking-wider text-[#9fe8bc] border border-[#9fe8bc]/30">
@@ -439,13 +442,11 @@
               </span>
             </div>
 
-            <!-- Story Details & Progress Bar -->
             <div class="flex-1 min-w-0">
               <p class="text-[10.5px] uppercase tracking-[0.2em] text-[#b8cfc2] font-semibold mb-1">Continue Reading</p>
               <h3 id="continue-reading-title" class="font-serif-display text-[22px] leading-tight font-semibold text-white truncate">The Valley of Makkah</h3>
               <p id="continue-part-label" class="text-[12px] text-[#c2d7cb] mt-1 mb-2.5">Episode 3 of 12 · Faith in Darkness</p>
 
-              <!-- Progress Track -->
               <div class="w-full h-1.5 bg-[#0e3a2b] rounded-full overflow-hidden">
                 <div id="continue-progress-bar" class="h-full bg-gradient-to-r from-[#80dca8] to-[#b5f2ce] rounded-full transition-all duration-500" style="width: 50%;"></div>
               </div>
@@ -485,40 +486,57 @@
     </section>
 
     <!-- =================================================================== -->
-    <!-- SUB-SCREEN 2: DAILY OVERVIEW DETAIL (With Slider Toggle Switches)   -->
+    <!-- SUB-SCREEN 2: DAILY OVERVIEW DETAIL (Editable Aamaal Counts & Logs) -->
     <!-- =================================================================== -->
-    <section id="view-daily-overview" class="sub-view px-5 pt-10 space-y-7">
-          <div class="flex items-center justify-between">
-      <button onclick="switchSubView('view-home-main')" class="inline-flex items-center gap-2 text-sm text-[#9fe8bc] font-medium">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-        Back to Home
-      </button>
-      <button onclick="navigateToPage('settings.html#activity', 'Activity & Calendar')" class="text-xs uppercase tracking-[0.15em] text-[#d4be83] hover:underline flex items-center gap-1">
-        Calendar &amp; History →
-      </button>
-          </div>
+    <section id="view-daily-overview" class="sub-view px-5 pt-10 space-y-6">
+      <div class="flex items-center justify-between">
+        <button onclick="switchSubView('view-home-main')" class="inline-flex items-center gap-2 text-sm text-[#9fe8bc] font-medium">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+          Back to Home
+        </button>
+        <button onclick="navigateToPage('settings.html#activity', 'Activity & Calendar')" class="text-xs uppercase tracking-[0.15em] text-[#d4be83] hover:underline flex items-center gap-1">
+          Calendar &amp; History →
+        </button>
+      </div>
 
       <div>
         <h2 class="font-serif-display text-3xl font-semibold text-white">Today’s Aamaal Tracker</h2>
-        <p class="text-sm text-[#b2c9bc] mt-1">Slide the toggle switch beside any daily target to mark it completed and sync with your progress ring.</p>
+        <p class="text-sm text-[#b2c9bc] mt-1">Toggle any daily target to mark it recited, or tap <strong class="text-[#d4be83]">+ Add / Edit Count</strong> to enter your exact recitation count.</p>
       </div>
 
-      <!-- 3 Core Aamaal Checklist Cards with Slider Toggle Switches -->
+      <!-- Date Selector Bar (From Old Tasbih App) -->
+      <div class="aamaal-card p-3.5 flex items-center justify-between gap-2">
+        <div class="flex items-center gap-2">
+          <span class="text-xs text-[#d4be83] font-semibold">📅 Logging Date:</span>
+          <span id="tracker-active-date-pill" class="text-xs px-2.5 py-1 rounded-full bg-[#9fe8bc]/15 text-[#9fe8bc] font-semibold">Today</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <input
+            type="date"
+            id="tracker-date-picker"
+            onchange="window.changeTrackerDate(this.value)"
+            class="px-2.5 py-1 rounded-lg bg-[#051c14] border border-[#d4be83]/40 text-xs text-white focus:outline-none"
+          />
+          <button onclick="window.resetTrackerToToday()" class="text-xs text-[#d4be83] hover:underline font-medium">Today</button>
+        </div>
+      </div>
+
+      <!-- 3 Core Aamaal Checklist Cards with Editable Counts + Quick-Add Chips -->
       <div class="space-y-4" id="daily-goals-list"></div>
 
-      <!-- Quick Increment Dhikr Session Box -->
+      <!-- Summary & Quick Increment Dhikr Session Box -->
       <div class="aamaal-card p-6 space-y-4">
         <div class="flex items-center justify-between">
           <div>
-            <p class="text-xs uppercase tracking-widest text-[#d4be83]">Live Dhikr Log</p>
-            <h3 class="font-serif-display text-2xl font-semibold text-white mt-0.5">Add Quick Tasbih Count</h3>
+            <p class="text-xs uppercase tracking-widest text-[#d4be83]">Total Daily Dhikr</p>
+            <h3 class="font-serif-display text-2xl font-semibold text-white mt-0.5">Quick Add General Tasbih</h3>
           </div>
           <span id="overview-dhikr-badge" class="font-serif-display text-3xl font-bold text-[#9fe8bc]">413</span>
         </div>
         <div class="grid grid-cols-3 gap-3 pt-1">
-          <button onclick="addQuickDhikr(33)" class="py-3 rounded-xl border border-[#d4be83]/40 bg-[#082c20] text-sm font-semibold text-white hover:bg-[#0d3b2c] active:scale-95 transition">+33 SubhanAllah</button>
-          <button onclick="addQuickDhikr(100)" class="py-3 rounded-xl border border-[#d4be83]/40 bg-[#082c20] text-sm font-semibold text-white hover:bg-[#0d3b2c] active:scale-95 transition">+100 Istighfar</button>
-          <button onclick="addQuickDhikr(313)" class="py-3 rounded-xl border border-[#9fe8bc]/50 bg-[#9fe8bc]/15 text-sm font-semibold text-[#9fe8bc] hover:bg-[#9fe8bc]/25 active:scale-95 transition">+313 Durood</button>
+          <button onclick="addQuickDhikr('durood', 100)" class="py-3 rounded-xl border border-[#d4be83]/40 bg-[#082c20] text-xs font-semibold text-white hover:bg-[#0d3b2c] active:scale-95 transition">+100 Durood</button>
+          <button onclick="addQuickDhikr('istighfar', 100)" class="py-3 rounded-xl border border-[#d4be83]/40 bg-[#082c20] text-xs font-semibold text-white hover:bg-[#0d3b2c] active:scale-95 transition">+100 Istighfar</button>
+          <button onclick="addQuickDhikr('durood', 313)" class="py-3 rounded-xl border border-[#9fe8bc]/50 bg-[#9fe8bc]/15 text-xs font-semibold text-[#9fe8bc] hover:bg-[#9fe8bc]/25 active:scale-95 transition">+313 Durood</button>
         </div>
       </div>
     </section>
@@ -559,12 +577,11 @@
           <p class="text-xs text-[#b2c9bc]">Purify the heart and open doors of relief.</p>
         </button>
 
-                <button onclick="navigateToPage('settings.html#favourites', 'Saved Bookmarks')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+        <button onclick="navigateToPage('settings.html#favourites', 'Saved Bookmarks')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
           <span class="text-xs uppercase tracking-wider text-[#9fe8bc]">Favourites</span>
           <h3 class="font-serif-display text-2xl font-semibold text-white">Saved Bookmarks</h3>
-          <p class="text-xs text-[#b2c9bc]">3 Duas & 2 Reflections bookmarked for quick access.</p>
+          <p class="text-xs text-[#b2c9bc]">3 Duas &amp; 2 Reflections bookmarked for quick access.</p>
         </button>
-
       </div>
     </section>
 
@@ -717,16 +734,21 @@
     import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-    // Set DEV_MODE = false when deploying to production to hide the floating 🖼️ image uploader button
     const DEV_MODE = true;
     const devBtn = document.getElementById('dev-img-upload-btn');
     if (devBtn && !DEV_MODE) devBtn.classList.add('hidden');
 
     const svgDataUri = (svgString) => `data:image/svg+xml;utf8,${encodeURIComponent(svgString.trim())}`;
 
+    function getLocalDateString(dateObj = new Date()) {
+      const y = dateObj.getFullYear();
+      const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+      const d = String(dateObj.getDate()).padStart(2, "0");
+      return `${y}-${m}-${d}`;
+    }
+
     // =========================================================================
     // 1. CENTRALIZED CUSTOM IMAGE CONFIGURATION (`IMAGE_ASSETS`)
-    // Includes exact story covers matching the upcoming Reflections page (Step 3)
     // =========================================================================
     const DEFAULT_IMAGE_ASSETS = {
       bg_home_header: svgDataUri(`
@@ -794,7 +816,6 @@
         </svg>
       `),
 
-      // UPCOMING STORY 1 COVER: "Patience (As-Sabr)" — Mosque Courtyard & Palm Archway at Sunrise (from Step 3 Reflections)
       story_sabr_cover: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 260">
           <defs>
@@ -811,23 +832,19 @@
           </defs>
           <rect width="600" height="260" fill="url(#sabrSky)"/>
           <circle cx="470" cy="118" r="110" fill="url(#sabrGlow)"/>
-          <!-- Ancient Mosque Archways & Domes -->
           <g fill="#123a2b" opacity="0.85">
             <path d="M390 120 C368 120 358 145 358 175 L422 175 C422 145 412 120 390 120 Z"/>
             <rect x="342" y="88" width="8" height="87"/>
             <rect x="330" y="175" width="240" height="55"/>
           </g>
-          <!-- Palm Silhouette & Golden Pathway -->
           <path d="M485 230 L492 105 L498 230 Z" fill="#072219"/>
           <path d="M490 108 Q455 95 440 120 M490 108 Q525 90 545 115 M490 108 Q465 78 448 88 M490 108 Q518 75 538 88" stroke="#072219" stroke-width="5" fill="none" stroke-linecap="round"/>
-          <!-- Lantern Glow on Courtyard Floor -->
           <path d="M290 260 Q410 190 600 185 L600 260 Z" fill="#08281d"/>
           <circle cx="425" cy="195" r="24" fill="#ffdf85" opacity="0.5"/>
           <rect x="418" y="182" width="14" height="22" rx="3" fill="#1e1509" stroke="#f7d379" stroke-width="1.8"/>
         </svg>
       `),
 
-      // UPCOMING STORY 2 COVER: "The Valley of Makkah" — Desert Canyon, Ancient Makkah & Traveler (from Step 3 Reflections)
       story_makkah_cover: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
           <defs>
@@ -839,23 +856,19 @@
           </defs>
           <rect width="400" height="300" fill="url(#makkahSky)"/>
           <circle cx="265" cy="115" r="38" fill="#fff3c4" opacity="0.85"/>
-          <!-- Canyon Cliffs & Valley City -->
           <path d="M0 220 L0 95 L95 145 L145 185 L0 220 Z" fill="#123529"/>
           <path d="M400 230 L400 75 L295 130 L245 195 L400 230 Z" fill="#163b2e"/>
-          <!-- Ancient Makkah Houses in Valley -->
           <g fill="#7d6b48" opacity="0.65">
             <rect x="155" y="155" width="22" height="18"/>
             <rect x="182" y="148" width="28" height="25"/>
             <rect x="215" y="158" width="18" height="15"/>
           </g>
-          <!-- Palm & Traveler Silhouette Overlooking Makkah -->
           <path d="M0 300 Q180 195 400 215 L400 300 Z" fill="#071f17"/>
           <circle cx="118" cy="188" r="9" fill="#04150f"/>
           <path d="M104 235 C106 202 130 202 132 235 Z" fill="#04150f"/>
         </svg>
       `),
 
-      // UPCOMING STORY 3 COVER: "Leadership with Humility" (from Step 3 Reflections)
       story_leadership_cover: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
           <defs>
@@ -867,13 +880,11 @@
           </defs>
           <rect width="400" height="300" fill="url(#leadSky)"/>
           <path d="M0 230 Q140 175 400 205 L400 300 L0 300 Z" fill="#09261c"/>
-          <!-- Standing Leader Figure Silhouette -->
           <circle cx="210" cy="145" r="14" fill="#051a13"/>
           <path d="M182 245 C186 170 234 170 238 245 Z" fill="#051a13"/>
         </svg>
       `),
 
-      // UPCOMING STORY 4 COVER: "The Power of Gratitude"
       story_gratitude_cover: svgDataUri(`
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300">
           <defs>
@@ -900,8 +911,6 @@
 
     // =========================================================================
     // 2. SHARED UPCOMING REFLECTIONS STORIES CATALOG
-    // Both "Daily Reflection" and "Continue Reading" pull directly from here
-    // so the image and text match what is inside the upcoming Reflections page.
     // =========================================================================
     const STORIES_CATALOG = {
       sabr: {
@@ -962,26 +971,78 @@
       dhikrCount: 413,
       sessionsCount: 2,
       remindersCount: 1,
-      dailyReflectionStoryId: 'sabr',     // Pulls "Patience (As-Sabr)" cover & details
-      continueReadingStoryId: 'makkah',   // Pulls "The Valley of Makkah" cover & details
+      selectedDate: getLocalDateString(),
+      dailyReflectionStoryId: 'sabr',
+      continueReadingStoryId: 'makkah',
       activeReaderStoryId: 'makkah',
       goals: [
-        { id: 'durood', title: '313 Durood Shareef', subtitle: 'Send blessings upon the Prophet ﷺ', completed: true },
-        { id: 'istighfar', title: '100 Istighfar', subtitle: 'Seek forgiveness & purify the heart', completed: true },
-        { id: 'mulk', title: 'Surah Al-Mulk', subtitle: 'Recite 30 verses before sleep', completed: false }
-      ]
+        {
+          id: 'durood',
+          title: '313 Durood Shareef',
+          arabic: 'اللَّهُمَّ صَلِّ عَلَىٰ سَيِّدِنَا مُحَمَّدٍ',
+          subtitle: 'Send blessings upon the Prophet ﷺ',
+          target: 313,
+          count: 313,
+          completed: true
+        },
+        {
+          id: 'istighfar',
+          title: '100 Istighfar',
+          arabic: 'أَسْتَغْفِرُ اللَّهَ رَبِّي مِنْ كُلِّ ذَنْبٍ وَأَتُوبُ إِلَيْهِ',
+          subtitle: 'Seek forgiveness & purify the heart',
+          target: 100,
+          count: 100,
+          completed: true
+        },
+        {
+          id: 'mulk',
+          title: 'Surah Al-Mulk',
+          arabic: 'تَبَارَكَ الَّذِي بِيَدِهِ الْمُلْكُ',
+          subtitle: 'Recite 30 verses before sleep',
+          target: 1,
+          count: 0,
+          completed: false
+        }
+      ],
+      logsByDate: {}
     };
 
     let homeState = {
       ...DEFAULT_HOME_STATE,
       ...(JSON.parse(localStorage.getItem('aamaal_home_state')) || {})
     };
+
+    // Ensure backwards-compatible target & count fields on each goal
+    homeState.goals = (homeState.goals || DEFAULT_HOME_STATE.goals).map((g, idx) => {
+      const fallback = DEFAULT_HOME_STATE.goals[idx] || { target: 100, arabic: '' };
+      const target = Number(g.target || fallback.target || 100);
+      const count = typeof g.count === 'number' ? g.count : (g.completed ? target : 0);
+      return {
+        ...fallback,
+        ...g,
+        target,
+        count,
+        completed: count >= target || Boolean(g.completed && count > 0)
+      };
+    });
+
+    if (!homeState.selectedDate) {
+      homeState.selectedDate = getLocalDateString();
+    }
+
+    let openEditGoalId = null;
+
     let customAssets = {
       ...DEFAULT_IMAGE_ASSETS,
       ...(JSON.parse(localStorage.getItem('aamaal_home_assets')) || {})
     };
 
-    // Format Date Label
+    function recalculateTotalDhikr() {
+      const totalFromGoals = homeState.goals.reduce((sum, g) => sum + Number(g.count || 0), 0);
+      homeState.dhikrCount = totalFromGoals;
+      homeState.sessionsCount = homeState.goals.filter(g => Number(g.count || 0) > 0).length;
+    }
+
     function initDateHeader() {
       const dateEl = document.getElementById('current-date-label');
       if (!dateEl) return;
@@ -994,7 +1055,6 @@
       dateEl.textContent = formatted || 'Thursday, 29 October';
     }
 
-    // Apply all custom images to <img data-asset="...">
     function applyAllCustomImages() {
       document.querySelectorAll('img[data-asset]').forEach(img => {
         const key = img.getAttribute('data-asset');
@@ -1004,8 +1064,9 @@
       });
     }
 
-    // Render Today's Progress Ring, Stats, Story Cards, and Reader View
     function renderHomeState() {
+      recalculateTotalDhikr();
+
       const completedCount = homeState.goals.filter(g => g.completed).length;
       const totalGoals = homeState.goals.length;
       const pct = completedCount === 2 && totalGoals === 3
@@ -1033,12 +1094,24 @@
       const remEl = document.getElementById('stat-reminders-val');
       const overviewDhikrEl = document.getElementById('overview-dhikr-badge');
 
-      if (dhikrEl) dhikrEl.textContent = homeState.dhikrCount;
+      if (dhikrEl) dhikrEl.textContent = homeState.dhikrCount.toLocaleString('en-US');
       if (sessEl) sessEl.textContent = homeState.sessionsCount;
       if (remEl) remEl.textContent = homeState.remindersCount;
-      if (overviewDhikrEl) overviewDhikrEl.textContent = homeState.dhikrCount;
+      if (overviewDhikrEl) overviewDhikrEl.textContent = homeState.dhikrCount.toLocaleString('en-US');
 
-      // 1. Sync Daily Reflection Banner with its Story from STORIES_CATALOG
+      // Sync Date Picker in Tracker
+      const todayKey = getLocalDateString();
+      const dateInput = document.getElementById('tracker-date-picker');
+      const datePill = document.getElementById('tracker-active-date-pill');
+      if (dateInput) {
+        dateInput.value = homeState.selectedDate || todayKey;
+        dateInput.max = todayKey;
+      }
+      if (datePill) {
+        datePill.textContent = (homeState.selectedDate === todayKey) ? 'Today' : homeState.selectedDate;
+      }
+
+      // 1. Sync Daily Reflection Banner
       const dailyStory = STORIES_CATALOG[homeState.dailyReflectionStoryId] || STORIES_CATALOG.sabr;
       const dailyImg = document.getElementById('daily-reflection-card-img');
       if (dailyImg) {
@@ -1050,7 +1123,7 @@
       document.getElementById('daily-reflection-subtitle').textContent = dailyStory.quote;
       document.getElementById('daily-reflection-duration').textContent = dailyStory.duration;
 
-      // 2. Sync Continue Reading Card with its Story from STORIES_CATALOG
+      // 2. Sync Continue Reading Card
       const contStory = STORIES_CATALOG[homeState.continueReadingStoryId] || STORIES_CATALOG.makkah;
       const contImg = document.getElementById('continue-reading-card-img');
       if (contImg) {
@@ -1074,7 +1147,7 @@
       document.getElementById('reader-body-1').textContent = activeStory.body1;
       document.getElementById('reader-body-2').textContent = activeStory.body2;
 
-      // 4. Populate Upcoming Stories Switcher inside Reader View
+      // 4. Populate Upcoming Stories Switcher
       const switcherEl = document.getElementById('upcoming-stories-switcher');
       if (switcherEl) {
         switcherEl.innerHTML = Object.values(STORIES_CATALOG).map(st => `
@@ -1091,38 +1164,207 @@
         `).join('');
       }
 
-      // 5. Render Daily Overview Goals List with Slider Toggle Switches
+      // 5. Render Daily Overview Goals List with Slider Toggle + Editable Count Drawer (From Old Tasbih App)
       const goalsContainer = document.getElementById('daily-goals-list');
       if (goalsContainer) {
-        goalsContainer.innerHTML = homeState.goals.map(goal => `
-          <div onclick="window.toggleGoalCompleted('${goal.id}')" class="aamaal-card aamaal-card-interactive p-5 flex items-center justify-between gap-4 cursor-pointer">
-            <div class="min-w-0 flex-1">
-              <div class="flex items-center gap-2">
-                <h3 class="font-serif-display text-[22px] font-semibold text-white leading-tight">${goal.title}</h3>
-                <span class="text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full ${goal.completed ? 'bg-[#9fe8bc]/20 text-[#9fe8bc]' : 'bg-white/10 text-[#a6bfb2]'}">
-                  ${goal.completed ? 'Done' : 'Pending'}
-                </span>
-              </div>
-              <p class="text-xs text-[#b2c9bc] mt-1">${goal.subtitle}</p>
-            </div>
+        goalsContainer.innerHTML = homeState.goals.map(goal => {
+          const isEditing = openEditGoalId === goal.id;
+          const currentCount = Number(goal.count || 0);
+          const targetCount = Number(goal.target || 1);
 
-            <!-- Slider-Type Toggle Button -->
-            <div
-              role="switch"
-              aria-checked="${goal.completed}"
-              aria-label="Toggle ${goal.title}"
-              class="slider-switch ${goal.completed ? 'checked' : ''}"
-            >
-              <span class="slider-knob">
-                ${goal.completed
-                  ? '<svg class="w-3.5 h-3.5 text-[#052319]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>'
-                  : ''}
-              </span>
+          return `
+            <div class="aamaal-card p-5 space-y-3.5">
+              <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0 flex-1">
+                  <div class="flex items-center gap-2 flex-wrap">
+                    <h3 class="font-serif-display text-[22px] font-semibold text-white leading-tight">${goal.title}</h3>
+                    <span class="text-[10px] uppercase tracking-wider px-2.5 py-0.5 rounded-full font-semibold ${goal.completed ? 'bg-[#9fe8bc]/20 text-[#9fe8bc] border border-[#9fe8bc]/35' : 'bg-white/10 text-[#a6bfb2]'}">
+                      ${goal.completed ? '✓ Completed' : 'Pending'}
+                    </span>
+                  </div>
+                  ${goal.arabic ? `<p class="font-arabic text-lg text-[#d4be83] mt-1 leading-relaxed" dir="rtl">${goal.arabic}</p>` : ''}
+                  <p class="text-xs text-[#b2c9bc] mt-0.5">${goal.subtitle}</p>
+                </div>
+
+                <!-- Slider-Type Toggle Button -->
+                <div
+                  onclick="window.toggleGoalCompleted('${goal.id}')"
+                  role="switch"
+                  aria-checked="${goal.completed}"
+                  aria-label="Toggle ${goal.title}"
+                  class="slider-switch ${goal.completed ? 'checked' : ''}"
+                >
+                  <span class="slider-knob">
+                    ${goal.completed
+                      ? '<svg class="w-3.5 h-3.5 text-[#052319]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>'
+                      : ''}
+                  </span>
+                </div>
+              </div>
+
+              <!-- Logged Count Pill & Edit Actions Bar -->
+              <div class="pt-2 border-t border-[#d4be83]/20 flex items-center justify-between gap-2 flex-wrap">
+                <div class="text-xs text-[#c7dcd0]">
+                  Logged Count:
+                  <strong class="text-sm font-bold ${currentCount >= targetCount ? 'text-[#9fe8bc]' : 'text-[#d4be83]'}">${currentCount.toLocaleString('en-US')}</strong>
+                  <span class="text-[#89a899]">/ ${targetCount.toLocaleString('en-US')} target</span>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <button
+                    onclick="window.toggleGoalEditPanel('${goal.id}')"
+                    class="px-3 py-1.5 rounded-full text-xs font-semibold border border-[#d4be83]/45 bg-[#051d15] text-[#e6f2eb] hover:border-[#9fe8bc] transition"
+                  >
+                    ${isEditing ? 'Close Editor' : '+ Add / Edit Count'}
+                  </button>
+                  ${currentCount > 0 ? `
+                    <button
+                      onclick="window.resetGoalCount('${goal.id}')"
+                      class="px-2.5 py-1.5 rounded-full text-xs font-semibold border border-red-400/35 bg-red-950/30 text-red-300 hover:bg-red-900/40 transition"
+                    >
+                      Undo
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+
+              <!-- Expandable Count Editor (Inspired by Old Tasbih App) -->
+              <div id="edit-panel-${goal.id}" class="${isEditing ? 'block' : 'hidden'} pt-3 mt-2 rounded-2xl bg-[#041811]/90 border border-[#d4be83]/30 p-3.5 space-y-3">
+                <p class="text-[11.5px] text-[#b8cec2]">Tap to add more, or enter your exact total for this day:</p>
+
+                <!-- Quick Add Chips -->
+                <div class="flex items-center gap-2 flex-wrap">
+                  <button onclick="window.incrementGoalCount('${goal.id}', 33)" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc]/15 border border-[#9fe8bc]/40 text-[#9fe8bc] active:scale-95 transition">+33</button>
+                  <button onclick="window.incrementGoalCount('${goal.id}', 100)" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc]/15 border border-[#9fe8bc]/40 text-[#9fe8bc] active:scale-95 transition">+100</button>
+                  <button onclick="window.incrementGoalCount('${goal.id}', 313)" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc]/15 border border-[#9fe8bc]/40 text-[#9fe8bc] active:scale-95 transition">+313</button>
+                  <button onclick="window.incrementGoalCount('${goal.id}', 500)" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc]/15 border border-[#9fe8bc]/40 text-[#9fe8bc] active:scale-95 transition">+500</button>
+                </div>
+
+                <!-- Direct Custom Number Input -->
+                <div class="flex items-center gap-2">
+                  <input
+                    type="number"
+                    id="custom-input-${goal.id}"
+                    min="0"
+                    value="${currentCount}"
+                    placeholder="Enter exact count (e.g. 500)"
+                    class="flex-1 px-3.5 py-2 rounded-xl bg-[#082b1f] border border-[#d4be83]/40 text-sm text-white placeholder-[#89a899] focus:outline-none focus:border-[#9fe8bc]"
+                  />
+                  <button
+                    onclick="window.saveCustomGoalCount('${goal.id}')"
+                    class="px-4 py-2 rounded-xl bg-gradient-to-r from-[#8ce2b0] to-[#a9f1c7] text-[#052319] font-bold text-xs shadow active:scale-95 transition"
+                  >
+                    Save Count
+                  </button>
+                </div>
+              </div>
             </div>
-          </div>
-        `).join('');
+          `;
+        }).join('');
       }
     }
+
+    // Toggle Expandable Count Editor Panel
+    window.toggleGoalEditPanel = function(goalId) {
+      openEditGoalId = (openEditGoalId === goalId) ? null : goalId;
+      renderHomeState();
+    };
+
+    // Toggle Daily Goal Completion (sets count to target when turned on, or 0 when turned off)
+    window.toggleGoalCompleted = function(goalId) {
+      homeState.goals = homeState.goals.map(g => {
+        if (g.id !== goalId) return g;
+        const nextCompleted = !g.completed;
+        const nextCount = nextCompleted ? (g.count > 0 ? g.count : g.target) : 0;
+        return { ...g, completed: nextCompleted, count: nextCount };
+      });
+      if (navigator.vibrate) navigator.vibrate(25);
+      saveHomeState();
+      renderHomeState();
+      showToast('Daily progress updated');
+    };
+
+    // Increment Specific Goal Count by Chip Value (+33, +100, +313, +500)
+    window.incrementGoalCount = function(goalId, addAmount) {
+      homeState.goals = homeState.goals.map(g => {
+        if (g.id !== goalId) return g;
+        const nextCount = Number(g.count || 0) + Number(addAmount);
+        return {
+          ...g,
+          count: nextCount,
+          completed: nextCount >= Number(g.target || 1)
+        };
+      });
+      if (navigator.vibrate) navigator.vibrate(25);
+      saveHomeState();
+      renderHomeState();
+      showToast(`+${addAmount} added`);
+    };
+
+    // Save Exact Custom Count for a Goal
+    window.saveCustomGoalCount = function(goalId) {
+      const inputEl = document.getElementById(`custom-input-${goalId}`);
+      if (!inputEl) return;
+      const val = Number(inputEl.value);
+      if (isNaN(val) || val < 0) {
+        showToast('Please enter a valid number');
+        return;
+      }
+
+      homeState.goals = homeState.goals.map(g => {
+        if (g.id !== goalId) return g;
+        return {
+          ...g,
+          count: val,
+          completed: val >= Number(g.target || 1)
+        };
+      });
+
+      openEditGoalId = null;
+      if (navigator.vibrate) navigator.vibrate(30);
+      saveHomeState();
+      renderHomeState();
+      showToast(`Saved count: ${val.toLocaleString('en-US')}`);
+    };
+
+    // Reset / Undo a Goal's Count to 0
+    window.resetGoalCount = function(goalId) {
+      homeState.goals = homeState.goals.map(g =>
+        g.id === goalId ? { ...g, count: 0, completed: false } : g
+      );
+      saveHomeState();
+      renderHomeState();
+      showToast('Count reset to 0');
+    };
+
+    // Change Logging Date in Aamaal Tracker
+    window.changeTrackerDate = function(dateStr) {
+      if (!dateStr) return;
+      // Save current date snapshot before switching
+      homeState.logsByDate = homeState.logsByDate || {};
+      homeState.logsByDate[homeState.selectedDate] = homeState.goals.map(g => ({ id: g.id, count: g.count, completed: g.completed }));
+
+      homeState.selectedDate = dateStr;
+      const savedForDate = homeState.logsByDate[dateStr];
+      if (savedForDate) {
+        homeState.goals = homeState.goals.map(g => {
+          const match = savedForDate.find(s => s.id === g.id);
+          return match ? { ...g, count: match.count, completed: match.completed } : g;
+        });
+      }
+      saveHomeState();
+      renderHomeState();
+      showToast(`Viewing logs for ${dateStr}`);
+    };
+
+    window.resetTrackerToToday = function() {
+      window.changeTrackerDate(getLocalDateString());
+    };
+
+    // Quick Add Dhikr Count
+    window.addQuickDhikr = function(goalId, amount) {
+      window.incrementGoalCount(goalId, amount);
+    };
 
     // Open Story Reader for either "Daily Reflection" or "Continue Reading"
     window.openStoryReader = function(mode) {
@@ -1135,7 +1377,6 @@
       switchSubView('view-continue-reading');
     };
 
-    // Change which upcoming story is pinned to "Continue Reading"
     window.selectContinueStory = function(storyId) {
       homeState.continueReadingStoryId = storyId;
       homeState.activeReaderStoryId = storyId;
@@ -1144,7 +1385,6 @@
       showToast(`Continue Reading synced to: ${STORIES_CATALOG[storyId].title}`);
     };
 
-    // Sub-screen navigation inside home.html
     window.switchSubView = function(viewId) {
       document.querySelectorAll('.sub-view').forEach(section => {
         section.classList.toggle('active', section.id === viewId);
@@ -1152,28 +1392,6 @@
       window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Toggle Daily Goal Completion
-    window.toggleGoalCompleted = function(goalId) {
-      homeState.goals = homeState.goals.map(g =>
-        g.id === goalId ? { ...g, completed: !g.completed } : g
-      );
-      if (navigator.vibrate) navigator.vibrate(25);
-      saveHomeState();
-      renderHomeState();
-      showToast('Daily progress updated');
-    };
-
-    // Quick Add Dhikr Count
-    window.addQuickDhikr = function(amount) {
-      homeState.dhikrCount += amount;
-      homeState.sessionsCount += 1;
-      if (navigator.vibrate) navigator.vibrate([20, 40, 20]);
-      saveHomeState();
-      renderHomeState();
-      showToast(`+${amount} Dhikr added to today's progress`);
-    };
-
-    // Advance Story Progress & Cycle Next Upcoming Story
     window.advanceReadingPart = function() {
       const keys = Object.keys(STORIES_CATALOG);
       const currentIdx = keys.indexOf(homeState.continueReadingStoryId);
@@ -1246,7 +1464,6 @@
       if (clearBtn) clearBtn.classList.add('hidden');
     };
 
-    // Modals & Navigation Helpers
     window.openFeaturedDuaModal = function() {
       const modal = document.getElementById('featured-dua-modal');
       modal.classList.remove('hidden');
@@ -1393,6 +1610,12 @@
     }
 
     async function saveHomeState() {
+      homeState.logsByDate = homeState.logsByDate || {};
+      homeState.logsByDate[homeState.selectedDate] = homeState.goals.map(g => ({
+        id: g.id,
+        count: g.count,
+        completed: g.completed
+      }));
       localStorage.setItem('aamaal_home_state', JSON.stringify(homeState));
       if (db && currentUser) {
         try {
@@ -1404,7 +1627,6 @@
       }
     }
 
-    // Initialize on load
     initDateHeader();
     applyAllCustomImages();
     renderHomeState();
