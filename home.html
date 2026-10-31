@@ -173,9 +173,9 @@
       border-top: 1px solid rgba(201, 181, 181, 0.25);
       backdrop-filter: blur(16px);
       z-index: 40;
-      padding: 6px 12px max(8px, env(safe-area-inset-bottom));
+      /* Radically reduced padding */
+      padding: 2px 8px max(2px, env(safe-area-inset-bottom));
     }
-
     /* Subtle Divider inside Today's Progress */
     .stat-divider {
       width: 1px;
@@ -502,53 +502,77 @@
       </div>
 
       <div class="grid grid-cols-2 gap-4">
-        <button onclick="navigateToPage('tasbih.html', 'Tasbih')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Worship</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Tasbih</h3>
+        <!-- Tasbih -->
+        <button onclick="navigateToPage('tasbih.html', 'Tasbih')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Worship</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Tasbih</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Resume your daily salawat counter with haptic beads.</p>
         </button>
-        <button onclick="navigateToPage('duas.html', 'Duas')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Supplication</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Duas</h3>
+        <!-- Duas -->
+        <button onclick="navigateToPage('duas.html', 'Duas')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Supplication</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Duas</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Find peace and relief in everyday supplications.</p>
         </button>
-        <button onclick="navigateToPage('reflections.html', 'Quranic Stories')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Wisdom</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Quranic Stories</h3>
+        <!-- Quranic Stories -->
+        <button onclick="navigateToPage('reflections.html', 'Quranic Stories')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Wisdom</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Quranic Stories</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Timeless wisdom from the Prophets and Seerah.</p>
         </button>
-        <button onclick="navigateToPage('salah.html', 'Salah Guide')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Learn</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Salah Guide</h3>
+        <!-- Salah Guide -->
+        <button onclick="navigateToPage('salah.html', 'Salah Guide')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Learn</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Salah Guide</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Step-by-step guidance for perfect prayer.</p>
         </button>
-        <button onclick="navigateToPage('quran.html', 'Al-Quran')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Recite</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Al-Quran</h3>
+        <!-- Al-Quran -->
+        <button onclick="navigateToPage('quran.html', 'Al-Quran')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Recite</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Al-Quran</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Read and listen to the Holy Word.</p>
         </button>
-        <button onclick="navigateToPage('azkar.html', 'Azkar')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Remembrance</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Azkar</h3>
+        <!-- Azkar -->
+        <button onclick="navigateToPage('azkar.html', 'Azkar')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Remembrance</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Azkar</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Morning and evening remembrances for protection.</p>
         </button>
-        <button onclick="navigateToPage('tasbih.html', 'Durood Sharif')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Blessings</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Durood Sharif</h3>
+        <!-- Durood Sharif -->
+        <button onclick="navigateToPage('tasbih.html', 'Durood Sharif')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Blessings</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Durood Sharif</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Send abundant blessings upon the Prophet ﷺ.</p>
         </button>
-        <button onclick="navigateToPage('ilaj.html', 'Roohani Ilaj')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Healing</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Roohani Ilaj</h3>
+        <!-- Roohani Ilaj -->
+        <button onclick="navigateToPage('ilaj.html', 'Roohani Ilaj')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Healing</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Roohani Ilaj</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Spiritual healing and remedies from the Sunnah.</p>
         </button>
-        <button onclick="navigateToPage('mosques.html', 'Mosques')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Locator</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Mosques</h3>
+        <!-- Mosques -->
+        <button onclick="navigateToPage('mosques.html', 'Mosques')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Locator</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Mosques</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Find nearby places of worship and community.</p>
         </button>
-        <button onclick="navigateToPage('books.html', 'Books')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Library</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Books</h3>
+        <!-- Books -->
+        <button onclick="navigateToPage('books.html', 'Books')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Library</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Books</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Deepen your knowledge with Islamic literature.</p>
         </button>
-        <button onclick="navigateToPage('qa.html', 'Q&A')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Knowledge</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Q&A</h3>
+        <!-- Q&A -->
+        <button onclick="navigateToPage('qa.html', 'Q&A')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83] mb-1">Knowledge</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Q&A</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Clear your doubts with authentic Islamic answers.</p>
         </button>
-        <button onclick="navigateToPage('settings.html#favourites', 'Saved Bookmarks')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#9fe8bc]">Bookmarks</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Saved</h3>
+        <!-- Saved -->
+        <button onclick="navigateToPage('settings.html#favourites', 'Saved Bookmarks')" class="aamaal-card aamaal-card-interactive p-5 text-left h-full flex flex-col">
+          <span class="text-xs uppercase tracking-wider text-[#9fe8bc] mb-1">Bookmarks</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white mb-1.5">Saved</h3>
+          <p class="text-[11.5px] text-[#b2c9bc] leading-snug">Access your bookmarked duas and reflections.</p>
         </button>
       </div>
     </section>
@@ -643,48 +667,48 @@
     <!-- TOAST FEEDBACK -->
     <div id="toast-banner" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-full bg-[#072b1f] border border-[#9fe8bc]/50 text-xs text-[#e9f7ef] shadow-xl whitespace-nowrap"></div>
 
-    <!-- =================================================================== -->
-    <!-- BOTTOM NAVIGATION BAR                                               -->
+   <!-- =================================================================== -->
+    <!-- BOTTOM NAVIGATION BAR - ULTRA SLIM                                  -->
     <!-- =================================================================== -->
     <nav class="bottom-nav" aria-label="Primary Bottom Navigation">
       <div class="grid grid-cols-4 items-center">
         <!-- Home (Active) -->
-        <button onclick="switchSubView('view-home-main')" class="flex flex-col items-center justify-center gap-1 text-white relative py-1">
-          <svg class="w-6 h-6 text-[#e5d196]" viewBox="0 0 24 24" fill="currentColor">
+        <button onclick="switchSubView('view-home-main')" class="flex flex-col items-center justify-center text-white relative pt-1.5 pb-1">
+          <svg class="w-5 h-5 text-[#e5d196] mb-0.5" viewBox="0 0 24 24" fill="currentColor">
             <path d="M11.47 3.84a.75.75 0 011.06 0l8.69 8.69a.75.75 0 101.06-1.06l-8.689-8.69a2.25 2.25 0 00-3.182 0l-8.69 8.69a.75.75 0 001.061 1.06l8.69-8.69z" />
             <path d="M12 5.432l8.159 8.159c.03.03.06.058.091.086v6.198c0 1.035-.84 1.875-1.875 1.875H15a.75.75 0 01-.75-.75v-4.5a.75.75 0 00-.75-.75h-3a.75.75 0 00-.75.75V21a.75.75 0 01-.75.75H5.625a1.875 1.875 0 01-1.875-1.875v-6.198a2.29 2.29 0 00.091-.086L12 5.43z" />
           </svg>
-          <span class="text-[12px] font-semibold tracking-wide text-white">Home</span>
-          <span class="w-9 h-[3px] rounded-full bg-[#e5d196] mt-0.5"></span>
+          <span class="text-[11px] font-semibold tracking-wide text-white">Home</span>
+          <span class="w-8 h-[2.5px] rounded-full bg-[#e5d196] mt-0.5"></span>
         </button>
 
         <!-- Tasbih -->
-        <button onclick="navigateToPage('tasbih.html', 'Tasbih')" class="flex flex-col items-center justify-center gap-1 text-[#a8c0b3] hover:text-white py-1 transition">
-          <svg class="w-6 h-6 text-[#c5b279]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <button onclick="navigateToPage('tasbih.html', 'Tasbih')" class="flex flex-col items-center justify-center text-[#a8c0b3] hover:text-white pt-1.5 pb-1 transition">
+          <svg class="w-5 h-5 text-[#c5b279] mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
             <circle cx="12" cy="9" r="5.5" stroke-dasharray="2 2.2" />
             <path stroke-linecap="round" d="M12 14.5v5.5M10 20h4" />
           </svg>
-          <span class="text-[12px] font-medium">Tasbih</span>
-          <span class="w-9 h-[3px] rounded-full bg-transparent mt-0.5"></span>
+          <span class="text-[11px] font-medium">Tasbih</span>
+          <span class="w-8 h-[2.5px] rounded-full bg-transparent mt-0.5"></span>
         </button>
 
         <!-- Duas -->
-        <button onclick="navigateToPage('duas.html', 'Duas')" class="flex flex-col items-center justify-center gap-1 text-[#a8c0b3] hover:text-white py-1 transition">
-          <svg class="w-6 h-6 text-[#c5b279]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <button onclick="navigateToPage('duas.html', 'Duas')" class="flex flex-col items-center justify-center text-[#a8c0b3] hover:text-white pt-1.5 pb-1 transition">
+          <svg class="w-5 h-5 text-[#c5b279] mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
           </svg>
-          <span class="text-[12px] font-medium">Duas</span>
-          <span class="w-9 h-[3px] rounded-full bg-transparent mt-0.5"></span>
+          <span class="text-[11px] font-medium">Duas</span>
+          <span class="w-8 h-[2.5px] rounded-full bg-transparent mt-0.5"></span>
         </button>
 
         <!-- Stories (Reflections) -->
-        <button onclick="navigateToPage('reflections.html', 'Reflections & Stories')" class="flex flex-col items-center justify-center gap-1 text-[#a8c0b3] hover:text-white py-1 transition">
-          <svg class="w-6 h-6 text-[#c5b279]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
+        <button onclick="navigateToPage('reflections.html', 'Reflections & Stories')" class="flex flex-col items-center justify-center text-[#a8c0b3] hover:text-white pt-1.5 pb-1 transition">
+          <svg class="w-5 h-5 text-[#c5b279] mb-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
             <rect x="5" y="4" width="14" height="16" rx="2.5" />
             <path stroke-linecap="round" d="M9 8h6M9 12h6M9 16h4" />
           </svg>
-          <span class="text-[12px] font-medium">Stories</span>
-          <span class="w-9 h-[3px] rounded-full bg-transparent mt-0.5"></span>
+          <span class="text-[11px] font-medium">Stories</span>
+          <span class="w-8 h-[2.5px] rounded-full bg-transparent mt-0.5"></span>
         </button>
       </div>
     </nav>
