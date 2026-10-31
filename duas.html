@@ -27,7 +27,28 @@
   } catch (e) {}
 })();
 </script>
-  
+  <!-- Firebase SDKs -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+  // TODO: Replace with your actual Firebase project configuration
+  const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "your-project-id.firebaseapp.com",
+    projectId: "your-project-id",
+    storageBucket: "your-project-id.appspot.com",
+    messagingSenderId: "123456789",
+    appId: "1:123456789:web:abcdef"
+  };
+
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
+  window.db = getFirestore(app);
+  window.doc = doc;
+  window.getDoc = getDoc;
+  window.setDoc = setDoc;
+</script>
   <style>
     :root {
       --bg-deep: #041612;
@@ -1124,8 +1145,7 @@
       { id: 'upon-waking', title: 'Upon Waking', subtitle: 'Praise upon returning to life', icon: 'bi-brightness-alt-high', group: 'future', hero: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80' },
       { id: 'leaving-home', title: 'Leaving Home', subtitle: 'Reliance upon Allah and safe departure', icon: 'bi-door-open', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
       { id: 'entering-home', title: 'Entering Home', subtitle: 'Bringing peace and barakah into the house', icon: 'bi-house-heart', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'entering-mosque', title: 'Entering Mosque', subtitle: 'Asking Allah to open the doors of mercy', icon: 'bi-building-check', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
-      { id: 'leaving-mosque', title: 'Leaving Mosque', subtitle: 'Asking Allah from His immense bounty', icon: 'bi-building-up', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
+      { id: 'mosque', title: 'Entering & Leaving Mosque', subtitle: 'Supplications for the Masjid', icon: 'bi-building', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
       { id: 'morning-adhkar', title: 'Morning Adhkar', subtitle: 'Complete morning remembrance shield', icon: 'bi-brightness-high', group: 'future', hero: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80' },
       { id: 'evening-adhkar', title: 'Evening Adhkar', subtitle: 'Complete evening remembrance shield', icon: 'bi-sunset', group: 'future', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
       { id: 'prayer-adhkar', title: 'Prayer & After Prayer', subtitle: 'Supplications during and after Salah', icon: 'bi-person-arms-up', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
@@ -1334,10 +1354,24 @@
     let DUA_CATEGORIES = JSON.parse(localStorage.getItem('DUA_CATEGORIES_V3')) || DEFAULT_CATEGORIES;
     let DUAS_LIST = JSON.parse(localStorage.getItem('DUAS_LIST_V3')) || DEFAULT_DUAS;
 
-    function saveRepository() {
-      localStorage.setItem('DUA_CATEGORIES_V3', JSON.stringify(DUA_CATEGORIES));
-      localStorage.setItem('DUAS_LIST_V3', JSON.stringify(DUAS_LIST));
-    }
+   // Set up global variables to hold the data
+let DUA_CATEGORIES = DEFAULT_CATEGORIES;
+let DUAS_LIST = DEFAULT_DUAS;
+
+// Async function to push updates to Firebase
+async function saveRepository() {
+  try {
+    const docRef = window.doc(window.db, "aamaalApp", "libraryData");
+    await window.setDoc(docRef, {
+      categories: DUA_CATEGORIES,
+      duas: DUAS_LIST
+    });
+    console.log("Data successfully saved to Firebase!");
+  } catch (error) {
+    console.error("Error saving to Firebase: ", error);
+    showToast("Failed to save to cloud");
+  }
+}
 
     // Dynamic count helper: matches either primary category or 21-grouping id
     function getCategoryDuaCount(catId) {
@@ -2854,11 +2888,33 @@
       renderScreen(39);
     }
 
-    // Boot on Screen 37 (Dua Library Home) & wire HTML5 Audio listeners
-    window.addEventListener('DOMContentLoaded', () => {
-      setupAudioListeners();
-      renderScreen(37);
-    });
+    window.addEventListener('DOMContentLoaded', async () => {
+  setupAudioListeners();
+  
+  // Wait for the window.db to be initialized by the module script
+  setTimeout(async () => {
+    try {
+      const docRef = window.doc(window.db, "aamaalApp", "libraryData");
+      const docSnap = await window.getDoc(docRef);
+
+      if (docSnap.exists()) {
+        // Load data from Firebase if it exists
+        const data = docSnap.data();
+        DUA_CATEGORIES = data.categories || DEFAULT_CATEGORIES;
+        DUAS_LIST = data.duas || DEFAULT_DUAS;
+      } else {
+        // If the document doesn't exist yet, create it using defaults
+        await saveRepository();
+      }
+    } catch (error) {
+      console.error("Error fetching data, falling back to defaults: ", error);
+      // Fallback to DEFAULT_CATEGORIES and DEFAULT_DUAS if offline
+    }
+
+    // Only render the screen AFTER data is loaded
+    renderScreen(37);
+  }, 100); // Slight delay to ensure module script sets window.db
+});
   </script>
 </body>
 </html>
