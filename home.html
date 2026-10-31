@@ -345,10 +345,13 @@
               <span class="text-[13px] font-medium text-[#edf5f0]">Tasbih</span>
             </button>
 
-            <button onclick="navigateToPage('duas.html', 'Duas Collection')" class="quick-tile">
-              <img src="dua-hands-icon.png" alt="Duas" class="w-[22px] h-[22px] object-contain mb-0.5 mix-blend-lighten opacity-80" />
-              <span class="text-[13px] font-medium text-[#edf5f0]">Duas</span>
-            </button>
+            <!-- Duas -->
+            <button onclick="navigateToPage('duas.html', 'Duas Collection')" class="quick-tile">
+              <svg class="w-8 h-8 text-[#d4be83]" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17V9.5a2 2 0 014 0V15m0 0V8a2 2 0 014 0v7m0 0V9.5a2 2 0 014 0V18c0 5-3.5 8-8 8s-8-3-8-8v-3a2 2 0 014 0v2z" />
+              </svg>
+              <span class="text-[13px] font-medium text-[#edf5f0]">Duas</span>
+            </button>
 
             <button onclick="navigateToPage('reflections.html', 'Reflections & Stories')" class="quick-tile">
               <svg class="w-8 h-8 text-[#d4be83]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
@@ -693,12 +696,13 @@
         </button>
 
         <!-- Duas -->
-        <button onclick="navigateToPage('duas.html', 'Duas')" class="flex flex-col items-center justify-center text-[#a8c0b3] hover:text-white pt-1.5 pb-1 transition">
-          <!-- Add mix-blend-lighten to the classes -->
-          <img src="dua-hands-icon.png" alt="Duas" class="w-[22px] h-[22px] object-contain mb-0.5 mix-blend-lighten opacity-80" />
-          <span class="text-[11px] font-medium">Duas</span>
-          <span class="w-8 h-[2.5px] rounded-full bg-transparent mt-0.5"></span>
-        </button>
+        <button onclick="navigateToPage('duas.html', 'Duas')" class="flex flex-col items-center justify-center gap-1 text-[#a8c0b3] hover:text-white py-1 transition">
+          <svg class="w-8 h-8 text-[#d4be83]" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 17V9.5a2 2 0 014 0V15m0 0V8a2 2 0 014 0v7m0 0V9.5a2 2 0 014 0V18c0 5-3.5 8-8 8s-8-3-8-8v-3a2 2 0 014 0v2z" />
+              </svg>
+          <span class="text-[12px] font-medium">Duas</span>
+          <span class="w-9 h-[3px] rounded-full bg-transparent mt-0.5"></span>
+        </button>
 
         <!-- Stories (Reflections) -->
         <button onclick="navigateToPage('reflections.html', 'Reflections & Stories')" class="flex flex-col items-center justify-center text-[#a8c0b3] hover:text-white pt-1.5 pb-1 transition">
