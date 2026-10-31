@@ -1119,7 +1119,13 @@
     <audio id="duaAudioElement" preload="metadata" crossorigin="anonymous"></audio>
 
     <!-- Dynamic Screen Viewport -->
-    <div class="app-viewport" id="appViewport"></div>
+<!-- Dynamic Screen Viewport -->
+    <div class="app-viewport" id="appViewport">
+      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; color: var(--gold-primary);">
+        <i class="bi bi-hourglass-split" style="font-size: 2rem; margin-bottom: 12px; animation: pulse 1.5s infinite;"></i>
+        <div style="font-family: 'Cinzel', serif; font-weight: 600;">Loading Duas...</div>
+      </div>
+    </div>
 
     <!-- Toast Notification -->
     <div class="toast-msg" id="toastMsg">Saved to Favourites</div>
