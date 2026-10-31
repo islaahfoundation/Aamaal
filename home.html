@@ -163,7 +163,7 @@
       background: #042017;
     }
 
-    /* Bottom Navigation Bar */
+    /* Bottom Navigation Bar - Reduced Height */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -173,7 +173,7 @@
       border-top: 1px solid rgba(201, 181, 181, 0.25);
       backdrop-filter: blur(16px);
       z-index: 40;
-      padding: 10px 12px 18px;
+      padding: 6px 12px max(8px, env(safe-area-inset-bottom));
     }
 
     /* Subtle Divider inside Today's Progress */
@@ -189,7 +189,7 @@
 
   <main class="app-frame" id="app-root">
 
-    <!-- DEV ONLY: Minimal Image Upload Button (Hidden when DEV_MODE = false) -->
+    <!-- DEV ONLY: Minimal Image Upload Button -->
     <button
       id="dev-img-upload-btn"
       onclick="openAssetModal()"
@@ -204,17 +204,13 @@
     <!-- =================================================================== -->
     <section id="view-home-main" class="sub-view active">
 
-      <!-- HERO HEADER WITH SUNRISE MOSQUE SCENERY -->
+      <!-- HERO HEADER -->
       <header class="relative w-full min-h-[245px] pt-10 px-5 pb-7 flex flex-col justify-between overflow-hidden">
-        <!-- Custom Background Scenery Image -->
         <img data-asset="bg_home_header" alt="Sunrise Mosque Scenery" class="absolute inset-0 w-full h-full object-cover object-center pointer-events-none" />
-        <!-- Soft Gradient Vignette for Readability -->
         <div class="absolute inset-0 bg-gradient-to-b from-[#041d15]/35 via-[#041d15]/45 to-[#052118] pointer-events-none"></div>
 
-        <!-- Top User Greeting & Utility Icons -->
         <div class="relative z-10 flex items-start justify-between gap-3">
           <div class="flex items-center gap-3.5">
-            <!-- Profile Avatar -->
             <button onclick="navigateToPage('settings.html', 'Settings & Profile')" class="w-12 h-12 rounded-full p-0.5 border border-[#d4be83]/60 shadow-lg overflow-hidden shrink-0 focus:outline-none">
               <img data-asset="user_avatar" alt="User Profile" class="w-full h-full rounded-full object-cover" />
             </button>
@@ -225,7 +221,6 @@
             </div>
           </div>
 
-          <!-- Top Right Notification & Settings Buttons (Replaced 3-dots with Settings) -->
           <div class="flex items-center gap-1 pt-0.5 shrink-0">
             <button onclick="showToast('Reminders active: Evening Durood & Surah Mulk')" class="relative w-10 h-10 rounded-full flex items-center justify-center hover:bg-white/10 transition" aria-label="Notifications">
               <svg class="w-6 h-6 text-[#e8f5ee] drop-shadow" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -242,7 +237,6 @@
           </div>
         </div>
 
-        <!-- Search Bar -->
         <div class="relative z-10 mt-6">
           <div class="search-pill flex items-center px-4 py-3.5 gap-3">
             <svg class="w-5 h-5 text-[#a6bfb2] shrink-0" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
@@ -257,7 +251,6 @@
             />
             <button id="clear-search-btn" onclick="clearSearch()" class="hidden text-xs text-[#d4be83] hover:underline shrink-0">Clear</button>
           </div>
-          <!-- Live Search Dropdown Results -->
           <div id="search-results-box" class="hidden mt-2 aamaal-card p-3 space-y-2 text-sm"></div>
         </div>
       </header>
@@ -265,7 +258,7 @@
       <!-- MAIN CONTENT FEED -->
       <div class="px-5 pt-3 space-y-8">
 
-        <!-- 1. TODAY'S PROGRESS CARD (Opens Aamaal Tracker with editable counts) -->
+        <!-- 1. TODAY'S PROGRESS CARD -->
         <section aria-label="Today's progress">
           <div onclick="switchSubView('view-daily-overview')" class="aamaal-card aamaal-card-interactive px-4 py-5 cursor-pointer overflow-hidden">
             <div class="flex items-center justify-between mb-4 px-0.5">
@@ -276,9 +269,7 @@
               </span>
             </div>
 
-            <!-- Balanced Horizontal Layout -->
             <div class="flex items-center justify-between gap-2">
-              <!-- Left: Circular Progress + Clean 2-Line Goal Summary -->
               <div class="flex items-center gap-2.5 shrink-0">
                 <div class="relative w-[58px] h-[58px] shrink-0 flex items-center justify-center">
                   <svg class="w-[58px] h-[58px]" viewBox="0 0 72 72">
@@ -298,18 +289,14 @@
                   <span id="home-progress-pct" class="absolute font-serif-display text-[19px] font-bold text-white">65%</span>
                 </div>
 
-                <!-- Guaranteed 2-line layout ("2 of 3 goals" / "completed") -->
                 <div id="home-goals-summary" class="text-[12.5px] font-medium text-[#e4efe9] leading-[1.35] whitespace-nowrap">
                   <span class="block">2 of 3 goals</span>
                   <span class="block text-[#b8cec2]">completed</span>
                 </div>
               </div>
 
-              <!-- Right: 3 Metric Columns (Dhikr | Sessions | Reminders) -->
               <div class="flex items-center justify-end gap-1.5 sm:gap-2.5 shrink-0">
                 <div class="stat-divider"></div>
-
-                <!-- Dhikr Stat -->
                 <div class="flex flex-col items-center text-center w-[42px]">
                   <svg class="w-4 h-4 text-[#d4be83] mb-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                     <circle cx="12" cy="8" r="5.5" stroke-dasharray="2 2.2" />
@@ -318,10 +305,7 @@
                   <span class="text-[10px] text-[#b8cec2] leading-none">Dhikr</span>
                   <span id="stat-dhikr-val" class="font-serif-display text-[19px] font-bold text-white leading-tight mt-1">413</span>
                 </div>
-
                 <div class="stat-divider"></div>
-
-                <!-- Sessions Stat -->
                 <div class="flex flex-col items-center text-center w-[46px]">
                   <svg class="w-4 h-4 text-[#d4be83] mb-1" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
@@ -329,10 +313,7 @@
                   <span class="text-[10px] text-[#b8cec2] leading-none">Sessions</span>
                   <span id="stat-sessions-val" class="font-serif-display text-[19px] font-bold text-white leading-tight mt-1">2</span>
                 </div>
-
                 <div class="stat-divider"></div>
-
-                <!-- Reminders Stat -->
                 <div class="flex flex-col items-center text-center w-[52px]">
                   <svg class="w-4 h-4 text-[#d4be83] mb-1" fill="none" stroke="currentColor" stroke-width="1.7" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
@@ -356,7 +337,6 @@
           </div>
 
           <div class="grid grid-cols-4 gap-3.5">
-            <!-- Tasbih -->
             <button onclick="navigateToPage('tasbih.html', 'Tasbih Counter')" class="quick-tile">
               <svg class="w-8 h-8 text-[#d4be83]" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8">
                 <circle cx="16" cy="12" r="8" stroke-dasharray="2.5 3" />
@@ -365,7 +345,6 @@
               <span class="text-[13px] font-medium text-[#edf5f0]">Tasbih</span>
             </button>
 
-            <!-- Duas -->
             <button onclick="navigateToPage('duas.html', 'Duas Collection')" class="quick-tile">
               <svg class="w-8 h-8 text-[#d4be83]" viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M9 17V9.5a2 2 0 014 0V15m0 0V8a2 2 0 014 0v7m0 0V9.5a2 2 0 014 0V18c0 5-3.5 8-8 8s-8-3-8-8v-3a2 2 0 014 0v2z" />
@@ -373,7 +352,6 @@
               <span class="text-[13px] font-medium text-[#edf5f0]">Duas</span>
             </button>
 
-            <!-- Stories -->
             <button onclick="navigateToPage('reflections.html', 'Reflections & Stories')" class="quick-tile">
               <svg class="w-8 h-8 text-[#d4be83]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 006 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 016 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 016-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0018 18a8.967 8.967 0 00-6 2.292m0-14.25v14.25" />
@@ -381,7 +359,6 @@
               <span class="text-[13px] font-medium text-[#edf5f0]">Stories</span>
             </button>
 
-            <!-- Saved (Redirects directly to settings.html#favourites) -->
             <button onclick="navigateToPage('settings.html#favourites', 'Saved & Favourites')" class="quick-tile">
               <svg class="w-8 h-8 text-[#d4be83]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
@@ -400,8 +377,8 @@
 
             <div class="flex-1 min-w-0">
               <p class="text-[11px] uppercase tracking-[0.2em] text-[#b7cfc2] font-semibold mb-1.5">Daily Featured Dua</p>
-              <h3 class="font-serif-display text-[25px] leading-[1.15] font-semibold text-white mb-2">Dua for peace of heart</h3>
-              <p class="text-[13.5px] text-[#c2d7cb] leading-relaxed mb-3.5">Ask Allah for calm and reassurance.</p>
+              <h3 id="home-dua-title" class="font-serif-display text-[25px] leading-[1.15] font-semibold text-white mb-2">Dua for peace of heart</h3>
+              <p id="home-dua-desc" class="text-[13.5px] text-[#c2d7cb] leading-relaxed mb-3.5">Ask Allah for calm and reassurance.</p>
               <span class="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#e6f2eb]">
                 Read dua
                 <svg class="w-4 h-4 text-[#d4be83]" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
@@ -486,7 +463,7 @@
     </section>
 
     <!-- =================================================================== -->
-    <!-- SUB-SCREEN 2: DAILY OVERVIEW DETAIL (Editable Aamaal Counts & Logs) -->
+    <!-- SUB-SCREEN 2: DAILY OVERVIEW DETAIL (Editable Aamaal Counts)        -->
     <!-- =================================================================== -->
     <section id="view-daily-overview" class="sub-view px-5 pt-10 space-y-6">
       <div class="flex items-center justify-between">
@@ -504,41 +481,7 @@
         <p class="text-sm text-[#b2c9bc] mt-1">Toggle any daily target to mark it recited, or tap <strong class="text-[#d4be83]">+ Add / Edit Count</strong> to enter your exact recitation count.</p>
       </div>
 
-      <!-- Date Selector Bar (From Old Tasbih App) -->
-      <!--<div class="aamaal-card p-3.5 flex items-center justify-between gap-2">
-        <div class="flex items-center gap-2">
-          <span class="text-xs text-[#d4be83] font-semibold">📅 Logging Date:</span>
-          <span id="tracker-active-date-pill" class="text-xs px-2.5 py-1 rounded-full bg-[#9fe8bc]/15 text-[#9fe8bc] font-semibold">Today</span>
-        </div>
-        <div class="flex items-center gap-2">
-          <input
-            type="date"
-            id="tracker-date-picker"
-            onchange="window.changeTrackerDate(this.value)"
-            class="px-2.5 py-1 rounded-lg bg-[#051c14] border border-[#d4be83]/40 text-xs text-white focus:outline-none"
-          />
-          <button onclick="window.resetTrackerToToday()" class="text-xs text-[#d4be83] hover:underline font-medium">Today</button>
-        </div>
-      </div>-->
-
-      <!-- 3 Core Aamaal Checklist Cards with Editable Counts + Quick-Add Chips -->
       <div class="space-y-4" id="daily-goals-list"></div>
-
-      <!-- Summary & Quick Increment Dhikr Session Box -->
-      <!--<div class="aamaal-card p-6 space-y-4">
-        <div class="flex items-center justify-between">
-          <div>
-            <p class="text-xs uppercase tracking-widest text-[#d4be83]">Total Daily Dhikr</p>
-            <h3 class="font-serif-display text-2xl font-semibold text-white mt-0.5">Quick Add General Tasbih</h3>
-          </div>
-          <span id="overview-dhikr-badge" class="font-serif-display text-3xl font-bold text-[#9fe8bc]">413</span>
-        </div>
-        <div class="grid grid-cols-3 gap-3 pt-1">
-          <button onclick="addQuickDhikr('durood', 100)" class="py-3 rounded-xl border border-[#d4be83]/40 bg-[#082c20] text-xs font-semibold text-white hover:bg-[#0d3b2c] active:scale-95 transition">+100 Durood</button>
-          <button onclick="addQuickDhikr('istighfar', 100)" class="py-3 rounded-xl border border-[#d4be83]/40 bg-[#082c20] text-xs font-semibold text-white hover:bg-[#0d3b2c] active:scale-95 transition">+100 Istighfar</button>
-          <button onclick="addQuickDhikr('durood', 313)" class="py-3 rounded-xl border border-[#9fe8bc]/50 bg-[#9fe8bc]/15 text-xs font-semibold text-[#9fe8bc] hover:bg-[#9fe8bc]/25 active:scale-95 transition">+313 Durood</button>
-        </div>
-      </div>-->
     </section>
 
     <!-- =================================================================== -->
@@ -555,32 +498,57 @@
 
       <div>
         <h2 class="font-serif-display text-3xl font-semibold text-white">All Spiritual Shortcuts</h2>
-        <p class="text-sm text-[#b2c9bc] mt-1">Jump directly into any worship mode or saved item.</p>
+        <p class="text-sm text-[#b2c9bc] mt-1">Explore your complete collection of tools, from Tasbih and Duas to the Salah Guide and Quranic insights.</p>
       </div>
 
       <div class="grid grid-cols-2 gap-4">
-        <button onclick="navigateToPage('tasbih.html', '313 Durood Counter')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Tasbih</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">313 Durood Shareef</h3>
-          <p class="text-xs text-[#b2c9bc]">Resume your daily salawat counter with haptic beads.</p>
+        <button onclick="navigateToPage('tasbih.html', 'Tasbih')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Worship</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Tasbih</h3>
         </button>
-
-        <button onclick="navigateToPage('duas.html', 'Surah Mulk Reader')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Night Protection</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Surah Al-Mulk</h3>
-          <p class="text-xs text-[#b2c9bc]">Read or listen to the 30 verses before sleeping.</p>
+        <button onclick="navigateToPage('duas.html', 'Duas')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Supplication</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Duas</h3>
         </button>
-
-        <button onclick="navigateToPage('tasbih.html', '100 Istighfar')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Forgiveness</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">100 Istighfar</h3>
-          <p class="text-xs text-[#b2c9bc]">Purify the heart and open doors of relief.</p>
+        <button onclick="navigateToPage('reflections.html', 'Quranic Stories')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Wisdom</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Quranic Stories</h3>
         </button>
-
+        <button onclick="navigateToPage('salah.html', 'Salah Guide')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Learn</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Salah Guide</h3>
+        </button>
+        <button onclick="navigateToPage('quran.html', 'Al-Quran')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Recite</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Al-Quran</h3>
+        </button>
+        <button onclick="navigateToPage('azkar.html', 'Azkar')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Remembrance</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Azkar</h3>
+        </button>
+        <button onclick="navigateToPage('tasbih.html', 'Durood Sharif')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Blessings</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Durood Sharif</h3>
+        </button>
+        <button onclick="navigateToPage('ilaj.html', 'Roohani Ilaj')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Healing</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Roohani Ilaj</h3>
+        </button>
+        <button onclick="navigateToPage('mosques.html', 'Mosques')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Locator</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Mosques</h3>
+        </button>
+        <button onclick="navigateToPage('books.html', 'Books')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Library</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Books</h3>
+        </button>
+        <button onclick="navigateToPage('qa.html', 'Q&A')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+          <span class="text-xs uppercase tracking-wider text-[#d4be83]">Knowledge</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Q&A</h3>
+        </button>
         <button onclick="navigateToPage('settings.html#favourites', 'Saved Bookmarks')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
-          <span class="text-xs uppercase tracking-wider text-[#9fe8bc]">Favourites</span>
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Saved Bookmarks</h3>
-          <p class="text-xs text-[#b2c9bc]">3 Duas &amp; 2 Reflections bookmarked for quick access.</p>
+          <span class="text-xs uppercase tracking-wider text-[#9fe8bc]">Bookmarks</span>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Saved</h3>
         </button>
       </div>
     </section>
@@ -597,7 +565,6 @@
         <span id="reader-top-category" class="text-xs uppercase tracking-[0.2em] text-[#d4be83]">Reflections Preview</span>
       </div>
 
-      <!-- Active Story Card -->
       <div class="aamaal-card overflow-hidden">
         <div class="relative h-56 w-full">
           <img id="reader-cover-img" src="" alt="Story Cover" class="w-full h-full object-cover" />
@@ -625,15 +592,14 @@
         </div>
       </div>
 
-      <!-- Switch between upcoming Reflections stories to preview how Home cards sync -->
       <div class="aamaal-card p-5 space-y-3">
-        <p class="text-xs uppercase tracking-widest text-[#d4be83]">Upcoming Stories in Reflections (`reflections.html`)</p>
+        <p class="text-xs uppercase tracking-widest text-[#d4be83]">Upcoming Stories</p>
         <div id="upcoming-stories-switcher" class="grid grid-cols-2 gap-3"></div>
       </div>
     </section>
 
     <!-- =================================================================== -->
-    <!-- FEATURED DUA MODAL ("Dua for peace of heart")                       -->
+    <!-- FEATURED DUA MODAL                                                  -->
     <!-- =================================================================== -->
     <div id="featured-dua-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/75 backdrop-blur-sm p-5">
       <div class="aamaal-card max-w-sm w-full p-6 space-y-5 border border-[#d4be83]/60">
@@ -641,12 +607,12 @@
           <span class="text-[11px] uppercase tracking-[0.2em] text-[#d4be83]">Daily Featured Dua</span>
           <button onclick="closeFeaturedDuaModal()" class="text-[#a6bfb2] hover:text-white text-sm">✕</button>
         </div>
-        <h3 class="font-serif-display text-2xl font-semibold text-white">Dua for Peace of Heart</h3>
+        <h3 id="modal-dua-title" class="font-serif-display text-2xl font-semibold text-white">Dua for Peace of Heart</h3>
         <div class="p-4 rounded-2xl bg-[#041912] border border-[#d4be83]/25 text-center space-y-3">
-          <p class="font-serif-display text-2xl text-[#9fe8bc] leading-loose" dir="rtl">
+          <p id="modal-dua-arabic" class="font-serif-display text-2xl text-[#9fe8bc] leading-loose" dir="rtl">
             اللَّهُمَّ إِنِّي أَسْأَلُكَ نَفْسًا بِكَ مُطْمَئِنَّةً
           </p>
-          <p class="text-xs text-[#c2d7cb] italic">
+          <p id="modal-dua-translation" class="text-xs text-[#c2d7cb] italic">
             “O Allah, I ask You for a soul that finds peace and reassurance in You.”
           </p>
         </div>
@@ -663,10 +629,9 @@
     <div id="asset-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-black/80 backdrop-blur-sm p-4">
       <div class="aamaal-card max-w-md w-full p-5 max-h-[85vh] overflow-y-auto space-y-4">
         <div class="flex items-center justify-between">
-          <h3 class="font-serif-display text-2xl font-semibold text-white">Customize Home &amp; Story Images</h3>
+          <h3 class="font-serif-display text-2xl font-semibold text-white">Customize Images</h3>
           <button onclick="closeAssetModal()" class="text-sm text-[#a6bfb2] hover:text-white">✕</button>
         </div>
-        <p class="text-xs text-[#b2c9bc]">Upload local files or paste URLs for the Home header and the upcoming Reflections story covers.</p>
         <div id="asset-inputs-container" class="space-y-3 text-xs"></div>
         <div class="flex justify-end gap-2 pt-2">
           <button onclick="resetDefaultAssets()" class="px-4 py-2 rounded-lg border border-red-400/40 text-red-300 text-xs">Reset Defaults</button>
@@ -679,7 +644,7 @@
     <div id="toast-banner" class="fixed bottom-24 left-1/2 -translate-x-1/2 z-50 hidden px-4 py-2.5 rounded-full bg-[#072b1f] border border-[#9fe8bc]/50 text-xs text-[#e9f7ef] shadow-xl whitespace-nowrap"></div>
 
     <!-- =================================================================== -->
-    <!-- BOTTOM NAVIGATION BAR (Home · Tasbih · Duas · Stories)              -->
+    <!-- BOTTOM NAVIGATION BAR                                               -->
     <!-- =================================================================== -->
     <nav class="bottom-nav" aria-label="Primary Bottom Navigation">
       <div class="grid grid-cols-4 items-center">
@@ -726,9 +691,6 @@
 
   </main>
 
-  <!-- ===================================================================== -->
-  <!-- APPLICATION & FIREBASE STORAGE SCRIPT                                 -->
-  <!-- ===================================================================== -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
     import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -748,7 +710,58 @@
     }
 
     // =========================================================================
-    // 1. CENTRALIZED CUSTOM IMAGE CONFIGURATION (`IMAGE_ASSETS`)
+    // 1. DAILY ROTATION LISTS (Add more here anytime)
+    // =========================================================================
+    const DAILY_DUAS = [
+      { title: 'Dua for peace of heart', desc: 'Ask Allah for calm and reassurance.', arabic: 'اللَّهُمَّ إِنِّي أَسْأَلُكَ نَفْسًا بِكَ مُطْمَئِنَّةً', translation: '“O Allah, I ask You for a soul that finds peace and reassurance in You.”' },
+      { title: 'Dua for ease in affairs', desc: 'Recite when facing difficulties.', arabic: 'رَبِّ اشْرَحْ لِي صَدْرِي وَيَسِّرْ لِي أَمْرِي', translation: '“My Lord, expand for me my breast [with assurance] and ease for me my task.”' },
+      { title: 'Dua for forgiveness', desc: 'Purify the heart and seek pardon.', arabic: 'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ', translation: '“My Lord, forgive me and accept my repentance.”' }
+    ];
+
+    function getDailyIndex(arrayLength) {
+      const dateStr = getLocalDateString();
+      let hash = 0;
+      for (let i = 0; i < dateStr.length; i++) {
+        hash = dateStr.charCodeAt(i) + ((hash << 5) - hash);
+      }
+      return Math.abs(hash) % arrayLength;
+    }
+
+    // =========================================================================
+    // 2. SCROLL & HISTORY MANAGEMENT (Mobile Back Button Support)
+    // =========================================================================
+    let activeView = 'view-home-main';
+    const scrollPositions = {};
+
+    window.switchSubView = function(viewId, pushHistory = true) {
+      // Save current scroll position
+      scrollPositions[activeView] = window.scrollY;
+
+      document.querySelectorAll('.sub-view').forEach(section => {
+        section.classList.toggle('active', section.id === viewId);
+      });
+
+      if (pushHistory) {
+        if (viewId === 'view-home-main') {
+          history.pushState({ view: viewId }, '', window.location.pathname);
+        } else {
+          history.pushState({ view: viewId }, '', `#${viewId}`);
+        }
+      }
+      
+      activeView = viewId;
+      window.scrollTo({ top: scrollPositions[viewId] || 0, behavior: 'instant' });
+    };
+
+    window.addEventListener('popstate', (event) => {
+      const viewId = event.state?.view || 'view-home-main';
+      window.switchSubView(viewId, false);
+    });
+
+    history.replaceState({ view: 'view-home-main' }, '', window.location.pathname);
+
+    // =========================================================================
+    // 3. CENTRALIZED CUSTOM IMAGE CONFIGURATION (`IMAGE_ASSETS`)
     // =========================================================================
     const DEFAULT_IMAGE_ASSETS = {
       bg_home_header: svgDataUri(`
@@ -910,7 +923,7 @@
     };
 
     // =========================================================================
-    // 2. SHARED UPCOMING REFLECTIONS STORIES CATALOG
+    // 4. SHARED UPCOMING REFLECTIONS STORIES CATALOG
     // =========================================================================
     const STORIES_CATALOG = {
       sabr: {
@@ -1012,7 +1025,7 @@
       ...(JSON.parse(localStorage.getItem('aamaal_home_state')) || {})
     };
 
-    // Ensure backwards-compatible target & count fields on each goal
+    // Ensure backwards-compatible target & count fields
     homeState.goals = (homeState.goals || DEFAULT_HOME_STATE.goals).map((g, idx) => {
       const fallback = DEFAULT_HOME_STATE.goals[idx] || { target: 100, arabic: '' };
       const target = Number(g.target || fallback.target || 100);
@@ -1064,6 +1077,27 @@
       });
     }
 
+    function initDailyContent() {
+      // 1. Set Daily Reflection Story Based on Date
+      const storyKeys = Object.keys(STORIES_CATALOG);
+      homeState.dailyReflectionStoryId = storyKeys[getDailyIndex(storyKeys.length)];
+
+      // 2. Set Daily Dua Based on Date
+      const dailyDua = DAILY_DUAS[getDailyIndex(DAILY_DUAS.length)];
+      
+      const homeTitle = document.getElementById('home-dua-title');
+      const homeDesc = document.getElementById('home-dua-desc');
+      if (homeTitle) homeTitle.textContent = dailyDua.title;
+      if (homeDesc) homeDesc.textContent = dailyDua.desc;
+
+      const modalTitle = document.getElementById('modal-dua-title');
+      const modalArabic = document.getElementById('modal-dua-arabic');
+      const modalTrans = document.getElementById('modal-dua-translation');
+      if (modalTitle) modalTitle.textContent = dailyDua.title;
+      if (modalArabic) modalArabic.textContent = dailyDua.arabic;
+      if (modalTrans) modalTrans.textContent = dailyDua.translation;
+    }
+
     function renderHomeState() {
       recalculateTotalDhikr();
 
@@ -1099,7 +1133,7 @@
       if (remEl) remEl.textContent = homeState.remindersCount;
       if (overviewDhikrEl) overviewDhikrEl.textContent = homeState.dhikrCount.toLocaleString('en-US');
 
-      // Sync Date Picker in Tracker
+      // Sync Date Picker
       const todayKey = getLocalDateString();
       const dateInput = document.getElementById('tracker-date-picker');
       const datePill = document.getElementById('tracker-active-date-pill');
@@ -1164,7 +1198,7 @@
         `).join('');
       }
 
-      // 5. Render Daily Overview Goals List with Slider Toggle + Editable Count Drawer (From Old Tasbih App)
+      // 5. Render Daily Goals
       const goalsContainer = document.getElementById('daily-goals-list');
       if (goalsContainer) {
         goalsContainer.innerHTML = homeState.goals.map(goal => {
@@ -1186,12 +1220,10 @@
                   <p class="text-xs text-[#b2c9bc] mt-0.5">${goal.subtitle}</p>
                 </div>
 
-                <!-- Slider-Type Toggle Button -->
                 <div
                   onclick="window.toggleGoalCompleted('${goal.id}')"
                   role="switch"
                   aria-checked="${goal.completed}"
-                  aria-label="Toggle ${goal.title}"
                   class="slider-switch ${goal.completed ? 'checked' : ''}"
                 >
                   <span class="slider-knob">
@@ -1202,25 +1234,23 @@
                 </div>
               </div>
 
-              <!-- Logged Count Pill & Edit Actions Bar -->
               <div class="pt-2 border-t border-[#d4be83]/20 flex items-center justify-between gap-2 flex-wrap">
                 <div class="text-xs text-[#c7dcd0]">
                   Logged Count:
                   <strong class="text-sm font-bold ${currentCount >= targetCount ? 'text-[#9fe8bc]' : 'text-[#d4be83]'}">${currentCount.toLocaleString('en-US')}</strong>
-                  <span class="text-[#89a899]">/ ${targetCount.toLocaleString('en-US')} target</span>
+                  <span class="text-[#89a899]">/ ${targetCount.toLocaleString('en-US')}</span>
                 </div>
-
                 <div class="flex items-center gap-2">
                   <button
                     onclick="window.toggleGoalEditPanel('${goal.id}')"
                     class="px-3 py-1.5 rounded-full text-xs font-semibold border border-[#d4be83]/45 bg-[#051d15] text-[#e6f2eb] hover:border-[#9fe8bc] transition"
                   >
-                    ${isEditing ? 'Close Editor' : '+ Add / Edit Count'}
+                    ${isEditing ? 'Close Editor' : '+ Add / Edit'}
                   </button>
                   ${currentCount > 0 ? `
                     <button
                       onclick="window.resetGoalCount('${goal.id}')"
-                      class="px-2.5 py-1.5 rounded-full text-xs font-semibold border border-red-400/35 bg-red-950/30 text-red-300 hover:bg-red-900/40 transition"
+                      class="px-2.5 py-1.5 rounded-full text-xs font-semibold border border-red-400/35 bg-red-950/30 text-red-300 transition"
                     >
                       Undo
                     </button>
@@ -1228,26 +1258,21 @@
                 </div>
               </div>
 
-              <!-- Expandable Count Editor (Inspired by Old Tasbih App) -->
               <div id="edit-panel-${goal.id}" class="${isEditing ? 'block' : 'hidden'} pt-3 mt-2 rounded-2xl bg-[#041811]/90 border border-[#d4be83]/30 p-3.5 space-y-3">
                 <p class="text-[11.5px] text-[#b8cec2]">Tap to add more, or enter your exact total for this day:</p>
-
-                <!-- Quick Add Chips -->
                 <div class="flex items-center gap-2 flex-wrap">
                   <button onclick="window.incrementGoalCount('${goal.id}', 33)" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc]/15 border border-[#9fe8bc]/40 text-[#9fe8bc] active:scale-95 transition">+33</button>
                   <button onclick="window.incrementGoalCount('${goal.id}', 100)" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc]/15 border border-[#9fe8bc]/40 text-[#9fe8bc] active:scale-95 transition">+100</button>
                   <button onclick="window.incrementGoalCount('${goal.id}', 313)" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc]/15 border border-[#9fe8bc]/40 text-[#9fe8bc] active:scale-95 transition">+313</button>
                   <button onclick="window.incrementGoalCount('${goal.id}', 500)" class="px-3 py-1.5 rounded-full text-xs font-semibold bg-[#9fe8bc]/15 border border-[#9fe8bc]/40 text-[#9fe8bc] active:scale-95 transition">+500</button>
                 </div>
-
-                <!-- Direct Custom Number Input -->
                 <div class="flex items-center gap-2">
                   <input
                     type="number"
                     id="custom-input-${goal.id}"
                     min="0"
                     value="${currentCount}"
-                    placeholder="Enter exact count (e.g. 500)"
+                    placeholder="Enter exact count..."
                     class="flex-1 px-3.5 py-2 rounded-xl bg-[#082b1f] border border-[#d4be83]/40 text-sm text-white placeholder-[#89a899] focus:outline-none focus:border-[#9fe8bc]"
                   />
                   <button
@@ -1264,13 +1289,11 @@
       }
     }
 
-    // Toggle Expandable Count Editor Panel
     window.toggleGoalEditPanel = function(goalId) {
       openEditGoalId = (openEditGoalId === goalId) ? null : goalId;
       renderHomeState();
     };
 
-    // Toggle Daily Goal Completion (sets count to target when turned on, or 0 when turned off)
     window.toggleGoalCompleted = function(goalId) {
       homeState.goals = homeState.goals.map(g => {
         if (g.id !== goalId) return g;
@@ -1284,7 +1307,6 @@
       showToast('Daily progress updated');
     };
 
-    // Increment Specific Goal Count by Chip Value (+33, +100, +313, +500)
     window.incrementGoalCount = function(goalId, addAmount) {
       homeState.goals = homeState.goals.map(g => {
         if (g.id !== goalId) return g;
@@ -1301,7 +1323,6 @@
       showToast(`+${addAmount} added`);
     };
 
-    // Save Exact Custom Count for a Goal
     window.saveCustomGoalCount = function(goalId) {
       const inputEl = document.getElementById(`custom-input-${goalId}`);
       if (!inputEl) return;
@@ -1310,7 +1331,6 @@
         showToast('Please enter a valid number');
         return;
       }
-
       homeState.goals = homeState.goals.map(g => {
         if (g.id !== goalId) return g;
         return {
@@ -1319,7 +1339,6 @@
           completed: val >= Number(g.target || 1)
         };
       });
-
       openEditGoalId = null;
       if (navigator.vibrate) navigator.vibrate(30);
       saveHomeState();
@@ -1327,7 +1346,6 @@
       showToast(`Saved count: ${val.toLocaleString('en-US')}`);
     };
 
-    // Reset / Undo a Goal's Count to 0
     window.resetGoalCount = function(goalId) {
       homeState.goals = homeState.goals.map(g =>
         g.id === goalId ? { ...g, count: 0, completed: false } : g
@@ -1337,36 +1355,6 @@
       showToast('Count reset to 0');
     };
 
-    // Change Logging Date in Aamaal Tracker
-    window.changeTrackerDate = function(dateStr) {
-      if (!dateStr) return;
-      // Save current date snapshot before switching
-      homeState.logsByDate = homeState.logsByDate || {};
-      homeState.logsByDate[homeState.selectedDate] = homeState.goals.map(g => ({ id: g.id, count: g.count, completed: g.completed }));
-
-      homeState.selectedDate = dateStr;
-      const savedForDate = homeState.logsByDate[dateStr];
-      if (savedForDate) {
-        homeState.goals = homeState.goals.map(g => {
-          const match = savedForDate.find(s => s.id === g.id);
-          return match ? { ...g, count: match.count, completed: match.completed } : g;
-        });
-      }
-      saveHomeState();
-      renderHomeState();
-      showToast(`Viewing logs for ${dateStr}`);
-    };
-
-    window.resetTrackerToToday = function() {
-      window.changeTrackerDate(getLocalDateString());
-    };
-
-    // Quick Add Dhikr Count
-    window.addQuickDhikr = function(goalId, amount) {
-      window.incrementGoalCount(goalId, amount);
-    };
-
-    // Open Story Reader for either "Daily Reflection" or "Continue Reading"
     window.openStoryReader = function(mode) {
       if (mode === 'daily') {
         homeState.activeReaderStoryId = homeState.dailyReflectionStoryId;
@@ -1385,13 +1373,6 @@
       showToast(`Continue Reading synced to: ${STORIES_CATALOG[storyId].title}`);
     };
 
-    window.switchSubView = function(viewId) {
-      document.querySelectorAll('.sub-view').forEach(section => {
-        section.classList.toggle('active', section.id === viewId);
-      });
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    };
-
     window.advanceReadingPart = function() {
       const keys = Object.keys(STORIES_CATALOG);
       const currentIdx = keys.indexOf(homeState.continueReadingStoryId);
@@ -1403,38 +1384,31 @@
       showToast(`Up Next: ${STORIES_CATALOG[nextKey].title}`);
     };
 
-    // Search Duas & Reflections on Home
     const SEARCH_ITEMS = [
       { title: 'Dua for peace of heart', category: 'Daily Featured Dua', action: () => openFeaturedDuaModal() },
-      { title: 'Patience (As-Sabr)', category: 'Daily Reflection · The Quran', action: () => openStoryReader('daily') },
-      { title: 'The Valley of Makkah', category: 'Continue Reading · The Seerah', action: () => openStoryReader('continue') },
-      { title: 'Leadership with Humility', category: 'Reflections · Lessons', action: () => { selectContinueStory('leadership'); switchSubView('view-continue-reading'); } },
-      { title: '313 Durood Shareef', category: 'Daily Aamaal · Tasbih', action: () => switchSubView('view-daily-overview') },
-      { title: 'Surah Al-Mulk', category: 'Night Protection', action: () => switchSubView('view-daily-overview') }
+      { title: 'Patience (As-Sabr)', category: 'Daily Reflection', action: () => openStoryReader('daily') },
+      { title: 'The Valley of Makkah', category: 'Continue Reading', action: () => openStoryReader('continue') },
+      { title: '313 Durood Shareef', category: 'Daily Aamaal', action: () => switchSubView('view-daily-overview') }
     ];
 
     window.handleHomeSearch = function(query) {
       const box = document.getElementById('search-results-box');
       const clearBtn = document.getElementById('clear-search-btn');
       const q = query.trim().toLowerCase();
-
       if (!q) {
         box.classList.add('hidden');
         clearBtn.classList.add('hidden');
         return;
       }
-
       clearBtn.classList.remove('hidden');
       const matches = SEARCH_ITEMS.filter(item =>
         item.title.toLowerCase().includes(q) || item.category.toLowerCase().includes(q)
       );
-
       box.classList.remove('hidden');
       if (matches.length === 0) {
-        box.innerHTML = `<p class="text-xs text-[#a6bfb2] py-1 px-2">No matching duas or reflections found.</p>`;
+        box.innerHTML = `<p class="text-xs text-[#a6bfb2] py-1 px-2">No matching items found.</p>`;
         return;
       }
-
       box.innerHTML = matches.map((item, idx) => `
         <button onclick="window.triggerSearchResult(${idx})" class="w-full text-left p-2.5 rounded-xl hover:bg-white/5 flex items-center justify-between transition">
           <div>
@@ -1477,7 +1451,7 @@
     };
 
     window.navigateToPage = function(targetHtml, label) {
-      showToast(`Opening ${label} (${targetHtml})...`);
+      showToast(`Opening ${label}...`);
       setTimeout(() => {
         window.location.href = targetHtml;
       }, 450);
@@ -1495,19 +1469,18 @@
       }, 2400);
     };
 
-    // Custom Image Asset Manager Modal
     window.openAssetModal = function() {
       const container = document.getElementById('asset-inputs-container');
       const modal = document.getElementById('asset-modal');
       const labels = {
-        bg_home_header: 'Top Header Sunrise Mosque Scenery',
-        user_avatar: 'Top-Left User Profile Avatar',
-        featured_dua_emblem: 'Daily Featured Dua Mosque Emblem',
-        story_sabr_cover: 'Story Cover 1: Patience (As-Sabr) — Daily Reflection',
-        story_makkah_cover: 'Story Cover 2: The Valley of Makkah — Continue Reading',
-        story_leadership_cover: 'Story Cover 3: Leadership with Humility',
-        story_gratitude_cover: 'Story Cover 4: The Power of Gratitude',
-        reminder_banner_bg: 'Gentle Reminder Background'
+        bg_home_header: 'Top Header Background',
+        user_avatar: 'User Avatar',
+        featured_dua_emblem: 'Featured Dua Emblem',
+        story_sabr_cover: 'Story Cover: Patience',
+        story_makkah_cover: 'Story Cover: Makkah',
+        story_leadership_cover: 'Story Cover: Leadership',
+        story_gratitude_cover: 'Story Cover: Gratitude',
+        reminder_banner_bg: 'Reminder Background'
       };
 
       container.innerHTML = Object.keys(labels).map(key => `
@@ -1570,9 +1543,6 @@
       showToast('Reset to default artwork');
     };
 
-    // =========================================================================
-    // 3. FIREBASE CLOUD PERSISTENCE + LOCALSTORAGE FALLBACK
-    // =========================================================================
     let db = null;
     let currentUser = null;
     const appId = typeof __app_id !== 'undefined' ? __app_id : 'islaah-aamaal-circle';
@@ -1599,6 +1569,7 @@
               if (snap.exists()) {
                 homeState = { ...DEFAULT_HOME_STATE, ...snap.data() };
                 localStorage.setItem('aamaal_home_state', JSON.stringify(homeState));
+                initDailyContent(); 
                 renderHomeState();
               }
             }
@@ -1627,8 +1598,10 @@
       }
     }
 
+    // Initialization Sequence
     initDateHeader();
     applyAllCustomImages();
+    initDailyContent();
     renderHomeState();
     initFirebase();
   </script>
