@@ -376,8 +376,8 @@
               <span class="text-[13px] font-medium text-[#edf5f0]">Stories</span>
             </button>
 
-            <!-- Saved -->
-            <button onclick="switchSubView('view-quick-actions')" class="quick-tile">
+           <!-- Saved (Redirects directly to settings.html#favourites) -->
+            <button onclick="navigateToPage('settings.html#favourites', 'Saved & Favourites')" class="quick-tile">
               <svg class="w-8 h-8 text-[#d4be83]" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
               </svg>
@@ -488,13 +488,15 @@
     <!-- SUB-SCREEN 2: DAILY OVERVIEW DETAIL (With Slider Toggle Switches)   -->
     <!-- =================================================================== -->
     <section id="view-daily-overview" class="sub-view px-5 pt-10 space-y-7">
-      <div class="flex items-center justify-between">
-        <button onclick="switchSubView('view-home-main')" class="inline-flex items-center gap-2 text-sm text-[#9fe8bc] font-medium">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
-          Back to Home
-        </button>
-        <span class="text-xs uppercase tracking-[0.2em] text-[#d4be83]">Daily Overview</span>
-      </div>
+          <div class="flex items-center justify-between">
+      <button onclick="switchSubView('view-home-main')" class="inline-flex items-center gap-2 text-sm text-[#9fe8bc] font-medium">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+        Back to Home
+      </button>
+      <button onclick="navigateToPage('settings.html#activity', 'Activity & Calendar')" class="text-xs uppercase tracking-[0.15em] text-[#d4be83] hover:underline flex items-center gap-1">
+        Calendar &amp; History →
+      </button>
+          </div>
 
       <div>
         <h2 class="font-serif-display text-3xl font-semibold text-white">Today’s Aamaal Tracker</h2>
@@ -557,11 +559,12 @@
           <p class="text-xs text-[#b2c9bc]">Purify the heart and open doors of relief.</p>
         </button>
 
-        <button onclick="navigateToPage('duas.html', 'Saved Duas')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
+                <button onclick="navigateToPage('settings.html#favourites', 'Saved Bookmarks')" class="aamaal-card aamaal-card-interactive p-5 text-left space-y-2">
           <span class="text-xs uppercase tracking-wider text-[#9fe8bc]">Favourites</span>
           <h3 class="font-serif-display text-2xl font-semibold text-white">Saved Bookmarks</h3>
           <p class="text-xs text-[#b2c9bc]">3 Duas & 2 Reflections bookmarked for quick access.</p>
         </button>
+
       </div>
     </section>
 
