@@ -1479,10 +1479,16 @@
     touchZone.addEventListener('pointerup', (e) => {
       if (e.pointerId !== activePointerId) return;
       const dy = e.clientY - gestureStartY;
+      const dx = e.clientX - gestureStartX; // Added to check for straight upward path
 
       if (!gestureResolved) {
-        // Only count as a tap if it wasn't an aborted upward swipe (> 22px upward)
-        if (dy > -22) {
+        // Check if the user did a quick flick upward before reaching the 75px drag limit
+        if (dy <= -25 && Math.abs(dy) > Math.abs(dx)) {
+          gestureResolved = true;
+          undoCount('swipe');
+        } 
+        // Otherwise, count it as a normal tap/pull if it wasn't an aborted upward swipe
+        else if (dy > -22) {
           gestureResolved = true;
           incrementCount();
         }
