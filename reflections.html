@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&family=Lateef:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
+<script>
 (function syncAamaalGlobalPrefs() {
   try {
     const prefs = JSON.parse(localStorage.getItem('aamaal_global_prefs') || '{}');
@@ -26,7 +26,7 @@
     if (prefs.reducedMotion !== undefined) root.setAttribute('data-reduced-motion', String(prefs.reducedMotion));
   } catch (e) {}
 })();
-
+</script>
   
   <style>
     :root {
