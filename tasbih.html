@@ -248,27 +248,6 @@
       <div id="bgOverlay" class="absolute inset-0 bg-gradient-to-b from-black/35 via-emerald-950/35 to-black/75"></div>
     </div>
 
-    <!-- iOS STATUS BAR -->
-    <div class="relative z-20 flex items-center justify-between px-6 pt-3 pb-1 text-xs font-semibold tracking-wide text-white/90 shrink-0">
-      <span id="statusClock">9:41</span>
-      <div class="flex items-center gap-1.5">
-        <svg class="w-4 h-3.5" fill="currentColor" viewBox="0 0 16 12">
-          <rect x="0" y="8" width="2.5" height="4" rx="0.6"/>
-          <rect x="4" y="5.5" width="2.5" height="6.5" rx="0.6"/>
-          <rect x="8" y="3" width="2.5" height="9" rx="0.6"/>
-          <rect x="12" y="0" width="2.5" height="12" rx="0.6"/>
-        </svg>
-        <svg class="w-4 h-3.5" fill="currentColor" viewBox="0 0 16 12">
-          <path d="M8 9.6a1.5 1.5 0 100 3 1.5 1.5 0 000-3zm-3.6-1.8a5.4 5.4 0 017.2 0l1.2-1.3a7.2 7.2 0 00-9.6 0l1.2 1.3zm-2.7-2.7a9.2 9.2 0 0112.6 0l1.2-1.3a11 11 0 00-15 0l1.2 1.3z"/>
-        </svg>
-        <div class="flex items-center">
-          <div class="w-6 h-3 rounded-[4px] border border-white/80 p-0.5 flex items-center">
-            <div class="w-full h-full bg-white rounded-[2px]"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
     <!-- HEADER: Back Button + Title + Guide + Dev BG + History + Settings -->
     <header class="relative z-20 flex items-start justify-between px-5 pt-2 pb-2 shrink-0">
       <div class="flex items-start gap-2 min-w-0 flex-1 pr-2">
@@ -1391,7 +1370,7 @@
       }
     }
 
-    function undoCount(source = 'gesture') {
+   function undoCount(source = 'gesture', handoffOffset = null) {
       if (state.count <= 0) {
         showToast('Counter is already at 0');
         return;
@@ -1399,7 +1378,14 @@
       state.restoredBannerActive = false;
       state.count -= 1;
 
-      beadAnimOffset = state.reducedMotion ? 0 : -0.85;
+      if (state.reducedMotion) {
+        beadAnimOffset = 0;
+      } else if (handoffOffset !== null) {
+        beadAnimOffset = handoffOffset;
+      } else {
+        beadAnimOffset = -0.85;
+      }
+
       undoGlowIntensity = 1.0;
 
       bumpCounterNumber();
@@ -1449,7 +1435,7 @@
         const progress = Math.min(1, upDist / LONG_SWIPE_UP_THRESHOLD);
 
         if (!state.reducedMotion) {
-          dragPreviewOffset = -0.65 * progress;
+          dragPreviewOffset = 0.85 * progress; // Positive pulls the beads UP 
         }
 
         swipeUpPill.classList.remove('opacity-0');
@@ -1460,8 +1446,9 @@
           swipeUpText.textContent = 'Already at 0';
         } else if (upDist >= LONG_SWIPE_UP_THRESHOLD) {
           gestureResolved = true;
+          const handoffOffset = dragPreviewOffset - 1.0; 
           resetSwipeUpIndicator();
-          undoCount('swipe');
+          undoCount('swipe', handoffOffset);
         } else {
           swipeUpText.textContent = 'Keep swiping up to undo (-1)';
         }
@@ -1476,18 +1463,20 @@
       }
     });
 
-    touchZone.addEventListener('pointerup', (e) => {
+   touchZone.addEventListener('pointerup', (e) => {
       if (e.pointerId !== activePointerId) return;
       const dy = e.clientY - gestureStartY;
-      const dx = e.clientX - gestureStartX; // Added to check for straight upward path
+      const dx = e.clientX - gestureStartX;
 
       if (!gestureResolved) {
-        // Check if the user did a quick flick upward before reaching the 75px drag limit
+        // Check if the user did a quick flick upward before reaching the drag limit
         if (dy <= -25 && Math.abs(dy) > Math.abs(dx)) {
           gestureResolved = true;
-          undoCount('swipe');
+          const progress = Math.min(1, Math.abs(dy) / LONG_SWIPE_UP_THRESHOLD);
+          const handoffOffset = (0.85 * progress) - 1.0;
+          undoCount('swipe', handoffOffset);
         } 
-        // Otherwise, count it as a normal tap/pull if it wasn't an aborted upward swipe
+        // Only count as a tap if it wasn't an aborted upward swipe (> 22px upward)
         else if (dy > -22) {
           gestureResolved = true;
           incrementCount();
