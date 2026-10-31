@@ -75,6 +75,7 @@
       color: var(--text-main);
       font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
+      min-height: 100dvh;
       overflow-x: hidden;
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
@@ -88,11 +89,12 @@
       justify-content: flex-start;
     }
 
-    /* --- PHONE SHELL (Natural Document Scroll — Matches Duas Library) --- */
+    /* --- PHONE SHELL --- */
     .phone-frame {
       width: 100%;
       max-width: 412px;
       min-height: 100vh;
+      min-height: 100dvh;
       margin: 0 auto;
       background: var(--bg-deep);
       position: relative;
@@ -102,7 +104,7 @@
 
     @media (min-width: 441px) {
       .phone-frame {
-        min-height: 860px;
+        min-height: 840px;
         margin: 20px auto;
         border: 2px solid rgba(212, 175, 55, 0.35);
         border-radius: 42px;
@@ -128,7 +130,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 12px;
+      margin-bottom: 8px;
       position: relative;
       z-index: 10;
     }
@@ -191,7 +193,7 @@
       line-height: 1.4;
     }
 
-    /* Segmented Filter Pills (Featured / Reminders / Collections | All / Topics / Series | Stories / History) */
+    /* Segmented Filter Pills */
     .filter-chips {
       display: flex;
       gap: 8px;
@@ -341,17 +343,28 @@
       box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45);
     }
 
-    /* --- FULL-SCREEN VIEWERS (SCREENS 55–63) --- */
+    /* --- FULL-SCREEN VIEWERS (SCREENS 55–63) ---
+       FIXED: Locked to exact viewport height (100dvh) so bottom pagination
+       and navigation buttons NEVER require vertical scrolling on mobile. */
     .fullscreen-stage {
-      flex: 1;
-      min-height: 820px;
+      width: 100%;
+      height: 100vh;
+      height: 100dvh;
+      max-height: 100dvh;
       position: relative;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      padding: 16px 18px 22px 18px;
+      padding: 12px 16px 14px 16px;
       overflow: hidden;
       background: var(--bg-deep);
+    }
+
+    @media (min-width: 441px) {
+      .fullscreen-stage {
+        height: 840px;
+        max-height: 840px;
+      }
     }
 
     .stage-bg-art {
@@ -380,9 +393,9 @@
       background: linear-gradient(
         180deg,
         rgba(4, 22, 18, 0.72) 0%,
-        rgba(4, 22, 18, 0.18) 38%,
+        rgba(4, 22, 18, 0.22) 38%,
         rgba(4, 22, 18, 0.76) 72%,
-        rgba(4, 22, 18, 0.97) 100%
+        rgba(4, 22, 18, 0.96) 100%
       );
       pointer-events: none;
     }
@@ -397,90 +410,121 @@
       transition: opacity 0.28s ease;
     }
 
+    .stage-top-hud, .stage-bottom-hud {
+      flex-shrink: 0;
+    }
+
+    .stage-center-body {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      overflow-y: auto;
+      scrollbar-width: none;
+    }
+    .stage-center-body::-webkit-scrollbar { display: none; }
+
     .immersive-hidden .stage-top-hud,
     .immersive-hidden .stage-bottom-hud {
       opacity: 0;
       pointer-events: none;
     }
 
-    /* Ornate Archway Frame (Screen 56, 59, 60, 62, 63) */
+    /* Ornate Archway Frame (Screen 56) */
     .ornate-arch-frame {
       position: relative;
-      border-radius: 160px 160px 22px 22px;
+      border-radius: 150px 150px 20px 20px;
       border: 2px solid var(--gold-primary);
       box-shadow:
-        0 14px 35px rgba(0, 0, 0, 0.65),
+        0 12px 28px rgba(0, 0, 0, 0.65),
         inset 0 0 0 4px rgba(4, 22, 18, 0.85),
         inset 0 0 0 5.5px rgba(212, 175, 55, 0.45);
       overflow: hidden;
-      height: 360px;
-      margin: 6px auto 16px auto;
+      height: clamp(200px, 38dvh, 310px);
+      margin: 4px auto 12px auto;
       width: 100%;
+      flex-shrink: 0;
     }
 
-    /* Structured Reading Card for Hadith / Quran / Final Slide (Screens 59, 60, 62) */
+    .ornate-arch-frame svg, .ornate-arch-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Structured Reading Card for Hadith / Quran / Final Slide (Screens 59, 60, 62)
+       FIXED: Added position: relative; z-index: 5; so .stage-scrim (z-index: 2)
+       NEVER covers or blurs the text on Slides 4, 5, and 7. */
     .ornate-reading-card {
       position: relative;
-      background: linear-gradient(180deg, rgba(11, 38, 31, 0.94) 0%, rgba(6, 23, 19, 0.97) 100%);
-      border: 1.5px solid rgba(212, 175, 55, 0.48);
-      border-radius: 26px;
-      padding: 26px 18px 20px 18px;
+      z-index: 5;
+      background: linear-gradient(180deg, rgba(11, 38, 31, 0.96) 0%, rgba(6, 23, 19, 0.98) 100%);
+      border: 1.5px solid rgba(212, 175, 55, 0.58);
+      border-radius: 24px;
+      padding: 18px 16px 16px 16px;
       margin: auto 0;
       text-align: center;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.65);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.72);
+      max-height: calc(100dvh - 140px);
+      overflow-y: auto;
+      scrollbar-width: none;
     }
+    .ornate-reading-card::-webkit-scrollbar { display: none; }
 
     .arch-crest-svg {
-      width: 150px;
-      height: 46px;
-      margin: -10px auto 8px auto;
+      width: 136px;
+      height: 36px;
+      margin: -4px auto 6px auto;
       display: block;
     }
 
     .arabic-calligraphy {
       font-family: var(--arabic-font);
-      font-size: calc(1.55rem * var(--arabic-scale));
-      line-height: 1.95;
+      font-size: calc(1.42rem * var(--arabic-scale));
+      line-height: 1.85;
       color: var(--gold-light);
       direction: rtl;
-      margin: 10px 0;
+      margin: 6px 0;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.45);
     }
 
     .translit-italic {
-      font-size: calc(0.8rem * var(--body-scale));
-      color: var(--text-muted);
+      font-size: calc(0.78rem * var(--body-scale));
+      color: #c2d4cd;
       font-style: italic;
-      line-height: 1.45;
-      margin-bottom: 12px;
+      line-height: 1.4;
+      margin-bottom: 8px;
     }
 
     .quote-body-text {
-      font-size: calc(0.92rem * var(--body-scale));
-      color: var(--text-main);
-      line-height: 1.58;
-      margin-bottom: 12px;
+      font-size: calc(0.9rem * var(--body-scale));
+      color: #ffffff;
+      line-height: 1.5;
+      margin-bottom: 8px;
     }
 
     .reflection-box-inner {
       text-align: left;
-      background: rgba(4, 22, 18, 0.65);
-      border: 1px solid var(--gold-border);
+      background: rgba(4, 22, 18, 0.78);
+      border: 1px solid rgba(212, 175, 55, 0.32);
       border-radius: 14px;
-      padding: 12px 14px;
-      margin-top: 12px;
+      padding: 10px 13px;
+      margin-top: 10px;
     }
 
     .reflection-box-inner h4 {
       font-family: 'Cinzel', serif;
-      font-size: 0.85rem;
+      font-size: 0.82rem;
       color: var(--gold-light);
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
 
     .reflection-box-inner p {
-      font-size: calc(0.79rem * var(--body-scale));
-      color: var(--text-muted);
-      line-height: 1.5;
+      font-size: calc(0.77rem * var(--body-scale));
+      color: #d7e4df;
+      line-height: 1.45;
     }
 
     /* Bottom Controls Bar (Prev / Dots / Pause / Next / Progress Bar) */
@@ -489,7 +533,7 @@
       align-items: center;
       justify-content: space-between;
       gap: 12px;
-      margin-top: 10px;
+      margin-top: 6px;
     }
 
     .nav-circle-btn {
@@ -518,8 +562,8 @@
     }
 
     .pause-circle-btn {
-      width: 48px;
-      height: 48px;
+      width: 44px;
+      height: 44px;
       border-radius: 50%;
       background: rgba(15, 54, 43, 0.92);
       border: 1.5px solid var(--mint-pill);
@@ -527,7 +571,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 1.2rem;
+      font-size: 1.15rem;
       cursor: pointer;
       box-shadow: 0 0 16px rgba(127, 212, 178, 0.22);
     }
@@ -559,7 +603,7 @@
       background: rgba(255, 255, 255, 0.16);
       border-radius: 99px;
       overflow: hidden;
-      margin-top: 12px;
+      margin-top: 8px;
     }
 
     .linear-progress-fill {
@@ -569,15 +613,15 @@
       transition: width 0.25s ease;
     }
 
-    /* Buttons (Outline Pill & Mint Primary Pill matching Reference Image) */
+    /* Buttons */
     .pill-outline-cta {
       width: 100%;
-      padding: 11px 18px;
+      padding: 10px 16px;
       border-radius: 99px;
       background: rgba(13, 44, 36, 0.85);
       border: 1px solid rgba(127, 212, 178, 0.55);
       color: var(--text-main);
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 600;
       cursor: pointer;
       display: inline-flex;
@@ -594,12 +638,12 @@
 
     .pill-mint-cta {
       width: 100%;
-      padding: 11px 18px;
+      padding: 10px 16px;
       border-radius: 99px;
       background: var(--mint-pill);
       border: 1px solid var(--mint-pill);
       color: var(--mint-text);
-      font-size: 0.85rem;
+      font-size: 0.84rem;
       font-weight: 700;
       cursor: pointer;
       display: inline-flex;
@@ -735,7 +779,7 @@
 </head>
 <body>
 
-  <!-- STANDALONE MOBILE APP SHELL (NO BOTTOM TAB BAR — MATCHES DUAS LIBRARY) -->
+  <!-- STANDALONE MOBILE APP SHELL -->
   <main class="phone-frame">
     <div class="app-viewport" id="appViewport"></div>
     <div class="toast-msg" id="toastMsg">Saved to Bookmarks</div>
@@ -1174,7 +1218,7 @@
       renderScreen(state.currentScreen, true);
     }
 
-    /* --- AUTO-PLAY & PAUSE ENGINE (Behaviours #2, #3, #12) --- */
+    /* --- AUTO-PLAY & PAUSE ENGINE --- */
     function startAutoPlayTimer() {
       clearInterval(autoPlayTimer);
       if (!state.autoPlay || state.isPaused) return;
@@ -1226,7 +1270,6 @@
       renderScreen(state.currentScreen, true);
     }
 
-    // Stop auto-play automatically if user leaves browser tab (Behaviour #12)
     document.addEventListener('visibilitychange', () => {
       if (document.hidden && state.autoPlay) {
         state.isPaused = true;
@@ -1238,7 +1281,6 @@
        4. MASTER SCREEN ROUTER (SCREENS 54–67 + ADMIN 99)
        ========================================================================== */
     function renderScreen(screenNum, preserveScroll = false) {
-      // Stop auto-play if leaving story viewer screens (56–62)
       if ((screenNum < 56 || screenNum > 62) && state.autoPlay) {
         stopAutoPlay();
       }
@@ -1275,7 +1317,6 @@
       }
     }
 
-    /* --- HELPER: OPEN STORY AT SLIDE OR OVERVIEW --- */
     function openStoryDetails(storyId) {
       state.selectedStoryId = storyId;
       renderScreen(65);
@@ -1293,7 +1334,6 @@
       const story = getStory(state.selectedStoryId);
       const slide = story.slides[state.currentSlideIndex] || story.slides[0];
 
-      // Record reading history for Resume capability (Behaviour #8)
       state.history[story.id] = {
         lastSlide: state.currentSlideIndex,
         completed: false,
@@ -1318,7 +1358,6 @@
       const next = state.currentSlideIndex + delta;
       if (next < 0) return;
       if (next >= story.slides.length) {
-        // Reached Completion Screen (Screen 63)
         state.history[story.id] = { lastSlide: 0, completed: true, time: 'Completed' };
         saveUserProgress();
         stopAutoPlay();
@@ -1331,7 +1370,7 @@
     }
 
     /* ==========================================================================
-       5. INDIVIDUAL SCREEN VIEWS (MATCHING REFERENCE IMAGE 54–67)
+       5. INDIVIDUAL SCREEN VIEWS (SCREENS 54–67)
        ========================================================================== */
 
     /* --- SCREEN 54: REFLECTIONS HOME --- */
@@ -1339,7 +1378,6 @@
       const todayRem = DAILY_REMINDERS[state.dailyIndex % DAILY_REMINDERS.length];
       return `
         <div style="padding: 18px 18px 28px 18px;">
-          <!-- Top Header Row (Back to home.html + Admin + Bookmarks) -->
           <div class="top-nav-row">
             <button class="back-btn" onclick="window.location.href='home.html'" title="Back to Home">
               <i class="bi bi-chevron-left"></i>
@@ -1357,14 +1395,12 @@
           <h1 class="page-title">Reflections</h1>
           <p class="page-subtitle">Stories, reminders and timeless lessons for your journey.</p>
 
-          <!-- Filter Pills: Featured | Reminders | Collections -->
           <div class="filter-chips">
             <button class="chip ${state.homeTab === 'Featured' ? 'active' : ''}" onclick="state.homeTab='Featured'; renderScreen(54, true);">Featured</button>
-            <button class="chip ${state.homeTab === 'Reminders' ? 'active' : ''}" onclick=" renderScreen(55);">Reminders</button>
+            <button class="chip ${state.homeTab === 'Reminders' ? 'active' : ''}" onclick="renderScreen(55);">Reminders</button>
             <button class="chip ${state.homeTab === 'Collections' ? 'active' : ''}" onclick="renderScreen(64);">Collections</button>
           </div>
 
-          <!-- Today's Daily Reminder Featured Card -->
           <div class="daily-reminder-hero-card" onclick="renderScreen(55)">
             <div class="art-layer">${renderArtMarkup(todayRem.art)}</div>
             <div class="card-gradient-scrim">
@@ -1378,7 +1414,6 @@
             </div>
           </div>
 
-          <!-- Featured Stories Horizontal Carousel -->
           <div class="section-head">
             <span class="section-title">Featured Stories</span>
             <button class="section-action" onclick="renderScreen(64)">See all <i class="bi bi-chevron-right"></i></button>
@@ -1405,7 +1440,6 @@
             }).join('')}
           </div>
 
-          <!-- Story Collections Quick Preview -->
           <div class="section-head" style="margin-top:20px;">
             <span class="section-title">Story Collections</span>
             <button class="section-action" onclick="renderScreen(64)">Browse all (${COLLECTIONS_LIST.length})</button>
@@ -1427,7 +1461,7 @@
       `;
     }
 
-    /* --- SCREEN 55: DAILY REMINDER VIEWER (Full-Screen Illustrated Card with Swipe) --- */
+    /* --- SCREEN 55: DAILY REMINDER VIEWER --- */
     function view55DailyReminderViewer() {
       const idx = state.dailyIndex % DAILY_REMINDERS.length;
       const rem = DAILY_REMINDERS[idx];
@@ -1436,7 +1470,6 @@
           <div class="stage-bg-art">${renderArtMarkup(rem.art)}</div>
           <div class="stage-scrim"></div>
 
-          <!-- Top Header -->
           <div class="stage-top-hud">
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(54)"><i class="bi bi-arrow-left"></i></button>
@@ -1447,25 +1480,23 @@
             </div>
           </div>
 
-          <!-- Bottom Reminder Content + Controls -->
           <div class="stage-bottom-hud" style="text-align:center; margin-top:auto;">
-            <!-- Ornamental Crest -->
             <svg class="arch-crest-svg" viewBox="0 0 160 45">
               <path d="M10,40 Q80,5 150,40" fill="none" stroke="#d4af37" stroke-width="1.8"/>
               <circle cx="80" cy="18" r="4" fill="#f3dc8b"/>
             </svg>
 
-            <h2 class="page-title" style="font-size:1.4rem; color:#fff; margin-bottom:6px;">${rem.title}</h2>
-            <p style="font-size:0.86rem; color:var(--text-main); opacity:0.92; max-width:300px; margin:0 auto 14px auto; line-height:1.5;">
+            <h2 class="page-title" style="font-size:1.35rem; color:#fff; margin-bottom:6px;">${rem.title}</h2>
+            <p style="font-size:0.84rem; color:var(--text-main); opacity:0.95; max-width:300px; margin:0 auto 12px auto; line-height:1.45;">
               ${rem.subtitle}
             </p>
 
-            <button class="pill-outline-cta" style="max-width:230px; margin:0 auto 16px auto;" onclick="startStoryAtSlide('${rem.linkedStoryId || 'marketplace-story'}', 0)">
+            <button class="pill-outline-cta" style="max-width:230px; margin:0 auto 12px auto;" onclick="startStoryAtSlide('${rem.linkedStoryId || 'marketplace-story'}', 0)">
               <span>Read Illustrated Story</span>
               <i class="bi bi-arrow-right-short"></i>
             </button>
 
-            <div style="font-size:0.74rem; color:var(--text-muted); margin-bottom:10px;">Swipe to continue</div>
+            <div style="font-size:0.72rem; color:var(--text-muted); margin-bottom:6px;">Swipe to continue</div>
 
             <div class="viewer-controls-row">
               <button class="nav-circle-btn" onclick="stepDailyReminder(-1)" aria-label="Previous Reminder">
@@ -1488,7 +1519,7 @@
       renderScreen(55, true);
     }
 
-    /* --- SCREENS 56–62: REUSABLE STORY VIEWER (Handles Intro, Beats, Illustration, Hadith, Quran, Dua, Final) --- */
+    /* --- SCREENS 56–62: REUSABLE STORY VIEWER --- */
     function viewReusableStorySlide() {
       const story = getStory(state.selectedStoryId);
       const total = story.slides.length;
@@ -1496,18 +1527,17 @@
       const slide = story.slides[idx];
       const progressPercent = Math.round(((idx + 1) / total) * 100);
 
-      // Common Top HUD Bar
       const topHudHTML = `
         <div class="stage-top-hud">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(54)" title="Leave Story"><i class="bi bi-arrow-left"></i></button>
             ${slide.type === 'INTRO' ? `
-              <span style="font-family:'Cinzel',serif; font-size:0.95rem; color:var(--gold-light); font-weight:600;">
+              <span style="font-family:'Cinzel',serif; font-size:0.92rem; color:var(--gold-light); font-weight:600; text-align:center;">
                 ${story.title}
               </span>
               <button class="icon-action-btn" onclick="renderScreen(65)" title="Story Details"><i class="bi bi-info-circle"></i></button>
             ` : `
-              <span style="font-size:0.82rem; font-weight:600; color:var(--gold-light); background:rgba(9,34,28,0.8); padding:4px 12px; border-radius:99px; border:1px solid var(--gold-border);">
+              <span style="font-size:0.8rem; font-weight:600; color:var(--gold-light); background:rgba(9,34,28,0.85); padding:4px 12px; border-radius:99px; border:1px solid var(--gold-border);">
                 ${idx + 1} / ${total}
               </span>
               <div style="display:flex; gap:6px;">
@@ -1523,31 +1553,33 @@
         </div>
       `;
 
-      // Screen 56: Story Introduction (Ornate Archway + Continue Pill)
+      // Screen 56: Story Introduction (Ornate Archway + Continue Pill + Prev/Dots/Next)
       if (slide.type === 'INTRO') {
         return `
           <div class="fullscreen-stage" id="swipeStageArea" onclick="handleImmersiveTap(event)">
-            <div class="stage-bg-art" style="opacity:0.22;">${renderArtMarkup(slide.art || story.coverArt)}</div>
+            <div class="stage-bg-art" style="opacity:0.25;">${renderArtMarkup(slide.art || story.coverArt)}</div>
             <div class="stage-scrim"></div>
             ${topHudHTML}
 
-            <div class="stage-center-body" style="text-align:center; my:auto;">
+            <div class="stage-center-body" style="text-align:center;">
               <div class="ornate-arch-frame">
                 ${renderArtMarkup(slide.art || story.coverArt)}
               </div>
-              <p style="font-size:0.92rem; color:var(--text-main); line-height:1.55; max-width:300px; margin:12px auto 20px auto;">
+              <p style="font-size:0.9rem; color:var(--text-main); line-height:1.5; max-width:300px; margin:6px auto 14px auto;">
                 ${slide.text}
               </p>
-              <button class="pill-outline-cta" style="max-width:240px; margin:0 auto;" onclick="event.stopPropagation(); stepStorySlide(1)">
+              <button class="pill-outline-cta" style="max-width:230px; margin:0 auto;" onclick="event.stopPropagation(); stepStorySlide(1)">
                 Continue
               </button>
             </div>
 
-            <div class="stage-bottom-hud">
-              <div class="viewer-controls-row" style="justify-content:center;">
+            <div class="stage-bottom-hud" onclick="event.stopPropagation()">
+              <div class="viewer-controls-row">
+                <button class="nav-circle-btn" disabled aria-label="Previous Slide"><i class="bi bi-chevron-left"></i></button>
                 <div class="dots-indicator">
                   ${story.slides.map((_, i) => `<span class="${i === idx ? 'active' : ''}"></span>`).join('')}
                 </div>
+                <button class="nav-circle-btn" onclick="stepStorySlide(1)" aria-label="Next Slide"><i class="bi bi-chevron-right"></i></button>
               </div>
             </div>
           </div>
@@ -1563,7 +1595,7 @@
             ${topHudHTML}
 
             <div class="stage-bottom-hud" style="margin-top:auto;">
-              <p style="font-size:0.96rem; color:#fff; line-height:1.6; margin-bottom:20px; text-shadow:0 2px 10px rgba(0,0,0,0.8);">
+              <p style="font-size:0.94rem; color:#fff; line-height:1.55; margin-bottom:14px; text-shadow:0 2px 10px rgba(0,0,0,0.8);">
                 ${slide.text}
               </p>
 
@@ -1593,9 +1625,9 @@
 
             <div class="stage-bottom-hud" style="margin-top:auto; text-align:center;">
               ${state.fullImageExpanded ? `
-                <div style="background:rgba(4,22,18,0.85); border:1px solid var(--gold-border); border-radius:14px; padding:12px; margin-bottom:12px;">
+                <div style="background:rgba(4,22,18,0.92); border:1px solid var(--gold-border); border-radius:14px; padding:12px; margin-bottom:10px;">
                   <div style="font-family:'Cinzel',serif; color:var(--gold-light); font-size:0.9rem;">${slide.title || story.title}</div>
-                  <p style="font-size:0.78rem; color:var(--text-muted); margin-top:4px;">${slide.text || 'Full-resolution digital illustration.'}</p>
+                  <p style="font-size:0.78rem; color:var(--text-main); margin-top:4px;">${slide.text || 'Full-resolution digital illustration.'}</p>
                 </div>
               ` : ''}
 
@@ -1616,31 +1648,33 @@
       if (slide.type === 'HADITH' || slide.type === 'QURAN') {
         return `
           <div class="fullscreen-stage" id="swipeStageArea">
-            <div class="stage-bg-art" style="opacity:0.25;">${renderArtMarkup(slide.art || story.coverArt)}</div>
+            <div class="stage-bg-art" style="opacity:0.28;">${renderArtMarkup(slide.art || story.coverArt)}</div>
             <div class="stage-scrim"></div>
             ${topHudHTML}
 
-            <div class="ornate-reading-card">
-              <svg class="arch-crest-svg" viewBox="0 0 160 45">
-                <path d="M15,40 Q80,2 145,40" fill="none" stroke="#d4af37" stroke-width="1.8"/>
-                <circle cx="80" cy="14" r="4" fill="#f3dc8b"/>
-              </svg>
+            <div class="stage-center-body">
+              <div class="ornate-reading-card">
+                <svg class="arch-crest-svg" viewBox="0 0 160 45">
+                  <path d="M15,40 Q80,2 145,40" fill="none" stroke="#d4af37" stroke-width="1.8"/>
+                  <circle cx="80" cy="14" r="4" fill="#f3dc8b"/>
+                </svg>
 
-              <div style="font-family:'Cinzel',serif; font-size:1.05rem; color:var(--gold-light); font-weight:600; margin-bottom:6px;">
-                ${slide.heading || (slide.type === 'HADITH' ? 'Hadith' : 'Quran Reflection')}
-              </div>
-
-              <div class="arabic-calligraphy">${slide.arabic}</div>
-              ${slide.transliteration ? `<div class="translit-italic">${slide.transliteration}</div>` : ''}
-              <div class="quote-body-text">${slide.translation || slide.text}</div>
-              <div style="font-size:0.76rem; color:var(--gold-primary); font-weight:600;">${slide.source}</div>
-
-              ${slide.reflection ? `
-                <div class="reflection-box-inner">
-                  <h4>Reflection</h4>
-                  <p>${slide.reflection}</p>
+                <div style="font-family:'Cinzel',serif; font-size:1rem; color:var(--gold-light); font-weight:600; margin-bottom:4px;">
+                  ${slide.heading || (slide.type === 'HADITH' ? 'Hadith' : 'Quran Reflection')}
                 </div>
-              ` : ''}
+
+                <div class="arabic-calligraphy">${slide.arabic}</div>
+                ${slide.transliteration ? `<div class="translit-italic">${slide.transliteration}</div>` : ''}
+                <div class="quote-body-text">${slide.translation || slide.text}</div>
+                <div style="font-size:0.75rem; color:var(--gold-primary); font-weight:600;">${slide.source}</div>
+
+                ${slide.reflection ? `
+                  <div class="reflection-box-inner">
+                    <h4>Reflection</h4>
+                    <p>${slide.reflection}</p>
+                  </div>
+                ` : ''}
+              </div>
             </div>
 
             <div class="stage-bottom-hud">
@@ -1664,20 +1698,20 @@
             <div class="stage-scrim"></div>
             ${topHudHTML}
 
-            <div class="stage-center-body" style="margin:auto 0; text-align:center;">
-              <h2 class="page-title" style="font-size:1.22rem; margin-bottom:12px;">${slide.heading || 'A Dua for the Journey'}</h2>
+            <div class="stage-center-body" style="text-align:center;">
+              <h2 class="page-title" style="font-size:1.15rem; margin-bottom:8px;">${slide.heading || 'A Dua for the Journey'}</h2>
 
-              <div style="height:175px; border-radius:18px; overflow:hidden; border:1.5px solid var(--gold-primary); margin-bottom:14px;">
+              <div style="height:clamp(120px, 22dvh, 165px); border-radius:16px; overflow:hidden; border:1.5px solid var(--gold-primary); margin-bottom:10px; flex-shrink:0;">
                 ${renderArtMarkup(slide.art || 'desert_caravan')}
               </div>
 
-              <p style="font-size:0.84rem; color:var(--text-main); line-height:1.5; margin-bottom:12px;">
+              <p style="font-size:0.82rem; color:var(--text-main); line-height:1.45; margin-bottom:8px;">
                 ${slide.introText || slide.text}
               </p>
 
-              <div class="arabic-calligraphy" style="font-size:1.45rem;">${slide.arabic}</div>
-              <div class="translit-italic" style="margin-bottom:6px;">${slide.transliteration}</div>
-              <div style="font-size:0.73rem; color:var(--gold-primary);">${slide.source || ''}</div>
+              <div class="arabic-calligraphy" style="font-size:1.35rem; margin:4px 0;">${slide.arabic}</div>
+              <div class="translit-italic" style="margin-bottom:4px;">${slide.transliteration}</div>
+              <div style="font-size:0.72rem; color:var(--gold-primary);">${slide.source || ''}</div>
             </div>
 
             <div class="stage-bottom-hud">
@@ -1693,47 +1727,56 @@
         `;
       }
 
-      // Screen 62: Story Final Slide (The Lesson + Next Steps + Replay / Done)
+      // Screen 62: Story Final Slide (The Lesson + Next Steps + Replay / Done + Bottom Pagination)
       return `
         <div class="fullscreen-stage" id="swipeStageArea">
-          <div class="stage-bg-art" style="opacity:0.4;">${renderArtMarkup(slide.art || 'lantern_sanctuary')}</div>
+          <div class="stage-bg-art" style="opacity:0.38;">${renderArtMarkup(slide.art || 'lantern_sanctuary')}</div>
           <div class="stage-scrim"></div>
           ${topHudHTML}
 
-          <div class="ornate-reading-card" style="padding-top:22px;">
-            <div style="font-family:'Cinzel',serif; font-size:1.25rem; color:var(--gold-light); font-weight:600; margin-bottom:12px;">
-              ${slide.heading || 'The Lesson'}
-            </div>
+          <div class="stage-center-body">
+            <div class="ornate-reading-card" style="padding-top:18px;">
+              <div style="font-family:'Cinzel',serif; font-size:1.18rem; color:var(--gold-light); font-weight:600; margin-bottom:8px;">
+                ${slide.heading || 'The Lesson'}
+              </div>
 
-            <p style="font-size:0.95rem; color:#fff; line-height:1.55; margin-bottom:10px;">
-              ${slide.lessonPrimary || slide.text}
-            </p>
-            <p style="font-size:0.86rem; color:var(--text-muted); line-height:1.5; margin-bottom:16px;">
-              ${slide.lessonSecondary || story.takeaway}
-            </p>
+              <p style="font-size:0.9rem; color:#fff; line-height:1.5; margin-bottom:8px;">
+                ${slide.lessonPrimary || slide.text}
+              </p>
+              <p style="font-size:0.82rem; color:#c8dad3; line-height:1.45; margin-bottom:12px;">
+                ${slide.lessonSecondary || story.takeaway}
+              </p>
 
-            <div style="text-align:left; border-top:1px solid var(--gold-border); padding-top:12px; margin-bottom:18px;">
-              <div style="font-size:0.78rem; font-weight:700; color:var(--gold-light); margin-bottom:8px;">Next Steps</div>
-              ${(slide.nextSteps || ['Make this dua today', 'Save it to your favourites']).map(step => `
-                <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:var(--text-main); margin-bottom:6px;">
-                  <i class="bi bi-check-circle" style="color:var(--mint-pill);"></i>
-                  <span>${step}</span>
-                </div>
-              `).join('')}
-            </div>
+              <div style="text-align:left; border-top:1px solid var(--gold-border); padding-top:10px; margin-bottom:14px;">
+                <div style="font-size:0.76rem; font-weight:700; color:var(--gold-light); margin-bottom:6px;">Next Steps</div>
+                ${(slide.nextSteps || ['Make this dua today', 'Save it to your favourites']).map(step => `
+                  <div style="display:flex; align-items:center; gap:8px; font-size:0.78rem; color:var(--text-main); margin-bottom:5px;">
+                    <i class="bi bi-check-circle" style="color:var(--mint-pill);"></i>
+                    <span>${step}</span>
+                  </div>
+                `).join('')}
+              </div>
 
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-              <button class="pill-outline-cta" onclick="startStoryAtSlide('${story.id}', 0)">Replay</button>
-              <button class="pill-mint-cta" onclick="stepStorySlide(1)">Done</button>
+              <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <button class="pill-outline-cta" onclick="startStoryAtSlide('${story.id}', 0)">Replay</button>
+                <button class="pill-mint-cta" onclick="stepStorySlide(1)">Done</button>
+              </div>
             </div>
           </div>
 
-          <div class="stage-bottom-hud"></div>
+          <div class="stage-bottom-hud">
+            <div class="viewer-controls-row">
+              <button class="nav-circle-btn" onclick="stepStorySlide(-1)"><i class="bi bi-chevron-left"></i></button>
+              <div class="dots-indicator">
+                ${story.slides.map((_, i) => `<span class="${i === idx ? 'active' : ''}"></span>`).join('')}
+              </div>
+              <button class="nav-circle-btn" onclick="stepStorySlide(1)"><i class="bi bi-chevron-right"></i></button>
+            </div>
+          </div>
         </div>
       `;
     }
 
-    // Behaviour #5: Tap non-interactive stage background to toggle immersive controls
     function handleImmersiveTap(e) {
       if (e.target.closest('button') || e.target.closest('.ornate-reading-card')) return;
       const stage = document.getElementById('swipeStageArea');
@@ -1756,17 +1799,16 @@
             </div>
           </div>
 
-          <div class="stage-center-body" style="text-align:center; margin:auto 0;">
-            <!-- Gold Check Medallion -->
-            <div style="width:68px; height:68px; border-radius:50%; background:rgba(13,44,36,0.92); border:2px solid var(--gold-primary); display:flex; align-items:center; justify-content:center; margin:0 auto 16px auto; color:var(--mint-pill); font-size:2rem; box-shadow:0 0 25px rgba(212,175,55,0.35);">
+          <div class="stage-center-body" style="text-align:center;">
+            <div style="width:64px; height:64px; border-radius:50%; background:rgba(13,44,36,0.92); border:2px solid var(--gold-primary); display:flex; align-items:center; justify-content:center; margin:0 auto 14px auto; color:var(--mint-pill); font-size:1.9rem; box-shadow:0 0 25px rgba(212,175,55,0.35);">
               <i class="bi bi-check-lg"></i>
             </div>
 
-            <h1 class="page-title" style="font-size:1.5rem; color:#fff; margin-bottom:6px;">Story Completed!</h1>
-            <div style="font-size:1rem; font-weight:600; color:var(--gold-light); margin-bottom:6px;">${story.title}</div>
-            <p style="font-size:0.84rem; color:var(--text-muted); margin-bottom:26px;">${story.takeaway}</p>
+            <h1 class="page-title" style="font-size:1.45rem; color:#fff; margin-bottom:6px;">Story Completed!</h1>
+            <div style="font-size:0.98rem; font-weight:600; color:var(--gold-light); margin-bottom:6px;">${story.title}</div>
+            <p style="font-size:0.82rem; color:var(--text-muted); margin-bottom:22px;">${story.takeaway}</p>
 
-            <div style="display:flex; flex-direction:column; gap:11px; max-width:310px; margin:0 auto;">
+            <div style="display:flex; flex-direction:column; gap:10px; max-width:300px; margin:0 auto; width:100%;">
               <button class="pill-outline-cta" onclick="startStoryAtSlide('${story.id}', 0)">
                 <i class="bi bi-arrow-counterclockwise"></i>
                 <span>Replay</span>
@@ -1863,22 +1905,22 @@
             <button class="icon-action-btn" onclick="renderScreen(67)" title="Share Story"><i class="bi bi-share"></i></button>
           </div>
 
-          <div style="height:215px; border-radius:20px; overflow:hidden; border:1.5px solid rgba(212,175,55,0.5); margin:10px 0 16px 0; box-shadow:0 12px 28px rgba(0,0,0,0.5);">
+          <div style="height:200px; border-radius:20px; overflow:hidden; border:1.5px solid rgba(212,175,55,0.5); margin:10px 0 14px 0; box-shadow:0 12px 28px rgba(0,0,0,0.5);">
             ${renderArtMarkup(story.coverArt)}
           </div>
 
-          <h2 class="page-title" style="font-size:1.38rem; color:#fff; margin-bottom:6px;">${story.title}</h2>
+          <h2 class="page-title" style="font-size:1.35rem; color:#fff; margin-bottom:6px;">${story.title}</h2>
 
-          <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:var(--text-muted); margin-bottom:14px;">
+          <div style="display:flex; align-items:center; gap:8px; font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">
             <i class="bi bi-clock" style="color:var(--gold-primary);"></i>
             <span>${story.slides.length} slides · ${story.duration}</span>
           </div>
 
-          <p style="font-size:0.86rem; color:var(--text-main); line-height:1.6; opacity:0.92; margin-bottom:16px;">
+          <p style="font-size:0.85rem; color:var(--text-main); line-height:1.55; opacity:0.92; margin-bottom:14px;">
             ${story.overview}
           </p>
 
-          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;">
+          <div style="display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px;">
             ${(story.tags || ['Reflection', 'Sunnah', 'Life']).map(tag => `
               <span style="padding:5px 13px; border-radius:99px; font-size:0.74rem; background:rgba(13,44,36,0.9); border:1px solid var(--gold-border); color:var(--gold-light);">
                 ${tag}
@@ -1886,7 +1928,7 @@
             `).join('')}
           </div>
 
-          <button class="pill-outline-cta" style="padding:13px;" onclick="startStoryAtSlide('${story.id}', 0)">
+          <button class="pill-outline-cta" style="padding:12px;" onclick="startStoryAtSlide('${story.id}', 0)">
             <span>Start Reading</span>
           </button>
 
@@ -2008,7 +2050,7 @@
     }
 
     /* ==========================================================================
-       6. SCREEN 99: ADMIN STUDIO (Add Multiple-Slide Stories & Daily Reminders)
+       6. SCREEN 99: ADMIN STUDIO
        ========================================================================== */
     function view99AdminStudio() {
       return `
@@ -2019,7 +2061,6 @@
             <div style="width:34px;"></div>
           </div>
 
-          <!-- Switch Between Add Multi-Slide Story vs Add Daily Reminder -->
           <div class="filter-chips">
             <button class="chip ${state.adminMode === 'story' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.adminMode='story'; renderScreen(99, true);">
               + New Multi-Slide Story
@@ -2287,7 +2328,7 @@
     }
 
     /* ==========================================================================
-       7. SWIPE GESTURE CONFLICT HANDLER & KEYBOARD NAVIGATION (Behaviours #1, #6)
+       7. SWIPE GESTURE CONFLICT HANDLER & KEYBOARD NAVIGATION
        ========================================================================== */
     let touchStartX = 0;
     let touchStartY = 0;
@@ -2300,10 +2341,8 @@
     document.addEventListener('touchend', e => {
       const dx = e.changedTouches[0].screenX - touchStartX;
       const dy = e.changedTouches[0].screenY - touchStartY;
-      // Ignore horizontal swipes inside horizontally scrolling carousels
       if (e.target.closest('.featured-stories-rail') || e.target.closest('.filter-chips')) return;
 
-      // Gesture Conflict Lock: Only trigger slide change if horizontal delta clearly dominates vertical scroll
       if (Math.abs(dx) > 48 && Math.abs(dx) > Math.abs(dy) * 1.5) {
         if (state.currentScreen === 55) {
           stepDailyReminder(dx < 0 ? 1 : -1);
@@ -2323,7 +2362,6 @@
       }
     });
 
-    // Boot on Screen 54 (Reflections Home)
     window.addEventListener('DOMContentLoaded', () => {
       renderScreen(54);
     });
