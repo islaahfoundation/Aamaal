@@ -4,51 +4,42 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>Duas Library — File 4 of 6</title>
-  <!-- Google Fonts: Cinzel, Plus Jakarta Sans, Amiri (Uthmani), Lateef & Noto Nastaliq Urdu (IndoPak) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&family=Lateef:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <!-- Bootstrap Icons -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-<script>
-  (function syncAamaalGlobalPrefs() {
-  try {
-    const prefs = JSON.parse(localStorage.getItem('aamaal_global_prefs') || '{}');
-    const root = document.documentElement;
-    if (prefs.theme) {
-      const resolved = prefs.theme === 'system'
-        ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'parchment' : 'emerald')
-        : prefs.theme;
-      root.setAttribute('data-theme', resolved);
-    }
-    if (prefs.arabicScale) root.style.setProperty('--arabic-scale', prefs.arabicScale);
-    if (prefs.bodyScale) root.style.setProperty('--body-scale', prefs.bodyScale);
-    if (prefs.reducedMotion !== undefined) root.setAttribute('data-reduced-motion', String(prefs.reducedMotion));
-  } catch (e) {}
-})();
-</script>
-  <!-- Firebase SDKs -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+  <script>
+    (function syncAamaalGlobalPrefs() {
+      try {
+        const prefs = JSON.parse(localStorage.getItem('aamaal_global_prefs') || '{}');
+        const root = document.documentElement;
+        if (prefs.theme) {
+          root.setAttribute('data-theme', prefs.theme === 'system'
+            ? (window.matchMedia('(prefers-color-scheme: light)').matches ? 'parchment' : 'emerald')
+            : prefs.theme);
+        }
+        if (prefs.arabicScale) root.style.setProperty('--arabic-scale', prefs.arabicScale);
+        if (prefs.bodyScale) root.style.setProperty('--body-scale', prefs.bodyScale);
+        if (prefs.reducedMotion !== undefined) root.setAttribute('data-reduced-motion', String(prefs.reducedMotion));
+      } catch (e) {}
+    })();
+  </script>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-  // TODO: Replace with your actual Firebase project configuration
-  const firebaseConfig = {
-    apiKey: "YOUR_API_KEY",
-    authDomain: "your-project-id.firebaseapp.com",
-    projectId: "your-project-id",
-    storageBucket: "your-project-id.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcdef"
-  };
+    const firebaseConfig = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "your-project-id.firebaseapp.com",
+      projectId: "your-project-id",
+      storageBucket: "your-project-id.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef"
+    };
 
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-  window.db = getFirestore(app);
-  window.doc = doc;
-  window.getDoc = getDoc;
-  window.setDoc = setDoc;
-</script>
+    const app = initializeApp(firebaseConfig);
+    Object.assign(window, { db: getFirestore(app), doc, getDoc, setDoc });
+  </script>
   <style>
     :root {
       --bg-deep: #041612;
@@ -71,18 +62,11 @@
       --arabic-font: 'Amiri', serif;
     }
 
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-      -webkit-tap-highlight-color: transparent;
-    }
+    * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
     html, body {
-      background-color: #020c0a;
-      background-image: 
-        radial-gradient(circle at 15% 15%, rgba(24, 97, 76, 0.22) 0%, transparent 45%),
-        radial-gradient(circle at 85% 85%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+      background: #020c0a radial-gradient(circle at 15% 15%, rgba(24, 97, 76, 0.22) 0%, transparent 45%),
+                  radial-gradient(circle at 85% 85%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
       color: var(--text-main);
       font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100%;
@@ -92,56 +76,36 @@
       touch-action: pan-y;
     }
 
-    body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-    }
-@keyframes pulse {
-      0% { opacity: 0.6; transform: scale(0.95); }
+    body { display: flex; flex-direction: column; align-items: center; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.6; transform: scale(0.95); }
       50% { opacity: 1; transform: scale(1.05); }
-      100% { opacity: 0.6; transform: scale(0.95); }
     }
-    /* --- PHONE SHELL (Natural Document Scroll — Never Traps Touch Events) --- */
+
     .phone-frame {
       width: 100%;
       max-width: 412px;
       min-height: 100vh;
       margin: 0 auto;
       background: var(--bg-deep);
-      border-left: 1px solid rgba(212, 175, 55, 0.25);
-      border-right: 1px solid rgba(212, 175, 55, 0.25);
+      border-inline: 1px solid rgba(212, 175, 55, 0.25);
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
       position: relative;
       display: flex;
       flex-direction: column;
     }
+    @media (max-width: 440px) { .phone-frame { border: none; max-width: 100%; } }
 
-    @media (max-width: 440px) {
-      .phone-frame {
-        border: none;
-        max-width: 100%;
-      }
-    }
+    .app-viewport { flex: 1; width: 100%; position: relative; padding-bottom: 36px; }
 
-    /* Screen Container */
-    .app-viewport {
-      flex: 1;
-      width: 100%;
-      position: relative;
-      padding-bottom: 36px;
-    }
-
-    /* --- REUSABLE UI ELEMENTS --- */
+    /* Hero & Navigation */
     .hero-banner {
       position: relative;
-      padding: 18px 20px 22px 20px;
-      background-size: cover;
-      background-position: center;
+      padding: 18px 20px 22px;
+      background: center/cover no-repeat;
       border-bottom: 1px solid var(--gold-border);
     }
-
     .hero-banner::before {
       content: "";
       position: absolute;
@@ -150,1025 +114,296 @@
       z-index: 1;
       pointer-events: none;
     }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-    }
-
-    .top-nav-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
+    .hero-content { position: relative; z-index: 2; }
+    .top-nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
 
     .back-btn, .icon-action-btn {
-      width: 34px;
-      height: 34px;
+      width: 34px; height: 34px;
       border-radius: 50%;
       background: rgba(9, 34, 28, 0.75);
       border: 1px solid var(--gold-border);
       color: var(--gold-light);
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-size: 0.95rem;
+      display: inline-flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: all 0.2s; font-size: 0.95rem;
     }
-
-    .back-btn:hover, .icon-action-btn:hover {
-      border-color: var(--gold-primary);
-      background: rgba(24, 97, 76, 0.6);
-    }
+    .back-btn:hover, .icon-action-btn:hover { border-color: var(--gold-primary); background: rgba(24, 97, 76, 0.6); }
 
     .admin-pill-btn {
-      height: 34px;
-      padding: 0 12px;
-      border-radius: 99px;
-      background: rgba(24, 97, 76, 0.75);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-light);
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      font-size: 0.74rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
+      height: 34px; padding: 0 12px; border-radius: 99px;
+      background: rgba(24, 97, 76, 0.75); border: 1px solid var(--gold-primary);
+      color: var(--gold-light); display: inline-flex; align-items: center; gap: 5px;
+      font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
     }
+    .admin-pill-btn:hover { background: var(--emerald-accent); box-shadow: 0 0 10px rgba(212, 175, 55, 0.25); }
 
-    .admin-pill-btn:hover {
-      background: var(--emerald-accent);
-      box-shadow: 0 0 10px rgba(212, 175, 55, 0.25);
-    }
+    .page-title { font-family: 'Cinzel', serif; font-size: 1.45rem; font-weight: 600; color: var(--gold-light); letter-spacing: 0.3px; }
+    .page-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-top: 3px; }
 
-    .page-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1.45rem;
-      font-weight: 600;
-      color: var(--gold-light);
-      letter-spacing: 0.3px;
-    }
-
-    .page-subtitle {
-      font-size: 0.82rem;
-      color: var(--text-muted);
-      margin-top: 3px;
-    }
-
-    /* Search Input Bar */
-    .search-bar-wrap {
-      position: relative;
-      margin: 14px 0;
-    }
-
+    /* Search */
+    .search-bar-wrap { position: relative; margin: 14px 0; }
     .search-input {
-      width: 100%;
-      background: rgba(9, 34, 28, 0.85);
-      border: 1px solid var(--gold-border);
-      border-radius: 99px;
-      padding: 11px 38px 11px 40px;
-      color: var(--text-main);
-      font-size: 0.86rem;
-      outline: none;
-      transition: border-color 0.2s;
+      width: 100%; background: rgba(9, 34, 28, 0.85); border: 1px solid var(--gold-border);
+      border-radius: 99px; padding: 11px 38px 11px 40px; color: var(--text-main);
+      font-size: 0.86rem; outline: none; transition: border-color 0.2s;
     }
+    .search-input:focus { border-color: var(--gold-primary); box-shadow: 0 0 12px rgba(212, 175, 55, 0.18); }
+    .search-icon, .clear-search-btn { position: absolute; top: 50%; transform: translateY(-50%); }
+    .search-icon { left: 15px; color: var(--gold-primary); font-size: 0.9rem; pointer-events: none; }
+    .clear-search-btn { right: 12px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 0.95rem; }
 
-    .search-input:focus {
-      border-color: var(--gold-primary);
-      box-shadow: 0 0 12px rgba(212, 175, 55, 0.18);
-    }
-
-    .search-icon {
-      position: absolute;
-      left: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      color: var(--gold-primary);
-      font-size: 0.9rem;
-      pointer-events: none;
-    }
-
-    .clear-search-btn {
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      background: none;
-      border: none;
-      color: var(--text-muted);
-      cursor: pointer;
-      font-size: 0.95rem;
-    }
-
-    /* Featured Rotating Slide Card (Screen 37) */
-    .featured-slide-wrap {
-      position: relative;
-      margin: 6px 0 20px 0;
-    }
-
+    /* Featured Slide */
+    .featured-slide-wrap { position: relative; margin: 6px 0 20px; }
     .market-featured-card {
-      position: relative;
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid rgba(212, 175, 55, 0.45);
-      cursor: pointer;
+      position: relative; border-radius: 18px; overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.45); cursor: pointer;
       box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-      transition: transform 0.25s ease, border-color 0.25s ease;
-      background-size: cover;
-      background-position: center;
-      padding: 18px 18px 28px 18px;
-      display: flex;
-      justify-content: flex-end;
-      min-height: 132px;
-      align-items: center;
+      transition: transform 0.25s, border-color 0.25s;
+      background: center/cover no-repeat; padding: 18px 18px 28px;
+      display: flex; justify-content: flex-end; min-height: 132px; align-items: center;
     }
-
-    .market-featured-card:hover {
-      transform: translateY(-2px);
-      border-color: var(--gold-primary);
-    }
-
+    .market-featured-card:hover { transform: translateY(-2px); border-color: var(--gold-primary); }
     .market-card-badge {
-      position: absolute;
-      top: 10px;
-      left: 12px;
-      background: rgba(4, 22, 18, 0.82);
-      border: 1px solid var(--gold-border);
-      color: var(--gold-light);
-      font-size: 0.65rem;
-      padding: 3px 8px;
-      border-radius: 99px;
-      backdrop-filter: blur(4px);
+      position: absolute; top: 10px; left: 12px; background: rgba(4, 22, 18, 0.82);
+      border: 1px solid var(--gold-border); color: var(--gold-light);
+      font-size: 0.65rem; padding: 3px 8px; border-radius: 99px; backdrop-filter: blur(4px);
     }
-
-    .market-card-info {
-      max-width: 65%;
-      text-align: left;
-    }
-
-    .market-card-title {
-      font-family: 'Cinzel', serif;
-      font-size: 1rem;
-      color: var(--gold-light);
-      font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .market-card-desc {
-      font-size: 0.76rem;
-      color: var(--text-main);
-      opacity: 0.9;
-      margin-bottom: 8px;
-    }
-
-    .market-card-link {
-      font-size: 0.73rem;
-      color: var(--gold-primary);
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-weight: 600;
-    }
-
-    .slide-controls-bar {
-      position: absolute;
-      bottom: 8px;
-      left: 12px;
-      right: 12px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      pointer-events: none;
-    }
-
-    .slide-dots {
-      display: flex;
-      gap: 5px;
-      pointer-events: auto;
-    }
-
-    .slide-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 99px;
-      background: rgba(255, 255, 255, 0.35);
-      border: none;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-
-    .slide-dot.active {
-      width: 18px;
-      background: var(--gold-primary);
-    }
-
-    .slide-arrows {
-      display: flex;
-      gap: 6px;
-      pointer-events: auto;
-    }
-
+    .market-card-info { max-width: 65%; text-align: left; }
+    .market-card-title { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold-light); font-weight: 600; margin-bottom: 4px; }
+    .market-card-desc { font-size: 0.76rem; color: var(--text-main); opacity: 0.9; margin-bottom: 8px; }
+    .market-card-link { font-size: 0.73rem; color: var(--gold-primary); display: inline-flex; align-items: center; gap: 4px; font-weight: 600; }
+    .slide-controls-bar { position: absolute; bottom: 8px; inset-inline: 12px; display: flex; justify-content: space-between; align-items: center; pointer-events: none; }
+    .slide-dots, .slide-arrows { display: flex; gap: 5px; pointer-events: auto; }
+    .slide-dot { width: 7px; height: 7px; border-radius: 99px; background: rgba(255, 255, 255, 0.35); border: none; cursor: pointer; transition: all 0.2s; }
+    .slide-dot.active { width: 18px; background: var(--gold-primary); }
     .slide-arrow-btn {
-      width: 22px;
-      height: 22px;
-      border-radius: 50%;
-      background: rgba(4, 22, 18, 0.8);
-      border: 1px solid var(--gold-border);
-      color: var(--gold-light);
-      font-size: 0.7rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
+      width: 22px; height: 22px; border-radius: 50%; background: rgba(4, 22, 18, 0.8);
+      border: 1px solid var(--gold-border); color: var(--gold-light); font-size: 0.7rem;
+      display: flex; align-items: center; justify-content: center; cursor: pointer;
     }
 
-    /* Section Headers */
-    .section-head {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 16px 0 12px 0;
-    }
-
-    .section-title {
-      font-family: 'Cinzel', serif;
-      font-size: 0.98rem;
-      color: var(--gold-light);
-      font-weight: 600;
-    }
-
-    .section-action {
-      font-size: 0.76rem;
-      color: var(--gold-primary);
-      cursor: pointer;
-      background: none;
-      border: none;
-    }
-
-    /* 4-Column Quick Categories Row (Screen 37) */
-    .quick-cat-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin-bottom: 20px;
-    }
-
+    /* Sections & Categories */
+    .section-head { display: flex; justify-content: space-between; align-items: center; margin: 16px 0 12px; }
+    .section-title { font-family: 'Cinzel', serif; font-size: 0.98rem; color: var(--gold-light); font-weight: 600; }
+    .section-action { font-size: 0.76rem; color: var(--gold-primary); cursor: pointer; background: none; border: none; }
+    .quick-cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
     .quick-cat-tile {
-      background: var(--bg-card);
-      border: 1px solid var(--gold-border);
-      border-radius: 16px;
-      padding: 12px 6px;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.2s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
+      background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 16px;
+      padding: 12px 6px; text-align: center; cursor: pointer; transition: all 0.2s;
+      display: flex; flex-direction: column; align-items: center; gap: 6px;
     }
-
-    .quick-cat-tile:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--gold-primary);
-      transform: translateY(-2px);
-    }
-
+    .quick-cat-tile:hover { background: var(--bg-card-hover); border-color: var(--gold-primary); transform: translateY(-2px); }
     .quick-cat-icon {
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
+      width: 40px; height: 40px; border-radius: 50%;
       background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(13, 40, 33, 0.9) 100%);
-      border: 1px solid var(--gold-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold-light);
-      font-size: 1.05rem;
+      border: 1px solid var(--gold-primary); display: flex; align-items: center; justify-content: center;
+      color: var(--gold-light); font-size: 1.05rem;
     }
+    .quick-cat-label { font-size: 0.7rem; color: var(--text-main); line-height: 1.25; font-weight: 500; }
+    .quick-cat-count { font-size: 0.62rem; color: var(--gold-primary); }
 
-    .quick-cat-label {
-      font-size: 0.7rem;
-      color: var(--text-main);
-      line-height: 1.25;
-      font-weight: 500;
-    }
-
-    .quick-cat-count {
-      font-size: 0.62rem;
-      color: var(--gold-primary);
-    }
-
-    /* List Cards (Categories & Duas) */
-    .list-stack {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
+    /* Cards & Lists */
+    .list-stack, .option-list { display: flex; flex-direction: column; gap: 10px; }
     .dua-list-card {
-      background: var(--bg-card);
-      border: 1px solid var(--gold-border);
-      border-radius: 16px;
-      padding: 13px 15px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      cursor: pointer;
-      transition: all 0.2s ease;
+      background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 16px;
+      padding: 13px 15px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s;
     }
-
-    .dua-list-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--gold-primary);
-    }
-
+    .dua-list-card:hover { background: var(--bg-card-hover); border-color: var(--gold-primary); }
     .medallion-icon {
-      width: 46px;
-      height: 46px;
-      border-radius: 50%;
+      width: 46px; height: 46px; border-radius: 50%;
       background: radial-gradient(circle, rgba(24, 97, 76, 0.45) 0%, rgba(6, 24, 19, 0.95) 100%);
-      border: 1.5px solid var(--gold-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold-light);
-      font-size: 1.1rem;
-      flex-shrink: 0;
+      border: 1.5px solid var(--gold-primary); display: flex; align-items: center; justify-content: center;
+      color: var(--gold-light); font-size: 1.1rem; flex-shrink: 0;
       box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.25);
     }
+    .medallion-arabic { font-family: 'Amiri', serif; font-size: 0.95rem; color: var(--gold-light); line-height: 1; }
+    .card-body-text { flex: 1; min-width: 0; }
+    .card-title, .card-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .card-title { font-size: 0.92rem; font-weight: 600; color: var(--text-main); margin-bottom: 2px; }
+    .card-sub { font-size: 0.76rem; color: var(--text-muted); }
+    .card-meta { font-size: 0.7rem; color: var(--gold-primary); margin-top: 3px; }
+    .card-chevron { color: var(--text-muted); font-size: 0.9rem; }
 
-    .medallion-arabic {
-      font-family: 'Amiri', serif;
-      font-size: 0.95rem;
-      color: var(--gold-light);
-      line-height: 1;
-    }
-
-    .card-body-text {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .card-title {
-      font-size: 0.92rem;
-      font-weight: 600;
-      color: var(--text-main);
-      margin-bottom: 2px;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-sub {
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-
-    .card-meta {
-      font-size: 0.7rem;
-      color: var(--gold-primary);
-      margin-top: 3px;
-    }
-
-    .card-chevron {
-      color: var(--text-muted);
-      font-size: 0.9rem;
-    }
-
-    /* Filter Chips (Screens 40, 41, 49) */
-    .filter-chips {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 6px;
-      margin-bottom: 14px;
-      scrollbar-width: none;
-      -webkit-overflow-scrolling: touch;
-    }
-    .filter-chips::-webkit-scrollbar {
-      display: none;
-    }
-
+    /* Filter Chips */
+    .filter-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 14px; scrollbar-width: none; }
+    .filter-chips::-webkit-scrollbar { display: none; }
     .chip {
-      padding: 6px 15px;
-      border-radius: 99px;
-      font-size: 0.76rem;
-      border: 1px solid var(--gold-border);
-      background: rgba(9, 34, 28, 0.7);
-      color: var(--text-muted);
-      cursor: pointer;
-      white-space: nowrap;
-      transition: all 0.2s;
+      padding: 6px 15px; border-radius: 99px; font-size: 0.76rem; border: 1px solid var(--gold-border);
+      background: rgba(9, 34, 28, 0.7); color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s;
     }
+    .chip.active { background: var(--emerald-accent); color: var(--text-main); border-color: var(--gold-primary); font-weight: 600; }
 
-    .chip.active {
-      background: var(--emerald-accent);
-      color: var(--text-main);
-      border-color: var(--gold-primary);
-      font-weight: 600;
-    }
-
-    /* --- DUA DETAIL CARD (Screens 42, 43, 44) --- */
+    /* Dua Content Box & Parchment */
     .dua-content-box {
-      background: var(--bg-card);
-      border: 1px solid var(--gold-border);
-      border-radius: 20px;
-      padding: 20px 18px;
-      margin: 14px 0;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 20px;
+      padding: 20px 18px; margin: 14px 0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
     }
-
-    /* Parchment Variant for Marketplace Supplication (Screen 44) */
     .dua-content-box.parchment {
-      background: linear-gradient(180deg, #f7efe0 0%, #eadbc0 100%);
-      color: var(--parchment-text);
-      border: 2px solid #c59b38;
-      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), inset 0 0 24px rgba(163, 119, 39, 0.22);
+      background: linear-gradient(180deg, #f7efe0 0%, #eadbc0 100%); color: var(--parchment-text);
+      border: 2px solid #c59b38; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), inset 0 0 24px rgba(163, 119, 39, 0.22);
     }
-
     .arabic-verse {
-      font-family: var(--arabic-font);
-      font-size: calc(1.55rem * var(--arabic-scale));
-      line-height: 2.15;
-      text-align: center;
-      direction: rtl;
-      color: var(--gold-light);
-      margin-bottom: 16px;
-      padding: 6px 4px;
+      font-family: var(--arabic-font); font-size: calc(1.55rem * var(--arabic-scale));
+      line-height: 2.15; text-align: center; direction: rtl; color: var(--gold-light);
+      margin-bottom: 16px; padding: 6px 4px;
     }
+    .parchment .arabic-verse { color: #12261e; font-weight: 700; }
+    .transliteration-text { font-size: calc(0.86rem * var(--body-scale)); line-height: 1.55; color: var(--text-muted); text-align: center; font-style: italic; margin-bottom: 14px; }
+    .parchment .transliteration-text { color: #495950; }
+    .translation-text { font-size: calc(0.92rem * var(--body-scale)); line-height: 1.6; color: var(--text-main); text-align: center; margin-bottom: 14px; font-weight: 500; }
+    .parchment .translation-text, .parchment .benefits-title { color: #1c2b24; }
+    .source-badge { display: block; text-align: center; font-size: 0.76rem; color: var(--gold-primary); padding-top: 10px; border-top: 1px solid var(--gold-border); cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+    .parchment .source-badge { color: #7d5a12; border-top-color: rgba(125, 90, 18, 0.25); font-weight: 600; }
+    .benefits-section { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--gold-border); }
+    .parchment .benefits-section { border-top-color: rgba(125, 90, 18, 0.25); }
+    .benefits-title { font-size: 0.82rem; font-weight: 700; color: var(--gold-light); margin-bottom: 6px; }
+    .benefits-list { padding-left: 18px; font-size: 0.8rem; color: var(--text-muted); line-height: 1.5; }
+    .parchment .benefits-list { color: #2f4238; }
 
-    .parchment .arabic-verse {
-      color: #12261e;
-      font-weight: 700;
-    }
-
-    .transliteration-text {
-      font-size: calc(0.86rem * var(--body-scale));
-      line-height: 1.55;
-      color: var(--text-muted);
-      text-align: center;
-      font-style: italic;
-      margin-bottom: 14px;
-    }
-
-    .parchment .transliteration-text {
-      color: #495950;
-    }
-
-    .translation-text {
-      font-size: calc(0.92rem * var(--body-scale));
-      line-height: 1.6;
-      color: var(--text-main);
-      text-align: center;
-      margin-bottom: 14px;
-      font-weight: 500;
-    }
-
-    .parchment .translation-text {
-      color: #1c2b24;
-    }
-
-    .source-badge {
-      display: block;
-      text-align: center;
-      font-size: 0.76rem;
-      color: var(--gold-primary);
-      padding-top: 10px;
-      border-top: 1px solid var(--gold-border);
-      cursor: pointer;
-      text-decoration: underline;
-      text-underline-offset: 3px;
-    }
-
-    .parchment .source-badge {
-      color: #7d5a12;
-      border-top-color: rgba(125, 90, 18, 0.25);
-      font-weight: 600;
-    }
-
-    .benefits-section {
-      margin-top: 14px;
-      padding-top: 12px;
-      border-top: 1px solid var(--gold-border);
-    }
-
-    .parchment .benefits-section {
-      border-top-color: rgba(125, 90, 18, 0.25);
-    }
-
-    .benefits-title {
-      font-size: 0.82rem;
-      font-weight: 700;
-      color: var(--gold-light);
-      margin-bottom: 6px;
-    }
-
-    .parchment .benefits-title {
-      color: #1c2b24;
-    }
-
-    .benefits-list {
-      padding-left: 18px;
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      line-height: 1.5;
-    }
-
-    .parchment .benefits-list {
-      color: #2f4238;
-    }
-
-    /* Action Bar (Audio / Language / Font / Focus) */
-    .dua-toolbar-strip {
-      display: flex;
-      justify-content: space-between;
-      gap: 6px;
-      margin-bottom: 12px;
-    }
-
+    /* Toolbars & Buttons */
+    .dua-toolbar-strip { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 12px; }
     .mini-tool-btn {
-      flex: 1;
-      background: rgba(13, 40, 33, 0.85);
-      border: 1px solid var(--gold-border);
-      color: var(--gold-light);
-      padding: 8px 6px;
-      border-radius: 12px;
-      font-size: 0.72rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      cursor: pointer;
-      transition: all 0.2s;
+      flex: 1; background: rgba(13, 40, 33, 0.85); border: 1px solid var(--gold-border);
+      color: var(--gold-light); padding: 8px 6px; border-radius: 12px; font-size: 0.72rem;
+      display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: all 0.2s;
     }
-
-    .mini-tool-btn:hover {
-      border-color: var(--gold-primary);
-      background: var(--bg-card-hover);
-    }
-
-    .dual-action-row {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-top: 14px;
-    }
-
+    .mini-tool-btn:hover { border-color: var(--gold-primary); background: var(--bg-card-hover); }
+    .dual-action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
     .action-pill-btn {
-      background: rgba(13, 40, 33, 0.9);
-      border: 1px solid var(--gold-primary);
-      color: var(--text-main);
-      padding: 11px 16px;
-      border-radius: 14px;
-      font-size: 0.84rem;
-      font-weight: 600;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      cursor: pointer;
-      transition: all 0.2s;
+      background: rgba(13, 40, 33, 0.9); border: 1px solid var(--gold-primary); color: var(--text-main);
+      padding: 11px 16px; border-radius: 14px; font-size: 0.84rem; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.2s;
     }
+    .action-pill-btn:hover, .action-pill-btn.active { background: var(--emerald-accent); color: var(--gold-light); }
 
-    .action-pill-btn:hover, .action-pill-btn.active {
-      background: var(--emerald-accent);
-      color: var(--gold-light);
-    }
-
-    /* --- AUDIO PLAYER SCREEN (Screen 46) --- */
-    .audio-card {
-      background: var(--bg-card);
-      border: 1px solid var(--gold-border);
-      border-radius: 20px;
-      padding: 18px;
-      margin-bottom: 18px;
-    }
-
-    .reciter-head {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 18px;
-    }
-
+    /* Audio Player */
+    .audio-card { background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 20px; padding: 18px; margin-bottom: 18px; }
+    .reciter-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
     .reciter-avatar {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: 1.5px solid var(--gold-primary);
-      object-fit: cover;
-      background: #14382e;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: var(--gold-light);
-      font-size: 1.3rem;
-      flex-shrink: 0;
+      width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid var(--gold-primary);
+      background: #14382e; display: flex; align-items: center; justify-content: center;
+      color: var(--gold-light); font-size: 1.3rem; flex-shrink: 0;
     }
-
-    .progress-track {
-      width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.14);
-      border-radius: 99px;
-      position: relative;
-      margin-bottom: 8px;
-      cursor: pointer;
-    }
-
-    .progress-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--gold-primary), var(--gold-light));
-      border-radius: 99px;
-      position: relative;
-      transition: width 0.12s linear;
-    }
-
-    .progress-knob {
-      width: 13px;
-      height: 13px;
-      border-radius: 50%;
-      background: var(--gold-light);
-      box-shadow: 0 0 10px var(--gold-primary);
-      position: absolute;
-      right: -6px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .time-row {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.74rem;
-      color: var(--text-muted);
-      margin-bottom: 14px;
-    }
-
-    .player-controls {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 28px;
-    }
-
+    .progress-track { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.14); border-radius: 99px; position: relative; margin-bottom: 8px; cursor: pointer; }
+    .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--gold-primary), var(--gold-light)); border-radius: 99px; position: relative; transition: width 0.12s linear; }
+    .progress-knob { width: 13px; height: 13px; border-radius: 50%; background: var(--gold-light); box-shadow: 0 0 10px var(--gold-primary); position: absolute; right: -6px; top: 50%; transform: translateY(-50%); }
+    .time-row { display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted); margin-bottom: 14px; }
+    .player-controls { display: flex; justify-content: center; align-items: center; gap: 28px; }
     .play-main-btn {
-      width: 54px;
-      height: 54px;
-      border-radius: 50%;
-      background: radial-gradient(circle, #21785e 0%, #0f3d2f 100%);
-      border: 2px solid var(--gold-primary);
-      color: var(--gold-light);
-      font-size: 1.4rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      box-shadow: 0 0 18px rgba(212, 175, 55, 0.3);
+      width: 54px; height: 54px; border-radius: 50%; background: radial-gradient(circle, #21785e 0%, #0f3d2f 100%);
+      border: 2px solid var(--gold-primary); color: var(--gold-light); font-size: 1.4rem;
+      display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 18px rgba(212, 175, 55, 0.3);
     }
+    .audio-fallback-alert { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: rgba(180, 48, 48, 0.18); border: 1px solid rgba(235, 110, 95, 0.55); color: #ffd7d2; font-size: 0.76rem; line-height: 1.45; }
+    .audio-fallback-actions { display: flex; gap: 8px; margin-top: 9px; flex-wrap: wrap; }
+    .fallback-pill-btn { background: rgba(212, 175, 55, 0.2); border: 1px solid var(--gold-primary); color: var(--gold-light); border-radius: 99px; padding: 5px 11px; font-size: 0.7rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
 
-    /* Audio Failure Fallback Banner (K10, K11) */
-    .audio-fallback-alert {
-      margin-top: 14px;
-      padding: 12px 14px;
-      border-radius: 14px;
-      background: rgba(180, 48, 48, 0.18);
-      border: 1px solid rgba(235, 110, 95, 0.55);
-      color: #ffd7d2;
-      font-size: 0.76rem;
-      line-height: 1.45;
-    }
-
-    .audio-fallback-actions {
-      display: flex;
-      gap: 8px;
-      margin-top: 9px;
-      flex-wrap: wrap;
-    }
-
-    .fallback-pill-btn {
-      background: rgba(212, 175, 55, 0.2);
-      border: 1px solid var(--gold-primary);
-      color: var(--gold-light);
-      border-radius: 99px;
-      padding: 5px 11px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-    }
-
-    /* Radio Option Rows (Screens 46, 47, 48) */
-    .option-list {
-      display: flex;
-      flex-direction: column;
-      gap: 9px;
-    }
-
+    /* Options & Controls */
     .option-row {
-      background: var(--bg-card);
-      border: 1px solid var(--gold-border);
-      border-radius: 14px;
-      padding: 12px 15px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      cursor: pointer;
-      transition: all 0.2s;
+      background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 14px;
+      padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s;
     }
-
-    .option-row.selected {
-      border-color: var(--gold-primary);
-      background: rgba(24, 97, 76, 0.35);
-    }
-
-    .radio-left {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      font-size: 0.86rem;
-    }
-
-    .radio-circle {
-      width: 18px;
-      height: 18px;
-      border-radius: 50%;
-      border: 2px solid var(--gold-primary);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .option-row.selected .radio-circle::after {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: var(--gold-light);
-    }
-
-    .size-btn-group {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 10px;
-      margin: 10px 0 18px 0;
-    }
-
-    .size-btn {
-      background: var(--bg-card);
-      border: 1px solid var(--gold-border);
-      color: var(--text-main);
-      padding: 10px;
-      border-radius: 12px;
-      font-weight: 600;
-      cursor: pointer;
-    }
-
-    .size-btn.active {
-      background: var(--emerald-accent);
-      border-color: var(--gold-primary);
-      color: var(--gold-light);
-    }
-
-    /* Primary CTA Button */
+    .option-row.selected { border-color: var(--gold-primary); background: rgba(24, 97, 76, 0.35); }
+    .radio-left { display: flex; align-items: center; gap: 12px; font-size: 0.86rem; }
+    .radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--gold-primary); display: flex; align-items: center; justify-content: center; }
+    .option-row.selected .radio-circle::after { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--gold-light); }
+    .size-btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 10px 0 18px; }
+    .size-btn { background: var(--bg-card); border: 1px solid var(--gold-border); color: var(--text-main); padding: 10px; border-radius: 12px; font-weight: 600; cursor: pointer; }
+    .size-btn.active { background: var(--emerald-accent); border-color: var(--gold-primary); color: var(--gold-light); }
     .primary-cta-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #1f6b55 0%, #104233 100%);
-      border: 1px solid var(--gold-primary);
-      color: var(--text-main);
-      font-weight: 600;
-      padding: 13px;
-      border-radius: 99px;
-      font-size: 0.9rem;
-      cursor: pointer;
-      margin-top: 18px;
-      transition: all 0.2s;
+      width: 100%; background: linear-gradient(135deg, #1f6b55 0%, #104233 100%);
+      border: 1px solid var(--gold-primary); color: var(--text-main); font-weight: 600;
+      padding: 13px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; margin-top: 18px; transition: all 0.2s;
     }
+    .primary-cta-btn:hover { box-shadow: 0 0 16px rgba(212, 175, 55, 0.3); color: var(--gold-light); }
 
-    .primary-cta-btn:hover {
-      box-shadow: 0 0 16px rgba(212, 175, 55, 0.3);
-      color: var(--gold-light);
-    }
-
-    /* --- SHARE CARD & MODAL (Screens 50, 51) --- */
-    .share-preview-card {
-      border-radius: 22px;
-      overflow: hidden;
-      border: 1.5px solid var(--gold-primary);
-      background: #f4ebd9;
-      color: #1c2b24;
-      box-shadow: 0 16px 36px rgba(0,0,0,0.6);
-      margin: 10px 0 22px 0;
-    }
-
-    .share-card-art {
-      height: 115px;
-      background: url('https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80') center/cover no-repeat;
-      position: relative;
-    }
-
-    .share-card-body {
-      padding: 18px 16px;
-      text-align: center;
-    }
-
-    .share-social-row {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 12px;
-    }
-
-    .social-circle {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 6px;
-      font-size: 0.72rem;
-      color: var(--text-muted);
-      cursor: pointer;
-    }
-
-    .social-circle-icon {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.25rem;
-      color: #fff;
-      border: 1px solid var(--gold-border);
-    }
-
-    /* Copy Bottom Sheet (Screen 51) */
-    .copy-sheet {
-      background: #f5eedc;
-      color: #1a2922;
-      border-radius: 24px;
-      padding: 20px 18px;
-      border: 2px solid var(--gold-primary);
-      margin-top: 20px;
-      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7);
-    }
-
-    .copy-check-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 12px 10px;
-      border-bottom: 1px solid rgba(0,0,0,0.08);
-      cursor: pointer;
-      font-weight: 500;
-      font-size: 0.9rem;
-    }
-
-    /* No Match State (Screen 54) */
-    .empty-state-box {
-      text-align: center;
-      padding: 48px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-
+    /* Share, Modals & Empty States */
+    .share-preview-card { border-radius: 22px; overflow: hidden; border: 1.5px solid var(--gold-primary); background: #f4ebd9; color: #1c2b24; box-shadow: 0 16px 36px rgba(0,0,0,0.6); margin: 10px 0 22px; }
+    .share-card-art { height: 115px; background: center/cover no-repeat; position: relative; }
+    .share-card-body { padding: 18px 16px; text-align: center; }
+    .share-social-row { display: flex; justify-content: center; gap: 20px; margin-top: 12px; }
+    .social-circle { display: flex; flex-direction: column; align-items: center; gap: 6px; font-size: 0.72rem; color: var(--text-muted); cursor: pointer; }
+    .social-circle-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: #fff; border: 1px solid var(--gold-border); }
+    .copy-sheet { background: #f5eedc; color: #1a2922; border-radius: 24px; padding: 20px 18px; border: 2px solid var(--gold-primary); margin-top: 20px; box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7); }
+    .copy-check-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid rgba(0,0,0,0.08); cursor: pointer; font-weight: 500; font-size: 0.9rem; }
+    .empty-state-box { text-align: center; padding: 48px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
     .empty-illustration {
-      width: 140px;
-      height: 140px;
-      border-radius: 50%;
+      width: 140px; height: 140px; border-radius: 50%;
       background: radial-gradient(circle, rgba(24, 97, 76, 0.35) 0%, rgba(9, 34, 28, 0.9) 75%);
-      border: 1.5px solid var(--gold-border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 3.4rem;
-      color: var(--gold-primary);
-      margin-bottom: 22px;
-      box-shadow: 0 0 30px rgba(212, 175, 55, 0.12);
+      border: 1.5px solid var(--gold-border); display: flex; align-items: center; justify-content: center;
+      font-size: 3.4rem; color: var(--gold-primary); margin-bottom: 22px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.12);
     }
 
-    /* --- ADMIN ADD DUA & BACKGROUND MODAL --- */
-    .admin-form-group {
-      margin-bottom: 12px;
-    }
-
-    .admin-label {
-      display: block;
-      font-size: 0.76rem;
-      color: var(--gold-light);
-      margin-bottom: 5px;
-      font-weight: 600;
-    }
-
+    /* Admin & Toast */
+    .admin-form-group { margin-bottom: 12px; }
+    .admin-label { display: block; font-size: 0.76rem; color: var(--gold-light); margin-bottom: 5px; font-weight: 600; }
     .admin-input, .admin-select, .admin-textarea {
-      width: 100%;
-      background: rgba(9, 34, 28, 0.9);
-      border: 1px solid var(--gold-border);
-      border-radius: 12px;
-      padding: 10px 12px;
-      color: var(--text-main);
-      font-size: 0.84rem;
-      font-family: inherit;
-      outline: none;
+      width: 100%; background: rgba(9, 34, 28, 0.9); border: 1px solid var(--gold-border);
+      border-radius: 12px; padding: 10px 12px; color: var(--text-main); font-size: 0.84rem; font-family: inherit; outline: none;
     }
-
-    .admin-textarea {
-      min-height: 70px;
-      resize: vertical;
-    }
-
-    .admin-input:focus, .admin-select:focus, .admin-textarea:focus {
-      border-color: var(--gold-primary);
-    }
-
-    /* Toast feedback fixed to viewport bottom */
+    .admin-textarea { min-height: 70px; resize: vertical; }
+    .admin-input:focus, .admin-select:focus, .admin-textarea:focus { border-color: var(--gold-primary); }
     .toast-msg {
-      position: fixed;
-      bottom: 24px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: rgba(212, 175, 55, 0.95);
-      color: #041612;
-      font-weight: 700;
-      font-size: 0.78rem;
-      padding: 8px 18px;
-      border-radius: 99px;
-      opacity: 0;
-      pointer-events: none;
-      transition: all 0.25s ease;
-      z-index: 200;
-      white-space: nowrap;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+      position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px);
+      background: rgba(212, 175, 55, 0.95); color: #041612; font-weight: 700; font-size: 0.78rem;
+      padding: 8px 18px; border-radius: 99px; opacity: 0; pointer-events: none;
+      transition: all 0.25s ease; z-index: 200; white-space: nowrap; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
     }
-    .toast-msg.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    .toast-msg.show { opacity: 1; transform: translate(-50%, 0); }
   </style>
 </head>
 <body>
 
-  <!-- MOBILE APP SHELL -->
   <main class="phone-frame">
-    <!-- Persistent HTML5 Audio Element with Fallback Handlers (K10, K11) -->
     <audio id="duaAudioElement" preload="metadata" crossorigin="anonymous"></audio>
-
-    <!-- Dynamic Screen Viewport -->
-<!-- Dynamic Screen Viewport -->
     <div class="app-viewport" id="appViewport">
-      <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 80vh; color: var(--gold-primary);">
-        <i class="bi bi-hourglass-split" style="font-size: 2rem; margin-bottom: 12px; animation: pulse 1.5s infinite;"></i>
-        <div style="font-family: 'Cinzel', serif; font-weight: 600;">Loading Duas...</div>
+      <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;color:var(--gold-primary);">
+        <i class="bi bi-hourglass-split" style="font-size:2rem;margin-bottom:12px;animation:pulse 1.5s infinite;"></i>
+        <div style="font-family:'Cinzel',serif;font-weight:600;">Loading Duas...</div>
       </div>
     </div>
-
-    <!-- Toast Notification -->
     <div class="toast-msg" id="toastMsg">Saved to Favourites</div>
   </main>
 
   <script>
     /* ==========================================================================
-       1. DATA REPOSITORY: 6 Core Collections + Full 21 Separate Content Groupings
+       1. DATA REPOSITORY
        ========================================================================== */
-    const DEFAULT_CATEGORIES = [
-      /* 6 Primary Collections (Quick-Access Tiles & Core Browsing) */
-      { id: 'everyday', title: 'Everyday Life', subtitle: 'Daily needs and routine', icon: 'bi-sun', group: 'core', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'morning-evening', title: 'Morning & Evening', subtitle: 'Start and end your day with remembrance', icon: 'bi-sunrise', group: 'core', hero: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80' },
-      { id: 'protection', title: 'Protection & Safety', subtitle: 'From harm and evil', icon: 'bi-shield-check', group: 'core', hero: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80' },
-      { id: 'forgiveness', title: 'Forgiveness & Repentance', subtitle: 'Seek Allah’s mercy', icon: 'bi-heart-pulse', group: 'core', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-      { id: 'worship', title: 'Worship & Prayer', subtitle: 'Prayer and Quranic supplications', icon: 'bi-moon-stars', group: 'core', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
-      { id: 'travel', title: 'Travel', subtitle: 'For journeys and travel', icon: 'bi-compass', group: 'core', hero: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80' },
+    const IMG_DESERT = 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80';
+    const IMG_SUNRISE = 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80';
+    const IMG_NIGHT = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
+    const IMG_OCEAN = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
+    const IMG_MOSQUE = 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80';
+    const IMG_TRAVEL = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80';
+    const IMG_RAIN = 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80';
+    const IMG_MARKET = 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80';
 
-      /* Full 21 Separate Content Groupings from the Specification */
-      { id: 'before-eating', title: 'Before Eating', subtitle: 'Blessing the meal with Bismillah', icon: 'bi-cup-hot', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'after-eating', title: 'After Eating', subtitle: 'Gratitude for provision and sustenance', icon: 'bi-check2-circle', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'before-sleeping', title: 'Before Sleeping', subtitle: 'Night protection and peaceful rest', icon: 'bi-cloud-moon', group: 'future', hero: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80' },
-      { id: 'upon-waking', title: 'Upon Waking', subtitle: 'Praise upon returning to life', icon: 'bi-brightness-alt-high', group: 'future', hero: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80' },
-      { id: 'leaving-home', title: 'Leaving Home', subtitle: 'Reliance upon Allah and safe departure', icon: 'bi-door-open', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'entering-home', title: 'Entering Home', subtitle: 'Bringing peace and barakah into the house', icon: 'bi-house-heart', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'mosque', title: 'Entering & Leaving Mosque', subtitle: 'Supplications for the Masjid', icon: 'bi-building', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
-      { id: 'morning-adhkar', title: 'Morning Adhkar', subtitle: 'Complete morning remembrance shield', icon: 'bi-brightness-high', group: 'future', hero: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80' },
-      { id: 'evening-adhkar', title: 'Evening Adhkar', subtitle: 'Complete evening remembrance shield', icon: 'bi-sunset', group: 'future', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-      { id: 'prayer-adhkar', title: 'Prayer & After Prayer', subtitle: 'Supplications during and after Salah', icon: 'bi-person-arms-up', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
-      { id: 'anxiety', title: 'Anxiety, Distress & Hardship', subtitle: 'Relief from sorrow, grief, and debt', icon: 'bi-water', group: 'future', hero: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80' },
-      { id: 'gratitude', title: 'Gratitude & Praise', subtitle: 'Thankfulness for Allah’s blessings', icon: 'bi-stars', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'rain', title: 'Rain & Weather', subtitle: 'Mercy, wind, thunder, and beneficial rain', icon: 'bi-cloud-rain', group: 'future', hero: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80' },
-      { id: 'illness', title: 'Illness & Healing', subtitle: 'Ruqyah, shifa, and visiting the sick', icon: 'bi-bandaid', group: 'future', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' },
-      { id: 'family', title: 'Family, Marriage & Children', subtitle: 'Righteous spouse, offspring, and parents', icon: 'bi-people', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'knowledge-guidance', title: 'Knowledge & Guidance', subtitle: 'Beneficial knowledge and steadfast hearts', icon: 'bi-lightbulb', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
-      { id: 'marketplace-trade', title: 'Marketplace & Provision', subtitle: 'Barakah in trade, rizq, and busy markets', icon: 'bi-shop', group: 'future', hero: 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80' },
-      { id: 'general-remembrance', title: 'General Remembrance', subtitle: 'Daily dhikr and constant mindfulness of Allah', icon: 'bi-infinity', group: 'future', hero: 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80' },
-      { id: 'quranic-duas', title: 'Quranic Duas', subtitle: 'Rabbana and prophetic prayers from the Quran', icon: 'bi-journal-bookmark', group: 'future', hero: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80' },
-      { id: 'prophetic-duas', title: 'Prophetic Duas', subtitle: 'Comprehensive jawami al-kalim from the Sunnah', icon: 'bi-award', group: 'future', hero: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80' }
+    const DEFAULT_CATEGORIES = [
+      { id: 'everyday', title: 'Everyday Life', subtitle: 'Daily needs and routine', icon: 'bi-sun', group: 'core', hero: IMG_DESERT },
+      { id: 'morning-evening', title: 'Morning & Evening', subtitle: 'Start and end your day with remembrance', icon: 'bi-sunrise', group: 'core', hero: IMG_SUNRISE },
+      { id: 'protection', title: 'Protection & Safety', subtitle: 'From harm and evil', icon: 'bi-shield-check', group: 'core', hero: IMG_NIGHT },
+      { id: 'forgiveness', title: 'Forgiveness & Repentance', subtitle: 'Seek Allah’s mercy', icon: 'bi-heart-pulse', group: 'core', hero: IMG_OCEAN },
+      { id: 'worship', title: 'Worship & Prayer', subtitle: 'Prayer and Quranic supplications', icon: 'bi-moon-stars', group: 'core', hero: IMG_MOSQUE },
+      { id: 'travel', title: 'Travel', subtitle: 'For journeys and travel', icon: 'bi-compass', group: 'core', hero: IMG_TRAVEL },
+      { id: 'before-eating', title: 'Before Eating', subtitle: 'Blessing the meal with Bismillah', icon: 'bi-cup-hot', group: 'future', hero: IMG_DESERT },
+      { id: 'after-eating', title: 'After Eating', subtitle: 'Gratitude for provision and sustenance', icon: 'bi-check2-circle', group: 'future', hero: IMG_DESERT },
+      { id: 'before-sleeping', title: 'Before Sleeping', subtitle: 'Night protection and peaceful rest', icon: 'bi-cloud-moon', group: 'future', hero: IMG_NIGHT },
+      { id: 'upon-waking', title: 'Upon Waking', subtitle: 'Praise upon returning to life', icon: 'bi-brightness-alt-high', group: 'future', hero: IMG_SUNRISE },
+      { id: 'leaving-home', title: 'Leaving Home', subtitle: 'Reliance upon Allah and safe departure', icon: 'bi-door-open', group: 'future', hero: IMG_DESERT },
+      { id: 'entering-home', title: 'Entering Home', subtitle: 'Bringing peace and barakah into the house', icon: 'bi-house-heart', group: 'future', hero: IMG_DESERT },
+      { id: 'mosque', title: 'Entering & Leaving Mosque', subtitle: 'Supplications for the Masjid', icon: 'bi-building', group: 'future', hero: IMG_MOSQUE },
+      { id: 'morning-adhkar', title: 'Morning Adhkar', subtitle: 'Complete morning remembrance shield', icon: 'bi-brightness-high', group: 'future', hero: IMG_SUNRISE },
+      { id: 'evening-adhkar', title: 'Evening Adhkar', subtitle: 'Complete evening remembrance shield', icon: 'bi-sunset', group: 'future', hero: IMG_OCEAN },
+      { id: 'prayer-adhkar', title: 'Prayer & After Prayer', subtitle: 'Supplications during and after Salah', icon: 'bi-person-arms-up', group: 'future', hero: IMG_MOSQUE },
+      { id: 'anxiety', title: 'Anxiety, Distress & Hardship', subtitle: 'Relief from sorrow, grief, and debt', icon: 'bi-water', group: 'future', hero: IMG_NIGHT },
+      { id: 'gratitude', title: 'Gratitude & Praise', subtitle: 'Thankfulness for Allah’s blessings', icon: 'bi-stars', group: 'future', hero: IMG_DESERT },
+      { id: 'rain', title: 'Rain & Weather', subtitle: 'Mercy, wind, thunder, and beneficial rain', icon: 'bi-cloud-rain', group: 'future', hero: IMG_RAIN },
+      { id: 'illness', title: 'Illness & Healing', subtitle: 'Ruqyah, shifa, and visiting the sick', icon: 'bi-bandaid', group: 'future', hero: IMG_OCEAN },
+      { id: 'family', title: 'Family, Marriage & Children', subtitle: 'Righteous spouse, offspring, and parents', icon: 'bi-people', group: 'future', hero: IMG_DESERT },
+      { id: 'knowledge-guidance', title: 'Knowledge & Guidance', subtitle: 'Beneficial knowledge and steadfast hearts', icon: 'bi-lightbulb', group: 'future', hero: IMG_MOSQUE },
+      { id: 'marketplace-trade', title: 'Marketplace & Provision', subtitle: 'Barakah in trade, rizq, and busy markets', icon: 'bi-shop', group: 'future', hero: IMG_MARKET },
+      { id: 'general-remembrance', title: 'General Remembrance', subtitle: 'Daily dhikr and constant mindfulness of Allah', icon: 'bi-infinity', group: 'future', hero: IMG_DESERT },
+      { id: 'quranic-duas', title: 'Quranic Duas', subtitle: 'Rabbana and prophetic prayers from the Quran', icon: 'bi-journal-bookmark', group: 'future', hero: IMG_MOSQUE },
+      { id: 'prophetic-duas', title: 'Prophetic Duas', subtitle: 'Comprehensive jawami al-kalim from the Sunnah', icon: 'bi-award', group: 'future', hero: IMG_OCEAN }
     ];
 
     const RECITER_STREAMS = {
@@ -1179,247 +414,385 @@
 
     const DEFAULT_DUAS = [
       {
-        id: 'market-dua',
-        title: 'Marketplace Supplication',
-        subtitle: 'A dua for entering the marketplace',
-        category: 'everyday',
-        grouping: 'marketplace-trade',
-        variants: 'Illustrated Story & Sunnah',
-        arabicMedallion: 'سوق',
-        isMarket: true,
-        illustrated: true,
-        heroImg: 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=900&q=80',
-        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/112001.mp3',
+        id: 'market-dua', title: 'Marketplace Supplication', subtitle: 'A dua for entering the marketplace',
+        category: 'everyday', grouping: 'marketplace-trade', variants: 'Illustrated Story & Sunnah', arabicMedallion: 'سوق',
+        isMarket: true, illustrated: true, heroImg: IMG_MARKET, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/112001.mp3',
         arabic: 'لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ وَهُوَ حَيٌّ لَا يَمُوتُ، بِيَدِهِ الْخَيْرُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
         transliteration: 'La ilaha ill-Allahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu yuhyi wa yumitu wa Huwa hayyun la yamut, biyadihil-khayru wa Huwa ‘ala kulli shay’in qadeer.',
         translation: 'There is no god but Allah alone, with no partner. His is the dominion and praise; He gives life and causes death, and He is Ever-Living and never dies. In His Hand is all good, and He is able to do all things.',
         urduTranslation: 'اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں، اسی کی بادشاہی ہے اور اسی کے لیے تمام تعریفیں ہیں، وہی زندہ کرتا اور مارتا ہے اور وہ زندہ ہے جسے موت نہیں۔',
         romanUrduTranslation: 'Allah ke siwa koi ma’bood nahi, woh akela hai, uska koi shareek nahi. Usi ki badshahi hai aur usi ke liye tamam tareefein hain, wahi zinda karta aur marta hai aur woh zinda hai jise maut nahi.',
         hindiTranslation: 'अल्लाह के सिवा कोई पूज्य नहीं, वह अकेला है, उसका कोई साझी नहीं। बादशाही उसी की है और सारी प्रशंसा उसी के लिए है।',
-        source: 'Jami` at-Tirmidhi (3428) · Ibn Majah (2235)',
-        alsoMentioned: ['Mustadrak al-Hakim (1974)', 'Musannaf Ibn Abi Shaybah'],
+        source: 'Jami` at-Tirmidhi (3428) · Ibn Majah (2235)', alsoMentioned: ['Mustadrak al-Hakim (1974)', 'Musannaf Ibn Abi Shaybah'],
         notes: 'Remembering Allah in places where people are busy with trade and worldly gain.',
-        benefits: [
-          'Brings immense barakah in trade, shopping, and lawful earnings.',
-          'Removes heedlessness in busy marketplaces and elevates spiritual rank.'
-        ],
+        benefits: ['Brings immense barakah in trade, shopping, and lawful earnings.', 'Removes heedlessness in busy marketplaces and elevates spiritual rank.'],
         duration: '0:54'
       },
       {
-        id: 'travel-main',
-        title: 'Dua for Travelling',
-        subtitle: 'Protection and ease in travel',
-        category: 'travel',
-        grouping: 'general-remembrance',
-        variants: '3 variants',
-        arabicMedallion: 'سفر',
-        illustrated: true,
-        heroImg: 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=900&q=80',
-        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/043013.mp3',
+        id: 'travel-main', title: 'Dua for Travelling', subtitle: 'Protection and ease in travel',
+        category: 'travel', grouping: 'general-remembrance', variants: '3 variants', arabicMedallion: 'سفر',
+        illustrated: true, heroImg: IMG_TRAVEL, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/043013.mp3',
         arabic: 'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ',
         transliteration: 'Subhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin, wa inna ila Rabbina lamunqalibun.',
         translation: 'Glory be to Him who has subjected this for us, and we could not have done it on our own. And indeed, to our Lord we will surely return.',
         urduTranslation: 'پاک ہے وہ ذات جس نے اس سواری کو ہمارے تابع کر دیا حالانکہ ہم اسے قابو میں لانے والے نہ تھے، اور بے شک ہم اپنے رب ہی کی طرف لوٹ کر جانے والے ہیں۔',
         romanUrduTranslation: 'Paak hai woh zaat jisne is sawari ko hamare taabe kar diya halanke hum ise qaboo mein laane wale na the, aur beshak hum apne Rab hi ki taraf laut kar jaane wale hain.',
         hindiTranslation: 'पाक है वह ज़ात जिसने इस सवारी को हमारे वश में कर दिया, और हम इसे वश में करने में सक्षम नहीं थे, और निश्चय ही हम अपने रब की ओर लौटने वाले हैं।',
-        source: 'Surah Az-Zukhruf (43:13–14)',
-        alsoMentioned: ['Sahih Muslim (1342)', 'Sunan Abi Dawud (2599)'],
+        source: 'Surah Az-Zukhruf (43:13–14)', alsoMentioned: ['Sahih Muslim (1342)', 'Sunan Abi Dawud (2599)'],
         notes: 'This dua is recommended when mounting a vehicle, plane, train, or ship before starting a journey.',
-        benefits: [
-          'Seeks Allah’s protection and safety during travel.',
-          'Brings ease, barakah, and mindfulness of the Hereafter.'
-        ],
+        benefits: ['Seeks Allah’s protection and safety during travel.', 'Brings ease, barakah, and mindfulness of the Hereafter.'],
         duration: '1:12'
       },
       {
-        id: 'astaghfirullah',
-        title: 'Sayyidul Istighfar',
-        subtitle: 'Seek Allah’s mercy and forgiveness',
-        category: 'morning-evening',
-        grouping: 'morning-adhkar',
-        variants: '3 variants',
-        arabicMedallion: 'غفر',
-        illustrated: false,
-        heroImg: 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=80',
-        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/002255.mp3',
+        id: 'astaghfirullah', title: 'Sayyidul Istighfar', subtitle: 'Seek Allah’s mercy and forgiveness',
+        category: 'morning-evening', grouping: 'morning-adhkar', variants: '3 variants', arabicMedallion: 'غفر',
+        illustrated: false, heroImg: IMG_SUNRISE, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/002255.mp3',
         arabic: 'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ',
         transliteration: 'Astaghfirullahal-‘Azim alladhi la ilaha illa Huwal-Hayyul-Qayyumu wa atubu ilayh.',
         translation: 'I seek forgiveness from Allah the Mighty, Whom there is none worthy of worship except Him, the Ever-Living, the Self-Subsisting, and I turn in repentance to Him.',
         urduTranslation: 'میں عظمت والے اللہ سے بخشش مانگتا ہوں جس کے سوا کوئی معبود نہیں، جو زندہ اور قائم رکھنے والا ہے، اور میں اسی کی طرف توبہ کرتا ہوں۔',
         romanUrduTranslation: 'Main azmat wale Allah se bakhshish mangta hoon jiske siwa koi ma’bood nahi, jo zinda aur qaim rakhne wala hai, aur main usi ki taraf tauba karta hoon.',
         hindiTranslation: 'मैं महान अल्लाह से क्षमा मांगता हूँ जिसके सिवा कोई पूज्य नहीं, जो जीवित और सृष्टि को थामने वाला है।',
-        source: 'Sahih al-Bukhari (6306) · Abu Dawud (1517)',
-        alsoMentioned: ['Jami` at-Tirmidhi (3577)'],
+        source: 'Sahih al-Bukhari (6306) · Abu Dawud (1517)', alsoMentioned: ['Jami` at-Tirmidhi (3577)'],
         notes: 'Recited morning, evening, and after obligatory prayers for complete forgiveness.',
-        benefits: [
-          'Opens doors of relief from every anxiety and tightness.',
-          'Grants provision from unexpected sources.'
-        ],
+        benefits: ['Opens doors of relief from every anxiety and tightness.', 'Grants provision from unexpected sources.'],
         duration: '0:48'
       },
       {
-        id: 'rabbighfir-li',
-        title: 'Rabbighfir Li',
-        subtitle: 'My Lord, forgive me and accept my repentance',
-        category: 'forgiveness',
-        grouping: 'prophetic-duas',
-        variants: '2 variants',
-        arabicMedallion: 'رب',
-        illustrated: false,
-        heroImg: 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=900&q=80',
-        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/110003.mp3',
+        id: 'rabbighfir-li', title: 'Rabbighfir Li', subtitle: 'My Lord, forgive me and accept my repentance',
+        category: 'forgiveness', grouping: 'prophetic-duas', variants: '2 variants', arabicMedallion: 'رب',
+        illustrated: false, heroImg: IMG_OCEAN, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/110003.mp3',
         arabic: 'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ',
         transliteration: 'Rabbighfir li wa tub ‘alayya innaka Antat-Tawwabur-Rahim.',
         translation: 'My Lord, forgive me and accept my repentance; indeed, You are the Accepting of Repentance, the Merciful.',
         urduTranslation: 'اے میرے رب! مجھے بخش دے اور میری توبہ قبول فرما، بے شک تو ہی بہت توبہ قبول کرنے والا، نہایت مہربان ہے۔',
         romanUrduTranslation: 'Aye mere Rab! Mujhe bakhsh de aur meri tauba qabool farma, beshak Tu hi bahut tauba qabool karne wala, nihayat meharban hai.',
         hindiTranslation: 'ऐ मेरे रब! मुझे क्षमा कर दे और मेरी तौबा क़बूल फ़रमा, बेशक तू ही तौबा क़बूल करने वाला दयालु है।',
-        source: 'Sunan Abi Dawud (1516) · Tirmidhi (3434)',
-        alsoMentioned: ['Sunan Ibn Majah (3814)'],
+        source: 'Sunan Abi Dawud (1516) · Tirmidhi (3434)', alsoMentioned: ['Sunan Ibn Majah (3814)'],
         notes: 'Ibn Umar (RA) reported that the Companions used to count the Prophet ﷺ saying this supplication 100 times in a single gathering.',
-        benefits: [
-          'Softens the heart and keeps the tongue moist with remembrance.',
-          'Follows the direct prophetic sunnah in gatherings.'
-        ],
+        benefits: ['Softens the heart and keeps the tongue moist with remembrance.', 'Follows the direct prophetic sunnah in gatherings.'],
         duration: '0:36'
       },
       {
-        id: 'boarding-vehicle',
-        title: 'On Boarding a Vehicle',
-        subtitle: 'Safety and blessing at departure',
-        category: 'protection',
-        grouping: 'leaving-home',
-        variants: '1 variant',
-        arabicMedallion: 'ركب',
-        illustrated: false,
-        heroImg: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=900&q=80',
-        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/011041.mp3',
+        id: 'boarding-vehicle', title: 'On Boarding a Vehicle', subtitle: 'Safety and blessing at departure',
+        category: 'protection', grouping: 'leaving-home', variants: '1 variant', arabicMedallion: 'ركب',
+        illustrated: false, heroImg: IMG_NIGHT, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/011041.mp3',
         arabic: 'بِسْمِ اللَّهِ مَجْرَاهَا وَمُرْسَاهَا إِنَّ رَبِّي لَغَفُورٌ رَحِيمٌ',
         transliteration: 'Bismillahi majraha wa mursaha inna Rabbi la-Ghafurun Rahim.',
         translation: 'In the name of Allah is its course and its anchorage. Indeed, my Lord is Forgiving and Merciful.',
         urduTranslation: 'اللہ ہی کے نام سے اس کا چلنا اور ٹھہرنا ہے، بے شک میرا رب بڑا بخشنے والا مہربان ہے۔',
         romanUrduTranslation: 'Allah hi ke naam se iska chalna aur theharna hai, beshak mera Rab bada bakhshne wala meharban hai.',
         hindiTranslation: 'अल्लाह के नाम से ही इसका चलना और रुकना है, बेशक मेरा रब बड़ा बख्शने वाला मेहरबान है।',
-        source: 'Surah Hud (11:41)',
-        alsoMentioned: ['Tafsir Ibn Kathir'],
+        source: 'Surah Hud (11:41)', alsoMentioned: ['Tafsir Ibn Kathir'],
         notes: 'The supplication of Prophet Nuh (AS) when boarding the Ark.',
-        benefits: [
-          'Places the entire journey in Allah’s care from start to finish.'
-        ],
+        benefits: ['Places the entire journey in Allah’s care from start to finish.'],
         duration: '0:32'
       },
       {
-        id: 'when-it-rains',
-        title: 'Dua for When It Rains',
-        subtitle: 'Mercy and beneficial blessings',
-        category: 'rain',
-        grouping: 'rain',
-        variants: '1 variant',
-        arabicMedallion: 'مطر',
-        illustrated: false,
-        heroImg: 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=900&q=80',
-        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/001001.mp3',
+        id: 'when-it-rains', title: 'Dua for When It Rains', subtitle: 'Mercy and beneficial blessings',
+        category: 'rain', grouping: 'rain', variants: '1 variant', arabicMedallion: 'مطر',
+        illustrated: false, heroImg: IMG_RAIN, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/001001.mp3',
         arabic: 'اللَّهُمَّ صَيِّبًا نَافِعًا',
         transliteration: 'Allahumma sayyiban nafi‘a.',
         translation: 'O Allah, make it a beneficial rain.',
         urduTranslation: 'اے اللہ! اسے نفع بخش بارش بنا دے۔',
         romanUrduTranslation: 'Aye Allah! Ise nafa bakhsh barish bana de.',
         hindiTranslation: 'ऐ अल्लाह! इसे लाभदायक बारिश बना दे।',
-        source: 'Sahih al-Bukhari (1032)',
-        alsoMentioned: ['Sunan an-Nasa’i (1523)'],
+        source: 'Sahih al-Bukhari (1032)', alsoMentioned: ['Sunan an-Nasa’i (1523)'],
         notes: 'The time when rain falls is one of the special moments when supplications are readily answered.',
-        benefits: [
-          'Seeks the good of the weather while avoiding harm or flooding.'
-        ],
+        benefits: ['Seeks the good of the weather while avoiding harm or flooding.'],
         duration: '0:22'
       },
       {
-        id: 'parents-dua',
-        title: 'Dua for Parents',
-        subtitle: 'Kindness and mercy for parents',
-        category: 'worship',
-        grouping: 'quranic-duas',
-        variants: 'Quranic Dua',
-        arabicMedallion: 'بر',
-        illustrated: false,
-        heroImg: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=900&q=80',
-        audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/017024.mp3',
+        id: 'parents-dua', title: 'Dua for Parents', subtitle: 'Kindness and mercy for parents',
+        category: 'worship', grouping: 'quranic-duas', variants: 'Quranic Dua', arabicMedallion: 'بر',
+        illustrated: false, heroImg: IMG_MOSQUE, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/017024.mp3',
         arabic: 'رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا',
         transliteration: 'Rabbir-hamhuma kama rabbayani saghira.',
         translation: 'My Lord, have mercy upon them as they brought me up when I was small.',
         urduTranslation: 'اے میرے رب! ان دونوں پر رحم فرما جیسا کہ انہوں نے بچپن میں میری پرورش کی۔',
         romanUrduTranslation: 'Aye mere Rab! Un dono par reham farma jaisa ke unhone bachpan mein meri parwarish ki.',
         hindiTranslation: 'ऐ मेरे रब! उन दोनों पर दया कर जैसा कि उन्होंने बचपन में मेरा पालन-पोषण किया।',
-        source: 'Surah Al-Isra (17:24)',
-        alsoMentioned: ['Sahih Muslim (1631)'],
+        source: 'Surah Al-Isra (17:24)', alsoMentioned: ['Sahih Muslim (1631)'],
         notes: 'Continuous charity and righteous supplication for parents benefit them perpetually.',
-        benefits: [
-          'Fulfills the honour and gratitude owed to parents.'
-        ],
+        benefits: ['Fulfills the honour and gratitude owed to parents.'],
         duration: '0:28'
       },
       {
-        id: 'entering-mosque',
-        title: 'When Entering the Mosque',
-        subtitle: 'Recited when stepping into the masjid',
-        category: 'worship',
-        grouping: 'mosque',
-        variants: '1 variant',
-        arabicMedallion: 'مسجد',
-        isMarket: false,
-        illustrated: false,
-        heroImg: 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=900&q=80',
-        audioUrl: 'https://archive.org/details/Masnoon-Duaein/18-Masjid+Me+Dakhil+Hone+Ki+Dua.mp3',
+        id: 'entering-mosque', title: 'When Entering the Mosque', subtitle: 'Recited when stepping into the masjid',
+        category: 'worship', grouping: 'mosque', variants: '1 variant', arabicMedallion: 'مسجد',
+        isMarket: false, illustrated: false, heroImg: IMG_MOSQUE, audioUrl: 'https://archive.org/details/Masnoon-Duaein/18-Masjid+Me+Dakhil+Hone+Ki+Dua.mp3',
         arabic: 'اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ',
         transliteration: 'Allahummaf-tah li abwaba rahmatik.',
         translation: 'O Allah, open before me the doors of Your mercy.',
         urduTranslation: 'اے اللہ! میرے لیے اپنی رحمت کے دروازے کھول دے۔',
         romanUrduTranslation: 'Aye Allah! Mere liye apni rehmat ke darwaze khol de.',
         hindiTranslation: 'ऐ अल्लाह! मेरे लिए अपनी रहमत (कृपा) के दरवाज़े खोल दे।',
-        source: 'Sahih Muslim (713)',
-        alsoMentioned: ['Sunan Ibn Majah (772)', 'Sunan an-Nasa\'i (729)'],
+        source: 'Sahih Muslim (713)', alsoMentioned: ['Sunan Ibn Majah (772)', 'Sunan an-Nasa\'i (729)'],
         notes: 'It is a confirmed Sunnah to enter the mosque with your right foot first while reciting this supplication.',
+        benefits: ['Invokes Allah’s infinite mercy directly upon entering His house.', 'Spiritually prepares the heart and mind, detaching you from worldly affairs before prayer.'],
+        duration: '0:12'
+      },
+            {
+        id: 'ya-muqallibal-quloob',
+        title: 'Dua for Steadfastness of the Heart',
+        subtitle: 'Dua-e-Mustafa Sallallahu Alaihi Wa Sallam',
+        category: 'everyday',
+        grouping: 'knowledge-guidance',
+        variants: '1 variant',
+        arabicMedallion: 'قَلْب',
+        illustrated: false,
+        heroImg: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80',
+        audioUrl: '',
+        arabic: 'يَا مُقَلِّبَ الْقُلُوْبِ ثَبِّتْ قَلْبِيْ عَلٰى دِيْنِكَ',
+        transliteration: 'Ya Muqallibal-quloobi thabbit qalbi \'alaa deenik',
+        translation: 'O Turner of the hearts, keep my heart firm upon Your religion.',
+        urduTranslation: 'اے دلوں کے پھیرنے والے! میرے دل کو اپنے دین پر قائم رکھ۔',
+        romanUrduTranslation: 'Aey dilon ke pherne wale! Mere dil ko apne deen par qaim rakh.',
+        hindiTranslation: 'ए दिलों के फेरने वाले ! मेरे दिल को अपने दीन पर क़ाइम रख.',
+        source: 'Jami` at-Tirmidhi 3522',
+        alsoMentioned: ['Jami` at-Tirmidhi 3587'],
+        notes: 'Shahr bin Hawshab ne kaha:\n\n"Main ne Umm Salamah رضی اللہ عنہا se kaha: \'Aye Momineen ki Maa! Rasool Allah ﷺ aap ke paas hote hue sab se zyada kaunsi dua kiya karte the?\'\n\nUnhon ne kaha: \'Aap ﷺ sab se zyada yeh dua kiya karte the: Aye dilon ko pherne wale! Mere dil ko apne deen par mazbooti se qayam rakh. (Yā Muqallibal-qulūb, thabbit qalbī `alā dīnik).\'\n\nPhir main ne kaha: \'Aye Allah ke Rasool! Aap ﷺ baar baar yeh dua kyun karte hain?\'\n\nAap ﷺ ne farmaya: \'Aye Umm Salamah! Beshak koi bhi insaan aisa nahi hai magar yeh ke uska dil Allah ki ungliyon mein se do ungliyon ke darmiyan hai. Phir Allah jis ke baare mein chahta hai, usey sabit qadam rakhta hai, aur jis ke baare mein chahta hai, usey gumrah kar deta hai.\'\n\nGrade: Hasan (Darussalam)',
         benefits: [
-          'Invokes Allah’s infinite mercy directly upon entering His house.',
-          'Spiritually prepares the heart and mind, detaching you from worldly affairs before prayer.'
+          'The most frequent supplication of the Prophet ﷺ for spiritual steadfastness.',
+          'Protects the heart from wavering in faith and trials.'
+        ],
+        duration: '0:15'
+      },
+      {
+        id: 'before-sleeping-dua',
+        title: 'Dua Before Sleeping',
+        subtitle: 'Sote Waqt Ki Dua',
+        category: 'everyday',
+        grouping: 'before-sleeping',
+        variants: '1 variant',
+        arabicMedallion: 'النَّوْم',
+        illustrated: false,
+        heroImg: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
+        audioUrl: '',
+        arabic: 'اَللّٰهُمَّ بِاسْمِكَ اَمُوْتُ وَاَحْيَا',
+        transliteration: 'Allahumma bismika amootu wa ahyaa',
+        translation: 'O Allah, in Your name I die and I live.',
+        urduTranslation: 'اے اللہ عزَّوجَلَّ میں تیرے نام کے ساتھ ہی مرتا اور جیتا ہوں (یعنی سوتا اور جاگتا ہوں)۔',
+        romanUrduTranslation: 'Aey Allah Azzawajal, mein Tere naam ke saath hi marta aur jeeta hoon (yaani sota aur jaagta hoon).',
+        hindiTranslation: 'ऐ अल्लाह अज़्ज़ा-व-जल्ल मैं तेरे नाम के साथ ही मरता और जीता हूँ (यानी सोता और जागता हूँ).',
+        source: 'Sahih al-Bukhari 6314',
+        alsoMentioned: ['Sahih al-Bukhari 6325'],
+        notes: 'Jab Nabi ﷺ raat ko sone ke liye bistar par jaate, toh apna haath apne gaal ke neeche rakhte, phir kehte: "Allahumma bismika amutu wa ahya." (Aye Allah! Tere hi naam ke saath main marta hoon aur zinda hota hoon.)',
+        benefits: [
+          'Entrusts the soul to Allah before sleep, which is the minor death.',
+          'Closes the day with remembrance and reliance upon Allah.'
         ],
         duration: '0:12'
       },
+      {
+        id: 'upon-waking-dua',
+        title: 'Dua Upon Waking Up',
+        subtitle: 'Neend Se Uthne Ke Baad Ki Dua',
+        category: 'everyday',
+        grouping: 'upon-waking',
+        variants: '1 variant',
+        arabicMedallion: 'اليَقَظَة',
+        illustrated: false,
+        heroImg: IMG_SUNRISE,
+        audioUrl: '',
+        arabic: 'اَلْحَمْدُ لِلّٰهِ الَّذِیْٓ اَحْيَانَا بَعْدَ مَآ اَمَاتَنَا وَاِلَيْهِ النُّشُوْرُ',
+        transliteration: 'Al-hamdu lillaahil-ladhee ahyaanaa ba\'da maa amaatanaa wa ilayhin-nushoor',
+        translation: 'All praise is due to Allah who gave us life after having given us death, and unto Him is the resurrection.',
+        urduTranslation: 'تمام تعریفیں اللہ تعالیٰ کے لئے جس نے ہمیں موت (نیند) کے بعد حیات (بیداری) عطا فرمائی اور ہمیں اسی کی طرف لوٹنا ہے۔',
+        romanUrduTranslation: 'Tamaam taareefein Allah Ta\'ala ke liye jis ne hamein maut (neend) ke baad hayaat (bedaari) ataa farmaayi aur hamein usi ki taraf lautna hai.',
+        hindiTranslation: 'तमाम तारीफ़ें अल्लाह तआला के लिए जिस ने हमें मौत (नींद) के बाद हयात (बेदारी) अता फ़रमाई और हमें उसी की तरफ़ लौटना है।',
+        source: 'Sahih al-Bukhari 7394',
+        alsoMentioned: ['Sahih al-Bukhari 6312'],
+        notes: 'Jab Nabi ﷺ neend se uthte, toh kehte: "Al-Hamdu lillahi alladhi ahyana ba\'da ma amatana, wa ilaihi an-nushur." (Tamaam tareef Allah hi ke liye hai, jis ne humein maut dene ke baad zinda kiya, aur usi ki taraf dobara uth kar jaana hai.)',
+        benefits: [
+          'Starts the day with immediate gratitude to Allah for a new day of life.',
+          'Reminds the believer of the Resurrection every morning.'
+        ],
+        duration: '0:15'
+      },
+      {
+        id: 'entering-washroom',
+        title: 'Dua Before Entering the Washroom',
+        subtitle: 'Washroom Me Daakhil Hone Se Pehle Ki Dua',
+        category: 'everyday',
+        grouping: 'protection',
+        variants: '1 variant',
+        arabicMedallion: 'الاسْتِعَاذَة',
+        illustrated: false,
+        heroImg: IMG_NIGHT,
+        audioUrl: '',
+        arabic: 'اَللّٰهُمَّ اِنِّیْٓ اَعُوْذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَآئِثِ',
+        transliteration: 'Allaahumma innee a\'oodhu bika minal-khubuthi wal-khabaa\'ith',
+        translation: 'O Allah, I seek refuge in You from all evil and evil-doers (or male and female devils).',
+        urduTranslation: 'اے اللہ عزَّوجَلَّ میں ناپاک جن اور جنیوں سے تیری پناہ مانگتا ہوں۔',
+        romanUrduTranslation: 'Ae Allah Azzawajal mein napaak jinn aur jinniyon se Teri panah maangta hoon.',
+        hindiTranslation: 'ऐ अल्लाह अज़्ज़-व-जल्ल मैं नापाक जिन्न और जिन्नियों से तेरी पनाह मांगता हूँ।',
+        source: 'Sahih al-Bukhari 6322',
+        alsoMentioned: ['Sahih al-Bukhari 142'],
+        notes: 'Hazrat Anas bin Malik se riwayat hai: Jab bhi Nabi (ﷺ) washroom (lavatory) jatay thay, toh yeh dua padhte thay: "Allahumma inni a`udhu bika min al-khubuthi wal khaba\'ith."',
+        benefits: [
+          'Seeks Allah\'s protection from male and female devils in impure places.'
+        ],
+        duration: '0:12'
+      },
+      {
+        id: 'leaving-washroom',
+        title: 'Dua After Leaving the Restroom',
+        subtitle: 'Washroom Se Baahar Aane Ke Baad Ki Dua',
+        category: 'everyday',
+        grouping: 'gratitude',
+        variants: '1 variant',
+        arabicMedallion: 'العَافِيَة',
+        illustrated: false,
+        heroImg: IMG_NIGHT,
+        audioUrl: '',
+        arabic: 'اَلْحَمْدُ لِلّٰهِ الَّذِیْٓ اَذْهَبَ عَنِّی الْاَذٰی وَعَافَانِیْ',
+        transliteration: 'Al-hamdu lillaahil-ladhee adhhaba \'annil-adhaa wa \'aafaanee',
+        translation: 'All praise is due to Allah, Who removed from me discomfort and granted me relief.',
+        urduTranslation: 'اللہ تعالیٰ کا شکر ہے جس نے مجھ سے اذیت دور کی اور مجھے عافیت دی۔',
+        romanUrduTranslation: 'Allah Ta\'ala ka shukr hai jis ne mujh se aziyat door ki aur mujhe aafiyat di.',
+        hindiTranslation: 'अल्लाह तआला का शुक्र है जिस ने मुझसे अज़ीयत दूर की और मुझे आफ़ियत दी।',
+        source: 'Musannaf Ibn Abi Shayba (Vol. 7, p. 149)',
+        alsoMentioned: ['Sunan Ibn Majah 301'],
+        notes: 'Recited upon stepping out of the washroom with the right foot.',
+        benefits: [
+          'Expresses gratitude for bodily health, digestion, and physical relief.'
+        ],
+        duration: '0:12'
+      },
+      {
+        id: 'entering-home-dua',
+        title: 'Dua When Entering the Home',
+        subtitle: 'Ghar Me Daakhil Hote Waqt Ki Dua',
+        category: 'everyday',
+        grouping: 'entering-home',
+        variants: '1 variant',
+        arabicMedallion: 'بَيْت',
+        illustrated: false,
+        heroImg: IMG_DESERT,
+        audioUrl: '',
+        arabic: 'اَللّٰهُمَّ اِنِّیْٓ اَسْئَلُكَ خَيْرَ الْمَوْلَجِ وَ خَيْرَ الْمَخْرَجِ بِسْمِ اللهِ وَلَجْنَا وَبِسْمِ اللهِ خَرَجْنَا وَ عَلَى اللهِ رَبَّنَا تَوَكَّلْنَا',
+        transliteration: 'Allaahumma innee as\'aluka khayral-mawlaji wa khayral-makhraji, bismillaahi walajnaa wa bismillaahi kharajnaa wa \'alaa-llaahi rabbanaa tawakkalnaa',
+        translation: 'O Allah, I ask You for the best entrance and the best exit. In the name of Allah we enter, in the name of Allah we leave, and upon Allah our Lord we rely.',
+        urduTranslation: 'اے اللہ عزَّوجَلَّ میں تجھ سے داخل ہونے اور نکلنے کی جگہوں کی بھلائی طلب کرتا ہوں ، اللہ عزَّوجَلَّ کے نام سے ہم اندر آئے اور اللہ عزَّوجَلَّ کے نام سے باہر نکلے اور ہم نے اپنے رب اللہ عزَّوجَلَّ پر بھروسہ کیا۔',
+        romanUrduTranslation: 'Ae Allah Azzawajal mein Tujh se daakhil hone aur nikalne ki jagahon ki bhalaayi talab karta hoon, Allah Azzawajal ke naam se hum andar aaye aur Allah Azzawajal ke naam se baahar nikle aur hum ne apne Rabb Allah Azzawajal par bharosa kiya.',
+        hindiTranslation: 'ऐ अल्लाह अज़्ज़ा-व-जल्ल मैं तुझ से दाख़िल होने और निकलने की जगहों की भलाई तलब करता हूँ, अल्लाह अज़्ज़-व-जल्ल के नाम से हम अंदर आए और अल्लाह अज़्ज़-व-जल्ल के नाम से बाहर निकले और हम ने अपने रब अल्लाह अज़्ज़-व-जल्ल पर भरोसा किया।',
+        source: 'Sunan Abi Dawud 5096',
+        alsoMentioned: ['Mishkat al-Masabih 2444'],
+        notes: 'Hazrat Abu Malik Al-Ash\'ari se riwayat hai: Nabi (ﷺ) ne farmaya: Jab koi shakhs apne ghar mein dakhil ho, toh usay yeh dua kehni chahiye, aur uske baad apne ghar walon ko salam karna chahiye.',
+        benefits: [
+          'Brings barakah and peace into the household.',
+          'Prevents Shaytan from entering or staying overnight in the home.'
+        ],
+        duration: '0:20'
+      },
+      {
+        id: 'leaving-home-dua',
+        title: 'Dua When Leaving the Home',
+        subtitle: 'Ghar Se Bahar Nikalte Waqt Ki Dua',
+        category: 'everyday',
+        grouping: 'leaving-home',
+        variants: '1 variant',
+        arabicMedallion: 'بَيْت',
+        illustrated: false,
+        heroImg: IMG_DESERT,
+        audioUrl: '',
+        arabic: 'بِسْمِ اللهِ تَوَكَّلْتُ عَلَى اللهِ لَا حَوْلَ وَلَا قُوَّةَ اِلَّا بِاللهِ',
+        transliteration: 'Bismillaahi tawakkaltu \'alallaahi laa hawla wa laa quwwata illaa billaah',
+        translation: 'In the name of Allah, I place my trust in Allah; there is no might nor power except with Allah.',
+        urduTranslation: 'اللہ عزَّوجَلَّ کے نام سے، میں نے اللہ عزَّوجَلَّ پر بھروسا کیا، گناہ سے بچنے کی قوت اور نیکی کرنے کی طاقت اللہ عزَّوجَلَّ ہی کی طرف سے ہے۔',
+        romanUrduTranslation: 'Allah Azzawajal ke naam se, mein ne Allah Azzawajal par bharosa kiya, gunah se bachne ki quwwat aur neki karne ki taaqat Allah Azzawajal hi ki taraf se hai.',
+        hindiTranslation: 'अल्लाह अज़्ज़-व-जल्ल के नाम से, मैंने अल्लाह अज़्ज़-व-जल्ल पर भरोसा किया, गुनाह से बचने की क़ूवत और नेकी करने की ताक़त अल्लाह अज़्ज़-व-जल्ल ही की तरफ़ से है।',
+        source: 'Sunan Abi Dawud 5095',
+        alsoMentioned: ['Jami` at-Tirmidhi 3426'],
+        notes: 'Hazrat Anas bin Malik (R.A) se riwayat hai: Nabi (ﷺ) ne farmaya: Jab koi shakhs apne ghar se bahar nikle aur yeh kahe, toh us waqt us se kaha jata hai: "Tumhein hidayat de di gayi, tumhari hifazat ki gayi aur tumhein mehfooz kar diya gaya." Shaitan us se door hat jate hain.',
+        benefits: [
+          'Shaitan padhne wale se door hat jata hai.',
+          'Grants divine guidance, sufficiency, and protection throughout the trip.'
+        ],
+        duration: '0:14'
+      },
+      {
+        id: 'before-eating-dua',
+        title: 'Dua Before Eating Food',
+        subtitle: 'Khana Khane Se Pehle Ki Dua',
+        category: 'everyday',
+        grouping: 'before-eating',
+        variants: '1 variant',
+        arabicMedallion: 'الطَّعَام',
+        illustrated: false,
+        heroImg: IMG_DESERT,
+        audioUrl: '',
+        arabic: 'بِسْمِ اللهِ وَبِاللهِ الَّذِیْ لَا يَضُرُّ مَعَ اسْمِهِ شَيْئٌ فِی الْاَرْضِ وَلَا فِی السَّمَآءِ يَا حَیُّ يَا قَيُّوْمُ',
+        transliteration: 'Bismillaahi wa billaahil-ladhee laa yadurru ma\'as-mihee shay\'un fil-ardi wa laa fis-samaa\'i yaa Hayyu yaa Qayyoom',
+        translation: 'In the name of Allah and by Allah, with Whose name nothing in the earth or the heaven can cause harm; O Ever-Living, O Sustainer of all existence.',
+        urduTranslation: 'اللہ تعالیٰ کے نام سے شروع کرتا ہوں جس کے نام کی برکت سے زمین و آسمان کی کوئی چیز نقصان نہیں پہنچا سکتی، اے ہمیشہ زندہ و قائم رہنے والے۔',
+        romanUrduTranslation: 'Allah Ta\'ala ke naam se shuru karta hoon jis ke naam ki barkat se zameen o aasmaan ki koi cheez nuqsaan nahi pohncha sakti, aye hamesha zinda o qaaim rehne wale.',
+        hindiTranslation: 'अल्लाह तआला के नाम से शुरू करता हूँ जिस के नाम की बरकत से ज़मीन व आसमान की कोई चीज़ नुक़सान नहीं पहुँचा सकती, ऐ हमेशा ज़िंदा व क़ायम रहने वाले।',
+        source: 'Kanzul Ummaal (Vol. 15, p. 109, Hadith 40792)',
+        alsoMentioned: [],
+        notes: 'Recited before starting a meal to invoke Allah\'s name and blessing over the food.',
+        benefits: [
+          'Brings barakah into the meal and protects against harm from the food.'
+        ],
+        duration: '0:16'
+      },
+      {
+        id: 'after-eating-dua',
+        title: 'Dua After Eating Food',
+        subtitle: 'Khane Ke Baad Ki Dua',
+        category: 'everyday',
+        grouping: 'after-eating',
+        variants: '1 variant',
+        arabicMedallion: 'الطَّعَام',
+        illustrated: false,
+        heroImg: IMG_DESERT,
+        audioUrl: '',
+        arabic: 'اَلْحَمْدُ لِلّٰهِ الَّذِیْٓ اَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِيْنَ',
+        transliteration: 'Al-hamdu lillaahil-ladhee at\'amanaa wa saqaanaa wa ja\'alanaa muslimeen',
+        translation: 'All praise is due to Allah Who fed us, gave us drink, and made us Muslims.',
+        urduTranslation: 'اللہ عزَّوجَلَّ کا شکر ہے جس نے ہمیں کھلایا، پلایا اور ہمیں مسلمان بنایا۔',
+        romanUrduTranslation: 'Allah Azzawajal ka shukr hai jis ne hamein khilaya, pilaya aur hamein musalman banaya.',
+        hindiTranslation: 'अल्लाह अज़्ज़ा-व-जल्ल का शुक्र है जिस ने हमें खिलाया, पिलाया और हमें मुसलमान बनाया।',
+        source: 'Sunan Abi Dawud 3850',
+        alsoMentioned: ['Jami` at-Tirmidhi 3457'],
+        notes: 'Hazrat Abu Sa\'id al-Khudri se riwayat hai: Jab Allah ke Rasool (ﷺ) khana khatam farmaate, toh yeh farmate: "Sab taareefein Allah ke liye hain jisne humein khilaya aur pilaya, aur humein Musalman banaya."',
+        benefits: [
+          'Combines gratitude for physical nourishment with gratitude for the blessing of Islam.'
+        ],
+        duration: '0:14'
+      }
     ];
 
-   // Set up global variables to hold the data
-let DUA_CATEGORIES = DEFAULT_CATEGORIES;
-let DUAS_LIST = DEFAULT_DUAS;
+    let DUA_CATEGORIES = DEFAULT_CATEGORIES;
+    let DUAS_LIST = DEFAULT_DUAS;
 
-// Async function to push updates to Firebase
-async function saveRepository() {
-  try {
-    const docRef = window.doc(window.db, "aamaalApp", "libraryData");
-    await window.setDoc(docRef, {
-      categories: DUA_CATEGORIES,
-      duas: DUAS_LIST
-    });
-    console.log("Data successfully saved to Firebase!");
-  } catch (error) {
-    console.error("Error saving to Firebase: ", error);
-    showToast("Failed to save to cloud");
-  }
-}
+    async function saveRepository() {
+      try {
+        await window.setDoc(window.doc(window.db, "aamaalApp", "libraryData"), {
+          categories: DUA_CATEGORIES,
+          duas: DUAS_LIST
+        });
+      } catch (error) {
+        console.error("Error saving to Firebase: ", error);
+        showToast("Failed to save to cloud");
+      }
+    }
 
-    // Dynamic count helper: matches either primary category or 21-grouping id
     function getCategoryDuaCount(catId) {
       return DUAS_LIST.filter(d => d.category === catId || d.grouping === catId).length;
     }
 
     /* ==========================================================================
-       2. APPLICATION STATE & REAL HTML5 AUDIO ENGINE (WITH K10/K11 FALLBACK)
+       2. STATE & AUDIO ENGINE
        ========================================================================== */
     let state = {
       currentScreen: 37,
       previousScreen: 42,
       selectedCategoryId: 'morning-evening',
       selectedDuaId: 'travel-main',
-      featuredSlideIndex: -1, // Rotates each time user visits Screen 37
+      featuredSlideIndex: -1,
       searchQuery: '',
       searchFilter: 'All',
       favourites: ['travel-main', 'astaghfirullah', 'parents-dua'],
@@ -1434,29 +807,25 @@ async function saveRepository() {
       selectedReciter: 'Sheikh Mishary Rashid Alafasy',
       language: 'English',
       translitMode: 'Roman Urdu / Latin',
-      fontSize: 'medium', // 'small', 'medium', 'large'
+      fontSize: 'medium',
       arabicStyle: 'Uthmani (Classic)',
       focusSlide: 1,
       copyOptions: { arabic: true, transliteration: true, translation: false }
     };
 
+    const $ = id => document.getElementById(id);
+
     function formatSeconds(sec) {
       if (!sec || isNaN(sec) || !isFinite(sec)) return '0:00';
-      const m = Math.floor(sec / 60);
-      const s = Math.floor(sec % 60);
+      const m = Math.floor(sec / 60), s = Math.floor(sec % 60);
       return `${m}:${s < 10 ? '0' : ''}${s}`;
     }
 
-    function getAudioElement() {
-      return document.getElementById('duaAudioElement');
-    }
+    function getAudioElement() { return $('duaAudioElement'); }
 
     function resolveAudioSource(dua) {
-      if (state.selectedReciter === 'Sheikh Abdul Basit Abdul Samad') {
-        return RECITER_STREAMS['Sheikh Abdul Basit Abdul Samad'];
-      }
-      if (state.selectedReciter === 'Sheikh Abdur-Rahman As-Sudais') {
-        return RECITER_STREAMS['Sheikh Abdur-Rahman As-Sudais'];
+      if (state.selectedReciter !== 'Sheikh Mishary Rashid Alafasy' && RECITER_STREAMS[state.selectedReciter]) {
+        return RECITER_STREAMS[state.selectedReciter];
       }
       return dua.audioUrl || RECITER_STREAMS['Sheikh Mishary Rashid Alafasy'];
     }
@@ -1481,54 +850,29 @@ async function saveRepository() {
         updateAudioPlayerDOM();
       });
 
-      audio.addEventListener('play', () => {
-        state.isPlaying = true;
-        state.audioError = false;
-        updateAudioPlayerDOM();
-      });
+      audio.addEventListener('play', () => { state.isPlaying = true; state.audioError = false; updateAudioPlayerDOM(); });
+      audio.addEventListener('pause', () => { state.isPlaying = false; updateAudioPlayerDOM(); });
+      audio.addEventListener('ended', () => { state.isPlaying = false; state.audioProgressPct = 100; updateAudioPlayerDOM(); });
 
-      audio.addEventListener('pause', () => {
-        state.isPlaying = false;
-        updateAudioPlayerDOM();
-      });
-
-      audio.addEventListener('ended', () => {
-        state.isPlaying = false;
-        state.audioProgressPct = 100;
-        updateAudioPlayerDOM();
-      });
-
-      // K10 / K11 Audio Failure Fallback Handler
       audio.addEventListener('error', () => {
         state.isPlaying = false;
         state.audioError = true;
         state.audioErrorMessage = 'Audio stream unavailable or failed to load (K10/K11). Please retry, switch reciter, or use offline Arabic speech synthesis.';
         showToast('Audio playback error — fallback ready');
-        if (state.currentScreen === 46) {
-          renderScreen(46);
-        }
+        if (state.currentScreen === 46) renderScreen(46);
       });
     }
 
     function updateAudioPlayerDOM() {
       if (state.currentScreen !== 46) return;
-      const fillEl = document.getElementById('audioProgressFill');
-      const timeCurEl = document.getElementById('audioCurrentTimeLabel');
-      const timeDurEl = document.getElementById('audioDurationLabel');
-      const playIconEl = document.getElementById('audioPlayIcon');
+      const fillEl = $('audioProgressFill'), timeCurEl = $('audioCurrentTimeLabel'), timeDurEl = $('audioDurationLabel'), playIconEl = $('audioPlayIcon');
       const dua = getDua(state.selectedDuaId);
+      const durText = state.audioDuration ? formatSeconds(state.audioDuration) : dua.duration;
 
       if (fillEl) fillEl.style.width = `${state.audioProgressPct}%`;
-      if (timeCurEl) {
-        const durText = state.audioDuration ? formatSeconds(state.audioDuration) : dua.duration;
-        timeCurEl.textContent = `${formatSeconds(state.audioCurrentTime)} / ${durText}`;
-      }
-      if (timeDurEl) {
-        timeDurEl.textContent = state.audioDuration ? formatSeconds(state.audioDuration) : dua.duration;
-      }
-      if (playIconEl) {
-        playIconEl.className = `bi ${state.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'}`;
-      }
+      if (timeCurEl) timeCurEl.textContent = `${formatSeconds(state.audioCurrentTime)} / ${durText}`;
+      if (timeDurEl) timeDurEl.textContent = durText;
+      if (playIconEl) playIconEl.className = `bi ${state.isPlaying ? 'bi-pause-fill' : 'bi-play-fill'}`;
     }
 
     function toggleAudioPlayback() {
@@ -1536,72 +880,58 @@ async function saveRepository() {
       const dua = getDua(state.selectedDuaId);
       if (!audio) return;
 
-      // Stop speech synthesis if active
-      if (window.speechSynthesis && window.speechSynthesis.speaking) {
+      if (window.speechSynthesis?.speaking) {
         window.speechSynthesis.cancel();
         state.usingSpeechFallback = false;
       }
 
       const targetSrc = resolveAudioSource(dua);
-      if (audio.src !== targetSrc) {
-        audio.src = targetSrc;
-      }
+      if (audio.src !== targetSrc) audio.src = targetSrc;
 
       if (state.isPlaying) {
         audio.pause();
       } else {
-        const playPromise = audio.play();
-        if (playPromise !== undefined) {
-          playPromise.catch(() => {
-            state.isPlaying = false;
-            state.audioError = true;
-            state.audioErrorMessage = 'Unable to stream recitation audio (K10/K11 network or codec fallback triggered).';
-            renderScreen(46);
-          });
-        }
+        audio.play()?.catch(() => {
+          state.isPlaying = false;
+          state.audioError = true;
+          state.audioErrorMessage = 'Unable to stream recitation audio (K10/K11 network or codec fallback triggered).';
+          renderScreen(46);
+        });
       }
     }
 
     function seekAudioTrack(event) {
       const audio = getAudioElement();
-      const track = event.currentTarget;
-      const rect = track.getBoundingClientRect();
-      const clickX = Math.max(0, Math.min(event.clientX - rect.left, rect.width));
-      const pct = clickX / rect.width;
+      const rect = event.currentTarget.getBoundingClientRect();
+      const pct = Math.max(0, Math.min(event.clientX - rect.left, rect.width)) / rect.width;
 
       state.audioProgressPct = Math.round(pct * 100);
       if (audio && audio.duration && isFinite(audio.duration)) {
-        audio.currentTime = pct * audio.duration;
-        state.audioCurrentTime = audio.currentTime;
+        audio.currentTime = state.audioCurrentTime = pct * audio.duration;
       }
       updateAudioPlayerDOM();
     }
 
     function rewindAudio() {
       const audio = getAudioElement();
-      if (audio) {
-        audio.currentTime = 0;
-        state.audioCurrentTime = 0;
-        state.audioProgressPct = 0;
-        updateAudioPlayerDOM();
-      }
+      if (audio) audio.currentTime = state.audioCurrentTime = state.audioProgressPct = 0;
+      updateAudioPlayerDOM();
       showToast('Rewound to start');
     }
 
     function nextDuaAudio() {
-      const idx = DUAS_LIST.findIndex(d => d.id === state.selectedDuaId);
-      const nextIdx = (idx + 1) % DUAS_LIST.length;
-      state.selectedDuaId = DUAS_LIST[nextIdx].id;
+      const nextIdx = (DUAS_LIST.findIndex(d => d.id === state.selectedDuaId) + 1) % DUAS_LIST.length;
+      const nextDua = DUAS_LIST[nextIdx];
+      state.selectedDuaId = nextDua.id;
       const audio = getAudioElement();
       if (audio) {
         audio.pause();
-        audio.src = resolveAudioSource(DUAS_LIST[nextIdx]);
-        state.audioCurrentTime = 0;
-        state.audioProgressPct = 0;
+        audio.src = resolveAudioSource(nextDua);
+        state.audioCurrentTime = state.audioProgressPct = 0;
         state.isPlaying = false;
       }
       renderScreen(46);
-      showToast(`Switched to ${DUAS_LIST[nextIdx].title}`);
+      showToast(`Switched to ${nextDua.title}`);
     }
 
     function selectReciterOption(reciterName) {
@@ -1609,25 +939,17 @@ async function saveRepository() {
       state.audioError = false;
       state.audioErrorMessage = '';
       const audio = getAudioElement();
-      const dua = getDua(state.selectedDuaId);
       if (audio) {
         const wasPlaying = state.isPlaying;
         audio.pause();
-        audio.src = resolveAudioSource(dua);
+        audio.src = resolveAudioSource(getDua(state.selectedDuaId));
         audio.load();
-        state.audioCurrentTime = 0;
-        state.audioProgressPct = 0;
-        if (wasPlaying) {
-          audio.play().catch(() => {
-            state.audioError = true;
-            renderScreen(46);
-          });
-        }
+        state.audioCurrentTime = state.audioProgressPct = 0;
+        if (wasPlaying) audio.play()?.catch(() => { state.audioError = true; renderScreen(46); });
       }
       renderScreen(46);
     }
 
-    // Trigger K10/K11 broken stream fallback for verification or retry
     function simulateAudioFailure() {
       const audio = getAudioElement();
       if (audio) {
@@ -1641,14 +963,10 @@ async function saveRepository() {
       state.audioError = false;
       state.audioErrorMessage = '';
       const audio = getAudioElement();
-      const dua = getDua(state.selectedDuaId);
       if (audio) {
-        audio.src = resolveAudioSource(dua);
+        audio.src = resolveAudioSource(getDua(state.selectedDuaId));
         audio.load();
-        audio.play().catch(() => {
-          state.audioError = true;
-          renderScreen(46);
-        });
+        audio.play()?.catch(() => { state.audioError = true; renderScreen(46); });
       }
       renderScreen(46);
     }
@@ -1660,17 +978,8 @@ async function saveRepository() {
         const utter = new SpeechSynthesisUtterance(dua.arabic);
         utter.lang = 'ar-SA';
         utter.rate = 0.85;
-        utter.onstart = () => {
-          state.isPlaying = true;
-          state.usingSpeechFallback = true;
-          updateAudioPlayerDOM();
-        };
-        utter.onend = () => {
-          state.isPlaying = false;
-          state.usingSpeechFallback = false;
-          state.audioProgressPct = 100;
-          updateAudioPlayerDOM();
-        };
+        utter.onstart = () => { state.isPlaying = state.usingSpeechFallback = true; updateAudioPlayerDOM(); };
+        utter.onend = () => { state.isPlaying = state.usingSpeechFallback = false; state.audioProgressPct = 100; updateAudioPlayerDOM(); };
         window.speechSynthesis.speak(utter);
         showToast('Playing offline Arabic voice fallback');
       } else {
@@ -1679,7 +988,7 @@ async function saveRepository() {
     }
 
     function showToast(msg) {
-      const t = document.getElementById('toastMsg');
+      const t = $('toastMsg');
       t.textContent = msg;
       t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2000);
@@ -1708,89 +1017,101 @@ async function saveRepository() {
       return dua.translation;
     }
 
+    /* Reusable Card HTML Builder */
+    function renderDuaCardHTML(d, showSource = true) {
+      return `
+        <div class="dua-list-card" onclick="openDuaDetail('${d.id}')">
+          <div class="medallion-icon"><span class="medallion-arabic">${d.arabicMedallion || 'دعا'}</span></div>
+          <div class="card-body-text">
+            <div class="card-title">${d.title}</div>
+            <div class="card-sub">${d.subtitle}</div>
+            ${showSource ? `<div class="card-meta">${d.source}</div>` : ''}
+          </div>
+          <i class="bi bi-chevron-right card-chevron"></i>
+        </div>`;
+    }
+
+    function renderDualActionsHTML(duaId, savedText = 'Bookmark') {
+      const isFav = state.favourites.includes(duaId);
+      return `
+        <div class="dual-action-row">
+          <button class="action-pill-btn ${isFav ? 'active' : ''}" onclick="toggleBookmark('${duaId}')">
+            <i class="bi ${isFav ? 'bi-bookmark-fill' : 'bi-bookmark'}"></i>
+            <span>${isFav ? savedText : 'Bookmark'}</span>
+          </button>
+          <button class="action-pill-btn" onclick="renderScreen(50)">
+            <i class="bi bi-share"></i>
+            <span>Share</span>
+          </button>
+        </div>`;
+    }
+
     /* ==========================================================================
        3. MASTER SCREEN ROUTER
        ========================================================================== */
+    const VIEWS = {
+      37: () => view37Home(),
+      38: () => view38Categories(),
+      39: () => view39CategoryDetail(),
+      40: () => view40Search(state.searchQuery),
+      41: () => view41SearchResults('travel'),
+      42: () => view42DetailStandard(),
+      43: () => view43DetailIllustrated(),
+      44: () => view44Marketplace(),
+      45: () => view45FocusMode(),
+      46: () => view46AudioPlayer(),
+      47: () => view47Language(),
+      48: () => view48FontSettings(),
+      49: () => view49Favourites(),
+      50: () => view50Share(),
+      51: () => view51CopyModal(),
+      52: () => view52SourceRef(),
+      54: () => view54NoMatches(),
+      99: () => view99AdminModal()
+    };
+
     function renderScreen(screenNum, customDuaId = null, preserveSlide = false, fromHistory = false) {
       const isSameScreen = (screenNum === state.currentScreen);
-      if (!isSameScreen) {
-        state.previousScreen = state.currentScreen;
-      }
+      if (!isSameScreen) state.previousScreen = state.currentScreen;
       state.currentScreen = screenNum;
       if (customDuaId) state.selectedDuaId = customDuaId;
 
-      // Push state to browser history so hardware back button knows where we are
-      if (!fromHistory) {
-        window.history.pushState({ screen: screenNum, duaId: state.selectedDuaId }, '', '');
-      }
+      if (!fromHistory) window.history.pushState({ screen: screenNum, duaId: state.selectedDuaId }, '', '');
+      if (screenNum === 37 && !preserveSlide) state.featuredSlideIndex = (state.featuredSlideIndex + 1) % DUAS_LIST.length;
+      if (!isSameScreen && !preserveSlide) window.scrollTo(0, 0);
 
-      // Rotate Featured Slide automatically whenever user visits Screen 37
-      if (screenNum === 37 && !preserveSlide) {
-        state.featuredSlideIndex = (state.featuredSlideIndex + 1) % DUAS_LIST.length;
-      }
-      
-      const vp = document.getElementById('appViewport');
-      if (!isSameScreen && !preserveSlide) {
-        window.scrollTo(0, 0);
-      }
-      
-      switch (screenNum) {
-        case 37: vp.innerHTML = view37Home(); break;
-        case 38: vp.innerHTML = view38Categories(); break;
-        case 39: vp.innerHTML = view39CategoryDetail(); break;
-        case 40: vp.innerHTML = view40Search(state.searchQuery); break;
-        case 41: vp.innerHTML = view41SearchResults('travel'); break;
-        case 42: vp.innerHTML = view42DetailStandard(); break;
-        case 43: vp.innerHTML = view43DetailIllustrated(); break;
-        case 44: vp.innerHTML = view44Marketplace(); break;
-        case 45: vp.innerHTML = view45FocusMode(); break;
-        case 46: vp.innerHTML = view46AudioPlayer(); break;
-        case 47: vp.innerHTML = view47Language(); break;
-        case 48: vp.innerHTML = view48FontSettings(); break;
-        case 49: vp.innerHTML = view49Favourites(); break;
-        case 50: vp.innerHTML = view50Share(); break;
-        case 51: vp.innerHTML = view51CopyModal(); break;
-        case 52: vp.innerHTML = view52SourceRef(); break;
-        case 54: vp.innerHTML = view54NoMatches(); break;
-        case 99: vp.innerHTML = view99AdminModal(); break;
-        default: vp.innerHTML = view37Home();
-      }
+      $('appViewport').innerHTML = (VIEWS[screenNum] || VIEWS[37])();
     }
 
     /* --- SCREEN 37: Dua Library Home --- */
     function view37Home() {
       const quickCats = DUA_CATEGORIES.filter(c => c.group === 'core').slice(0, 4);
       const futureGroupingsCount = DUA_CATEGORIES.filter(c => c.group === 'future').length;
-      const slideIdx = state.featuredSlideIndex >= 0 ? state.featuredSlideIndex : 0;
+      const slideIdx = Math.max(0, state.featuredSlideIndex);
       const featuredDua = DUAS_LIST[slideIdx] || DUAS_LIST[0];
 
       return `
-        <div class="hero-banner" style="background-image: url('https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80');">
+        <div class="hero-banner" style="background-image:url('${IMG_DESERT}');">
           <div class="hero-content">
             <div class="top-nav-row">
               <button class="back-btn" onclick="window.location.href='home.html'" title="Back to Home"><i class="bi bi-chevron-left"></i></button>
-              <div style="display:flex; gap:8px;">
-                <button class="admin-pill-btn" onclick="renderScreen(99)" title="Admin: Add Dua & Background">
-                  <i class="bi bi-plus-circle"></i> Admin
-                </button>
+              <div style="display:flex;gap:8px;">
+                <button class="admin-pill-btn" onclick="renderScreen(99)" title="Admin: Add Dua & Background"><i class="bi bi-plus-circle"></i> Admin</button>
                 <button class="icon-action-btn" onclick="renderScreen(49)" title="Favourites"><i class="bi bi-bookmark-heart"></i></button>
               </div>
             </div>
             <h1 class="page-title">Duas</h1>
             <p class="page-subtitle">A collection of authentic duas for everyday life</p>
-            <div class="search-bar-wrap" onclick="state.searchQuery=''; renderScreen(40);">
+            <div class="search-bar-wrap" onclick="state.searchQuery='';renderScreen(40);">
               <i class="bi bi-search search-icon"></i>
               <input type="text" class="search-input" placeholder="Search duas by title, occasion, or Arabic..." readonly />
             </div>
           </div>
         </div>
 
-        <div style="padding: 14px 18px;">
-          <!-- Featured Rotating Dua Slide (Changes on every visit + interactive controls) -->
+        <div style="padding:14px 18px;">
           <div class="featured-slide-wrap">
-            <div class="market-featured-card" 
-                 style="background-image: linear-gradient(90deg, rgba(8, 28, 22, 0.35) 0%, rgba(8, 28, 22, 0.88) 52%, rgba(8, 28, 22, 0.96) 100%), url('${featuredDua.heroImg}');"
-                 onclick="openDuaDetail('${featuredDua.id}')">
+            <div class="market-featured-card" style="background-image:linear-gradient(90deg,rgba(8,28,22,0.35) 0%,rgba(8,28,22,0.88) 52%,rgba(8,28,22,0.96) 100%),url('${featuredDua.heroImg}');" onclick="openDuaDetail('${featuredDua.id}')">
               <span class="market-card-badge"><i class="bi bi-stars"></i> Featured (${slideIdx + 1}/${DUAS_LIST.length})</span>
               <div class="market-card-info">
                 <div class="market-card-title">${featuredDua.title}</div>
@@ -1798,21 +1119,17 @@ async function saveRepository() {
                 <span class="market-card-link">(Tap to read full dua) <i class="bi bi-arrow-right-short"></i></span>
               </div>
             </div>
-
             <div class="slide-controls-bar">
               <div class="slide-dots">
-                ${DUAS_LIST.map((d, idx) => `
-                  <button class="slide-dot ${idx === slideIdx ? 'active' : ''}" onclick="event.stopPropagation(); setFeaturedSlide(${idx});"></button>
-                `).join('')}
+                ${DUAS_LIST.map((_, idx) => `<button class="slide-dot ${idx === slideIdx ? 'active' : ''}" onclick="event.stopPropagation();setFeaturedSlide(${idx});"></button>`).join('')}
               </div>
               <div class="slide-arrows">
-                <button class="slide-arrow-btn" onclick="event.stopPropagation(); stepFeaturedSlide(-1);" title="Previous Dua"><i class="bi bi-chevron-left"></i></button>
-                <button class="slide-arrow-btn" onclick="event.stopPropagation(); stepFeaturedSlide(1);" title="Next Dua"><i class="bi bi-chevron-right"></i></button>
+                <button class="slide-arrow-btn" onclick="event.stopPropagation();stepFeaturedSlide(-1);" title="Previous Dua"><i class="bi bi-chevron-left"></i></button>
+                <button class="slide-arrow-btn" onclick="event.stopPropagation();stepFeaturedSlide(1);" title="Next Dua"><i class="bi bi-chevron-right"></i></button>
               </div>
             </div>
           </div>
 
-          <!-- Browse by Category (4 Quick Tiles + View All 21 Groupings) -->
           <div class="section-head">
             <span class="section-title">Browse by Category</span>
             <button class="section-action" onclick="renderScreen(38)">View all (${futureGroupingsCount} groupings) <i class="bi bi-chevron-right"></i></button>
@@ -1820,36 +1137,24 @@ async function saveRepository() {
           <div class="quick-cat-grid">
             ${quickCats.map(c => {
               const liveCount = getCategoryDuaCount(c.id);
+              const words = c.title.split(' ');
               return `
                 <div class="quick-cat-tile" onclick="openCategory('${c.id}')">
                   <div class="quick-cat-icon"><i class="bi ${c.icon}"></i></div>
-                  <span class="quick-cat-label">${c.title.split(' ')[0]}<br>${c.title.split(' ').slice(1).join(' ') || 'Life'}</span>
+                  <span class="quick-cat-label">${words[0]}<br>${words.slice(1).join(' ') || 'Life'}</span>
                   <span class="quick-cat-count">${liveCount} ${liveCount === 1 ? 'dua' : 'duas'}</span>
-                </div>
-              `;
+                </div>`;
             }).join('')}
           </div>
 
-          <!-- Essential Daily Duas Preview -->
           <div class="section-head">
             <span class="section-title">Essential Supplications</span>
-            <button class="section-action" onclick="state.searchQuery=''; renderScreen(40);">View all (${DUAS_LIST.length})</button>
+            <button class="section-action" onclick="state.searchQuery='';renderScreen(40);">View all (${DUAS_LIST.length})</button>
           </div>
           <div class="list-stack">
-            ${DUAS_LIST.slice(0, 4).map(d => `
-              <div class="dua-list-card" onclick="openDuaDetail('${d.id}')">
-                <div class="medallion-icon"><span class="medallion-arabic">${d.arabicMedallion}</span></div>
-                <div class="card-body-text">
-                  <div class="card-title">${d.title}</div>
-                  <div class="card-sub">${d.subtitle}</div>
-                  <div class="card-meta">${d.source}</div>
-                </div>
-                <i class="bi bi-chevron-right card-chevron"></i>
-              </div>
-            `).join('')}
+            ${DUAS_LIST.slice(0, 4).map(d => renderDuaCardHTML(d)).join('')}
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
     function setFeaturedSlide(idx) {
@@ -1862,12 +1167,26 @@ async function saveRepository() {
       renderScreen(37, null, true);
     }
 
-    /* --- SCREEN 38: Dua Categories (6 Primary Collections + All 21 Separate Groupings) --- */
+    /* --- SCREEN 38: Dua Categories --- */
     function view38Categories() {
       const coreCats = DUA_CATEGORIES.filter(c => c.group === 'core');
       const futureCats = DUA_CATEGORIES.filter(c => c.group === 'future');
+      const renderCatRow = (c, prefix = '') => {
+        const count = getCategoryDuaCount(c.id);
+        return `
+          <div class="dua-list-card category-item" data-title="${c.title.toLowerCase()}" onclick="openCategory('${c.id}')">
+            <div class="medallion-icon"><i class="bi ${c.icon}"></i></div>
+            <div class="card-body-text">
+              <div class="card-title">${prefix}${c.title}</div>
+              <div class="card-sub">${c.subtitle}</div>
+              <div class="card-meta">${count} ${count === 1 ? 'dua' : 'duas'}</div>
+            </div>
+            <i class="bi bi-chevron-right card-chevron"></i>
+          </div>`;
+      };
+
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.25rem;">Dua Categories</h1>
@@ -1881,47 +1200,16 @@ async function saveRepository() {
 
           <div class="section-head" style="margin-top:8px;">
             <span class="section-title">Primary Collections (6)</span>
-            <span style="font-size:0.72rem; color:var(--text-muted);">Live counts</span>
+            <span style="font-size:0.72rem;color:var(--text-muted);">Live counts</span>
           </div>
-          <div class="list-stack" id="coreCategoryStack">
-            ${coreCats.map(c => {
-              const count = getCategoryDuaCount(c.id);
-              return `
-                <div class="dua-list-card category-item" data-title="${c.title.toLowerCase()}" onclick="openCategory('${c.id}')">
-                  <div class="medallion-icon"><i class="bi ${c.icon}"></i></div>
-                  <div class="card-body-text">
-                    <div class="card-title">${c.title}</div>
-                    <div class="card-sub">${c.subtitle}</div>
-                    <div class="card-meta">${count} ${count === 1 ? 'dua' : 'duas'}</div>
-                  </div>
-                  <i class="bi bi-chevron-right card-chevron"></i>
-                </div>
-              `;
-            }).join('')}
-          </div>
+          <div class="list-stack" id="coreCategoryStack">${coreCats.map(c => renderCatRow(c)).join('')}</div>
 
           <div class="section-head" style="margin-top:22px;">
             <span class="section-title">All Occasions & Sunnah Groupings</span>
-            <span style="font-size:0.72rem; color:var(--gold-primary);">${futureCats.length} Groupings</span>
+            <span style="font-size:0.72rem;color:var(--gold-primary);">${futureCats.length} Groupings</span>
           </div>
-          <div class="list-stack" id="futureCategoryStack">
-            ${futureCats.map((c, idx) => {
-              const count = getCategoryDuaCount(c.id);
-              return `
-                <div class="dua-list-card category-item" data-title="${c.title.toLowerCase()}" onclick="openCategory('${c.id}')">
-                  <div class="medallion-icon"><i class="bi ${c.icon}"></i></div>
-                  <div class="card-body-text">
-                    <div class="card-title">${idx + 1}. ${c.title}</div>
-                    <div class="card-sub">${c.subtitle}</div>
-                    <div class="card-meta">${count} ${count === 1 ? 'dua' : 'duas'}</div>
-                  </div>
-                  <i class="bi bi-chevron-right card-chevron"></i>
-                </div>
-              `;
-            }).join('')}
-          </div>
-        </div>
-      `;
+          <div class="list-stack" id="futureCategoryStack">${futureCats.map((c, i) => renderCatRow(c, `${i + 1}. `)).join('')}</div>
+        </div>`;
     }
 
     function filterCategoryList(val) {
@@ -1936,22 +1224,20 @@ async function saveRepository() {
       renderScreen(39);
     }
 
-    /* --- SCREEN 39: Category Detail (Shows Exact Duas in Category + Live Count + Admin Add) --- */
+    /* --- SCREEN 39: Category Detail --- */
     function view39CategoryDetail() {
       const cat = DUA_CATEGORIES.find(c => c.id === state.selectedCategoryId) || DUA_CATEGORIES[0];
       const categoryDuas = DUAS_LIST.filter(d => d.category === cat.id || d.grouping === cat.id);
       const count = categoryDuas.length;
 
       return `
-        <div class="hero-banner" style="background-image: url('${cat.hero || 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80'}'); min-height: 195px;">
+        <div class="hero-banner" style="background-image:url('${cat.hero || IMG_SUNRISE}');min-height:195px;">
           <div class="hero-content">
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(38)"><i class="bi bi-chevron-left"></i></button>
-              <div style="display:flex; gap:8px;">
-                <button class="admin-pill-btn" onclick="renderScreen(99)">
-                  <i class="bi bi-plus-circle"></i> Add Dua / BG
-                </button>
-                <button class="icon-action-btn" onclick="state.searchQuery=''; renderScreen(40);"><i class="bi bi-search"></i></button>
+              <div style="display:flex;gap:8px;">
+                <button class="admin-pill-btn" onclick="renderScreen(99)"><i class="bi bi-plus-circle"></i> Add Dua / BG</button>
+                <button class="icon-action-btn" onclick="state.searchQuery='';renderScreen(40);"><i class="bi bi-search"></i></button>
               </div>
             </div>
             <div style="margin-top:32px;">
@@ -1961,81 +1247,47 @@ async function saveRepository() {
           </div>
         </div>
 
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           ${count === 0 ? `
-            <div class="empty-state-box" style="padding: 32px 16px;">
-              <div class="empty-illustration" style="width:96px; height:96px; font-size:2.2rem;">
-                <i class="bi ${cat.icon}"></i>
-              </div>
+            <div class="empty-state-box" style="padding:32px 16px;">
+              <div class="empty-illustration" style="width:96px;height:96px;font-size:2.2rem;"><i class="bi ${cat.icon}"></i></div>
               <div class="card-title">0 duas in ${cat.title} yet</div>
-              <p class="card-sub" style="margin-top:6px; white-space:normal;">Use the Admin button to add a dua and custom background image to this category.</p>
-              <button class="primary-cta-btn" style="max-width:240px;" onclick="renderScreen(99)">
-                + Add First Dua Here
-              </button>
+              <p class="card-sub" style="margin-top:6px;white-space:normal;">Use the Admin button to add a dua and custom background image to this category.</p>
+              <button class="primary-cta-btn" style="max-width:240px;" onclick="renderScreen(99)">+ Add First Dua Here</button>
             </div>
-          ` : `
-            <div class="list-stack">
-              ${categoryDuas.map(d => `
-                <div class="dua-list-card" onclick="openDuaDetail('${d.id}')">
-                  <div class="medallion-icon"><span class="medallion-arabic">${d.arabicMedallion || 'دعا'}</span></div>
-                  <div class="card-body-text">
-                    <div class="card-title">${d.title}</div>
-                    <div class="card-sub">${d.subtitle}</div>
-                    <div class="card-meta">${d.source}</div>
-                  </div>
-                  <i class="bi bi-chevron-right card-chevron"></i>
-                </div>
-              `).join('')}
-            </div>
-          `}
-        </div>
-      `;
+          ` : `<div class="list-stack">${categoryDuas.map(d => renderDuaCardHTML(d)).join('')}</div>`}
+        </div>`;
     }
 
-    /* --- SCREEN 40: Dua Search (Shows ALL Duas by default when input is cleared) --- */
+    /* --- SCREEN 40: Dua Search --- */
     function view40Search(defaultQuery = '') {
       state.searchQuery = defaultQuery;
       const filters = ['All', 'Arabic', 'Transliteration', 'Translation'];
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.25rem;">Search Duas</h1>
             <div style="width:34px;"></div>
           </div>
-
           <div class="search-bar-wrap">
             <i class="bi bi-search search-icon"></i>
             <input type="text" id="liveSearchInput" class="search-input" value="${state.searchQuery}" placeholder="Search title, occasion, Arabic..." oninput="handleLiveSearch(this.value)" />
             <button class="clear-search-btn" onclick="clearSearchBar()" title="Clear search"><i class="bi bi-x-lg"></i></button>
           </div>
-
           <div class="filter-chips">
-            ${filters.map(f => `
-              <button class="chip ${state.searchFilter === f ? 'active' : ''}" onclick="state.searchFilter='${f}'; renderScreen(40, null, true);">
-                ${f}
-              </button>
-            `).join('')}
+            ${filters.map(f => `<button class="chip ${state.searchFilter === f ? 'active' : ''}" onclick="state.searchFilter='${f}';renderScreen(40,null,true);">${f}</button>`).join('')}
           </div>
-
-          <div class="list-stack" id="searchResultsContainer">
-            ${renderSearchMatchesHTML(state.searchQuery)}
-          </div>
-        </div>
-      `;
+          <div class="list-stack" id="searchResultsContainer">${renderSearchMatchesHTML(state.searchQuery)}</div>
+        </div>`;
     }
 
     function clearSearchBar() {
       state.searchQuery = '';
-      const input = document.getElementById('liveSearchInput');
-      if (input) {
-        input.value = '';
-        input.focus();
-      }
-      const box = document.getElementById('searchResultsContainer');
-      if (box) {
-        box.innerHTML = renderSearchMatchesHTML('');
-      }
+      const input = $('liveSearchInput');
+      if (input) { input.value = ''; input.focus(); }
+      const box = $('searchResultsContainer');
+      if (box) box.innerHTML = renderSearchMatchesHTML('');
     }
 
     function renderSearchMatchesHTML(query) {
@@ -2043,90 +1295,59 @@ async function saveRepository() {
       const matches = !q ? DUAS_LIST : DUAS_LIST.filter(d => {
         if (state.searchFilter === 'Arabic') return d.arabic.includes(q);
         if (state.searchFilter === 'Transliteration') return d.transliteration.toLowerCase().includes(q);
-        if (state.searchFilter === 'Translation') return d.translation.toLowerCase().includes(q) || (d.romanUrduTranslation && d.romanUrduTranslation.toLowerCase().includes(q));
-        return (
-          d.title.toLowerCase().includes(q) ||
-          d.subtitle.toLowerCase().includes(q) ||
-          d.transliteration.toLowerCase().includes(q) ||
-          d.translation.toLowerCase().includes(q) ||
-          (d.romanUrduTranslation && d.romanUrduTranslation.toLowerCase().includes(q)) ||
-          d.arabic.includes(q)
-        );
+        if (state.searchFilter === 'Translation') return d.translation.toLowerCase().includes(q) || d.romanUrduTranslation?.toLowerCase().includes(q);
+        return [d.title, d.subtitle, d.transliteration, d.translation, d.romanUrduTranslation || ''].some(s => s.toLowerCase().includes(q)) || d.arabic.includes(q);
       });
 
-      if (matches.length === 0) {
+      if (!matches.length) {
         return `
           <div class="empty-state-box" style="padding:28px 10px;">
             <div class="empty-illustration" style="width:90px;height:90px;font-size:2rem;"><i class="bi bi-search"></i></div>
             <div class="card-title">No matching duas for "${query}"</div>
             <p class="card-sub" style="margin-top:6px;">Try a different keyword or clear the search bar to see all duas.</p>
-          </div>
-        `;
+          </div>`;
       }
-
-      return matches.map(d => `
-        <div class="dua-list-card" onclick="openDuaDetail('${d.id}')">
-          <div class="medallion-icon"><span class="medallion-arabic">${d.arabicMedallion || 'دعا'}</span></div>
-          <div class="card-body-text">
-            <div class="card-title">${d.title}</div>
-            <div class="card-sub">${d.subtitle}</div>
-            <div class="card-meta">${d.source}</div>
-          </div>
-          <i class="bi bi-chevron-right card-chevron"></i>
-        </div>
-      `).join('');
+      return matches.map(d => renderDuaCardHTML(d)).join('');
     }
 
     function handleLiveSearch(val) {
       state.searchQuery = val;
-      const box = document.getElementById('searchResultsContainer');
-      if (box) {
-        box.innerHTML = renderSearchMatchesHTML(val);
-      }
+      const box = $('searchResultsContainer');
+      if (box) box.innerHTML = renderSearchMatchesHTML(val);
     }
 
-    /* --- SCREEN 41: Search Results ("travel" + All / Duas / Stories tabs) --- */
+    /* --- SCREEN 41: Search Results --- */
     function view41SearchResults(query = 'travel') {
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="search-bar-wrap" style="margin-top:4px;">
             <i class="bi bi-search search-icon"></i>
             <input type="text" id="liveSearchInput" class="search-input" value="${query}" oninput="handleLiveSearch(this.value)" />
             <button class="clear-search-btn" onclick="clearSearchBar()"><i class="bi bi-x-lg"></i></button>
           </div>
-
           <div class="filter-chips">
             <button class="chip active">All</button>
             <button class="chip" onclick="showToast('Filtered: Duas only')">Duas</button>
             <button class="chip" onclick="renderScreen(44)">Stories</button>
           </div>
-
-          <div class="list-stack" id="searchResultsContainer">
-            ${renderSearchMatchesHTML(query)}
-          </div>
-        </div>
-      `;
+          <div class="list-stack" id="searchResultsContainer">${renderSearchMatchesHTML(query)}</div>
+        </div>`;
     }
 
     function openDuaDetail(duaId) {
       state.selectedDuaId = duaId;
-      if (duaId === 'market-dua') {
-        renderScreen(44);
-      } else {
-        renderScreen(42);
-      }
+      renderScreen(duaId === 'market-dua' ? 44 : 42);
     }
 
     /* --- SCREEN 42: Dua Detail — Standard --- */
     function view42DetailStandard() {
       const dua = getDua(state.selectedDuaId);
-      const isFav = state.favourites.includes(dua.id);
       return `
-        <div class="hero-banner" style="background-image: url('${dua.heroImg}'); min-height: 165px;">
+        <div class="hero-banner" style="background-image:url('${dua.heroImg}');min-height:165px;">
           <div class="hero-content">
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
-              <div style="display:flex; gap:6px;">
+              <div style="display:flex;gap:6px;">
                 <button class="icon-action-btn" onclick="renderScreen(43)" title="Switch to Illustrated Artwork View"><i class="bi bi-image"></i></button>
                 <button class="icon-action-btn" onclick="renderScreen(51)" title="Copy Dua"><i class="bi bi-copy"></i></button>
               </div>
@@ -2138,8 +1359,7 @@ async function saveRepository() {
           </div>
         </div>
 
-        <div style="padding: 12px 18px;">
-          <!-- Interactive Mini Controls Bar -->
+        <div style="padding:12px 18px;">
           <div class="dua-toolbar-strip">
             <button class="mini-tool-btn" onclick="renderScreen(46)"><i class="bi bi-play-circle"></i> Audio</button>
             <button class="mini-tool-btn" onclick="renderScreen(47)"><i class="bi bi-translate"></i> ${state.language}</button>
@@ -2154,33 +1374,20 @@ async function saveRepository() {
             <span class="source-badge" onclick="renderScreen(52)">Source: ${dua.source} <i class="bi bi-info-circle"></i></span>
           </div>
 
-          <div class="benefits-section" style="border-top:none; margin-top:6px;">
+          <div class="benefits-section" style="border-top:none;margin-top:6px;">
             <div class="benefits-title">Benefits / Context</div>
-            <ul class="benefits-list">
-              ${dua.benefits.map(b => `<li>${b}</li>`).join('')}
-            </ul>
+            <ul class="benefits-list">${dua.benefits.map(b => `<li>${b}</li>`).join('')}</ul>
           </div>
 
-          <div class="dual-action-row">
-            <button class="action-pill-btn ${isFav ? 'active' : ''}" onclick="toggleBookmark('${dua.id}')">
-              <i class="bi ${isFav ? 'bi-bookmark-fill' : 'bi-bookmark'}"></i>
-              <span>${isFav ? 'Saved' : 'Bookmark'}</span>
-            </button>
-            <button class="action-pill-btn" onclick="renderScreen(50)">
-              <i class="bi bi-share"></i>
-              <span>Share</span>
-            </button>
-          </div>
-        </div>
-      `;
+          ${renderDualActionsHTML(dua.id, 'Saved')}
+        </div>`;
     }
 
     /* --- SCREEN 43: Dua Detail — Illustrated --- */
     function view43DetailIllustrated() {
       const dua = getDua(state.selectedDuaId);
-      const isFav = state.favourites.includes(dua.id);
       return `
-        <div class="hero-banner" style="background-image: url('${dua.heroImg}'); min-height: 255px;">
+        <div class="hero-banner" style="background-image:url('${dua.heroImg}');min-height:255px;">
           <div class="hero-content">
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
@@ -2193,46 +1400,33 @@ async function saveRepository() {
           </div>
         </div>
 
-        <div style="padding: 8px 18px 18px 18px;">
-          <div class="dua-content-box" style="background: linear-gradient(180deg, rgba(16, 52, 42, 0.92), rgba(7, 26, 21, 0.96)); border-color: var(--gold-primary);">
+        <div style="padding:8px 18px 18px;">
+          <div class="dua-content-box" style="background:linear-gradient(180deg,rgba(16,52,42,0.92),rgba(7,26,21,0.96));border-color:var(--gold-primary);">
             <div class="arabic-verse">${dua.arabic}</div>
             <div class="transliteration-text">${dua.transliteration}</div>
             <div class="translation-text">${getTranslationText(dua)}</div>
             <span class="source-badge" onclick="renderScreen(52)">Source: ${dua.source}</span>
           </div>
 
-          <div class="benefits-section" style="border-top:none; margin-top:4px;">
+          <div class="benefits-section" style="border-top:none;margin-top:4px;">
             <div class="benefits-title">Benefits / Context</div>
-            <ul class="benefits-list">
-              ${dua.benefits.map(b => `<li>${b}</li>`).join('')}
-            </ul>
+            <ul class="benefits-list">${dua.benefits.map(b => `<li>${b}</li>`).join('')}</ul>
           </div>
 
-          <div class="dual-action-row">
-            <button class="action-pill-btn ${isFav ? 'active' : ''}" onclick="toggleBookmark('${dua.id}')">
-              <i class="bi ${isFav ? 'bi-bookmark-fill' : 'bi-bookmark'}"></i>
-              <span>Bookmark</span>
-            </button>
-            <button class="action-pill-btn" onclick="renderScreen(50)">
-              <i class="bi bi-share"></i>
-              <span>Share</span>
-            </button>
-          </div>
-        </div>
-      `;
+          ${renderDualActionsHTML(dua.id)}
+        </div>`;
     }
 
-    /* --- SCREEN 44: Marketplace Supplication (Parchment Card + Story Context) --- */
+    /* --- SCREEN 44: Marketplace Supplication --- */
     function view44Marketplace() {
       state.selectedDuaId = 'market-dua';
       const dua = getDua('market-dua');
-      const isFav = state.favourites.includes('market-dua');
       return `
-        <div class="hero-banner" style="background-image: url('${dua.heroImg}'); min-height: 195px;">
+        <div class="hero-banner" style="background-image:url('${dua.heroImg}');min-height:195px;">
           <div class="hero-content">
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
-              <div style="display:flex; gap:6px;">
+              <div style="display:flex;gap:6px;">
                 <button class="icon-action-btn" onclick="renderScreen(46)" title="Listen Recitation"><i class="bi bi-volume-up"></i></button>
                 <button class="icon-action-btn" onclick="renderScreen(48)" title="Font & Script Settings"><i class="bi bi-type"></i></button>
                 <button class="icon-action-btn" onclick="renderScreen(51)" title="Copy"><i class="bi bi-copy"></i></button>
@@ -2245,14 +1439,12 @@ async function saveRepository() {
           </div>
         </div>
 
-        <div style="padding: 8px 18px 20px 18px;">
-          <!-- Signature Parchment Card -->
+        <div style="padding:8px 18px 20px;">
           <div class="dua-content-box parchment">
             <div class="arabic-verse">${dua.arabic}</div>
             <div class="transliteration-text">${dua.transliteration}</div>
             <div class="translation-text">${getTranslationText(dua)}</div>
             <span class="source-badge" onclick="renderScreen(52)">Source: ${dua.source}</span>
-
             <div class="benefits-section">
               <div class="benefits-title">Benefits / Context</div>
               <ul class="benefits-list">
@@ -2261,106 +1453,75 @@ async function saveRepository() {
               </ul>
             </div>
           </div>
-
-          <div class="dual-action-row">
-            <button class="action-pill-btn ${isFav ? 'active' : ''}" onclick="toggleBookmark('market-dua')">
-              <i class="bi ${isFav ? 'bi-bookmark-fill' : 'bi-bookmark'}"></i>
-              <span>Bookmark</span>
-            </button>
-            <button class="action-pill-btn" onclick="renderScreen(50)">
-              <i class="bi bi-share"></i>
-              <span>Share</span>
-            </button>
-          </div>
-        </div>
-      `;
+          ${renderDualActionsHTML('market-dua')}
+        </div>`;
     }
 
     /* --- SCREEN 45: Dua Reading / Focus Mode --- */
     function view45FocusMode() {
       const dua = getDua(state.selectedDuaId);
-      const currentIdx = DUAS_LIST.findIndex(d => d.id === dua.id);
-      const displayNum = currentIdx >= 0 ? currentIdx + 1 : 1;
+      const displayNum = Math.max(0, DUAS_LIST.findIndex(d => d.id === dua.id)) + 1;
 
       return `
-        <div style="padding: 18px 20px; display:flex; flex-direction:column; justify-content:space-between; min-height: 85vh;">
+        <div style="padding:18px 20px;display:flex;flex-direction:column;justify-content:space-between;min-height:85vh;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
-            <span style="font-size:0.9rem; font-weight:600; color:var(--gold-light);">${displayNum} / ${DUAS_LIST.length}</span>
+            <span style="font-size:0.9rem;font-weight:600;color:var(--gold-light);">${displayNum} / ${DUAS_LIST.length}</span>
             <button class="icon-action-btn" onclick="renderScreen(46)"><i class="bi bi-volume-up"></i></button>
           </div>
 
-          <div class="dua-content-box" style="padding: 36px 20px; margin: auto 0; border-color: rgba(212,175,55,0.4);">
-            <div style="text-align:center; font-family:'Cinzel',serif; color:var(--gold-primary); font-size:0.95rem; margin-bottom:14px;">
-              ${dua.title}
-            </div>
-            <div class="arabic-verse" style="font-size: calc(1.75rem * var(--arabic-scale)); margin-bottom:24px;">
-              ${dua.arabic}
-            </div>
-            <div class="transliteration-text" style="margin-bottom:20px;">
-              ${dua.transliteration}
-            </div>
-            <div class="translation-text" style="margin-bottom:22px;">
-              ${getTranslationText(dua)}
-            </div>
+          <div class="dua-content-box" style="padding:36px 20px;margin:auto 0;border-color:rgba(212,175,55,0.4);">
+            <div style="text-align:center;font-family:'Cinzel',serif;color:var(--gold-primary);font-size:0.95rem;margin-bottom:14px;">${dua.title}</div>
+            <div class="arabic-verse" style="font-size:calc(1.75rem * var(--arabic-scale));margin-bottom:24px;">${dua.arabic}</div>
+            <div class="transliteration-text" style="margin-bottom:20px;">${dua.transliteration}</div>
+            <div class="translation-text" style="margin-bottom:22px;">${getTranslationText(dua)}</div>
             <span class="source-badge" onclick="renderScreen(52)">Source: ${dua.source}</span>
           </div>
 
-          <div style="text-align:center; margin-top:16px;">
-            <div style="color:var(--gold-primary); margin-bottom:12px;"><i class="bi bi-stars"></i></div>
-            <div style="display:flex; justify-content:space-between; align-items:center; background:var(--bg-card); border:1px solid var(--gold-border); border-radius:99px; padding:8px 16px;">
+          <div style="text-align:center;margin-top:16px;">
+            <div style="color:var(--gold-primary);margin-bottom:12px;"><i class="bi bi-stars"></i></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;background:var(--bg-card);border:1px solid var(--gold-border);border-radius:99px;padding:8px 16px;">
               <button class="back-btn" style="border:none;" onclick="changeFocusSlide(-1)"><i class="bi bi-chevron-left"></i></button>
-              <button class="mini-tool-btn" style="max-width:90px; border-radius:99px;" onclick="renderScreen(48)"><strong>AA</strong></button>
+              <button class="mini-tool-btn" style="max-width:90px;border-radius:99px;" onclick="renderScreen(48)"><strong>AA</strong></button>
               <button class="back-btn" style="border:none;" onclick="changeFocusSlide(1)"><i class="bi bi-chevron-right"></i></button>
             </div>
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
     function changeFocusSlide(dir) {
-      let currentIdx = DUAS_LIST.findIndex(d => d.id === state.selectedDuaId);
-      if (currentIdx < 0) currentIdx = 0;
-      const nextIdx = (currentIdx + dir + DUAS_LIST.length) % DUAS_LIST.length;
-      state.selectedDuaId = DUAS_LIST[nextIdx].id;
+      const idx = Math.max(0, DUAS_LIST.findIndex(d => d.id === state.selectedDuaId));
+      state.selectedDuaId = DUAS_LIST[(idx + dir + DUAS_LIST.length) % DUAS_LIST.length].id;
       renderScreen(45);
     }
 
-    /* --- SCREEN 46: Real HTML5 Audio Player / Recitation + K10/K11 Fallback --- */
+    /* --- SCREEN 46: Audio Player --- */
     function view46AudioPlayer() {
       const dua = getDua(state.selectedDuaId);
-      const reciters = [
-        'Sheikh Mishary Rashid Alafasy',
-        'Sheikh Abdul Basit Abdul Samad',
-        'Sheikh Abdur-Rahman As-Sudais'
-      ];
+      const reciters = Object.keys(RECITER_STREAMS);
       const durText = state.audioDuration ? formatSeconds(state.audioDuration) : dua.duration;
 
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.15rem;">${dua.title}</h1>
-            <button class="icon-action-btn" onclick="simulateAudioFailure()" title="Test Audio Failure Fallback (K10/K11)">
-              <i class="bi bi-shield-exclamation"></i>
-            </button>
+            <button class="icon-action-btn" onclick="simulateAudioFailure()" title="Test Audio Failure Fallback (K10/K11)"><i class="bi bi-shield-exclamation"></i></button>
           </div>
 
           <div class="audio-card" style="margin-top:12px;">
             <div class="reciter-head">
               <div class="reciter-avatar"><i class="bi bi-mic-fill"></i></div>
               <div style="flex:1;">
-                <div style="font-weight:600; font-size:0.9rem; color:var(--text-main);">${state.selectedReciter}</div>
-                <div style="font-size:0.75rem; color:var(--gold-primary);">
+                <div style="font-weight:600;font-size:0.9rem;color:var(--text-main);">${state.selectedReciter}</div>
+                <div style="font-size:0.75rem;color:var(--gold-primary);">
                   ${state.usingSpeechFallback ? 'Offline Arabic Speech Synthesis Active' : 'HTML5 Audio Stream · High Clarity'}
                 </div>
               </div>
             </div>
 
             <div class="progress-track" onclick="seekAudioTrack(event)" title="Tap to seek audio position">
-              <div class="progress-fill" id="audioProgressFill" style="width:${state.audioProgressPct}%;">
-                <div class="progress-knob"></div>
-              </div>
+              <div class="progress-fill" id="audioProgressFill" style="width:${state.audioProgressPct}%;"><div class="progress-knob"></div></div>
             </div>
             <div class="time-row">
               <span id="audioCurrentTimeLabel">${formatSeconds(state.audioCurrentTime)} / ${durText}</span>
@@ -2376,24 +1537,16 @@ async function saveRepository() {
             </div>
 
             ${state.audioError ? `
-              <!-- Audio Failure Fallback UI (K10, K11) -->
               <div class="audio-fallback-alert" role="alert">
                 <div><i class="bi bi-exclamation-triangle-fill"></i> <strong>Audio Playback Issue (K10/K11):</strong> ${state.audioErrorMessage}</div>
                 <div class="audio-fallback-actions">
-                  <button class="fallback-pill-btn" onclick="retryAudioStream()">
-                    <i class="bi bi-arrow-clockwise"></i> Retry Stream
-                  </button>
-                  <button class="fallback-pill-btn" onclick="playOfflineSpeechFallback()">
-                    <i class="bi bi-volume-up"></i> Offline Voice Fallback
-                  </button>
+                  <button class="fallback-pill-btn" onclick="retryAudioStream()"><i class="bi bi-arrow-clockwise"></i> Retry Stream</button>
+                  <button class="fallback-pill-btn" onclick="playOfflineSpeechFallback()"><i class="bi bi-volume-up"></i> Offline Voice Fallback</button>
                 </div>
-              </div>
-            ` : ''}
+              </div>` : ''}
           </div>
 
-          <div class="section-head">
-            <span class="section-title">Available Reciters</span>
-          </div>
+          <div class="section-head"><span class="section-title">Available Reciters</span></div>
           <div class="option-list">
             ${reciters.map(r => `
               <div class="option-row ${state.selectedReciter === r ? 'selected' : ''}" onclick="selectReciterOption('${r}')">
@@ -2401,71 +1554,56 @@ async function saveRepository() {
                   <div class="radio-circle"></div>
                   <div>
                     <div style="font-weight:600;">${r}</div>
-                    <div style="font-size:0.73rem; color:var(--text-muted);">(Arabic MP3 Stream)</div>
+                    <div style="font-size:0.73rem;color:var(--text-muted);">(Arabic MP3 Stream)</div>
                   </div>
                 </div>
                 ${state.selectedReciter === r ? '<i class="bi bi-check-circle-fill" style="color:var(--gold-primary);"></i>' : ''}
-              </div>
-            `).join('')}
+              </div>`).join('')}
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
-    /* --- SCREEN 47: Translation & Language Selector --- */
+    /* --- SCREEN 47: Language Selector --- */
     function view47Language() {
       const dua = getDua(state.selectedDuaId);
       const langs = ['English', 'Urdu', 'Roman Urdu', 'Hindi'];
       const translits = ['Roman Urdu / Latin', 'Arabic Script'];
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.15rem;">Language & Translation</h1>
             <div style="width:34px;"></div>
           </div>
 
-          <div class="section-head" style="margin-top:8px;">
-            <span class="section-title">Translation Language</span>
-          </div>
+          <div class="section-head" style="margin-top:8px;"><span class="section-title">Translation Language</span></div>
           <div class="option-list">
             ${langs.map(l => `
-              <div class="option-row ${state.language === l ? 'selected' : ''}" onclick="state.language='${l}'; renderScreen(47, null, true);">
-                <div class="radio-left">
-                  <div class="radio-circle"></div>
-                  <span>${l}${l === 'Roman Urdu' ? ' (Transliterated Meaning)' : ''}</span>
-                </div>
+              <div class="option-row ${state.language === l ? 'selected' : ''}" onclick="state.language='${l}';renderScreen(47,null,true);">
+                <div class="radio-left"><div class="radio-circle"></div><span>${l}${l === 'Roman Urdu' ? ' (Transliterated Meaning)' : ''}</span></div>
                 ${state.language === l ? '<i class="bi bi-check-circle-fill" style="color:var(--gold-primary);"></i>' : ''}
-              </div>
-            `).join('')}
+              </div>`).join('')}
           </div>
 
-          <div class="section-head" style="margin-top:20px;">
-            <span class="section-title">Arabic Transliteration Script</span>
-          </div>
+          <div class="section-head" style="margin-top:20px;"><span class="section-title">Arabic Transliteration Script</span></div>
           <div class="option-list">
             ${translits.map(t => `
-              <div class="option-row ${state.translitMode === t ? 'selected' : ''}" onclick="state.translitMode='${t}'; renderScreen(47, null, true);">
-                <div class="radio-left">
-                  <div class="radio-circle"></div>
-                  <span>${t}</span>
-                </div>
+              <div class="option-row ${state.translitMode === t ? 'selected' : ''}" onclick="state.translitMode='${t}';renderScreen(47,null,true);">
+                <div class="radio-left"><div class="radio-circle"></div><span>${t}</span></div>
                 ${state.translitMode === t ? '<i class="bi bi-check-circle-fill" style="color:var(--gold-primary);"></i>' : ''}
-              </div>
-            `).join('')}
+              </div>`).join('')}
           </div>
 
-          <div class="dua-content-box" style="margin-top:16px; padding:12px 14px;">
-            <div style="font-size:0.78rem; color:var(--gold-primary); margin-bottom:4px;">Live Preview (${state.language}):</div>
-            <div style="font-size:0.84rem; color:var(--text-main); line-height:1.5;">${getTranslationText(dua)}</div>
+          <div class="dua-content-box" style="margin-top:16px;padding:12px 14px;">
+            <div style="font-size:0.78rem;color:var(--gold-primary);margin-bottom:4px;">Live Preview (${state.language}):</div>
+            <div style="font-size:0.84rem;color:var(--text-main);line-height:1.5;">${getTranslationText(dua)}</div>
           </div>
 
-          <button class="primary-cta-btn" onclick="showToast('Language preferences saved'); renderScreen(42);">Save</button>
-        </div>
-      `;
+          <button class="primary-cta-btn" onclick="showToast('Language preferences saved');renderScreen(42);">Save</button>
+        </div>`;
     }
 
-    /* --- SCREEN 48: Font & Arabic Display Controls (Only Uthmani & IndoPak) --- */
+    /* --- SCREEN 48: Font & Arabic Display --- */
     function view48FontSettings() {
       const dua = getDua(state.selectedDuaId);
       const arabicStyles = [
@@ -2473,47 +1611,35 @@ async function saveRepository() {
         { label: 'IndoPak (Nastaleeq)', font: "'Lateef', 'Noto Nastaliq Urdu', serif" }
       ];
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(state.previousScreen || 42)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.15rem;">Font & Arabic Display</h1>
             <div style="width:34px;"></div>
           </div>
 
-          <div class="section-head">
-            <span class="section-title">Text Size</span>
-          </div>
+          <div class="section-head"><span class="section-title">Text Size</span></div>
           <div class="size-btn-group">
-            <button class="size-btn ${state.fontSize === 'small' ? 'active' : ''}" onclick="setFontScale('small')">A-</button>
-            <button class="size-btn ${state.fontSize === 'medium' ? 'active' : ''}" onclick="setFontScale('medium')">A</button>
-            <button class="size-btn ${state.fontSize === 'large' ? 'active' : ''}" onclick="setFontScale('large')">A+</button>
+            ${[['small', 'A-'], ['medium', 'A'], ['large', 'A+']].map(([sz, lbl]) => `
+              <button class="size-btn ${state.fontSize === sz ? 'active' : ''}" onclick="setFontScale('${sz}')">${lbl}</button>`).join('')}
           </div>
 
-          <div class="section-head">
-            <span class="section-title">Arabic Script Style</span>
-          </div>
+          <div class="section-head"><span class="section-title">Arabic Script Style</span></div>
           <div class="option-list">
             ${arabicStyles.map(s => `
               <div class="option-row ${state.arabicStyle === s.label ? 'selected' : ''}" onclick="setArabicScriptStyle('${s.label}', &quot;${s.font}&quot;)">
-                <div class="radio-left">
-                  <div class="radio-circle"></div>
-                  <span>${s.label}</span>
-                </div>
+                <div class="radio-left"><div class="radio-circle"></div><span>${s.label}</span></div>
                 ${state.arabicStyle === s.label ? '<i class="bi bi-check-circle-fill" style="color:var(--gold-primary);"></i>' : ''}
-              </div>
-            `).join('')}
+              </div>`).join('')}
           </div>
 
-          <div class="dua-content-box" style="margin-top:18px; padding:16px;">
-            <div style="font-size:0.74rem; color:var(--text-muted); text-align:center; margin-bottom:6px;">
-              Preview (${state.arabicStyle})
-            </div>
+          <div class="dua-content-box" style="margin-top:18px;padding:16px;">
+            <div style="font-size:0.74rem;color:var(--text-muted);text-align:center;margin-bottom:6px;">Preview (${state.arabicStyle})</div>
             <div class="arabic-verse" style="margin-bottom:0;">${dua.arabic}</div>
           </div>
 
-          <button class="primary-cta-btn" onclick="showToast('Display settings saved'); renderScreen(state.previousScreen || 42);">Done</button>
-        </div>
-      `;
+          <button class="primary-cta-btn" onclick="showToast('Display settings saved');renderScreen(state.previousScreen || 42);">Done</button>
+        </div>`;
     }
 
     function setArabicScriptStyle(styleLabel, fontStack) {
@@ -2524,17 +1650,9 @@ async function saveRepository() {
 
     function setFontScale(level) {
       state.fontSize = level;
-      const root = document.documentElement;
-      if (level === 'small') {
-        root.style.setProperty('--arabic-scale', '0.86');
-        root.style.setProperty('--body-scale', '0.9');
-      } else if (level === 'large') {
-        root.style.setProperty('--arabic-scale', '1.22');
-        root.style.setProperty('--body-scale', '1.12');
-      } else {
-        root.style.setProperty('--arabic-scale', '1');
-        root.style.setProperty('--body-scale', '1');
-      }
+      const scales = { small: ['0.86', '0.9'], medium: ['1', '1'], large: ['1.22', '1.12'] }[level] || ['1', '1'];
+      document.documentElement.style.setProperty('--arabic-scale', scales[0]);
+      document.documentElement.style.setProperty('--body-scale', scales[1]);
       renderScreen(48, null, true);
     }
 
@@ -2542,7 +1660,7 @@ async function saveRepository() {
     function view49Favourites() {
       const favDuas = DUAS_LIST.filter(d => state.favourites.includes(d.id));
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.25rem;">Favourites</h1>
@@ -2550,35 +1668,23 @@ async function saveRepository() {
           </div>
 
           <div class="filter-chips" style="margin-top:10px;">
-            <button class="chip ${state.favTab === 'Duas' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Duas'; renderScreen(49, null, true);">Duas (${favDuas.length})</button>
-            <button class="chip ${state.favTab === 'Reflections' ? 'active' : ''}" style="flex:1; text-align:center;" onclick="state.favTab='Reflections'; renderScreen(49, null, true);">Reflections</button>
+            <button class="chip ${state.favTab === 'Duas' ? 'active' : ''}" style="flex:1;text-align:center;" onclick="state.favTab='Duas';renderScreen(49,null,true);">Duas (${favDuas.length})</button>
+            <button class="chip ${state.favTab === 'Reflections' ? 'active' : ''}" style="flex:1;text-align:center;" onclick="state.favTab='Reflections';renderScreen(49,null,true);">Reflections</button>
           </div>
 
           <div class="list-stack" style="margin-top:10px;">
-            ${favDuas.length === 0 ? `
-              <div class="empty-state-box">
-                <p class="card-sub">No bookmarked duas yet. Tap Bookmark on any dua to save it here.</p>
-              </div>
-            ` : favDuas.map(d => `
-              <div class="dua-list-card" onclick="openDuaDetail('${d.id}')">
-                <div class="medallion-icon"><span class="medallion-arabic">${d.arabicMedallion}</span></div>
-                <div class="card-body-text">
-                  <div class="card-title">${d.title}</div>
-                  <div class="card-sub">${d.subtitle}</div>
-                </div>
-                <i class="bi bi-chevron-right card-chevron"></i>
-              </div>
-            `).join('')}
+            ${!favDuas.length
+              ? `<div class="empty-state-box"><p class="card-sub">No bookmarked duas yet. Tap Bookmark on any dua to save it here.</p></div>`
+              : favDuas.map(d => renderDuaCardHTML(d, false)).join('')}
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
     /* --- SCREEN 50: Share Dua --- */
     function view50Share() {
       const dua = getDua(state.selectedDuaId);
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.15rem;">Share Dua Card</h1>
@@ -2588,44 +1694,21 @@ async function saveRepository() {
           <div class="share-preview-card">
             <div class="share-card-art" style="background-image:url('${dua.heroImg}');"></div>
             <div class="share-card-body">
-              <div style="font-family:'Cinzel',serif; font-weight:700; font-size:1.05rem; margin-bottom:10px; color:#12261e;">
-                ${dua.title}
-              </div>
-              <div style="font-family:var(--arabic-font); font-size:1.35rem; line-height:1.9; color:#12261e; direction:rtl; margin-bottom:10px;">
-                ${dua.arabic}
-              </div>
-              <div style="font-size:0.78rem; color:#495950; font-style:italic; margin-bottom:10px;">
-                ${dua.transliteration}
-              </div>
-              <div style="font-size:0.84rem; color:#1c2b24; font-weight:500; margin-bottom:10px;">
-                ${getTranslationText(dua)}
-              </div>
-              <div style="font-size:0.72rem; color:#7d5a12; font-weight:600;">
-                Source: ${dua.source}
-              </div>
+              <div style="font-family:'Cinzel',serif;font-weight:700;font-size:1.05rem;margin-bottom:10px;color:#12261e;">${dua.title}</div>
+              <div style="font-family:var(--arabic-font);font-size:1.35rem;line-height:1.9;color:#12261e;direction:rtl;margin-bottom:10px;">${dua.arabic}</div>
+              <div style="font-size:0.78rem;color:#495950;font-style:italic;margin-bottom:10px;">${dua.transliteration}</div>
+              <div style="font-size:0.84rem;color:#1c2b24;font-weight:500;margin-bottom:10px;">${getTranslationText(dua)}</div>
+              <div style="font-size:0.72rem;color:#7d5a12;font-weight:600;">Source: ${dua.source}</div>
             </div>
           </div>
 
           <div class="share-social-row">
-            <div class="social-circle" onclick="shareViaText('WhatsApp')">
-              <div class="social-circle-icon" style="background:#1fa855;"><i class="bi bi-whatsapp"></i></div>
-              <span>WhatsApp</span>
-            </div>
-            <div class="social-circle" onclick="shareViaText('Telegram')">
-              <div class="social-circle-icon" style="background:#249ef0;"><i class="bi bi-telegram"></i></div>
-              <span>Telegram</span>
-            </div>
-            <div class="social-circle" onclick="copyFullDuaText()">
-              <div class="social-circle-icon" style="background:#174f3e;"><i class="bi bi-link-45deg"></i></div>
-              <span>Copy Link</span>
-            </div>
-            <div class="social-circle" onclick="renderScreen(51)">
-              <div class="social-circle-icon" style="background:#174f3e;"><i class="bi bi-three-dots"></i></div>
-              <span>More</span>
-            </div>
+            <div class="social-circle" onclick="shareViaText('WhatsApp')"><div class="social-circle-icon" style="background:#1fa855;"><i class="bi bi-whatsapp"></i></div><span>WhatsApp</span></div>
+            <div class="social-circle" onclick="shareViaText('Telegram')"><div class="social-circle-icon" style="background:#249ef0;"><i class="bi bi-telegram"></i></div><span>Telegram</span></div>
+            <div class="social-circle" onclick="copyFullDuaText()"><div class="social-circle-icon" style="background:#174f3e;"><i class="bi bi-link-45deg"></i></div><span>Copy Link</span></div>
+            <div class="social-circle" onclick="renderScreen(51)"><div class="social-circle-icon" style="background:#174f3e;"><i class="bi bi-three-dots"></i></div><span>More</span></div>
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
     function shareViaText(platform) {
@@ -2636,55 +1719,45 @@ async function saveRepository() {
     /* --- SCREEN 51: Copy Dua Modal --- */
     function view51CopyModal() {
       const dua = getDua(state.selectedDuaId);
+      const copyRows = [
+        ['arabic', 'Arabic Text'],
+        ['transliteration', 'Transliteration'],
+        ['translation', 'Translation']
+      ];
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
-            <span style="font-size:0.85rem; color:var(--text-muted);">${dua.title}</span>
+            <span style="font-size:0.85rem;color:var(--text-muted);">${dua.title}</span>
             <div style="width:34px;"></div>
           </div>
 
-          <div class="dua-content-box" style="opacity:0.45; pointer-events:none;">
+          <div class="dua-content-box" style="opacity:0.45;pointer-events:none;">
             <div class="arabic-verse" style="font-size:1.2rem;">${dua.arabic}</div>
             <div class="translation-text" style="font-size:0.8rem;">${dua.translation}</div>
           </div>
 
-          <!-- Parchment Bottom Sheet -->
           <div class="copy-sheet">
-            <div style="text-align:center; font-weight:700; font-size:1rem; margin-bottom:12px;">Copy</div>
-
-            <div class="copy-check-row" onclick="state.copyOptions.arabic = !state.copyOptions.arabic; renderScreen(51, null, true);">
-              <span><i class="bi ${state.copyOptions.arabic ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c; margin-right:8px;"></i> Arabic Text</span>
-              ${state.copyOptions.arabic ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
-            </div>
-
-            <div class="copy-check-row" onclick="state.copyOptions.transliteration = !state.copyOptions.transliteration; renderScreen(51, null, true);">
-              <span><i class="bi ${state.copyOptions.transliteration ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c; margin-right:8px;"></i> Transliteration</span>
-              ${state.copyOptions.transliteration ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
-            </div>
-
-            <div class="copy-check-row" onclick="state.copyOptions.translation = !state.copyOptions.translation; renderScreen(51, null, true);">
-              <span><i class="bi ${state.copyOptions.translation ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c; margin-right:8px;"></i> Translation</span>
-              ${state.copyOptions.translation ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
-            </div>
-
+            <div style="text-align:center;font-weight:700;font-size:1rem;margin-bottom:12px;">Copy</div>
+            ${copyRows.map(([key, label]) => `
+              <div class="copy-check-row" onclick="state.copyOptions.${key}=!state.copyOptions.${key};renderScreen(51,null,true);">
+                <span><i class="bi ${state.copyOptions[key] ? 'bi-check-square-fill' : 'bi-square'}" style="color:#18614c;margin-right:8px;"></i> ${label}</span>
+                ${state.copyOptions[key] ? '<i class="bi bi-check2" style="color:#18614c;"></i>' : ''}
+              </div>`).join('')}
             <button class="primary-cta-btn" style="margin-top:16px;" onclick="copySelectedFields()">Copy</button>
-            <button class="primary-cta-btn" style="margin-top:8px; background:transparent; color:#1c2b24; border-color:rgba(0,0,0,0.2);" onclick="renderScreen(42)">Cancel</button>
+            <button class="primary-cta-btn" style="margin-top:8px;background:transparent;color:#1c2b24;border-color:rgba(0,0,0,0.2);" onclick="renderScreen(42)">Cancel</button>
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
     function copySelectedFields() {
       const dua = getDua(state.selectedDuaId);
-      let parts = [];
+      const parts = [];
       if (state.copyOptions.arabic) parts.push(dua.arabic);
       if (state.copyOptions.transliteration) parts.push(dua.transliteration);
       if (state.copyOptions.translation) parts.push(getTranslationText(dua));
       parts.push(`Source: ${dua.source}`);
-      if (navigator.clipboard) {
-        navigator.clipboard.writeText(parts.join('\n\n'));
-      }
+      navigator.clipboard?.writeText(parts.join('\n\n'));
       showToast('Copied selected text to clipboard!');
       setTimeout(() => renderScreen(42), 900);
     }
@@ -2692,15 +1765,15 @@ async function saveRepository() {
     function copyFullDuaText() {
       const dua = getDua(state.selectedDuaId);
       const text = `${dua.title}\n${dua.arabic}\n${dua.transliteration}\n${getTranslationText(dua)}\n(${dua.source})`;
-      if (navigator.clipboard) navigator.clipboard.writeText(text);
+      navigator.clipboard?.writeText(text);
       showToast('Dua link & text copied!');
     }
 
-    /* --- SCREEN 52: Dua Source & Reference --- */
+    /* --- SCREEN 52: Source & Reference --- */
     function view52SourceRef() {
       const dua = getDua(state.selectedDuaId);
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.15rem;">${dua.title}</h1>
@@ -2708,63 +1781,40 @@ async function saveRepository() {
           </div>
 
           <div class="dua-content-box" style="text-align:left;">
-            <div style="font-family:'Cinzel',serif; color:var(--gold-light); font-size:0.95rem; font-weight:600; margin-bottom:6px;">
-              Source & Reference
-            </div>
-            <div style="font-size:0.9rem; color:var(--text-main); margin-bottom:14px;">
-              ${dua.source}
-            </div>
-
-            <div style="font-size:0.82rem; color:var(--gold-primary); font-weight:600; margin-bottom:6px;">
-              Also mentioned in:
-            </div>
-            <ul class="benefits-list" style="margin-bottom:16px;">
-              ${dua.alsoMentioned.map(ref => `<li>${ref}</li>`).join('')}
-            </ul>
-
-            <div style="font-size:0.82rem; color:var(--gold-primary); font-weight:600; margin-bottom:6px;">
-              Notes
-            </div>
-            <p style="font-size:0.82rem; color:var(--text-muted); line-height:1.55;">
-              ${dua.notes}
-            </p>
+            <div style="font-family:'Cinzel',serif;color:var(--gold-light);font-size:0.95rem;font-weight:600;margin-bottom:6px;">Source & Reference</div>
+            <div style="font-size:0.9rem;color:var(--text-main);margin-bottom:14px;">${dua.source}</div>
+            <div style="font-size:0.82rem;color:var(--gold-primary);font-weight:600;margin-bottom:6px;">Also mentioned in:</div>
+            <ul class="benefits-list" style="margin-bottom:16px;">${dua.alsoMentioned.map(ref => `<li>${ref}</li>`).join('')}</ul>
+            <div style="font-size:0.82rem;color:var(--gold-primary);font-weight:600;margin-bottom:6px;">Notes</div>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.55;">${dua.notes}</p>
           </div>
 
           <button class="primary-cta-btn" onclick="renderScreen(42)">Back</button>
-        </div>
-      `;
+        </div>`;
     }
 
     /* --- SCREEN 54: No Matches State --- */
     function view54NoMatches() {
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(40)"><i class="bi bi-chevron-left"></i></button>
             <div style="width:34px;"></div>
           </div>
-
           <div class="empty-state-box">
-            <div class="empty-illustration">
-              <i class="bi bi-search"></i>
-            </div>
-            <h2 class="page-title" style="font-size:1.25rem; margin-bottom:8px;">No matching duas</h2>
-            <p class="page-subtitle" style="max-width:240px; line-height:1.5;">
-              We couldn't find any duas for your search.
-            </p>
-            <button class="primary-cta-btn" style="max-width:260px; margin-top:28px;" onclick="renderScreen(38)">
-              Browse all categories
-            </button>
+            <div class="empty-illustration"><i class="bi bi-search"></i></div>
+            <h2 class="page-title" style="font-size:1.25rem;margin-bottom:8px;">No matching duas</h2>
+            <p class="page-subtitle" style="max-width:240px;line-height:1.5;">We couldn't find any duas for your search.</p>
+            <button class="primary-cta-btn" style="max-width:260px;margin-top:28px;" onclick="renderScreen(38)">Browse all categories</button>
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
-    /* --- SCREEN 99: ADMIN PANEL — Add New Dua & Update Category Background Image --- */
+    /* --- SCREEN 99: ADMIN PANEL --- */
     function view99AdminModal() {
       const selectedCat = DUA_CATEGORIES.find(c => c.id === state.selectedCategoryId) || DUA_CATEGORIES[0];
       return `
-        <div style="padding: 16px 18px;">
+        <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(state.previousScreen || 37)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.15rem;">Admin: Add Dua & BG</h1>
@@ -2775,90 +1825,72 @@ async function saveRepository() {
             <div class="admin-form-group">
               <label class="admin-label">Select Target Category / Grouping</label>
               <select id="adminCatSelect" class="admin-select" onchange="updateAdminCatBgInput(this.value)">
-                ${DUA_CATEGORIES.map(c => `
-                  <option value="${c.id}" ${c.id === selectedCat.id ? 'selected' : ''}>
-                    ${c.title} (${getCategoryDuaCount(c.id)} duas)
-                  </option>
-                `).join('')}
+                ${DUA_CATEGORIES.map(c => `<option value="${c.id}" ${c.id === selectedCat.id ? 'selected' : ''}>${c.title} (${getCategoryDuaCount(c.id)} duas)</option>`).join('')}
               </select>
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">Category Hero Background URL (Optional)</label>
               <input type="url" id="adminCatBgUrl" class="admin-input" value="${selectedCat.hero || ''}" placeholder="https://images.unsplash.com/..." />
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">Upload Category Background Image</label>
               <input type="file" accept="image/*" class="admin-input" onchange="handleImageUpload(this, 'adminCatBgUrl')" />
             </div>
-
-            <hr style="border:none; border-top:1px solid var(--gold-border); margin:16px 0;" />
-
+            <hr style="border:none;border-top:1px solid var(--gold-border);margin:16px 0;" />
             <div class="admin-form-group">
               <label class="admin-label">Dua Title *</label>
               <input type="text" id="adminDuaTitle" class="admin-input" placeholder="e.g., Morning Remembrance for Peace" />
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">Short Subtitle / Occasion *</label>
               <input type="text" id="adminDuaSubtitle" class="admin-input" placeholder="e.g., Recited after Fajr prayer" />
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">Arabic Text *</label>
               <textarea id="adminDuaArabic" class="admin-textarea" dir="rtl" placeholder="اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا..."></textarea>
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">Transliteration</label>
               <textarea id="adminDuaTranslit" class="admin-textarea" placeholder="Allahumma bika asbahna wa bika amsayna..."></textarea>
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">English Translation *</label>
               <textarea id="adminDuaTranslation" class="admin-textarea" placeholder="O Allah, by Your leave we have reached the morning..."></textarea>
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">Roman Urdu Translation (Optional)</label>
               <input type="text" id="adminDuaRomanUrdu" class="admin-input" placeholder="Aye Allah, Tere hi hukm se humne subah ki..." />
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">Source / Hadith Reference *</label>
               <input type="text" id="adminDuaSource" class="admin-input" placeholder="e.g., Jami at-Tirmidhi (3391)" />
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">Recitation Audio URL (MP3)</label>
               <input type="url" id="adminDuaAudioUrl" class="admin-input" placeholder="https://everyayah.com/data/Alafasy_128kbps/001001.mp3" />
             </div>
-
             <div class="admin-form-group">
               <label class="admin-label">Dua Detail Background Image URL</label>
               <input type="url" id="adminDuaHeroUrl" class="admin-input" placeholder="https://images.unsplash.com/..." />
               <input type="file" accept="image/*" class="admin-input" style="margin-top:6px;" onchange="handleImageUpload(this, 'adminDuaHeroUrl')" />
             </div>
-
             <button class="primary-cta-btn" onclick="submitAdminDua()">Save Dua & Update Category Count</button>
           </div>
-        </div>
-      `;
+        </div>`;
     }
 
     function updateAdminCatBgInput(catId) {
       const cat = DUA_CATEGORIES.find(c => c.id === catId);
-      const input = document.getElementById('adminCatBgUrl');
+      const input = $('adminCatBgUrl');
       if (cat && input) input.value = cat.hero || '';
     }
 
     function handleImageUpload(fileInput, targetInputId) {
-      const file = fileInput.files && fileInput.files[0];
+      const file = fileInput.files?.[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = function(e) {
-        const target = document.getElementById(targetInputId);
+      reader.onload = e => {
+        const target = $(targetInputId);
         if (target) target.value = e.target.result;
         showToast('Background image loaded!');
       };
@@ -2866,22 +1898,21 @@ async function saveRepository() {
     }
 
     function submitAdminDua() {
-      const catId = document.getElementById('adminCatSelect').value;
-      const catBgUrl = document.getElementById('adminCatBgUrl').value.trim();
-      const title = document.getElementById('adminDuaTitle').value.trim();
-      const subtitle = document.getElementById('adminDuaSubtitle').value.trim();
-      const arabic = document.getElementById('adminDuaArabic').value.trim();
-      const transliteration = document.getElementById('adminDuaTranslit').value.trim();
-      const translation = document.getElementById('adminDuaTranslation').value.trim();
-      const romanUrdu = document.getElementById('adminDuaRomanUrdu').value.trim();
-      const source = document.getElementById('adminDuaSource').value.trim() || 'Authentic Sunnah';
-      const audioUrl = document.getElementById('adminDuaAudioUrl').value.trim() || RECITER_STREAMS['Sheikh Mishary Rashid Alafasy'];
-      const duaHeroUrl = document.getElementById('adminDuaHeroUrl').value.trim();
+      const val = id => $(id).value.trim();
+      const catId = $('adminCatSelect').value;
+      const catBgUrl = val('adminCatBgUrl');
+      const title = val('adminDuaTitle');
+      const subtitle = val('adminDuaSubtitle');
+      const arabic = val('adminDuaArabic');
+      const transliteration = val('adminDuaTranslit');
+      const translation = val('adminDuaTranslation');
+      const romanUrdu = val('adminDuaRomanUrdu');
+      const source = val('adminDuaSource') || 'Authentic Sunnah';
+      const audioUrl = val('adminDuaAudioUrl') || RECITER_STREAMS['Sheikh Mishary Rashid Alafasy'];
+      const duaHeroUrl = val('adminDuaHeroUrl');
 
       const catObj = DUA_CATEGORIES.find(c => c.id === catId);
-      if (catObj && catBgUrl) {
-        catObj.hero = catBgUrl;
-      }
+      if (catObj && catBgUrl) catObj.hero = catBgUrl;
 
       if (!title && !arabic && catBgUrl) {
         saveRepository();
@@ -2896,7 +1927,7 @@ async function saveRepository() {
         return;
       }
 
-      const newDua = {
+      DUAS_LIST.unshift({
         id: 'dua-' + Date.now(),
         title,
         subtitle: subtitle || 'Authentic Supplication',
@@ -2905,10 +1936,10 @@ async function saveRepository() {
         variants: '1 variant',
         arabicMedallion: 'دعا',
         illustrated: true,
-        heroImg: duaHeroUrl || catBgUrl || 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=900&q=80',
+        heroImg: duaHeroUrl || catBgUrl || IMG_DESERT,
         audioUrl,
         arabic,
-        transliteration: transliteration || '',
+        transliteration,
         translation,
         romanUrduTranslation: romanUrdu || transliteration || translation,
         source,
@@ -2916,37 +1947,29 @@ async function saveRepository() {
         notes: `Added to ${catObj ? catObj.title : 'Duas'} collection.`,
         benefits: ['Brings remembrance and closeness to Allah.'],
         duration: '0:45'
-      };
+      });
 
-      DUAS_LIST.unshift(newDua);
       saveRepository();
-
       state.selectedCategoryId = catId;
       showToast(`Added to ${catObj.title} (${getCategoryDuaCount(catId)} duas)`);
       renderScreen(39);
     }
-// Listen for mobile hardware back button
-    window.addEventListener('popstate', (event) => {
-      if (event.state && event.state.screen) {
-        // Pass 'true' at the end so it doesn't push another state into history
-        renderScreen(event.state.screen, event.state.duaId, false, true); 
+
+    window.addEventListener('popstate', event => {
+      if (event.state?.screen) {
+        renderScreen(event.state.screen, event.state.duaId, false, true);
       } else {
-        // Fallback to home screen if no history state is found
         renderScreen(37, null, false, true);
       }
     });
-    window.addEventListener('DOMContentLoaded', async () => {
+
+    window.addEventListener('DOMContentLoaded', () => {
       setupAudioListeners();
-      
-      // Replace the initial history state so the browser knows we started on Screen 37
       window.history.replaceState({ screen: 37, duaId: state.selectedDuaId }, '', '');
 
-      // Load data from Firebase (assuming you implemented the previous Firebase code)
       setTimeout(async () => {
         try {
-          const docRef = window.doc(window.db, "aamaalApp", "libraryData");
-          const docSnap = await window.getDoc(docRef);
-
+          const docSnap = await window.getDoc(window.doc(window.db, "aamaalApp", "libraryData"));
           if (docSnap.exists()) {
             const data = docSnap.data();
             DUA_CATEGORIES = data.categories || DEFAULT_CATEGORIES;
@@ -2957,9 +1980,7 @@ async function saveRepository() {
         } catch (error) {
           console.error("Error fetching data: ", error);
         }
-
-        // Render initial screen with 'true' to prevent duplicate history entry
-        renderScreen(37, null, false, true); 
+        renderScreen(37, null, false, true);
       }, 100);
     });
   </script>
