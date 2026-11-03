@@ -1967,13 +1967,24 @@
       setupAudioListeners();
       window.history.replaceState({ screen: 37, duaId: state.selectedDuaId }, '', '');
 
-      setTimeout(async () => {
+            setTimeout(async () => {
         try {
           const docSnap = await window.getDoc(window.doc(window.db, "aamaalApp", "libraryData"));
           if (docSnap.exists()) {
             const data = docSnap.data();
+            const cloudDuas = data.duas || [];
+            
+            // Find any new duas in DEFAULT_DUAS that aren't in Firebase yet
+            const cloudIds = new Set(cloudDuas.map(d => d.id));
+            const newHardcodedDuas = DEFAULT_DUAS.filter(d => !cloudIds.has(d.id));
+
             DUA_CATEGORIES = data.categories || DEFAULT_CATEGORIES;
-            DUAS_LIST = data.duas || DEFAULT_DUAS;
+            DUAS_LIST = [...cloudDuas, ...newHardcodedDuas];
+
+            // If we added new hardcoded duas, push the updated list to Firebase automatically
+            if (newHardcodedDuas.length > 0) {
+              await saveRepository();
+            }
           } else {
             await saveRepository();
           }
