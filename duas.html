@@ -3,6 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
   <title>Duas Library — Cloud Admin & Builder</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,22 +26,6 @@
         if (prefs.reducedMotion !== undefined) root.setAttribute('data-reduced-motion', String(prefs.reducedMotion));
       } catch (e) {}
     })();
-  </script>
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "your-project-id.firebaseapp.com",
-      projectId: "your-project-id",
-      storageBucket: "your-project-id.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:abcdef"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    Object.assign(window, { db: getFirestore(app), doc, getDoc, setDoc });
   </script>
   <style>
     :root {
@@ -229,16 +216,27 @@
     <div class="app-viewport" id="appViewport">
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;color:var(--gold-primary);">
         <i class="bi bi-hourglass-split" style="font-size:2rem;margin-bottom:12px;animation:pulse 1.5s infinite;"></i>
-        <div style="font-family:'Cinzel',serif;font-weight:600;">Loading Duas from Cloud...</div>
+        <div style="font-family:'Cinzel',serif;font-weight:600;">Loading Duas Library...</div>
       </div>
     </div>
-    <div class="toast-msg" id="toastMsg">Saved to Cloud</div>
+    <div class="toast-msg" id="toastMsg">Saved</div>
   </main>
 
   <script>
     /* ==========================================================================
-       1. FIREBASE DATA REPOSITORY
+       1. FIREBASE & LOCAL STORAGE DATA REPOSITORY
        ========================================================================== */
+    const FIREBASE_CONFIG = {
+      apiKey: "YOUR_API_KEY",
+      authDomain: "your-project-id.firebaseapp.com",
+      projectId: "your-project-id",
+      storageBucket: "your-project-id.appspot.com",
+      messagingSenderId: "123456789",
+      appId: "1:123456789:web:abcdef"
+    };
+
+    const LOCAL_STORAGE_KEY = 'aamaal_duas_library_backup_v1';
+
     const IMG_DESERT = 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80';
     const IMG_SUNRISE = 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80';
     const IMG_MARKET = 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80';
@@ -258,7 +256,39 @@
     let DUA_CATEGORIES = [];
     let DUAS_LIST = [];
 
+    function saveLocalBackup() {
+      try {
+        localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify({
+          categories: DUA_CATEGORIES,
+          duas: DUAS_LIST
+        }));
+      } catch (e) {
+        console.warn("Could not save to localStorage:", e);
+      }
+    }
+
+    function loadLocalBackup() {
+      try {
+        const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+        if (!raw) return false;
+        const parsed = JSON.parse(raw);
+        if (Array.isArray(parsed.categories)) DUA_CATEGORIES = parsed.categories;
+        if (Array.isArray(parsed.duas)) DUAS_LIST = parsed.duas;
+        return true;
+      } catch (e) {
+        return false;
+      }
+    }
+
     async function saveRepository() {
+      // 1. Always save locally first so the UI and Library Builder work immediately
+      saveLocalBackup();
+
+      // 2. Sync to Firebase Cloud if configured and initialized
+      if (!window.db || !window.setDoc || !window.doc) {
+        return;
+      }
+
       try {
         await window.setDoc(window.doc(window.db, "aamaalApp", "libraryData"), {
           categories: DUA_CATEGORIES,
@@ -266,7 +296,7 @@
         });
       } catch (error) {
         console.error("Error saving to Firebase: ", error);
-        showToast("Failed to save to cloud");
+        showToast("Saved Locally (Cloud sync error)");
       }
     }
 
@@ -418,7 +448,10 @@
     }
 
     function showToast(msg) {
-      const t = $('toastMsg'); t.textContent = msg; t.classList.add('show');
+      const t = $('toastMsg');
+      if (!t) return;
+      t.textContent = msg;
+      t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2200);
     }
 
@@ -507,7 +540,10 @@
       if (screenNum === 37 && !preserveSlide && DUAS_LIST.length > 0) state.featuredSlideIndex = (state.featuredSlideIndex + 1) % DUAS_LIST.length;
       if (!isSameScreen && !preserveSlide) window.scrollTo(0, 0);
 
-      $('appViewport').innerHTML = (VIEWS[screenNum] || VIEWS[37])();
+      const viewport = $('appViewport');
+      if (viewport) {
+        viewport.innerHTML = (VIEWS[screenNum] || VIEWS[37])();
+      }
     }
 
     function openAdminTab(tabName, editCatId = null) {
@@ -530,7 +566,7 @@
             <div class="top-nav-row">
               <button class="back-btn" onclick="window.location.href='home.html'" title="Back to Home"><i class="bi bi-chevron-left"></i></button>
               <div style="display:flex;gap:8px;">
-                <button class="admin-pill-btn" onclick="openAdminTab('categories')" title="Manage Categories & Duas"><i class="bi bi-sliders"></i> Admin</button>
+                <button class="admin-pill-btn" onclick="openAdminTab('categories')" title="Manage Categories & Duas"><i class="bi bi-sliders"></i> Builder</button>
                 <button class="icon-action-btn" onclick="renderScreen(49)" title="Favourites"><i class="bi bi-bookmark-heart"></i></button>
               </div>
             </div>
@@ -587,8 +623,8 @@
           ` : `
             <div class="dua-content-box" style="text-align:center;padding:18px;">
               <div style="font-size:0.84rem;color:var(--gold-light);font-weight:600;margin-bottom:4px;">Step 1: Add Categories & Groupings</div>
-              <p class="card-sub" style="white-space:normal;">No categories in cloud yet. Add your categories & groupings first so they populate the Dua dropdowns.</p>
-              <button class="primary-cta-btn" style="margin-top:12px;padding:10px;" onclick="openAdminTab('categories')">+ Add Categories & Groupings</button>
+              <p class="card-sub" style="white-space:normal;">No categories yet. Add your categories & groupings first so they populate the Dua dropdowns.</p>
+              <button class="primary-cta-btn" style="margin-top:12px;padding:10px;" onclick="openAdminTab('categories')">+ Open Library Builder</button>
             </div>
           `}
 
@@ -617,7 +653,7 @@
     }
 
     function stepFeaturedSlide(dir) {
-      if(DUAS_LIST.length === 0) return;
+      if (DUAS_LIST.length === 0) return;
       state.featuredSlideIndex = (state.featuredSlideIndex + dir + DUAS_LIST.length) % DUAS_LIST.length;
       renderScreen(37, null, true);
     }
@@ -762,7 +798,7 @@
           <div class="empty-state-box" style="padding:28px 10px;">
             <div class="empty-illustration" style="width:90px;height:90px;font-size:2rem;"><i class="bi bi-search"></i></div>
             <div class="card-title">No matching duas</div>
-            <p class="card-sub" style="margin-top:6px;">Try a different keyword or add a new dua via Admin.</p>
+            <p class="card-sub" style="margin-top:6px;">Try a different keyword or add a new dua via Builder.</p>
           </div>`;
       }
       return matches.map(d => renderDuaCardHTML(d)).join('');
@@ -787,7 +823,7 @@
     /* --- SCREEN 42: Dua Detail — Standard --- */
     function view42DetailStandard() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       return `
         <div class="hero-banner" style="background-image:url('${dua.heroImg || IMG_DESERT}');min-height:165px;">
           <div class="hero-content">
@@ -834,7 +870,7 @@
     /* --- SCREEN 43: Dua Detail — Illustrated --- */
     function view43DetailIllustrated() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       return `
         <div class="hero-banner" style="background-image:url('${dua.heroImg || IMG_DESERT}');min-height:255px;">
           <div class="hero-content">
@@ -874,7 +910,7 @@
     function view44Marketplace() {
       state.selectedDuaId = 'market-dua';
       const dua = getDua('market-dua');
-      if(!dua) { renderScreen(42); return ''; }
+      if (!dua) { renderScreen(42); return ''; }
       return `
         <div class="hero-banner" style="background-image:url('${dua.heroImg || IMG_MARKET}');min-height:195px;">
           <div class="hero-content">
@@ -914,7 +950,7 @@
     /* --- SCREEN 45: Dua Reading / Focus Mode --- */
     function view45FocusMode() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       const displayNum = Math.max(0, DUAS_LIST.findIndex(d => d.id === dua.id)) + 1;
 
       return `
@@ -954,7 +990,7 @@
     /* --- SCREEN 46: Audio Player --- */
     function view46AudioPlayer() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       const reciters = Object.keys(RECITER_STREAMS);
       const durText = state.audioDuration ? formatSeconds(state.audioDuration) : (dua.duration || '0:00');
 
@@ -1023,7 +1059,7 @@
     /* --- SCREEN 47: Language Selector --- */
     function view47Language() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       const langs = ['English', 'Urdu', 'Roman Urdu', 'Hindi'];
       const translits = ['Roman Urdu / Latin', 'Arabic Script'];
       return `
@@ -1064,7 +1100,7 @@
     /* --- SCREEN 48: Font & Arabic Display --- */
     function view48FontSettings() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       const arabicStyles = [
         { label: 'Uthmani (Classic)', font: "'Amiri', serif" },
         { label: 'IndoPak (Nastaleeq)', font: "'Lateef', 'Noto Nastaliq Urdu', serif" }
@@ -1142,7 +1178,7 @@
     /* --- SCREEN 50: Share Dua --- */
     function view50Share() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       return `
         <div style="padding:16px 18px;">
           <div class="top-nav-row">
@@ -1176,7 +1212,7 @@
     /* --- SCREEN 51: Copy Dua Modal --- */
     function view51CopyModal() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       const copyRows = [
         ['arabic', 'Arabic Text'],
         ['transliteration', 'Transliteration'],
@@ -1210,7 +1246,7 @@
 
     function copySelectedFields() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return;
+      if (!dua) return;
       const parts = [];
       if (state.copyOptions.arabic) parts.push(dua.arabic);
       if (state.copyOptions.transliteration) parts.push(dua.transliteration);
@@ -1223,7 +1259,7 @@
 
     function copyFullDuaText() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return;
+      if (!dua) return;
       const text = `${dua.title}\n${dua.arabic}\n${dua.transliteration}\n${getTranslationText(dua)}\n(${dua.source})`;
       navigator.clipboard?.writeText(text);
       showToast('Dua link & text copied!');
@@ -1232,7 +1268,7 @@
     /* --- SCREEN 52: Source & Reference --- */
     function view52SourceRef() {
       const dua = getDua(state.selectedDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       return `
         <div style="padding:16px 18px;">
           <div class="top-nav-row">
@@ -1380,7 +1416,7 @@
     }
 
     function autoFillCategoryId(titleVal) {
-      if (state.editingCategoryId) return; // Don't overwrite ID automatically when editing
+      if (state.editingCategoryId) return;
       const slug = titleVal.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
       const idEl = $('catIdInput');
       if (idEl) idEl.value = slug;
@@ -1405,7 +1441,6 @@
       if (existingId) {
         const idx = DUA_CATEGORIES.findIndex(c => c.id === existingId);
         if (idx > -1) DUA_CATEGORIES[idx] = newCatObj;
-        // Update linked duas if category ID changed
         if (existingId !== id) {
           DUAS_LIST.forEach(d => {
             if (d.category === existingId) d.category = id;
@@ -1558,7 +1593,7 @@
     /* --- SCREEN 100: ADMIN PANEL (Edit Dua) --- */
     function view100EditDuaModal() {
       const dua = getDua(state.editingDuaId);
-      if(!dua) return '';
+      if (!dua) return '';
       const coreCats = DUA_CATEGORIES.filter(c => c.group === 'core');
       const futureCats = DUA_CATEGORIES.filter(c => c.group === 'future');
 
@@ -1806,27 +1841,64 @@
       renderScreen(42);
     }
 
+    /* ==========================================================================
+       5. SAFE INITIALIZATION & SERVICE WORKER CACHE BUSTER
+       ========================================================================== */
     window.addEventListener('popstate', event => {
       if (event.state?.screen) { renderScreen(event.state.screen, event.state.duaId, false, true); } 
       else { renderScreen(37, null, false, true); }
     });
 
     window.addEventListener('DOMContentLoaded', async () => {
-      setupAudioListeners();
-      
-      try {
-        const docSnap = await window.getDoc(window.doc(window.db, "aamaalApp", "libraryData"));
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-          DUA_CATEGORIES = data.categories || [];
-          DUAS_LIST = data.duas || [];
-        }
-      } catch (error) {
-        console.error("Error fetching data from Firebase: ", error);
-        showToast("Error loading from Cloud");
+      // Unregister stale PWA Service Workers that force old cached HTML pages
+      if ('serviceWorker' in navigator) {
+        try {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          for (const reg of registrations) {
+            reg.update();
+          }
+        } catch (e) {}
       }
-      
-      renderScreen(37, null, false, true);
+
+      setupAudioListeners();
+
+      // 1. Load local backup immediately and render right away (prevents stuck loading spinner)
+      loadLocalBackup();
+
+      // Support ?builder=1 in URL to jump directly into the Library Builder
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('builder') === '1') {
+        openAdminTab('categories');
+      } else {
+        renderScreen(37, null, false, true);
+      }
+
+      // 2. Connect to Firebase asynchronously ONLY if real credentials are set
+      const isConfigured = FIREBASE_CONFIG.apiKey &&
+                           FIREBASE_CONFIG.apiKey !== "YOUR_API_KEY" &&
+                           FIREBASE_CONFIG.projectId !== "your-project-id";
+
+      if (isConfigured) {
+        try {
+          const { initializeApp } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js");
+          const { getFirestore, doc, getDoc, setDoc } = await import("https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js");
+
+          const app = initializeApp(FIREBASE_CONFIG);
+          Object.assign(window, { db: getFirestore(app), doc, getDoc, setDoc });
+
+          const docSnap = await getDoc(doc(window.db, "aamaalApp", "libraryData"));
+          if (docSnap.exists()) {
+            const data = docSnap.data();
+            DUA_CATEGORIES = data.categories || [];
+            DUAS_LIST = data.duas || [];
+            saveLocalBackup();
+            renderScreen(state.currentScreen, null, true, true);
+          }
+        } catch (error) {
+          console.error("Error fetching data from Firebase: ", error);
+          showToast("Offline / Local Builder Mode");
+        }
+      }
     });
   </script>
 </body>
