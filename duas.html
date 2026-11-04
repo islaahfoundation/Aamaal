@@ -1344,17 +1344,17 @@
           <span class="section-title">Categories (${coreCats.length}) & Groupings (${futureCats.length})</span>
         </div>
         <div class="list-stack">
-          ${DUA_CATEGORIES.length === 0 ? `<div class="card-sub">No categories or groupings added yet. Create one above!</div>` :
-            DUA_CATEGORIES.map(c => `
+        ${DUA_CATEGORIES.length === 0 ? `<div class="card-sub">No categories or groupings added yet. Create one above!</div>` :
+          DUA_CATEGORIES.map(c => `
               <div class="dua-list-card" onclick="openAdminTab('categories','${c.id}')">
                 <div class="medallion-icon"><i class="bi ${c.icon || 'bi-sun'}"></i></div>
                 <div class="card-body-text">
                   <div class="card-title">${c.title}</div>
-                  <div class="card-sub">${c.group === 'core' ? 'Category (Core)' : 'Grouping (Occasion)'} · ID: ${c.id}</div>
+                  <div class="card-sub">${c.group === 'core' ? (c.subtitle || 'Category (Core)') : 'Grouping (Occasion)'} · ID: ${c.id}</div>
                 </div>
                 <i class="bi bi-pencil card-chevron"></i>
               </div>`).join('')}
-        </div>`;
+        </div>;
     }
 
     function autoFillCategoryId(titleVal) {
