@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Duas Library — Cloud Admin & Builder</title>
+  <title>Duas Library — Cloud & Local Persistent</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&family=Lateef:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -26,19 +26,36 @@
   </script>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics.js";
     import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "YOUR_API_KEY",
-      authDomain: "your-project-id.firebaseapp.com",
-      projectId: "your-project-id",
-      storageBucket: "your-project-id.appspot.com",
-      messagingSenderId: "123456789",
-      appId: "1:123456789:web:abcdef"
+      apiKey: "AIzaSyAfXgyw7gzR1DREKsFI3PMeh69IbwzFSnQ",
+      authDomain: "islaah-aamaal-circle-5b74e.firebaseapp.com",
+      projectId: "islaah-aamaal-circle-5b74e",
+      storageBucket: "islaah-aamaal-circle-5b74e.firebasestorage.app",
+      messagingSenderId: "1092263722397",
+      appId: "1:1092263722397:web:b2a9718d04e085eb03c374",
+      measurementId: "G-F6CKQXDEK4"
     };
 
-    const app = initializeApp(firebaseConfig);
-    Object.assign(window, { db: getFirestore(app), doc, getDoc, setDoc });
+    try {
+      const app = initializeApp(firebaseConfig);
+      let analytics = null;
+      try { analytics = getAnalytics(app); } catch (e) {}
+      Object.assign(window, {
+        db: getFirestore(app),
+        analytics,
+        doc,
+        getDoc,
+        setDoc,
+        firebaseConfigured: true
+      });
+    } catch (e) {
+      console.error("Firebase init error:", e);
+      window.firebaseConfigured = false;
+    }
+    window.dispatchEvent(new Event('firebase-ready'));
   </script>
   <style>
     :root {
@@ -188,9 +205,9 @@
     .size-btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 10px 0 18px; }
     .size-btn { background: var(--bg-card); border: 1px solid var(--gold-border); color: var(--text-main); padding: 10px; border-radius: 12px; font-weight: 600; cursor: pointer; }
     .size-btn.active { background: var(--emerald-accent); border-color: var(--gold-primary); color: var(--gold-light); }
-    .primary-cta-btn { width: 100%; background: linear-gradient(135deg, #1f6b55 0%, #104233 100%); border: 1px solid var(--gold-primary); color: var(--text-main); font-weight: 600; padding: 13px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; margin-top: 18px; transition: all 0.2s; }
+    .primary-cta-btn { width: 100%; background: linear-gradient(135deg, #1f6b55 0%, #104233 100%); border: 1px solid var(--gold-primary); color: var(--text-main); font-weight: 600; padding: 13px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; margin-top: 14px; transition: all 0.2s; }
     .primary-cta-btn:hover { box-shadow: 0 0 16px rgba(212, 175, 55, 0.3); color: var(--gold-light); }
-    .secondary-cta-btn { width: 100%; background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-light); font-weight: 600; padding: 13px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
+    .secondary-cta-btn { width: 100%; background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-light); font-weight: 600; padding: 11px; border-radius: 99px; font-size: 0.82rem; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
 
     /* Share, Modals & Empty States */
     .share-preview-card { border-radius: 22px; overflow: hidden; border: 1.5px solid var(--gold-primary); background: #f4ebd9; color: #1c2b24; box-shadow: 0 16px 36px rgba(0,0,0,0.6); margin: 10px 0 22px; }
@@ -216,6 +233,7 @@
     .icon-picker-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 6px; }
     .icon-pick-btn { background: rgba(9, 34, 28, 0.9); border: 1px solid var(--gold-border); color: var(--gold-light); border-radius: 10px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; }
     .icon-pick-btn.selected, .icon-pick-btn:hover { background: var(--emerald-accent); border-color: var(--gold-primary); }
+    .status-banner { font-size: 0.72rem; padding: 8px 12px; border-radius: 12px; margin-bottom: 12px; background: rgba(24, 97, 76, 0.3); border: 1px solid var(--gold-border); color: var(--gold-light); display: flex; justify-content: space-between; align-items: center; }
     .toast-msg { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); background: rgba(212, 175, 55, 0.95); color: #041612; font-weight: 700; font-size: 0.78rem; padding: 8px 18px; border-radius: 99px; opacity: 0; pointer-events: none; transition: all 0.25s ease; z-index: 200; white-space: nowrap; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
     .toast-msg.show { opacity: 1; transform: translate(-50%, 0); }
   </style>
@@ -227,18 +245,24 @@
     <div class="app-viewport" id="appViewport">
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;color:var(--gold-primary);">
         <i class="bi bi-hourglass-split" style="font-size:2rem;margin-bottom:12px;animation:pulse 1.5s infinite;"></i>
-        <div style="font-family:'Cinzel',serif;font-weight:600;">Loading Duas from Cloud...</div>
+        <div style="font-family:'Cinzel',serif;font-weight:600;">Loading Duas Library...</div>
       </div>
     </div>
-    <div class="toast-msg" id="toastMsg">Saved to Cloud</div>
+    <div class="toast-msg" id="toastMsg">Saved</div>
   </main>
 
   <script>
     /* ==========================================================================
-       1. FIREBASE DATA REPOSITORY
+       1. PERSISTENT STORAGE ENGINE (LocalStorage + Firebase Cloud Sync)
        ========================================================================== */
+    const STORAGE_KEY = 'aamaal_duas_library_v1';
     const IMG_DESERT = 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80';
     const IMG_SUNRISE = 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80';
+    const IMG_NIGHT = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
+    const IMG_OCEAN = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
+    const IMG_MOSQUE = 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80';
+    const IMG_TRAVEL = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80';
+    const IMG_RAIN = 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80';
     const IMG_MARKET = 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80';
 
     const RECITER_STREAMS = {
@@ -253,19 +277,80 @@
       'bi-bandaid', 'bi-people', 'bi-lightbulb', 'bi-shop', 'bi-journal-bookmark', 'bi-award'
     ];
 
+    const STARTER_CATEGORIES = [
+      { id: 'everyday', title: 'Everyday Life', subtitle: 'Daily needs and routine', icon: 'bi-sun', group: 'core', hero: IMG_DESERT },
+      { id: 'morning-evening', title: 'Morning & Evening', subtitle: 'Start and end your day with remembrance', icon: 'bi-sunrise', group: 'core', hero: IMG_SUNRISE },
+      { id: 'protection', title: 'Protection & Safety', subtitle: 'From harm and evil', icon: 'bi-shield-check', group: 'core', hero: IMG_NIGHT },
+      { id: 'forgiveness', title: 'Forgiveness & Repentance', subtitle: 'Seek Allah’s mercy', icon: 'bi-heart-pulse', group: 'core', hero: IMG_OCEAN },
+      { id: 'worship', title: 'Worship & Prayer', subtitle: 'Prayer and Quranic supplications', icon: 'bi-moon-stars', group: 'core', hero: IMG_MOSQUE },
+      { id: 'travel', title: 'Travel', subtitle: 'For journeys and travel', icon: 'bi-compass', group: 'core', hero: IMG_TRAVEL },
+      { id: 'knowledge-guidance', title: 'Knowledge & Guidance', subtitle: 'Beneficial knowledge and steadfast hearts', icon: 'bi-lightbulb', group: 'core', hero: IMG_MOSQUE },
+      { id: 'before-eating', title: 'Before Eating', subtitle: 'Blessing the meal with Bismillah', icon: 'bi-cup-hot', group: 'future', hero: IMG_DESERT },
+      { id: 'after-eating', title: 'After Eating', subtitle: 'Gratitude for provision and sustenance', icon: 'bi-check2-circle', group: 'future', hero: IMG_DESERT },
+      { id: 'before-sleeping', title: 'Before Sleeping', subtitle: 'Night protection and peaceful rest', icon: 'bi-cloud-moon', group: 'future', hero: IMG_NIGHT },
+      { id: 'upon-waking', title: 'Upon Waking', subtitle: 'Praise upon returning to life', icon: 'bi-brightness-alt-high', group: 'future', hero: IMG_SUNRISE },
+      { id: 'leaving-home', title: 'Leaving Home', subtitle: 'Reliance upon Allah and safe departure', icon: 'bi-door-open', group: 'future', hero: IMG_DESERT },
+      { id: 'entering-home', title: 'Entering Home', subtitle: 'Bringing peace and barakah into the house', icon: 'bi-house-heart', group: 'future', hero: IMG_DESERT },
+      { id: 'mosque', title: 'Entering & Leaving Mosque', subtitle: 'Supplications for the Masjid', icon: 'bi-building', group: 'future', hero: IMG_MOSQUE },
+      { id: 'rain', title: 'Rain & Weather', subtitle: 'Mercy, wind, thunder, and beneficial rain', icon: 'bi-cloud-rain', group: 'future', hero: IMG_RAIN },
+      { id: 'illness', title: 'Illness & Healing', subtitle: 'Ruqyah, shifa, and visiting the sick', icon: 'bi-bandaid', group: 'future', hero: IMG_OCEAN },
+      { id: 'marketplace-trade', title: 'Marketplace & Provision', subtitle: 'Barakah in trade, rizq, and busy markets', icon: 'bi-shop', group: 'future', hero: IMG_MARKET },
+      { id: 'quranic-duas', title: 'Quranic Duas', subtitle: 'Rabbana and prophetic prayers from the Quran', icon: 'bi-journal-bookmark', group: 'future', hero: IMG_MOSQUE }
+    ];
+
     let DUA_CATEGORIES = [];
     let DUAS_LIST = [];
 
+    function loadFromLocalCache() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (raw) {
+          const parsed = JSON.parse(raw);
+          if (Array.isArray(parsed.categories)) DUA_CATEGORIES = parsed.categories;
+          if (Array.isArray(parsed.duas)) DUAS_LIST = parsed.duas;
+        }
+      } catch (e) {
+        console.warn('Local cache read error:', e);
+      }
+    }
+
     async function saveRepository() {
       try {
-        await window.setDoc(window.doc(window.db, "aamaalApp", "libraryData"), {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
           categories: DUA_CATEGORIES,
-          duas: DUAS_LIST
-        });
-      } catch (error) {
-        console.error("Error saving to Firebase: ", error);
-        showToast("Failed to save to cloud");
+          duas: DUAS_LIST,
+          updatedAt: Date.now()
+        }));
+      } catch (e) {
+        console.error("Local save error:", e);
       }
+
+      if (window.firebaseConfigured && window.db && window.setDoc && window.doc) {
+        try {
+          await window.setDoc(window.doc(window.db, "aamaalApp", "libraryData"), {
+            categories: DUA_CATEGORIES,
+            duas: DUAS_LIST
+          });
+        } catch (error) {
+          console.error("Error syncing to Firebase: ", error);
+        }
+      }
+    }
+
+    function restoreStarterCategories() {
+      const existingIds = new Set(DUA_CATEGORIES.map(c => c.id));
+      STARTER_CATEGORIES.forEach(sc => {
+        if (!existingIds.has(sc.id)) DUA_CATEGORIES.push({ ...sc });
+      });
+      saveRepository();
+      showToast(`Restored ${DUA_CATEGORIES.length} Categories & Groupings!`);
+      renderScreen(99, null, true);
+    }
+
+    function exportLibraryJSON() {
+      const dataStr = JSON.stringify({ categories: DUA_CATEGORIES, duas: DUAS_LIST }, null, 2);
+      navigator.clipboard?.writeText(dataStr);
+      showToast('Full Library JSON copied to clipboard!');
     }
 
     function getCategoryDuaCount(catId) {
@@ -278,7 +363,7 @@
     let state = {
       currentScreen: 37,
       previousScreen: 37,
-      adminTab: 'categories', // 'categories' or 'duas'
+      adminTab: 'categories',
       editingCategoryId: null,
       selectedCategoryId: null,
       selectedDuaId: null,
@@ -527,7 +612,7 @@
             <div class="top-nav-row">
               <button class="back-btn" onclick="window.location.href='home.html'" title="Back to Home"><i class="bi bi-chevron-left"></i></button>
               <div style="display:flex;gap:8px;">
-                <button class="admin-pill-btn" onclick="openAdminTab('categories')" title="Manage Categories & Duas"><i class="bi bi-sliders"></i> Admin</button>
+                <button class="admin-pill-btn" onclick="openAdminTab('categories')" title="Open Library Builder"><i class="bi bi-sliders"></i> Builder</button>
                 <button class="icon-action-btn" onclick="renderScreen(49)" title="Favourites"><i class="bi bi-bookmark-heart"></i></button>
               </div>
             </div>
@@ -583,9 +668,10 @@
             </div>
           ` : `
             <div class="dua-content-box" style="text-align:center;padding:18px;">
-              <div style="font-size:0.84rem;color:var(--gold-light);font-weight:600;margin-bottom:4px;">Step 1: Add Categories & Groupings</div>
-              <p class="card-sub" style="white-space:normal;">No categories in cloud yet. Add your categories & groupings first so they populate the Dua dropdowns.</p>
-              <button class="primary-cta-btn" style="margin-top:12px;padding:10px;" onclick="openAdminTab('categories')">+ Add Categories & Groupings</button>
+              <div style="font-size:0.84rem;color:var(--gold-light);font-weight:600;margin-bottom:4px;">Step 1: Add or Restore Categories</div>
+              <p class="card-sub" style="white-space:normal;">Add your categories manually or restore your starter categories in 1 click.</p>
+              <button class="primary-cta-btn" style="margin-top:12px;padding:10px;" onclick="openAdminTab('categories')">+ Open Library Builder</button>
+              <button class="secondary-cta-btn" onclick="restoreStarterCategories();renderScreen(37,null,true);">⚡ Restore Starter Categories Now</button>
             </div>
           `}
 
@@ -758,7 +844,7 @@
           <div class="empty-state-box" style="padding:28px 10px;">
             <div class="empty-illustration" style="width:90px;height:90px;font-size:2rem;"><i class="bi bi-search"></i></div>
             <div class="card-title">No matching duas</div>
-            <p class="card-sub" style="margin-top:6px;">Try a different keyword or add a new dua via Admin.</p>
+            <p class="card-sub" style="margin-top:6px;">Try a different keyword or add a new dua via Builder.</p>
           </div>`;
       }
       return matches.map(d => renderDuaCardHTML(d)).join('');
@@ -1270,7 +1356,12 @@
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.15rem;">Library Builder</h1>
-            <div style="width:34px;"></div>
+            <button class="icon-action-btn" onclick="exportLibraryJSON()" title="Copy JSON Backup"><i class="bi bi-download"></i></button>
+          </div>
+
+          <div class="status-banner">
+            <span><i class="bi bi-cloud-check-fill"></i> Synced to Firebase (${window.firebaseConfigured ? 'islaah-aamaal-circle' : 'Local'})</span>
+            <button style="background:none;border:none;color:var(--gold-primary);font-weight:700;cursor:pointer;font-size:0.72rem;" onclick="restoreStarterCategories()">+ Restore Defaults</button>
           </div>
 
           <div class="admin-tab-bar">
@@ -1335,7 +1426,7 @@
           </div>
 
           <button class="primary-cta-btn" onclick="saveCategoryOrGrouping('${editingCat ? editingCat.id : ''}')">
-            ${editingCat ? 'Update Entry' : 'Save to Cloud'}
+            ${editingCat ? 'Update Entry' : 'Save Category / Grouping'}
           </button>
           ${editingCat ? `<button class="secondary-cta-btn" onclick="openAdminTab('categories', null)">Cancel Edit</button>` : ''}
         </div>
@@ -1344,17 +1435,17 @@
           <span class="section-title">Categories (${coreCats.length}) & Groupings (${futureCats.length})</span>
         </div>
         <div class="list-stack">
-        ${DUA_CATEGORIES.length === 0 ? `<div class="card-sub">No categories or groupings added yet. Create one above!</div>` :
-          DUA_CATEGORIES.map(c => `
+          ${DUA_CATEGORIES.length === 0 ? `<div class="card-sub">No categories or groupings yet. Tap "+ Restore Defaults" at the top or create one above!</div>` :
+            DUA_CATEGORIES.map(c => `
               <div class="dua-list-card" onclick="openAdminTab('categories','${c.id}')">
                 <div class="medallion-icon"><i class="bi ${c.icon || 'bi-sun'}"></i></div>
                 <div class="card-body-text">
                   <div class="card-title">${c.title}</div>
-                  <div class="card-sub">${c.group === 'core' ? (c.subtitle || 'Category (Core)') : 'Grouping (Occasion)'} · ID: ${c.id}</div>
+                  <div class="card-sub">${c.group === 'core' ? 'Category (Core)' : 'Grouping (Occasion)'} · ID: ${c.id}</div>
                 </div>
                 <i class="bi bi-pencil card-chevron"></i>
               </div>`).join('')}
-        </div>;
+        </div>`;
     }
 
     function autoFillCategoryId(titleVal) {
@@ -1397,7 +1488,7 @@
           showToast(`Updated existing "${title}"`);
         } else {
           DUA_CATEGORIES.push(newCatObj);
-          showToast(`Saved "${title}" as ${group === 'core' ? 'Category' : 'Grouping'}!`);
+          showToast(`Saved "${title}" to Firebase Cloud!`);
         }
       }
 
@@ -1413,7 +1504,7 @@
           <div class="dua-content-box" style="text-align:center;padding:24px 16px;">
             <div style="font-size:1.8rem;color:var(--gold-primary);margin-bottom:8px;"><i class="bi bi-exclamation-circle"></i></div>
             <div class="card-title">Add Categories & Groupings First</div>
-            <p class="card-sub" style="white-space:normal;margin-top:6px;">Go to Tab 1 to create at least one Category (Core) and one Grouping (Occasion).</p>
+            <p class="card-sub" style="white-space:normal;margin-top:6px;">Go to Tab 1 to create or restore your Categories (Core) and Groupings (Occasion).</p>
             <button class="primary-cta-btn" onclick="openAdminTab('categories')">Go to 1. Cat & Group</button>
           </div>`;
       }
@@ -1768,22 +1859,39 @@
       else { renderScreen(37, null, false, true); }
     });
 
-    window.addEventListener('DOMContentLoaded', async () => {
-      setupAudioListeners();
-      
+    async function syncWithFirebaseCloud() {
+      if (!window.firebaseConfigured || !window.db || !window.getDoc || !window.doc) return;
       try {
         const docSnap = await window.getDoc(window.doc(window.db, "aamaalApp", "libraryData"));
         if (docSnap.exists()) {
           const data = docSnap.data();
-          DUA_CATEGORIES = data.categories || [];
-          DUAS_LIST = data.duas || [];
+          if (Array.isArray(data.categories) && data.categories.length > 0) DUA_CATEGORIES = data.categories;
+          if (Array.isArray(data.duas) && data.duas.length > 0) DUAS_LIST = data.duas;
+          localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            categories: DUA_CATEGORIES,
+            duas: DUAS_LIST,
+            updatedAt: Date.now()
+          }));
+          renderScreen(state.currentScreen, null, true, true);
+        } else if (DUA_CATEGORIES.length > 0 || DUAS_LIST.length > 0) {
+          // Push local cache up to Firebase if cloud document doesn't exist yet
+          await saveRepository();
         }
       } catch (error) {
-        console.error("Error fetching data from Firebase: ", error);
-        showToast("Error loading from Cloud");
+        console.error("Error syncing with Firebase:", error);
       }
-      
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      setupAudioListeners();
+      loadFromLocalCache();
       renderScreen(37, null, false, true);
+
+      if (window.firebaseConfigured) {
+        syncWithFirebaseCloud();
+      } else {
+        window.addEventListener('firebase-ready', syncWithFirebaseCloud, { once: true });
+      }
     });
   </script>
 </body>
