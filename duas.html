@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Duas Library — Cloud Optimized</title>
+  <title>Duas Library — Cloud Admin & Builder</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&family=Lateef:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -41,7 +41,6 @@
     Object.assign(window, { db: getFirestore(app), doc, getDoc, setDoc });
   </script>
   <style>
-    /* CSS Remains Identical */
     :root {
       --bg-deep: #041612; --bg-surface: #09221c; --bg-card: rgba(13, 40, 33, 0.82);
       --bg-card-hover: rgba(20, 56, 46, 0.92); --bg-parchment: #f4ebd9;
@@ -204,15 +203,21 @@
     .social-circle-icon { width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.25rem; color: #fff; border: 1px solid var(--gold-border); }
     .copy-sheet { background: #f5eedc; color: #1a2922; border-radius: 24px; padding: 20px 18px; border: 2px solid var(--gold-primary); margin-top: 20px; box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7); }
     .copy-check-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid rgba(0,0,0,0.08); cursor: pointer; font-weight: 500; font-size: 0.9rem; }
-    .empty-state-box { text-align: center; padding: 48px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .empty-illustration { width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, rgba(24, 97, 76, 0.35) 0%, rgba(9, 34, 28, 0.9) 75%); border: 1.5px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-size: 3.4rem; color: var(--gold-primary); margin-bottom: 22px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.12); }
+    .empty-state-box { text-align: center; padding: 36px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+    .empty-illustration { width: 110px; height: 110px; border-radius: 50%; background: radial-gradient(circle, rgba(24, 97, 76, 0.35) 0%, rgba(9, 34, 28, 0.9) 75%); border: 1.5px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-size: 2.6rem; color: var(--gold-primary); margin-bottom: 16px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.12); }
 
-    /* Admin & Toast */
+    /* Admin Tabs & Form */
+    .admin-tab-bar { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; background: rgba(9, 34, 28, 0.85); padding: 5px; border-radius: 14px; border: 1px solid var(--gold-border); }
+    .admin-tab-btn { background: transparent; border: none; color: var(--text-muted); font-weight: 600; font-size: 0.78rem; padding: 9px 8px; border-radius: 10px; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; gap: 6px; }
+    .admin-tab-btn.active { background: var(--emerald-accent); color: var(--gold-light); border: 1px solid var(--gold-primary); }
     .admin-form-group { margin-bottom: 12px; }
     .admin-label { display: block; font-size: 0.76rem; color: var(--gold-light); margin-bottom: 5px; font-weight: 600; }
     .admin-input, .admin-select, .admin-textarea { width: 100%; background: rgba(9, 34, 28, 0.9); border: 1px solid var(--gold-border); border-radius: 12px; padding: 10px 12px; color: var(--text-main); font-size: 0.84rem; font-family: inherit; outline: none; }
     .admin-textarea { min-height: 70px; resize: vertical; }
     .admin-input:focus, .admin-select:focus, .admin-textarea:focus { border-color: var(--gold-primary); }
+    .icon-picker-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 6px; margin-top: 6px; }
+    .icon-pick-btn { background: rgba(9, 34, 28, 0.9); border: 1px solid var(--gold-border); color: var(--gold-light); border-radius: 10px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 1rem; }
+    .icon-pick-btn.selected, .icon-pick-btn:hover { background: var(--emerald-accent); border-color: var(--gold-primary); }
     .toast-msg { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); background: rgba(212, 175, 55, 0.95); color: #041612; font-weight: 700; font-size: 0.78rem; padding: 8px 18px; border-radius: 99px; opacity: 0; pointer-events: none; transition: all 0.25s ease; z-index: 200; white-space: nowrap; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
     .toast-msg.show { opacity: 1; transform: translate(-50%, 0); }
   </style>
@@ -222,13 +227,12 @@
   <main class="phone-frame">
     <audio id="duaAudioElement" preload="metadata" crossorigin="anonymous"></audio>
     <div class="app-viewport" id="appViewport">
-      <!-- Initial Loading State -->
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;color:var(--gold-primary);">
         <i class="bi bi-hourglass-split" style="font-size:2rem;margin-bottom:12px;animation:pulse 1.5s infinite;"></i>
         <div style="font-family:'Cinzel',serif;font-weight:600;">Loading Duas from Cloud...</div>
       </div>
     </div>
-    <div class="toast-msg" id="toastMsg">Saved to Favourites</div>
+    <div class="toast-msg" id="toastMsg">Saved to Cloud</div>
   </main>
 
   <script>
@@ -237,11 +241,6 @@
        ========================================================================== */
     const IMG_DESERT = 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80';
     const IMG_SUNRISE = 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80';
-    const IMG_NIGHT = 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?auto=format&fit=crop&w=800&q=80';
-    const IMG_OCEAN = 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=80';
-    const IMG_MOSQUE = 'https://images.unsplash.com/photo-1564769625905-50e93615e769?auto=format&fit=crop&w=800&q=80';
-    const IMG_TRAVEL = 'https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&w=800&q=80';
-    const IMG_RAIN = 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80';
     const IMG_MARKET = 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80';
 
     const RECITER_STREAMS = {
@@ -250,7 +249,12 @@
       'Sheikh Abdur-Rahman As-Sudais': 'https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001001.mp3'
     };
 
-    // Arrays initialized completely empty, purely relying on Firebase.
+    const PRESET_ICONS = [
+      'bi-sun', 'bi-sunrise', 'bi-shield-check', 'bi-heart-pulse', 'bi-moon-stars', 'bi-compass',
+      'bi-cup-hot', 'bi-cloud-moon', 'bi-door-open', 'bi-house-heart', 'bi-building', 'bi-cloud-rain',
+      'bi-bandaid', 'bi-people', 'bi-lightbulb', 'bi-shop', 'bi-journal-bookmark', 'bi-award'
+    ];
+
     let DUA_CATEGORIES = [];
     let DUAS_LIST = [];
 
@@ -275,7 +279,9 @@
        ========================================================================== */
     let state = {
       currentScreen: 37,
-      previousScreen: 42,
+      previousScreen: 37,
+      adminTab: 'categories', // 'categories' or 'duas'
+      editingCategoryId: null,
       selectedCategoryId: null,
       selectedDuaId: null,
       editingDuaId: null,
@@ -296,7 +302,6 @@
       translitMode: 'Roman Urdu / Latin',
       fontSize: 'medium',
       arabicStyle: 'Uthmani (Classic)',
-      focusSlide: 1,
       copyOptions: { arabic: true, transliteration: true, translation: false }
     };
 
@@ -321,13 +326,12 @@
     function setupAudioListeners() {
       const audio = getAudioElement();
       if (!audio) return;
-
       audio.addEventListener('loadedmetadata', () => { state.audioDuration = audio.duration || 0; state.audioError = false; state.audioErrorMessage = ''; updateAudioPlayerDOM(); });
       audio.addEventListener('timeupdate', () => { state.audioCurrentTime = audio.currentTime || 0; if (audio.duration && isFinite(audio.duration)) { state.audioDuration = audio.duration; state.audioProgressPct = Math.min(100, Math.round((audio.currentTime / audio.duration) * 100)); } updateAudioPlayerDOM(); });
       audio.addEventListener('play', () => { state.isPlaying = true; state.audioError = false; updateAudioPlayerDOM(); });
       audio.addEventListener('pause', () => { state.isPlaying = false; updateAudioPlayerDOM(); });
       audio.addEventListener('ended', () => { state.isPlaying = false; state.audioProgressPct = 100; updateAudioPlayerDOM(); });
-      audio.addEventListener('error', () => { state.isPlaying = false; state.audioError = true; state.audioErrorMessage = 'Audio stream unavailable or failed to load (K10/K11). Please retry, switch reciter, or use offline Arabic speech synthesis.'; showToast('Audio playback error — fallback ready'); if (state.currentScreen === 46) renderScreen(46); });
+      audio.addEventListener('error', () => { state.isPlaying = false; state.audioError = true; state.audioErrorMessage = 'Audio stream unavailable or failed to load.'; showToast('Audio playback error — fallback ready'); if (state.currentScreen === 46) renderScreen(46); });
     }
 
     function updateAudioPlayerDOM() {
@@ -348,7 +352,7 @@
       if (window.speechSynthesis?.speaking) { window.speechSynthesis.cancel(); state.usingSpeechFallback = false; }
       const targetSrc = resolveAudioSource(dua);
       if (audio.src !== targetSrc) audio.src = targetSrc;
-      if (state.isPlaying) { audio.pause(); } else { audio.play()?.catch(() => { state.isPlaying = false; state.audioError = true; state.audioErrorMessage = 'Unable to stream recitation audio (K10/K11 network or codec fallback triggered).'; renderScreen(46); }); }
+      if (state.isPlaying) { audio.pause(); } else { audio.play()?.catch(() => { state.isPlaying = false; state.audioError = true; state.audioErrorMessage = 'Unable to stream recitation audio.'; renderScreen(46); }); }
     }
 
     function seekAudioTrack(event) {
@@ -389,7 +393,7 @@
 
     function simulateAudioFailure() {
       const audio = getAudioElement();
-      if (audio) { audio.pause(); audio.src = 'https://invalid.domain.local/nonexistent-recitation-k10-k11.mp3'; audio.load(); }
+      if (audio) { audio.pause(); audio.src = 'https://invalid.domain.local/nonexistent.mp3'; audio.load(); }
     }
 
     function retryAudioStream() {
@@ -410,12 +414,12 @@
         utter.onend = () => { state.isPlaying = state.usingSpeechFallback = false; state.audioProgressPct = 100; updateAudioPlayerDOM(); };
         window.speechSynthesis.speak(utter);
         showToast('Playing offline Arabic voice fallback');
-      } else { showToast('Offline speech synthesis not supported on this browser'); }
+      } else { showToast('Offline speech synthesis not supported'); }
     }
 
     function showToast(msg) {
       const t = $('toastMsg'); t.textContent = msg; t.classList.add('show');
-      setTimeout(() => t.classList.remove('show'), 2000);
+      setTimeout(() => t.classList.remove('show'), 2200);
     }
 
     function getDua(id) {
@@ -438,7 +442,6 @@
       return dua.translation;
     }
 
-    /* Reusable Card HTML Builder */
     function renderDuaCardHTML(d, showSource = true) {
       if (!d) return '';
       return `
@@ -476,7 +479,7 @@
       38: () => view38Categories(),
       39: () => view39CategoryDetail(),
       40: () => view40Search(state.searchQuery),
-      41: () => view41SearchResults('travel'),
+      41: () => view40Search('travel'),
       42: () => view42DetailStandard(),
       43: () => view43DetailIllustrated(),
       44: () => view44Marketplace(),
@@ -494,11 +497,6 @@
     };
 
     function renderScreen(screenNum, customDuaId = null, preserveSlide = false, fromHistory = false) {
-      if (DUAS_LIST.length === 0 && screenNum !== 37 && screenNum !== 99) {
-          showToast("Library is currently empty.");
-          return;
-      }
-        
       const isSameScreen = (screenNum === state.currentScreen);
       if (!isSameScreen) state.previousScreen = state.currentScreen;
       state.currentScreen = screenNum;
@@ -512,11 +510,16 @@
       $('appViewport').innerHTML = (VIEWS[screenNum] || VIEWS[37])();
     }
 
+    function openAdminTab(tabName, editCatId = null) {
+      state.adminTab = tabName;
+      state.editingCategoryId = editCatId;
+      renderScreen(99, null, true);
+    }
+
     /* --- SCREEN 37: Dua Library Home --- */
     function view37Home() {
       const quickCats = DUA_CATEGORIES.filter(c => c.group === 'core').slice(0, 4);
       const futureGroupingsCount = DUA_CATEGORIES.filter(c => c.group === 'future').length;
-      
       const hasDuas = DUAS_LIST.length > 0;
       const slideIdx = hasDuas ? Math.max(0, state.featuredSlideIndex % DUAS_LIST.length) : 0;
       const featuredDua = hasDuas ? DUAS_LIST[slideIdx] : null;
@@ -527,7 +530,7 @@
             <div class="top-nav-row">
               <button class="back-btn" onclick="window.location.href='home.html'" title="Back to Home"><i class="bi bi-chevron-left"></i></button>
               <div style="display:flex;gap:8px;">
-                <button class="admin-pill-btn" onclick="renderScreen(99)" title="Admin: Add Dua"><i class="bi bi-plus-circle"></i> Admin</button>
+                <button class="admin-pill-btn" onclick="openAdminTab('categories')" title="Manage Categories & Duas"><i class="bi bi-sliders"></i> Admin</button>
                 <button class="icon-action-btn" onclick="renderScreen(49)" title="Favourites"><i class="bi bi-bookmark-heart"></i></button>
               </div>
             </div>
@@ -561,37 +564,50 @@
               </div>
             </div>
           </div>
-          ` : `
-          <div class="empty-state-box" style="padding: 20px;">
-            <p class="card-sub">No duas available in the database.</p>
-            <button class="primary-cta-btn" onclick="renderScreen(99)">+ Add First Dua</button>
-          </div>
-          `}
+          ` : ''}
 
           <div class="section-head">
             <span class="section-title">Browse by Category</span>
             <button class="section-action" onclick="renderScreen(38)">View all (${futureGroupingsCount} groupings) <i class="bi bi-chevron-right"></i></button>
           </div>
-          <div class="quick-cat-grid">
-            ${quickCats.map(c => {
-              const liveCount = getCategoryDuaCount(c.id);
-              const words = c.title.split(' ');
-              return `
-                <div class="quick-cat-tile" onclick="openCategory('${c.id}')">
-                  <div class="quick-cat-icon"><i class="bi ${c.icon}"></i></div>
-                  <span class="quick-cat-label">${words[0]}<br>${words.slice(1).join(' ') || 'Life'}</span>
-                  <span class="quick-cat-count">${liveCount} ${liveCount === 1 ? 'dua' : 'duas'}</span>
-                </div>`;
-            }).join('')}
-          </div>
+
+          ${quickCats.length > 0 ? `
+            <div class="quick-cat-grid">
+              ${quickCats.map(c => {
+                const liveCount = getCategoryDuaCount(c.id);
+                const words = c.title.split(' ');
+                return `
+                  <div class="quick-cat-tile" onclick="openCategory('${c.id}')">
+                    <div class="quick-cat-icon"><i class="bi ${c.icon || 'bi-sun'}"></i></div>
+                    <span class="quick-cat-label">${words[0]}<br>${words.slice(1).join(' ') || ''}</span>
+                    <span class="quick-cat-count">${liveCount} ${liveCount === 1 ? 'dua' : 'duas'}</span>
+                  </div>`;
+              }).join('')}
+            </div>
+          ` : `
+            <div class="dua-content-box" style="text-align:center;padding:18px;">
+              <div style="font-size:0.84rem;color:var(--gold-light);font-weight:600;margin-bottom:4px;">Step 1: Add Categories & Groupings</div>
+              <p class="card-sub" style="white-space:normal;">No categories in cloud yet. Add your categories & groupings first so they populate the Dua dropdowns.</p>
+              <button class="primary-cta-btn" style="margin-top:12px;padding:10px;" onclick="openAdminTab('categories')">+ Add Categories & Groupings</button>
+            </div>
+          `}
 
           <div class="section-head">
             <span class="section-title">Essential Supplications</span>
             <button class="section-action" onclick="state.searchQuery='';renderScreen(40);">View all (${DUAS_LIST.length})</button>
           </div>
-          <div class="list-stack">
-            ${DUAS_LIST.slice(0, 4).map(d => renderDuaCardHTML(d)).join('')}
-          </div>
+
+          ${hasDuas ? `
+            <div class="list-stack">
+              ${DUAS_LIST.slice(0, 4).map(d => renderDuaCardHTML(d)).join('')}
+            </div>
+          ` : `
+            <div class="dua-content-box" style="text-align:center;padding:18px;">
+              <div style="font-size:0.84rem;color:var(--gold-light);font-weight:600;margin-bottom:4px;">Step 2: Add Duas</div>
+              <p class="card-sub" style="white-space:normal;">Once your categories are created, add duas and assign them to any category or grouping.</p>
+              <button class="primary-cta-btn" style="margin-top:12px;padding:10px;" onclick="openAdminTab('duas')">+ Add First Dua</button>
+            </div>
+          `}
         </div>`;
     }
 
@@ -614,12 +630,13 @@
         const count = getCategoryDuaCount(c.id);
         return `
           <div class="dua-list-card category-item" data-title="${c.title.toLowerCase()}" onclick="openCategory('${c.id}')">
-            <div class="medallion-icon"><i class="bi ${c.icon}"></i></div>
+            <div class="medallion-icon"><i class="bi ${c.icon || 'bi-sun'}"></i></div>
             <div class="card-body-text">
               <div class="card-title">${prefix}${c.title}</div>
               <div class="card-sub">${c.subtitle}</div>
               <div class="card-meta">${count} ${count === 1 ? 'dua' : 'duas'}</div>
             </div>
+            <button class="icon-action-btn" style="width:28px;height:28px;font-size:0.75rem;" onclick="event.stopPropagation();openAdminTab('categories','${c.id}');" title="Edit Category"><i class="bi bi-pencil"></i></button>
             <i class="bi bi-chevron-right card-chevron"></i>
           </div>`;
       };
@@ -629,7 +646,7 @@
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.25rem;">Dua Categories</h1>
-            <button class="admin-pill-btn" onclick="renderScreen(99)"><i class="bi bi-plus-lg"></i> Add</button>
+            <button class="admin-pill-btn" onclick="openAdminTab('categories')"><i class="bi bi-plus-lg"></i> Add</button>
           </div>
 
           <div class="search-bar-wrap">
@@ -638,16 +655,20 @@
           </div>
 
           <div class="section-head" style="margin-top:8px;">
-            <span class="section-title">Primary Collections</span>
+            <span class="section-title">Primary Collections (${coreCats.length})</span>
             <span style="font-size:0.72rem;color:var(--text-muted);">Live counts</span>
           </div>
-          <div class="list-stack" id="coreCategoryStack">${coreCats.map(c => renderCatRow(c)).join('')}</div>
+          <div class="list-stack" id="coreCategoryStack">
+            ${coreCats.length ? coreCats.map(c => renderCatRow(c)).join('') : `<div class="card-sub">No Primary Collections yet. Tap + Add above.</div>`}
+          </div>
 
           <div class="section-head" style="margin-top:22px;">
             <span class="section-title">All Occasions & Sunnah Groupings</span>
             <span style="font-size:0.72rem;color:var(--gold-primary);">${futureCats.length} Groupings</span>
           </div>
-          <div class="list-stack" id="futureCategoryStack">${futureCats.map((c, i) => renderCatRow(c, `${i + 1}. `)).join('')}</div>
+          <div class="list-stack" id="futureCategoryStack">
+            ${futureCats.length ? futureCats.map((c, i) => renderCatRow(c, `${i + 1}. `)).join('') : `<div class="card-sub">No Occasion Groupings yet. Tap + Add above.</div>`}
+          </div>
         </div>`;
     }
 
@@ -662,7 +683,7 @@
 
     /* --- SCREEN 39: Category Detail --- */
     function view39CategoryDetail() {
-      const cat = DUA_CATEGORIES.find(c => c.id === state.selectedCategoryId) || DUA_CATEGORIES[0];
+      const cat = DUA_CATEGORIES.find(c => c.id === state.selectedCategoryId) || DUA_CATEGORIES[0] || { id: '', title: 'Category', subtitle: '', icon: 'bi-sun', hero: IMG_SUNRISE };
       const categoryDuas = DUAS_LIST.filter(d => d.category === cat.id || d.grouping === cat.id);
       const count = categoryDuas.length;
 
@@ -672,7 +693,8 @@
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(38)"><i class="bi bi-chevron-left"></i></button>
               <div style="display:flex;gap:8px;">
-                <button class="admin-pill-btn" onclick="renderScreen(99)"><i class="bi bi-plus-circle"></i> Add Dua</button>
+                <button class="icon-action-btn" onclick="openAdminTab('categories','${cat.id}')" title="Edit Category"><i class="bi bi-pencil"></i></button>
+                <button class="admin-pill-btn" onclick="openAdminTab('duas')"><i class="bi bi-plus-circle"></i> Add Dua</button>
                 <button class="icon-action-btn" onclick="state.searchQuery='';renderScreen(40);"><i class="bi bi-search"></i></button>
               </div>
             </div>
@@ -686,10 +708,10 @@
         <div style="padding:16px 18px;">
           ${count === 0 ? `
             <div class="empty-state-box" style="padding:32px 16px;">
-              <div class="empty-illustration" style="width:96px;height:96px;font-size:2.2rem;"><i class="bi ${cat.icon}"></i></div>
+              <div class="empty-illustration" style="width:96px;height:96px;font-size:2.2rem;"><i class="bi ${cat.icon || 'bi-sun'}"></i></div>
               <div class="card-title">0 duas in ${cat.title} yet</div>
-              <p class="card-sub" style="margin-top:6px;white-space:normal;">Use the Admin button to add a dua to this category.</p>
-              <button class="primary-cta-btn" style="max-width:240px;" onclick="renderScreen(99)">+ Add First Dua Here</button>
+              <p class="card-sub" style="margin-top:6px;white-space:normal;">Use the Add Dua button to add a supplication to this category.</p>
+              <button class="primary-cta-btn" style="max-width:240px;" onclick="openAdminTab('duas')">+ Add First Dua Here</button>
             </div>
           ` : `<div class="list-stack">${categoryDuas.map(d => renderDuaCardHTML(d)).join('')}</div>`}
         </div>`;
@@ -739,8 +761,8 @@
         return `
           <div class="empty-state-box" style="padding:28px 10px;">
             <div class="empty-illustration" style="width:90px;height:90px;font-size:2rem;"><i class="bi bi-search"></i></div>
-            <div class="card-title">No matching duas for "${query}"</div>
-            <p class="card-sub" style="margin-top:6px;">Try a different keyword or clear the search bar.</p>
+            <div class="card-title">No matching duas</div>
+            <p class="card-sub" style="margin-top:6px;">Try a different keyword or add a new dua via Admin.</p>
           </div>`;
       }
       return matches.map(d => renderDuaCardHTML(d)).join('');
@@ -750,11 +772,6 @@
       state.searchQuery = val;
       const box = $('searchResultsContainer');
       if (box) box.innerHTML = renderSearchMatchesHTML(val);
-    }
-
-    /* --- SCREEN 41: Search Results (Placeholder) --- */
-    function view41SearchResults(query = 'travel') {
-      return view40Search(query); 
     }
 
     function openDuaDetail(duaId) {
@@ -771,7 +788,6 @@
     function view42DetailStandard() {
       const dua = getDua(state.selectedDuaId);
       if(!dua) return '';
-      
       return `
         <div class="hero-banner" style="background-image:url('${dua.heroImg || IMG_DESERT}');min-height:165px;">
           <div class="hero-content">
@@ -887,7 +903,7 @@
             <div class="benefits-section">
               <div class="benefits-title">Benefits / Context</div>
               <ul class="benefits-list">
-                ${dua.benefits.map(b => `<li>${b}</li>`).join('')}
+                ${(dua.benefits||[]).map(b => `<li>${b}</li>`).join('')}
               </ul>
             </div>
           </div>
@@ -1261,113 +1277,299 @@
         </div>`;
     }
 
-    /* --- SCREEN 99: ADMIN PANEL (Add) --- */
+    /* ==========================================================================
+       4. TWO-STEP ADMIN BUILDER (1. Categories & Groupings -> 2. Duas)
+       ========================================================================== */
     function view99AdminModal() {
-      const selectedCat = DUA_CATEGORIES.find(c => c.id === state.selectedCategoryId) || DUA_CATEGORIES[0] || {id: '', title: ''};
+      const isCatTab = state.adminTab === 'categories';
+      const editingCat = state.editingCategoryId ? DUA_CATEGORIES.find(c => c.id === state.editingCategoryId) : null;
+      const coreCats = DUA_CATEGORIES.filter(c => c.group === 'core');
+      const futureCats = DUA_CATEGORIES.filter(c => c.group === 'future');
+
       return `
         <div style="padding:16px 18px;">
           <div class="top-nav-row">
-            <button class="back-btn" onclick="renderScreen(state.previousScreen || 37)"><i class="bi bi-chevron-left"></i></button>
-            <h1 class="page-title" style="font-size:1.15rem;">Admin: Add Dua</h1>
+            <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
+            <h1 class="page-title" style="font-size:1.15rem;">Library Builder</h1>
             <div style="width:34px;"></div>
           </div>
 
-          <div class="dua-content-box" style="margin-top:8px;">
-            <div class="admin-form-group">
-              <label class="admin-label">Select Target Category</label>
-              <select id="adminCatSelect" class="admin-select" onchange="updateAdminCatBgInput(this.value)">
-                ${DUA_CATEGORIES.map(c => `<option value="${c.id}" ${c.id === selectedCat.id ? 'selected' : ''}>${c.title} (${getCategoryDuaCount(c.id)} duas)</option>`).join('')}
-              </select>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Category Hero Background URL (Optional)</label>
-              <input type="url" id="adminCatBgUrl" class="admin-input" value="${selectedCat.hero || ''}" placeholder="https://images.unsplash.com/..." />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Upload Category Background Image</label>
-              <input type="file" accept="image/*" class="admin-input" onchange="handleImageUpload(this, 'adminCatBgUrl')" />
-            </div>
-            <hr style="border:none;border-top:1px solid var(--gold-border);margin:16px 0;" />
-            
-            <div class="admin-form-group">
-              <label class="admin-label">Dua ID * (Unique string without spaces)</label>
-              <input type="text" id="adminDuaId" class="admin-input" placeholder="e.g., dua-morning-protection" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Dua Title *</label>
-              <input type="text" id="adminDuaTitle" class="admin-input" placeholder="e.g., Morning Remembrance for Peace" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Short Subtitle / Occasion *</label>
-              <input type="text" id="adminDuaSubtitle" class="admin-input" placeholder="e.g., Recited after Fajr prayer" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Arabic Text *</label>
-              <textarea id="adminDuaArabic" class="admin-textarea" dir="rtl" placeholder="اللَّهُمَّ بِكَ أَصْبَحْنَا وَبِكَ أَمْسَيْنَا..."></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Transliteration</label>
-              <textarea id="adminDuaTranslit" class="admin-textarea" placeholder="Allahumma bika asbahna wa bika amsayna..."></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">English Translation *</label>
-              <textarea id="adminDuaTranslation" class="admin-textarea" placeholder="O Allah, by Your leave we have reached the morning..."></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Urdu Translation</label>
-              <textarea id="adminDuaUrdu" class="admin-textarea" dir="rtl"></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Roman Urdu Translation</label>
-              <textarea id="adminDuaRomanUrdu" class="admin-textarea"></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Hindi Translation</label>
-              <textarea id="adminDuaHindi" class="admin-textarea"></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Source / Hadith Reference *</label>
-              <input type="text" id="adminDuaSource" class="admin-input" placeholder="e.g., Jami at-Tirmidhi (3391)" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Also Mentioned (comma separated)</label>
-              <textarea id="adminDuaAlsoMentioned" class="admin-textarea" placeholder="Bukhari 123, Muslim 456"></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Notes</label>
-              <textarea id="adminDuaNotes" class="admin-textarea" placeholder="Any specific instructions..."></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Benefits (comma separated)</label>
-              <textarea id="adminDuaBenefits" class="admin-textarea" placeholder="Brings peace, protects from evil"></textarea>
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Arabic Medallion</label>
-              <input type="text" id="adminDuaMedallion" class="admin-input" placeholder="e.g., شِفَاء" dir="rtl" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Recitation Audio URL (MP3)</label>
-              <input type="url" id="adminDuaAudioUrl" class="admin-input" placeholder="https://everyayah.com/data/Alafasy_128kbps/001001.mp3" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Dua Detail Background Image URL</label>
-              <input type="url" id="adminDuaHeroUrl" class="admin-input" placeholder="https://images.unsplash.com/..." />
-              <input type="file" accept="image/*" class="admin-input" style="margin-top:6px;" onchange="handleImageUpload(this, 'adminDuaHeroUrl')" />
-            </div>
-            <div class="admin-form-group">
-              <label class="admin-label">Duration (e.g. 0:45)</label>
-              <input type="text" id="adminDuaDuration" class="admin-input" placeholder="0:45" />
-            </div>
-            
-            <button class="primary-cta-btn" onclick="submitAdminDua()">Save New Dua</button>
+          <!-- Two-Step Admin Tabs -->
+          <div class="admin-tab-bar">
+            <button class="admin-tab-btn ${isCatTab ? 'active' : ''}" onclick="openAdminTab('categories')">
+              <i class="bi bi-folder-plus"></i> 1. Categories (${DUA_CATEGORIES.length})
+            </button>
+            <button class="admin-tab-btn ${!isCatTab ? 'active' : ''}" onclick="openAdminTab('duas')">
+              <i class="bi bi-journal-plus"></i> 2. Add Dua (${DUAS_LIST.length})
+            </button>
           </div>
+
+          ${isCatTab ? renderAdminCategoryTab(editingCat, coreCats, futureCats) : renderAdminDuaTab(coreCats, futureCats)}
         </div>`;
     }
 
-    /* --- SCREEN 100: ADMIN PANEL (Edit) --- */
+    function renderAdminCategoryTab(editingCat, coreCats, futureCats) {
+      const curIcon = editingCat ? editingCat.icon : 'bi-sun';
+      return `
+        <div class="dua-content-box" style="margin-top:6px;">
+          <div style="font-family:'Cinzel',serif;color:var(--gold-light);font-size:0.95rem;font-weight:600;margin-bottom:12px;">
+            ${editingCat ? `Edit: ${editingCat.title}` : 'Create Category or Grouping'}
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Placement Type (Group) *</label>
+            <select id="catGroupType" class="admin-select">
+              <option value="core" ${editingCat?.group === 'core' ? 'selected' : ''}>Primary Collection (Core - Shows on Home Grid)</option>
+              <option value="future" ${editingCat?.group === 'future' ? 'selected' : ''}>Occasion / Sunnah Grouping (Shows in Groupings List)</option>
+            </select>
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Category / Grouping Title *</label>
+            <input type="text" id="catTitleInput" class="admin-input" value="${editingCat?.title || ''}" placeholder="e.g., Everyday Life or Before Sleeping" oninput="autoFillCategoryId(this.value)" />
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Unique ID * (Auto-generated or custom)</label>
+            <input type="text" id="catIdInput" class="admin-input" value="${editingCat?.id || ''}" placeholder="e.g., everyday or before-sleeping" />
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Short Subtitle / Description *</label>
+            <input type="text" id="catSubtitleInput" class="admin-input" value="${editingCat?.subtitle || ''}" placeholder="e.g., Daily needs and routine" />
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Icon Class (Tap a preset or type Bootstrap Icon)</label>
+            <input type="text" id="catIconInput" class="admin-input" value="${curIcon}" placeholder="bi-sun" />
+            <div class="icon-picker-grid">
+              ${PRESET_ICONS.map(ic => `
+                <button type="button" class="icon-pick-btn ${curIcon === ic ? 'selected' : ''}" onclick="$('catIconInput').value='${ic}';">
+                  <i class="bi ${ic}"></i>
+                </button>`).join('')}
+            </div>
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Hero Background Image URL</label>
+            <input type="url" id="catHeroInput" class="admin-input" value="${editingCat?.hero || IMG_DESERT}" placeholder="https://images.unsplash.com/..." />
+            <input type="file" accept="image/*" class="admin-input" style="margin-top:6px;" onchange="handleImageUpload(this, 'catHeroInput')" />
+          </div>
+
+          <button class="primary-cta-btn" onclick="saveCategoryOrGrouping('${editingCat ? editingCat.id : ''}')">
+            ${editingCat ? 'Update Category / Grouping' : 'Save Category & Populate Dropdowns'}
+          </button>
+          ${editingCat ? `<button class="secondary-cta-btn" onclick="openAdminTab('categories', null)">Cancel Edit</button>` : ''}
+        </div>
+
+        <div class="section-head" style="margin-top:18px;">
+          <span class="section-title">Existing Categories (${coreCats.length} Core · ${futureCats.length} Groupings)</span>
+        </div>
+        <div class="list-stack">
+          ${DUA_CATEGORIES.length === 0 ? `<div class="card-sub">No categories added yet. Create one above!</div>` :
+            DUA_CATEGORIES.map(c => `
+              <div class="dua-list-card" onclick="openAdminTab('categories','${c.id}')">
+                <div class="medallion-icon"><i class="bi ${c.icon || 'bi-sun'}"></i></div>
+                <div class="card-body-text">
+                  <div class="card-title">${c.title}</div>
+                  <div class="card-sub">${c.group === 'core' ? 'Primary Collection' : 'Occasion Grouping'} · ID: ${c.id}</div>
+                </div>
+                <i class="bi bi-pencil card-chevron"></i>
+              </div>`).join('')}
+        </div>`;
+    }
+
+    function autoFillCategoryId(titleVal) {
+      if (state.editingCategoryId) return; // Don't overwrite ID automatically when editing
+      const slug = titleVal.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const idEl = $('catIdInput');
+      if (idEl) idEl.value = slug;
+    }
+
+    function saveCategoryOrGrouping(existingId = '') {
+      const val = id => $(id)?.value.trim() || '';
+      const group = val('catGroupType') || 'core';
+      const title = val('catTitleInput');
+      const id = val('catIdInput') || title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+      const subtitle = val('catSubtitleInput') || 'Authentic supplications';
+      const icon = val('catIconInput') || 'bi-sun';
+      const hero = val('catHeroInput') || IMG_DESERT;
+
+      if (!title || !id) {
+        showToast('Please enter a Category Title and ID');
+        return;
+      }
+
+      const newCatObj = { id, title, subtitle, icon, group, hero };
+
+      if (existingId) {
+        const idx = DUA_CATEGORIES.findIndex(c => c.id === existingId);
+        if (idx > -1) DUA_CATEGORIES[idx] = newCatObj;
+        // Update linked duas if category ID changed
+        if (existingId !== id) {
+          DUAS_LIST.forEach(d => {
+            if (d.category === existingId) d.category = id;
+            if (d.grouping === existingId) d.grouping = id;
+          });
+        }
+        showToast(`Updated "${title}"`);
+      } else {
+        const existingIdx = DUA_CATEGORIES.findIndex(c => c.id === id);
+        if (existingIdx > -1) {
+          DUA_CATEGORIES[existingIdx] = newCatObj;
+          showToast(`Updated existing "${title}"`);
+        } else {
+          DUA_CATEGORIES.push(newCatObj);
+          showToast(`Saved "${title}"! Now available in Dua dropdowns.`);
+        }
+      }
+
+      state.editingCategoryId = null;
+      state.selectedCategoryId = id;
+      saveRepository();
+      renderScreen(99, null, true);
+    }
+
+    function renderAdminDuaTab(coreCats, futureCats) {
+      if (DUA_CATEGORIES.length === 0) {
+        return `
+          <div class="dua-content-box" style="text-align:center;padding:24px 16px;">
+            <div style="font-size:1.8rem;color:var(--gold-primary);margin-bottom:8px;"><i class="bi bi-exclamation-circle"></i></div>
+            <div class="card-title">Add Categories & Groupings First</div>
+            <p class="card-sub" style="white-space:normal;margin-top:6px;">Your Category & Grouping dropdowns are empty because no categories exist yet. Go to Step 1 to add your categories first.</p>
+            <button class="primary-cta-btn" onclick="openAdminTab('categories')">Go to 1. Categories</button>
+          </div>`;
+      }
+
+      const selectedCat = DUA_CATEGORIES.find(c => c.id === state.selectedCategoryId) || DUA_CATEGORIES[0];
+
+      const renderCatOptions = (selectedId) => `
+        ${coreCats.length ? `<optgroup label="Primary Collections (Core)">
+          ${coreCats.map(c => `<option value="${c.id}" ${c.id === selectedId ? 'selected' : ''}>${c.title} (${getCategoryDuaCount(c.id)} duas)</option>`).join('')}
+        </optgroup>` : ''}
+        ${futureCats.length ? `<optgroup label="Occasions & Sunnah Groupings">
+          ${futureCats.map(c => `<option value="${c.id}" ${c.id === selectedId ? 'selected' : ''}>${c.title} (${getCategoryDuaCount(c.id)} duas)</option>`).join('')}
+        </optgroup>` : ''}
+      `;
+
+      return `
+        <div class="dua-content-box" style="margin-top:6px;">
+          <div class="admin-form-group">
+            <label class="admin-label">Select Target Category *</label>
+            <select id="adminCatSelect" class="admin-select" onchange="updateAdminCatBgInput(this.value)">
+              ${renderCatOptions(selectedCat.id)}
+            </select>
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Select Target Grouping *</label>
+            <select id="adminGroupingSelect" class="admin-select">
+              ${renderCatOptions(selectedCat.id)}
+            </select>
+          </div>
+
+          <div class="admin-form-group">
+            <label class="admin-label">Category Hero Background URL (Optional)</label>
+            <input type="url" id="adminCatBgUrl" class="admin-input" value="${selectedCat.hero || ''}" placeholder="https://images.unsplash.com/..." />
+          </div>
+
+          <hr style="border:none;border-top:1px solid var(--gold-border);margin:16px 0;" />
+          
+          <div class="admin-form-group">
+            <label class="admin-label">Dua Title *</label>
+            <input type="text" id="adminDuaTitle" class="admin-input" placeholder="e.g., Dua Before Sleeping" oninput="autoFillDuaId(this.value)" />
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Dua ID * (Auto-generated or custom)</label>
+            <input type="text" id="adminDuaId" class="admin-input" placeholder="e.g., before-sleeping-dua" />
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Short Subtitle / Occasion *</label>
+            <input type="text" id="adminDuaSubtitle" class="admin-input" placeholder="e.g., Sote Waqt Ki Dua" />
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Arabic Text *</label>
+            <textarea id="adminDuaArabic" class="admin-textarea" dir="rtl" placeholder="اَللّٰهُمَّ بِاسْمِكَ اَمُوْتُ وَاَحْيَا"></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Transliteration</label>
+            <textarea id="adminDuaTranslit" class="admin-textarea" placeholder="Allahumma bismika amootu wa ahyaa"></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">English Translation *</label>
+            <textarea id="adminDuaTranslation" class="admin-textarea" placeholder="O Allah, in Your name I die and I live."></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Urdu Translation</label>
+            <textarea id="adminDuaUrdu" class="admin-textarea" dir="rtl"></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Roman Urdu Translation</label>
+            <textarea id="adminDuaRomanUrdu" class="admin-textarea"></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Hindi Translation</label>
+            <textarea id="adminDuaHindi" class="admin-textarea"></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Source / Hadith Reference *</label>
+            <input type="text" id="adminDuaSource" class="admin-input" placeholder="e.g., Sahih al-Bukhari 6314" />
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Also Mentioned (comma separated)</label>
+            <textarea id="adminDuaAlsoMentioned" class="admin-textarea" placeholder="Sahih al-Bukhari 6325"></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Notes</label>
+            <textarea id="adminDuaNotes" class="admin-textarea" placeholder="Hadith context or instructions..."></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Benefits (comma separated)</label>
+            <textarea id="adminDuaBenefits" class="admin-textarea" placeholder="Brings peace, protects from evil"></textarea>
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Arabic Medallion</label>
+            <input type="text" id="adminDuaMedallion" class="admin-input" placeholder="e.g., النَّوْم" dir="rtl" />
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Recitation Audio URL (MP3)</label>
+            <input type="url" id="adminDuaAudioUrl" class="admin-input" placeholder="https://everyayah.com/data/Alafasy_128kbps/001001.mp3" />
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Dua Detail Background Image URL</label>
+            <input type="url" id="adminDuaHeroUrl" class="admin-input" placeholder="https://images.unsplash.com/..." />
+            <input type="file" accept="image/*" class="admin-input" style="margin-top:6px;" onchange="handleImageUpload(this, 'adminDuaHeroUrl')" />
+          </div>
+          <div class="admin-form-group">
+            <label class="admin-label">Duration (e.g. 0:15)</label>
+            <input type="text" id="adminDuaDuration" class="admin-input" placeholder="0:15" />
+          </div>
+          
+          <button class="primary-cta-btn" onclick="submitAdminDua()">Save New Dua</button>
+        </div>`;
+    }
+
+    function autoFillDuaId(titleVal) {
+      const slug = titleVal.toLowerCase().trim().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+      const idEl = $('adminDuaId');
+      if (idEl) idEl.value = slug;
+    }
+
+    /* --- SCREEN 100: ADMIN PANEL (Edit Dua) --- */
     function view100EditDuaModal() {
       const dua = getDua(state.editingDuaId);
       if(!dua) return '';
+      const coreCats = DUA_CATEGORIES.filter(c => c.group === 'core');
+      const futureCats = DUA_CATEGORIES.filter(c => c.group === 'future');
+
+      const renderEditCatOptions = (selectedId) => `
+        ${coreCats.length ? `<optgroup label="Primary Collections (Core)">
+          ${coreCats.map(c => `<option value="${c.id}" ${c.id === selectedId ? 'selected' : ''}>${c.title}</option>`).join('')}
+        </optgroup>` : ''}
+        ${futureCats.length ? `<optgroup label="Occasions & Sunnah Groupings">
+          ${futureCats.map(c => `<option value="${c.id}" ${c.id === selectedId ? 'selected' : ''}>${c.title}</option>`).join('')}
+        </optgroup>` : ''}
+      `;
       
       return `
         <div style="padding:16px 18px;">
@@ -1381,18 +1583,18 @@
             <div class="admin-form-group">
               <label class="admin-label">Category</label>
               <select id="editDuaCatSelect" class="admin-select">
-                ${DUA_CATEGORIES.map(c => `<option value="${c.id}" ${c.id === dua.category ? 'selected' : ''}>${c.title}</option>`).join('')}
+                ${renderEditCatOptions(dua.category)}
               </select>
             </div>
             <div class="admin-form-group">
               <label class="admin-label">Grouping</label>
               <select id="editDuaGroupingSelect" class="admin-select">
-                ${DUA_CATEGORIES.map(c => `<option value="${c.id}" ${c.id === dua.grouping ? 'selected' : ''}>${c.title}</option>`).join('')}
+                ${renderEditCatOptions(dua.grouping)}
               </select>
             </div>
             
             <div class="admin-form-group">
-              <label class="admin-label">Dua ID * (Careful changing this)</label>
+              <label class="admin-label">Dua ID *</label>
               <input type="text" id="editDuaId" class="admin-input" value="${dua.id}" />
             </div>
             <div class="admin-form-group">
@@ -1486,8 +1688,9 @@
     }
 
     function submitAdminDua() {
-      const val = id => $(id).value.trim();
+      const val = id => $(id)?.value.trim() || '';
       const catId = val('adminCatSelect');
+      const groupId = val('adminGroupingSelect') || catId;
       const catBgUrl = val('adminCatBgUrl');
       const title = val('adminDuaTitle');
       const subtitle = val('adminDuaSubtitle');
@@ -1521,7 +1724,7 @@
         title,
         subtitle: subtitle || 'Authentic Supplication',
         category: catId,
-        grouping: catId,
+        grouping: groupId,
         variants: '',
         arabicMedallion: medallion,
         illustrated: !!duaHeroUrl,
@@ -1542,17 +1745,17 @@
 
       saveRepository();
       state.selectedCategoryId = catId;
-      showToast(`Added to ${catObj.title}`);
+      showToast(`Added "${title}" to ${catObj ? catObj.title : 'Library'}`);
       renderScreen(39);
     }
     
     function saveEditedDua(originalId) {
-      const val = id => $(id).value.trim();
+      const val = id => $(id)?.value.trim() || '';
       const duaIndex = DUAS_LIST.findIndex(d => d.id === originalId);
       
       if (duaIndex === -1) {
-          showToast('Error: Dua not found');
-          return;
+        showToast('Error: Dua not found');
+        return;
       }
 
       const updatedId = val('editDuaId');
@@ -1593,8 +1796,8 @@
       };
       
       if (originalId !== updatedId) {
-          const favIndex = state.favourites.indexOf(originalId);
-          if (favIndex > -1) { state.favourites[favIndex] = updatedId; }
+        const favIndex = state.favourites.indexOf(originalId);
+        if (favIndex > -1) { state.favourites[favIndex] = updatedId; }
       }
 
       saveRepository();
@@ -1611,22 +1814,18 @@
     window.addEventListener('DOMContentLoaded', async () => {
       setupAudioListeners();
       
-      // Attempt to load from Firebase Cloud directly
       try {
         const docSnap = await window.getDoc(window.doc(window.db, "aamaalApp", "libraryData"));
         if (docSnap.exists()) {
           const data = docSnap.data();
           DUA_CATEGORIES = data.categories || [];
           DUAS_LIST = data.duas || [];
-        } else {
-          console.warn("No data found in Firebase. Database is empty.");
         }
       } catch (error) {
         console.error("Error fetching data from Firebase: ", error);
         showToast("Error loading from Cloud");
       }
       
-      // Render Initial View
       renderScreen(37, null, false, true);
     });
   </script>
