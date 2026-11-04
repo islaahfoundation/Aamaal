@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-  <title>Duas Library — File 4 of 6</title>
+  <title>Duas Library — Cloud Optimized</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cinzel:wght@500;600;700&family=Lateef:wght@400;600;700&family=Noto+Nastaliq+Urdu:wght@400;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -41,25 +41,15 @@
     Object.assign(window, { db: getFirestore(app), doc, getDoc, setDoc });
   </script>
   <style>
+    /* CSS Remains Identical */
     :root {
-      --bg-deep: #041612;
-      --bg-surface: #09221c;
-      --bg-card: rgba(13, 40, 33, 0.82);
-      --bg-card-hover: rgba(20, 56, 46, 0.92);
-      --bg-parchment: #f4ebd9;
-      --parchment-text: #1c2b24;
-      --gold-primary: #d4af37;
-      --gold-light: #f3dc8b;
-      --gold-muted: rgba(212, 175, 55, 0.28);
-      --gold-border: rgba(212, 175, 55, 0.22);
-      --emerald-accent: #18614c;
-      --emerald-pill: #134e3d;
-      --text-main: #f0f5f3;
-      --text-muted: #9ab0a7;
-      --text-dim: #647d74;
-      --arabic-scale: 1;
-      --body-scale: 1;
-      --arabic-font: 'Amiri', serif;
+      --bg-deep: #041612; --bg-surface: #09221c; --bg-card: rgba(13, 40, 33, 0.82);
+      --bg-card-hover: rgba(20, 56, 46, 0.92); --bg-parchment: #f4ebd9;
+      --parchment-text: #1c2b24; --gold-primary: #d4af37; --gold-light: #f3dc8b;
+      --gold-muted: rgba(212, 175, 55, 0.28); --gold-border: rgba(212, 175, 55, 0.22);
+      --emerald-accent: #18614c; --emerald-pill: #134e3d; --text-main: #f0f5f3;
+      --text-muted: #9ab0a7; --text-dim: #647d74; --arabic-scale: 1;
+      --body-scale: 1; --arabic-font: 'Amiri', serif;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
@@ -67,15 +57,10 @@
     html, body {
       background: #020c0a radial-gradient(circle at 15% 15%, rgba(24, 97, 76, 0.22) 0%, transparent 45%),
                   radial-gradient(circle at 85% 85%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
-      color: var(--text-main);
-      font-family: 'Plus Jakarta Sans', sans-serif;
-      min-height: 100%;
-      overflow-x: hidden;
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-      touch-action: pan-y;
+      color: var(--text-main); font-family: 'Plus Jakarta Sans', sans-serif;
+      min-height: 100%; overflow-x: hidden; overflow-y: auto;
+      -webkit-overflow-scrolling: touch; touch-action: pan-y;
     }
-
     body { display: flex; flex-direction: column; align-items: center; }
 
     @keyframes pulse {
@@ -84,68 +69,31 @@
     }
 
     .phone-frame {
-      width: 100%;
-      max-width: 412px;
-      min-height: 100vh;
-      margin: 0 auto;
-      background: var(--bg-deep);
-      border-inline: 1px solid rgba(212, 175, 55, 0.25);
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85);
-      position: relative;
-      display: flex;
-      flex-direction: column;
+      width: 100%; max-width: 412px; min-height: 100vh; margin: 0 auto;
+      background: var(--bg-deep); border-inline: 1px solid rgba(212, 175, 55, 0.25);
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.85); position: relative; display: flex; flex-direction: column;
     }
     @media (max-width: 440px) { .phone-frame { border: none; max-width: 100%; } }
 
     .app-viewport { flex: 1; width: 100%; position: relative; padding-bottom: 36px; }
 
-    /* Hero & Navigation */
-    .hero-banner {
-      position: relative;
-      padding: 18px 20px 22px;
-      background: center/cover no-repeat;
-      border-bottom: 1px solid var(--gold-border);
-    }
-    .hero-banner::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(180deg, rgba(4, 22, 18, 0.45) 0%, rgba(4, 22, 18, 0.88) 75%, var(--bg-deep) 100%);
-      z-index: 1;
-      pointer-events: none;
-    }
+    /* Core UI Elements */
+    .hero-banner { position: relative; padding: 18px 20px 22px; background: center/cover no-repeat; border-bottom: 1px solid var(--gold-border); }
+    .hero-banner::before { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(4, 22, 18, 0.45) 0%, rgba(4, 22, 18, 0.88) 75%, var(--bg-deep) 100%); z-index: 1; pointer-events: none; }
     .hero-content { position: relative; z-index: 2; }
     .top-nav-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
-
-    .back-btn, .icon-action-btn {
-      width: 34px; height: 34px;
-      border-radius: 50%;
-      background: rgba(9, 34, 28, 0.75);
-      border: 1px solid var(--gold-border);
-      color: var(--gold-light);
-      display: inline-flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: all 0.2s; font-size: 0.95rem;
-    }
+    
+    .back-btn, .icon-action-btn { width: 34px; height: 34px; border-radius: 50%; background: rgba(9, 34, 28, 0.75); border: 1px solid var(--gold-border); color: var(--gold-light); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; font-size: 0.95rem; }
     .back-btn:hover, .icon-action-btn:hover { border-color: var(--gold-primary); background: rgba(24, 97, 76, 0.6); }
-
-    .admin-pill-btn {
-      height: 34px; padding: 0 12px; border-radius: 99px;
-      background: rgba(24, 97, 76, 0.75); border: 1px solid var(--gold-primary);
-      color: var(--gold-light); display: inline-flex; align-items: center; gap: 5px;
-      font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.2s;
-    }
+    
+    .admin-pill-btn { height: 34px; padding: 0 12px; border-radius: 99px; background: rgba(24, 97, 76, 0.75); border: 1px solid var(--gold-primary); color: var(--gold-light); display: inline-flex; align-items: center; gap: 5px; font-size: 0.74rem; font-weight: 600; cursor: pointer; transition: all 0.2s; }
     .admin-pill-btn:hover { background: var(--emerald-accent); box-shadow: 0 0 10px rgba(212, 175, 55, 0.25); }
 
     .page-title { font-family: 'Cinzel', serif; font-size: 1.45rem; font-weight: 600; color: var(--gold-light); letter-spacing: 0.3px; }
     .page-subtitle { font-size: 0.82rem; color: var(--text-muted); margin-top: 3px; }
 
-    /* Search */
     .search-bar-wrap { position: relative; margin: 14px 0; }
-    .search-input {
-      width: 100%; background: rgba(9, 34, 28, 0.85); border: 1px solid var(--gold-border);
-      border-radius: 99px; padding: 11px 38px 11px 40px; color: var(--text-main);
-      font-size: 0.86rem; outline: none; transition: border-color 0.2s;
-    }
+    .search-input { width: 100%; background: rgba(9, 34, 28, 0.85); border: 1px solid var(--gold-border); border-radius: 99px; padding: 11px 38px 11px 40px; color: var(--text-main); font-size: 0.86rem; outline: none; transition: border-color 0.2s; }
     .search-input:focus { border-color: var(--gold-primary); box-shadow: 0 0 12px rgba(212, 175, 55, 0.18); }
     .search-icon, .clear-search-btn { position: absolute; top: 50%; transform: translateY(-50%); }
     .search-icon { left: 15px; color: var(--gold-primary); font-size: 0.9rem; pointer-events: none; }
@@ -153,20 +101,9 @@
 
     /* Featured Slide */
     .featured-slide-wrap { position: relative; margin: 6px 0 20px; }
-    .market-featured-card {
-      position: relative; border-radius: 18px; overflow: hidden;
-      border: 1px solid rgba(212, 175, 55, 0.45); cursor: pointer;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-      transition: transform 0.25s, border-color 0.25s;
-      background: center/cover no-repeat; padding: 18px 18px 28px;
-      display: flex; justify-content: flex-end; min-height: 132px; align-items: center;
-    }
+    .market-featured-card { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.45); cursor: pointer; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45); transition: transform 0.25s, border-color 0.25s; background: center/cover no-repeat; padding: 18px 18px 28px; display: flex; justify-content: flex-end; min-height: 132px; align-items: center; }
     .market-featured-card:hover { transform: translateY(-2px); border-color: var(--gold-primary); }
-    .market-card-badge {
-      position: absolute; top: 10px; left: 12px; background: rgba(4, 22, 18, 0.82);
-      border: 1px solid var(--gold-border); color: var(--gold-light);
-      font-size: 0.65rem; padding: 3px 8px; border-radius: 99px; backdrop-filter: blur(4px);
-    }
+    .market-card-badge { position: absolute; top: 10px; left: 12px; background: rgba(4, 22, 18, 0.82); border: 1px solid var(--gold-border); color: var(--gold-light); font-size: 0.65rem; padding: 3px 8px; border-radius: 99px; backdrop-filter: blur(4px); }
     .market-card-info { max-width: 65%; text-align: left; }
     .market-card-title { font-family: 'Cinzel', serif; font-size: 1rem; color: var(--gold-light); font-weight: 600; margin-bottom: 4px; }
     .market-card-desc { font-size: 0.76rem; color: var(--text-main); opacity: 0.9; margin-bottom: 8px; }
@@ -175,46 +112,24 @@
     .slide-dots, .slide-arrows { display: flex; gap: 5px; pointer-events: auto; }
     .slide-dot { width: 7px; height: 7px; border-radius: 99px; background: rgba(255, 255, 255, 0.35); border: none; cursor: pointer; transition: all 0.2s; }
     .slide-dot.active { width: 18px; background: var(--gold-primary); }
-    .slide-arrow-btn {
-      width: 22px; height: 22px; border-radius: 50%; background: rgba(4, 22, 18, 0.8);
-      border: 1px solid var(--gold-border); color: var(--gold-light); font-size: 0.7rem;
-      display: flex; align-items: center; justify-content: center; cursor: pointer;
-    }
+    .slide-arrow-btn { width: 22px; height: 22px; border-radius: 50%; background: rgba(4, 22, 18, 0.8); border: 1px solid var(--gold-border); color: var(--gold-light); font-size: 0.7rem; display: flex; align-items: center; justify-content: center; cursor: pointer; }
 
     /* Sections & Categories */
     .section-head { display: flex; justify-content: space-between; align-items: center; margin: 16px 0 12px; }
     .section-title { font-family: 'Cinzel', serif; font-size: 0.98rem; color: var(--gold-light); font-weight: 600; }
     .section-action { font-size: 0.76rem; color: var(--gold-primary); cursor: pointer; background: none; border: none; }
     .quick-cat-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; }
-    .quick-cat-tile {
-      background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 16px;
-      padding: 12px 6px; text-align: center; cursor: pointer; transition: all 0.2s;
-      display: flex; flex-direction: column; align-items: center; gap: 6px;
-    }
+    .quick-cat-tile { background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 16px; padding: 12px 6px; text-align: center; cursor: pointer; transition: all 0.2s; display: flex; flex-direction: column; align-items: center; gap: 6px; }
     .quick-cat-tile:hover { background: var(--bg-card-hover); border-color: var(--gold-primary); transform: translateY(-2px); }
-    .quick-cat-icon {
-      width: 40px; height: 40px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(13, 40, 33, 0.9) 100%);
-      border: 1px solid var(--gold-primary); display: flex; align-items: center; justify-content: center;
-      color: var(--gold-light); font-size: 1.05rem;
-    }
+    .quick-cat-icon { width: 40px; height: 40px; border-radius: 50%; background: radial-gradient(circle, rgba(212, 175, 55, 0.2) 0%, rgba(13, 40, 33, 0.9) 100%); border: 1px solid var(--gold-primary); display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 1.05rem; }
     .quick-cat-label { font-size: 0.7rem; color: var(--text-main); line-height: 1.25; font-weight: 500; }
     .quick-cat-count { font-size: 0.62rem; color: var(--gold-primary); }
 
     /* Cards & Lists */
     .list-stack, .option-list { display: flex; flex-direction: column; gap: 10px; }
-    .dua-list-card {
-      background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 16px;
-      padding: 13px 15px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s;
-    }
+    .dua-list-card { background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 16px; padding: 13px 15px; display: flex; align-items: center; gap: 14px; cursor: pointer; transition: all 0.2s; }
     .dua-list-card:hover { background: var(--bg-card-hover); border-color: var(--gold-primary); }
-    .medallion-icon {
-      width: 46px; height: 46px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(24, 97, 76, 0.45) 0%, rgba(6, 24, 19, 0.95) 100%);
-      border: 1.5px solid var(--gold-primary); display: flex; align-items: center; justify-content: center;
-      color: var(--gold-light); font-size: 1.1rem; flex-shrink: 0;
-      box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.25);
-    }
+    .medallion-icon { width: 46px; height: 46px; border-radius: 50%; background: radial-gradient(circle, rgba(24, 97, 76, 0.45) 0%, rgba(6, 24, 19, 0.95) 100%); border: 1.5px solid var(--gold-primary); display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 1.1rem; flex-shrink: 0; box-shadow: inset 0 0 8px rgba(212, 175, 55, 0.25); }
     .medallion-arabic { font-family: 'Amiri', serif; font-size: 0.95rem; color: var(--gold-light); line-height: 1; }
     .card-body-text { flex: 1; min-width: 0; }
     .card-title, .card-sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
@@ -223,29 +138,15 @@
     .card-meta { font-size: 0.7rem; color: var(--gold-primary); margin-top: 3px; }
     .card-chevron { color: var(--text-muted); font-size: 0.9rem; }
 
-    /* Filter Chips */
     .filter-chips { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 6px; margin-bottom: 14px; scrollbar-width: none; }
     .filter-chips::-webkit-scrollbar { display: none; }
-    .chip {
-      padding: 6px 15px; border-radius: 99px; font-size: 0.76rem; border: 1px solid var(--gold-border);
-      background: rgba(9, 34, 28, 0.7); color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s;
-    }
+    .chip { padding: 6px 15px; border-radius: 99px; font-size: 0.76rem; border: 1px solid var(--gold-border); background: rgba(9, 34, 28, 0.7); color: var(--text-muted); cursor: pointer; white-space: nowrap; transition: all 0.2s; }
     .chip.active { background: var(--emerald-accent); color: var(--text-main); border-color: var(--gold-primary); font-weight: 600; }
 
     /* Dua Content Box & Parchment */
-    .dua-content-box {
-      background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 20px;
-      padding: 20px 18px; margin: 14px 0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    }
-    .dua-content-box.parchment {
-      background: linear-gradient(180deg, #f7efe0 0%, #eadbc0 100%); color: var(--parchment-text);
-      border: 2px solid #c59b38; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), inset 0 0 24px rgba(163, 119, 39, 0.22);
-    }
-    .arabic-verse {
-      font-family: var(--arabic-font); font-size: calc(1.55rem * var(--arabic-scale));
-      line-height: 2.15; text-align: center; direction: rtl; color: var(--gold-light);
-      margin-bottom: 16px; padding: 6px 4px;
-    }
+    .dua-content-box { background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 20px; padding: 20px 18px; margin: 14px 0; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35); }
+    .dua-content-box.parchment { background: linear-gradient(180deg, #f7efe0 0%, #eadbc0 100%); color: var(--parchment-text); border: 2px solid #c59b38; box-shadow: 0 12px 32px rgba(0, 0, 0, 0.6), inset 0 0 24px rgba(163, 119, 39, 0.22); }
+    .arabic-verse { font-family: var(--arabic-font); font-size: calc(1.55rem * var(--arabic-scale)); line-height: 2.15; text-align: center; direction: rtl; color: var(--gold-light); margin-bottom: 16px; padding: 6px 4px; }
     .parchment .arabic-verse { color: #12261e; font-weight: 700; }
     .transliteration-text { font-size: calc(0.86rem * var(--body-scale)); line-height: 1.55; color: var(--text-muted); text-align: center; font-style: italic; margin-bottom: 14px; }
     .parchment .transliteration-text { color: #495950; }
@@ -261,47 +162,28 @@
 
     /* Toolbars & Buttons */
     .dua-toolbar-strip { display: flex; justify-content: space-between; gap: 6px; margin-bottom: 12px; }
-    .mini-tool-btn {
-      flex: 1; background: rgba(13, 40, 33, 0.85); border: 1px solid var(--gold-border);
-      color: var(--gold-light); padding: 8px 6px; border-radius: 12px; font-size: 0.72rem;
-      display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: all 0.2s;
-    }
+    .mini-tool-btn { flex: 1; background: rgba(13, 40, 33, 0.85); border: 1px solid var(--gold-border); color: var(--gold-light); padding: 8px 6px; border-radius: 12px; font-size: 0.72rem; display: flex; align-items: center; justify-content: center; gap: 5px; cursor: pointer; transition: all 0.2s; }
     .mini-tool-btn:hover { border-color: var(--gold-primary); background: var(--bg-card-hover); }
     .dual-action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 14px; }
-    .action-pill-btn {
-      background: rgba(13, 40, 33, 0.9); border: 1px solid var(--gold-primary); color: var(--text-main);
-      padding: 11px 16px; border-radius: 14px; font-size: 0.84rem; font-weight: 600;
-      display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.2s;
-    }
+    .action-pill-btn { background: rgba(13, 40, 33, 0.9); border: 1px solid var(--gold-primary); color: var(--text-main); padding: 11px 16px; border-radius: 14px; font-size: 0.84rem; font-weight: 600; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer; transition: all 0.2s; }
     .action-pill-btn:hover, .action-pill-btn.active { background: var(--emerald-accent); color: var(--gold-light); }
 
     /* Audio Player */
     .audio-card { background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 20px; padding: 18px; margin-bottom: 18px; }
     .reciter-head { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
-    .reciter-avatar {
-      width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid var(--gold-primary);
-      background: #14382e; display: flex; align-items: center; justify-content: center;
-      color: var(--gold-light); font-size: 1.3rem; flex-shrink: 0;
-    }
+    .reciter-avatar { width: 48px; height: 48px; border-radius: 50%; border: 1.5px solid var(--gold-primary); background: #14382e; display: flex; align-items: center; justify-content: center; color: var(--gold-light); font-size: 1.3rem; flex-shrink: 0; }
     .progress-track { width: 100%; height: 6px; background: rgba(255, 255, 255, 0.14); border-radius: 99px; position: relative; margin-bottom: 8px; cursor: pointer; }
     .progress-fill { width: 0%; height: 100%; background: linear-gradient(90deg, var(--gold-primary), var(--gold-light)); border-radius: 99px; position: relative; transition: width 0.12s linear; }
     .progress-knob { width: 13px; height: 13px; border-radius: 50%; background: var(--gold-light); box-shadow: 0 0 10px var(--gold-primary); position: absolute; right: -6px; top: 50%; transform: translateY(-50%); }
     .time-row { display: flex; justify-content: space-between; font-size: 0.74rem; color: var(--text-muted); margin-bottom: 14px; }
     .player-controls { display: flex; justify-content: center; align-items: center; gap: 28px; }
-    .play-main-btn {
-      width: 54px; height: 54px; border-radius: 50%; background: radial-gradient(circle, #21785e 0%, #0f3d2f 100%);
-      border: 2px solid var(--gold-primary); color: var(--gold-light); font-size: 1.4rem;
-      display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 18px rgba(212, 175, 55, 0.3);
-    }
+    .play-main-btn { width: 54px; height: 54px; border-radius: 50%; background: radial-gradient(circle, #21785e 0%, #0f3d2f 100%); border: 2px solid var(--gold-primary); color: var(--gold-light); font-size: 1.4rem; display: flex; align-items: center; justify-content: center; cursor: pointer; box-shadow: 0 0 18px rgba(212, 175, 55, 0.3); }
     .audio-fallback-alert { margin-top: 14px; padding: 12px 14px; border-radius: 14px; background: rgba(180, 48, 48, 0.18); border: 1px solid rgba(235, 110, 95, 0.55); color: #ffd7d2; font-size: 0.76rem; line-height: 1.45; }
     .audio-fallback-actions { display: flex; gap: 8px; margin-top: 9px; flex-wrap: wrap; }
     .fallback-pill-btn { background: rgba(212, 175, 55, 0.2); border: 1px solid var(--gold-primary); color: var(--gold-light); border-radius: 99px; padding: 5px 11px; font-size: 0.7rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; }
 
     /* Options & Controls */
-    .option-row {
-      background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 14px;
-      padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s;
-    }
+    .option-row { background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: 14px; padding: 12px 15px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; transition: all 0.2s; }
     .option-row.selected { border-color: var(--gold-primary); background: rgba(24, 97, 76, 0.35); }
     .radio-left { display: flex; align-items: center; gap: 12px; font-size: 0.86rem; }
     .radio-circle { width: 18px; height: 18px; border-radius: 50%; border: 2px solid var(--gold-primary); display: flex; align-items: center; justify-content: center; }
@@ -309,12 +191,9 @@
     .size-btn-group { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 10px 0 18px; }
     .size-btn { background: var(--bg-card); border: 1px solid var(--gold-border); color: var(--text-main); padding: 10px; border-radius: 12px; font-weight: 600; cursor: pointer; }
     .size-btn.active { background: var(--emerald-accent); border-color: var(--gold-primary); color: var(--gold-light); }
-    .primary-cta-btn {
-      width: 100%; background: linear-gradient(135deg, #1f6b55 0%, #104233 100%);
-      border: 1px solid var(--gold-primary); color: var(--text-main); font-weight: 600;
-      padding: 13px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; margin-top: 18px; transition: all 0.2s;
-    }
+    .primary-cta-btn { width: 100%; background: linear-gradient(135deg, #1f6b55 0%, #104233 100%); border: 1px solid var(--gold-primary); color: var(--text-main); font-weight: 600; padding: 13px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; margin-top: 18px; transition: all 0.2s; }
     .primary-cta-btn:hover { box-shadow: 0 0 16px rgba(212, 175, 55, 0.3); color: var(--gold-light); }
+    .secondary-cta-btn { width: 100%; background: transparent; border: 1px solid var(--gold-primary); color: var(--gold-light); font-weight: 600; padding: 13px; border-radius: 99px; font-size: 0.9rem; cursor: pointer; margin-top: 8px; transition: all 0.2s; }
 
     /* Share, Modals & Empty States */
     .share-preview-card { border-radius: 22px; overflow: hidden; border: 1.5px solid var(--gold-primary); background: #f4ebd9; color: #1c2b24; box-shadow: 0 16px 36px rgba(0,0,0,0.6); margin: 10px 0 22px; }
@@ -326,28 +205,15 @@
     .copy-sheet { background: #f5eedc; color: #1a2922; border-radius: 24px; padding: 20px 18px; border: 2px solid var(--gold-primary); margin-top: 20px; box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.7); }
     .copy-check-row { display: flex; align-items: center; justify-content: space-between; padding: 12px 10px; border-bottom: 1px solid rgba(0,0,0,0.08); cursor: pointer; font-weight: 500; font-size: 0.9rem; }
     .empty-state-box { text-align: center; padding: 48px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
-    .empty-illustration {
-      width: 140px; height: 140px; border-radius: 50%;
-      background: radial-gradient(circle, rgba(24, 97, 76, 0.35) 0%, rgba(9, 34, 28, 0.9) 75%);
-      border: 1.5px solid var(--gold-border); display: flex; align-items: center; justify-content: center;
-      font-size: 3.4rem; color: var(--gold-primary); margin-bottom: 22px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.12);
-    }
+    .empty-illustration { width: 140px; height: 140px; border-radius: 50%; background: radial-gradient(circle, rgba(24, 97, 76, 0.35) 0%, rgba(9, 34, 28, 0.9) 75%); border: 1.5px solid var(--gold-border); display: flex; align-items: center; justify-content: center; font-size: 3.4rem; color: var(--gold-primary); margin-bottom: 22px; box-shadow: 0 0 30px rgba(212, 175, 55, 0.12); }
 
     /* Admin & Toast */
     .admin-form-group { margin-bottom: 12px; }
     .admin-label { display: block; font-size: 0.76rem; color: var(--gold-light); margin-bottom: 5px; font-weight: 600; }
-    .admin-input, .admin-select, .admin-textarea {
-      width: 100%; background: rgba(9, 34, 28, 0.9); border: 1px solid var(--gold-border);
-      border-radius: 12px; padding: 10px 12px; color: var(--text-main); font-size: 0.84rem; font-family: inherit; outline: none;
-    }
+    .admin-input, .admin-select, .admin-textarea { width: 100%; background: rgba(9, 34, 28, 0.9); border: 1px solid var(--gold-border); border-radius: 12px; padding: 10px 12px; color: var(--text-main); font-size: 0.84rem; font-family: inherit; outline: none; }
     .admin-textarea { min-height: 70px; resize: vertical; }
     .admin-input:focus, .admin-select:focus, .admin-textarea:focus { border-color: var(--gold-primary); }
-    .toast-msg {
-      position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px);
-      background: rgba(212, 175, 55, 0.95); color: #041612; font-weight: 700; font-size: 0.78rem;
-      padding: 8px 18px; border-radius: 99px; opacity: 0; pointer-events: none;
-      transition: all 0.25s ease; z-index: 200; white-space: nowrap; box-shadow: 0 6px 20px rgba(0,0,0,0.5);
-    }
+    .toast-msg { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); background: rgba(212, 175, 55, 0.95); color: #041612; font-weight: 700; font-size: 0.78rem; padding: 8px 18px; border-radius: 99px; opacity: 0; pointer-events: none; transition: all 0.25s ease; z-index: 200; white-space: nowrap; box-shadow: 0 6px 20px rgba(0,0,0,0.5); }
     .toast-msg.show { opacity: 1; transform: translate(-50%, 0); }
   </style>
 </head>
@@ -356,9 +222,10 @@
   <main class="phone-frame">
     <audio id="duaAudioElement" preload="metadata" crossorigin="anonymous"></audio>
     <div class="app-viewport" id="appViewport">
+      <!-- Initial Loading State -->
       <div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:80vh;color:var(--gold-primary);">
         <i class="bi bi-hourglass-split" style="font-size:2rem;margin-bottom:12px;animation:pulse 1.5s infinite;"></i>
-        <div style="font-family:'Cinzel',serif;font-weight:600;">Loading Duas...</div>
+        <div style="font-family:'Cinzel',serif;font-weight:600;">Loading Duas from Cloud...</div>
       </div>
     </div>
     <div class="toast-msg" id="toastMsg">Saved to Favourites</div>
@@ -366,7 +233,7 @@
 
   <script>
     /* ==========================================================================
-       1. DATA REPOSITORY
+       1. FIREBASE DATA REPOSITORY
        ========================================================================== */
     const IMG_DESERT = 'https://images.unsplash.com/photo-1509316975850-ff9c5deb0cd9?auto=format&fit=crop&w=800&q=80';
     const IMG_SUNRISE = 'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=800&q=80';
@@ -377,396 +244,15 @@
     const IMG_RAIN = 'https://images.unsplash.com/photo-1515694346937-94d85e41e6f0?auto=format&fit=crop&w=800&q=80';
     const IMG_MARKET = 'https://images.unsplash.com/photo-1548013146-72479768bada?auto=format&fit=crop&w=800&q=80';
 
-    const DEFAULT_CATEGORIES = [
-      { id: 'everyday', title: 'Everyday Life', subtitle: 'Daily needs and routine', icon: 'bi-sun', group: 'core', hero: IMG_DESERT },
-      { id: 'morning-evening', title: 'Morning & Evening', subtitle: 'Start and end your day with remembrance', icon: 'bi-sunrise', group: 'core', hero: IMG_SUNRISE },
-      { id: 'protection', title: 'Protection & Safety', subtitle: 'From harm and evil', icon: 'bi-shield-check', group: 'core', hero: IMG_NIGHT },
-      { id: 'forgiveness', title: 'Forgiveness & Repentance', subtitle: 'Seek Allah’s mercy', icon: 'bi-heart-pulse', group: 'core', hero: IMG_OCEAN },
-      { id: 'worship', title: 'Worship & Prayer', subtitle: 'Prayer and Quranic supplications', icon: 'bi-moon-stars', group: 'core', hero: IMG_MOSQUE },
-      { id: 'travel', title: 'Travel', subtitle: 'For journeys and travel', icon: 'bi-compass', group: 'core', hero: IMG_TRAVEL },
-      { id: 'before-eating', title: 'Before Eating', subtitle: 'Blessing the meal with Bismillah', icon: 'bi-cup-hot', group: 'future', hero: IMG_DESERT },
-      { id: 'after-eating', title: 'After Eating', subtitle: 'Gratitude for provision and sustenance', icon: 'bi-check2-circle', group: 'future', hero: IMG_DESERT },
-      { id: 'before-sleeping', title: 'Before Sleeping', subtitle: 'Night protection and peaceful rest', icon: 'bi-cloud-moon', group: 'future', hero: IMG_NIGHT },
-      { id: 'upon-waking', title: 'Upon Waking', subtitle: 'Praise upon returning to life', icon: 'bi-brightness-alt-high', group: 'future', hero: IMG_SUNRISE },
-      { id: 'leaving-home', title: 'Leaving Home', subtitle: 'Reliance upon Allah and safe departure', icon: 'bi-door-open', group: 'future', hero: IMG_DESERT },
-      { id: 'entering-home', title: 'Entering Home', subtitle: 'Bringing peace and barakah into the house', icon: 'bi-house-heart', group: 'future', hero: IMG_DESERT },
-      { id: 'mosque', title: 'Entering & Leaving Mosque', subtitle: 'Supplications for the Masjid', icon: 'bi-building', group: 'future', hero: IMG_MOSQUE },
-      { id: 'morning-adhkar', title: 'Morning Adhkar', subtitle: 'Complete morning remembrance shield', icon: 'bi-brightness-high', group: 'future', hero: IMG_SUNRISE },
-      { id: 'evening-adhkar', title: 'Evening Adhkar', subtitle: 'Complete evening remembrance shield', icon: 'bi-sunset', group: 'future', hero: IMG_OCEAN },
-      { id: 'prayer-adhkar', title: 'Prayer & After Prayer', subtitle: 'Supplications during and after Salah', icon: 'bi-person-arms-up', group: 'future', hero: IMG_MOSQUE },
-      { id: 'anxiety', title: 'Anxiety, Distress & Hardship', subtitle: 'Relief from sorrow, grief, and debt', icon: 'bi-water', group: 'future', hero: IMG_NIGHT },
-      { id: 'gratitude', title: 'Gratitude & Praise', subtitle: 'Thankfulness for Allah’s blessings', icon: 'bi-stars', group: 'future', hero: IMG_DESERT },
-      { id: 'rain', title: 'Rain & Weather', subtitle: 'Mercy, wind, thunder, and beneficial rain', icon: 'bi-cloud-rain', group: 'future', hero: IMG_RAIN },
-      { id: 'illness', title: 'Illness & Healing', subtitle: 'Ruqyah, shifa, and visiting the sick', icon: 'bi-bandaid', group: 'future', hero: IMG_OCEAN },
-      { id: 'family', title: 'Family, Marriage & Children', subtitle: 'Righteous spouse, offspring, and parents', icon: 'bi-people', group: 'future', hero: IMG_DESERT },
-      { id: 'knowledge-guidance', title: 'Knowledge & Guidance', subtitle: 'Beneficial knowledge and steadfast hearts', icon: 'bi-lightbulb', group: 'future', hero: IMG_MOSQUE },
-      { id: 'marketplace-trade', title: 'Marketplace & Provision', subtitle: 'Barakah in trade, rizq, and busy markets', icon: 'bi-shop', group: 'future', hero: IMG_MARKET },
-      { id: 'general-remembrance', title: 'General Remembrance', subtitle: 'Daily dhikr and constant mindfulness of Allah', icon: 'bi-infinity', group: 'future', hero: IMG_DESERT },
-      { id: 'quranic-duas', title: 'Quranic Duas', subtitle: 'Rabbana and prophetic prayers from the Quran', icon: 'bi-journal-bookmark', group: 'future', hero: IMG_MOSQUE },
-      { id: 'prophetic-duas', title: 'Prophetic Duas', subtitle: 'Comprehensive jawami al-kalim from the Sunnah', icon: 'bi-award', group: 'future', hero: IMG_OCEAN }
-    ];
-
     const RECITER_STREAMS = {
       'Sheikh Mishary Rashid Alafasy': 'https://everyayah.com/data/Alafasy_128kbps/001001.mp3',
       'Sheikh Abdul Basit Abdul Samad': 'https://everyayah.com/data/Abdul_Basit_Murattal_192kbps/001001.mp3',
       'Sheikh Abdur-Rahman As-Sudais': 'https://everyayah.com/data/Abdurrahmaan_As-Sudais_192kbps/001001.mp3'
     };
 
-    const DEFAULT_DUAS = [
-      {
-        id: 'market-dua', title: 'Marketplace Supplication', subtitle: 'A dua for entering the marketplace',
-        category: 'everyday', grouping: 'marketplace-trade', variants: 'Illustrated Story & Sunnah', arabicMedallion: 'سوق',
-        isMarket: true, illustrated: true, heroImg: IMG_MARKET, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/112001.mp3',
-        arabic: 'لَا إِلَٰهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ يُحْيِي وَيُمِيتُ وَهُوَ حَيٌّ لَا يَمُوتُ، بِيَدِهِ الْخَيْرُ وَهُوَ عَلَىٰ كُلِّ شَيْءٍ قَدِيرٌ',
-        transliteration: 'La ilaha ill-Allahu wahdahu la sharika lah, lahul-mulku wa lahul-hamdu yuhyi wa yumitu wa Huwa hayyun la yamut, biyadihil-khayru wa Huwa ‘ala kulli shay’in qadeer.',
-        translation: 'There is no god but Allah alone, with no partner. His is the dominion and praise; He gives life and causes death, and He is Ever-Living and never dies. In His Hand is all good, and He is able to do all things.',
-        urduTranslation: 'اللہ کے سوا کوئی معبود نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں، اسی کی بادشاہی ہے اور اسی کے لیے تمام تعریفیں ہیں، وہی زندہ کرتا اور مارتا ہے اور وہ زندہ ہے جسے موت نہیں۔',
-        romanUrduTranslation: 'Allah ke siwa koi ma’bood nahi, woh akela hai, uska koi shareek nahi. Usi ki badshahi hai aur usi ke liye tamam tareefein hain, wahi zinda karta aur marta hai aur woh zinda hai jise maut nahi.',
-        hindiTranslation: 'अल्लाह के सिवा कोई पूज्य नहीं, वह अकेला है, उसका कोई साझी नहीं। बादशाही उसी की है और सारी प्रशंसा उसी के लिए है।',
-        source: 'Jami` at-Tirmidhi (3428) · Ibn Majah (2235)', alsoMentioned: ['Mustadrak al-Hakim (1974)', 'Musannaf Ibn Abi Shaybah'],
-        notes: 'Remembering Allah in places where people are busy with trade and worldly gain.',
-        benefits: ['Brings immense barakah in trade, shopping, and lawful earnings.', 'Removes heedlessness in busy marketplaces and elevates spiritual rank.'],
-        duration: '0:54'
-      },
-      {
-        id: 'travel-main', title: 'Dua for Travelling', subtitle: 'Protection and ease in travel',
-        category: 'travel', grouping: 'general-remembrance', variants: '3 variants', arabicMedallion: 'سفر',
-        illustrated: true, heroImg: IMG_TRAVEL, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/043013.mp3',
-        arabic: 'سُبْحَانَ الَّذِي سَخَّرَ لَنَا هَذَا وَمَا كُنَّا لَهُ مُقْرِنِينَ وَإِنَّا إِلَى رَبِّنَا لَمُنْقَلِبُونَ',
-        transliteration: 'Subhanalladhi sakhkhara lana hadha wama kunna lahu muqrinin, wa inna ila Rabbina lamunqalibun.',
-        translation: 'Glory be to Him who has subjected this for us, and we could not have done it on our own. And indeed, to our Lord we will surely return.',
-        urduTranslation: 'پاک ہے وہ ذات جس نے اس سواری کو ہمارے تابع کر دیا حالانکہ ہم اسے قابو میں لانے والے نہ تھے، اور بے شک ہم اپنے رب ہی کی طرف لوٹ کر جانے والے ہیں۔',
-        romanUrduTranslation: 'Paak hai woh zaat jisne is sawari ko hamare taabe kar diya halanke hum ise qaboo mein laane wale na the, aur beshak hum apne Rab hi ki taraf laut kar jaane wale hain.',
-        hindiTranslation: 'पाक है वह ज़ात जिसने इस सवारी को हमारे वश में कर दिया, और हम इसे वश में करने में सक्षम नहीं थे, और निश्चय ही हम अपने रब की ओर लौटने वाले हैं।',
-        source: 'Surah Az-Zukhruf (43:13–14)', alsoMentioned: ['Sahih Muslim (1342)', 'Sunan Abi Dawud (2599)'],
-        notes: 'This dua is recommended when mounting a vehicle, plane, train, or ship before starting a journey.',
-        benefits: ['Seeks Allah’s protection and safety during travel.', 'Brings ease, barakah, and mindfulness of the Hereafter.'],
-        duration: '1:12'
-      },
-      {
-        id: 'astaghfirullah', title: 'Sayyidul Istighfar', subtitle: 'Seek Allah’s mercy and forgiveness',
-        category: 'morning-evening', grouping: 'morning-adhkar', variants: '3 variants', arabicMedallion: 'غفر',
-        illustrated: false, heroImg: IMG_SUNRISE, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/002255.mp3',
-        arabic: 'أَسْتَغْفِرُ اللَّهَ الْعَظِيمَ الَّذِي لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ وَأَتُوبُ إِلَيْهِ',
-        transliteration: 'Astaghfirullahal-‘Azim alladhi la ilaha illa Huwal-Hayyul-Qayyumu wa atubu ilayh.',
-        translation: 'I seek forgiveness from Allah the Mighty, Whom there is none worthy of worship except Him, the Ever-Living, the Self-Subsisting, and I turn in repentance to Him.',
-        urduTranslation: 'میں عظمت والے اللہ سے بخشش مانگتا ہوں جس کے سوا کوئی معبود نہیں، جو زندہ اور قائم رکھنے والا ہے، اور میں اسی کی طرف توبہ کرتا ہوں۔',
-        romanUrduTranslation: 'Main azmat wale Allah se bakhshish mangta hoon jiske siwa koi ma’bood nahi, jo zinda aur qaim rakhne wala hai, aur main usi ki taraf tauba karta hoon.',
-        hindiTranslation: 'मैं महान अल्लाह से क्षमा मांगता हूँ जिसके सिवा कोई पूज्य नहीं, जो जीवित और सृष्टि को थामने वाला है।',
-        source: 'Sahih al-Bukhari (6306) · Abu Dawud (1517)', alsoMentioned: ['Jami` at-Tirmidhi (3577)'],
-        notes: 'Recited morning, evening, and after obligatory prayers for complete forgiveness.',
-        benefits: ['Opens doors of relief from every anxiety and tightness.', 'Grants provision from unexpected sources.'],
-        duration: '0:48'
-      },
-      {
-        id: 'rabbighfir-li', title: 'Rabbighfir Li', subtitle: 'My Lord, forgive me and accept my repentance',
-        category: 'forgiveness', grouping: 'prophetic-duas', variants: '2 variants', arabicMedallion: 'رب',
-        illustrated: false, heroImg: IMG_OCEAN, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/110003.mp3',
-        arabic: 'رَبِّ اغْفِرْ لِي وَتُبْ عَلَيَّ إِنَّكَ أَنْتَ التَّوَّابُ الرَّحِيمُ',
-        transliteration: 'Rabbighfir li wa tub ‘alayya innaka Antat-Tawwabur-Rahim.',
-        translation: 'My Lord, forgive me and accept my repentance; indeed, You are the Accepting of Repentance, the Merciful.',
-        urduTranslation: 'اے میرے رب! مجھے بخش دے اور میری توبہ قبول فرما، بے شک تو ہی بہت توبہ قبول کرنے والا، نہایت مہربان ہے۔',
-        romanUrduTranslation: 'Aye mere Rab! Mujhe bakhsh de aur meri tauba qabool farma, beshak Tu hi bahut tauba qabool karne wala, nihayat meharban hai.',
-        hindiTranslation: 'ऐ मेरे रब! मुझे क्षमा कर दे और मेरी तौबा क़बूल फ़रमा, बेशक तू ही तौबा क़बूल करने वाला दयालु है।',
-        source: 'Sunan Abi Dawud (1516) · Tirmidhi (3434)', alsoMentioned: ['Sunan Ibn Majah (3814)'],
-        notes: 'Ibn Umar (RA) reported that the Companions used to count the Prophet ﷺ saying this supplication 100 times in a single gathering.',
-        benefits: ['Softens the heart and keeps the tongue moist with remembrance.', 'Follows the direct prophetic sunnah in gatherings.'],
-        duration: '0:36'
-      },
-      {
-        id: 'boarding-vehicle', title: 'On Boarding a Vehicle', subtitle: 'Safety and blessing at departure',
-        category: 'protection', grouping: 'leaving-home', variants: '1 variant', arabicMedallion: 'ركب',
-        illustrated: false, heroImg: IMG_NIGHT, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/011041.mp3',
-        arabic: 'بِسْمِ اللَّهِ مَجْرَاهَا وَمُرْسَاهَا إِنَّ رَبِّي لَغَفُورٌ رَحِيمٌ',
-        transliteration: 'Bismillahi majraha wa mursaha inna Rabbi la-Ghafurun Rahim.',
-        translation: 'In the name of Allah is its course and its anchorage. Indeed, my Lord is Forgiving and Merciful.',
-        urduTranslation: 'اللہ ہی کے نام سے اس کا چلنا اور ٹھہرنا ہے، بے شک میرا رب بڑا بخشنے والا مہربان ہے۔',
-        romanUrduTranslation: 'Allah hi ke naam se iska chalna aur theharna hai, beshak mera Rab bada bakhshne wala meharban hai.',
-        hindiTranslation: 'अल्लाह के नाम से ही इसका चलना और रुकना है, बेशक मेरा रब बड़ा बख्शने वाला मेहरबान है।',
-        source: 'Surah Hud (11:41)', alsoMentioned: ['Tafsir Ibn Kathir'],
-        notes: 'The supplication of Prophet Nuh (AS) when boarding the Ark.',
-        benefits: ['Places the entire journey in Allah’s care from start to finish.'],
-        duration: '0:32'
-      },
-      {
-        id: 'when-it-rains', title: 'Dua for When It Rains', subtitle: 'Mercy and beneficial blessings',
-        category: 'rain', grouping: 'rain', variants: '1 variant', arabicMedallion: 'مطر',
-        illustrated: false, heroImg: IMG_RAIN, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/001001.mp3',
-        arabic: 'اللَّهُمَّ صَيِّبًا نَافِعًا',
-        transliteration: 'Allahumma sayyiban nafi‘a.',
-        translation: 'O Allah, make it a beneficial rain.',
-        urduTranslation: 'اے اللہ! اسے نفع بخش بارش بنا دے۔',
-        romanUrduTranslation: 'Aye Allah! Ise nafa bakhsh barish bana de.',
-        hindiTranslation: 'ऐ अल्लाह! इसे लाभदायक बारिश बना दे।',
-        source: 'Sahih al-Bukhari (1032)', alsoMentioned: ['Sunan an-Nasa’i (1523)'],
-        notes: 'The time when rain falls is one of the special moments when supplications are readily answered.',
-        benefits: ['Seeks the good of the weather while avoiding harm or flooding.'],
-        duration: '0:22'
-      },
-      {
-        id: 'parents-dua', title: 'Dua for Parents', subtitle: 'Kindness and mercy for parents',
-        category: 'worship', grouping: 'quranic-duas', variants: 'Quranic Dua', arabicMedallion: 'بر',
-        illustrated: false, heroImg: IMG_MOSQUE, audioUrl: 'https://everyayah.com/data/Alafasy_128kbps/017024.mp3',
-        arabic: 'رَبِّ ارْحَمْهُمَا كَمَا رَبَّيَانِي صَغِيرًا',
-        transliteration: 'Rabbir-hamhuma kama rabbayani saghira.',
-        translation: 'My Lord, have mercy upon them as they brought me up when I was small.',
-        urduTranslation: 'اے میرے رب! ان دونوں پر رحم فرما جیسا کہ انہوں نے بچپن میں میری پرورش کی۔',
-        romanUrduTranslation: 'Aye mere Rab! Un dono par reham farma jaisa ke unhone bachpan mein meri parwarish ki.',
-        hindiTranslation: 'ऐ मेरे रब! उन दोनों पर दया कर जैसा कि उन्होंने बचपन में मेरा पालन-पोषण किया।',
-        source: 'Surah Al-Isra (17:24)', alsoMentioned: ['Sahih Muslim (1631)'],
-        notes: 'Continuous charity and righteous supplication for parents benefit them perpetually.',
-        benefits: ['Fulfills the honour and gratitude owed to parents.'],
-        duration: '0:28'
-      },
-      {
-        id: 'entering-mosque', title: 'When Entering the Mosque', subtitle: 'Recited when stepping into the masjid',
-        category: 'worship', grouping: 'mosque', variants: '1 variant', arabicMedallion: 'مسجد',
-        isMarket: false, illustrated: false, heroImg: IMG_MOSQUE, audioUrl: 'https://archive.org/details/Masnoon-Duaein/18-Masjid+Me+Dakhil+Hone+Ki+Dua.mp3',
-        arabic: 'اللَّهُمَّ افْتَحْ لِي أَبْوَابَ رَحْمَتِكَ',
-        transliteration: 'Allahummaf-tah li abwaba rahmatik.',
-        translation: 'O Allah, open before me the doors of Your mercy.',
-        urduTranslation: 'اے اللہ! میرے لیے اپنی رحمت کے دروازے کھول دے۔',
-        romanUrduTranslation: 'Aye Allah! Mere liye apni rehmat ke darwaze khol de.',
-        hindiTranslation: 'ऐ अल्लाह! मेरे लिए अपनी रहमत (कृपा) के दरवाज़े खोल दे।',
-        source: 'Sahih Muslim (713)', alsoMentioned: ['Sunan Ibn Majah (772)', 'Sunan an-Nasa\'i (729)'],
-        notes: 'It is a confirmed Sunnah to enter the mosque with your right foot first while reciting this supplication.',
-        benefits: ['Invokes Allah’s infinite mercy directly upon entering His house.', 'Spiritually prepares the heart and mind, detaching you from worldly affairs before prayer.'],
-        duration: '0:12'
-      },
-            {
-        id: 'ya-muqallibal-quloob',
-        title: 'Dua for Steadfastness of the Heart',
-        subtitle: 'Dua-e-Mustafa Sallallahu Alaihi Wa Sallam',
-        category: 'everyday',
-        grouping: 'knowledge-guidance',
-        variants: '1 variant',
-        arabicMedallion: 'قَلْب',
-        illustrated: false,
-        heroImg: 'https://images.unsplash.com/photo-1519817650390-64a93db51149?auto=format&fit=crop&w=800&q=80',
-        audioUrl: '',
-        arabic: 'يَا مُقَلِّبَ الْقُلُوْبِ ثَبِّتْ قَلْبِيْ عَلٰى دِيْنِكَ',
-        transliteration: 'Ya Muqallibal-quloobi thabbit qalbi \'alaa deenik',
-        translation: 'O Turner of the hearts, keep my heart firm upon Your religion.',
-        urduTranslation: 'اے دلوں کے پھیرنے والے! میرے دل کو اپنے دین پر قائم رکھ۔',
-        romanUrduTranslation: 'Aey dilon ke pherne wale! Mere dil ko apne deen par qaim rakh.',
-        hindiTranslation: 'ए दिलों के फेरने वाले ! मेरे दिल को अपने दीन पर क़ाइम रख.',
-        source: 'Jami` at-Tirmidhi 3522',
-        alsoMentioned: ['Jami` at-Tirmidhi 3587'],
-        notes: 'Shahr bin Hawshab ne kaha:\n\n"Main ne Umm Salamah رضی اللہ عنہا se kaha: \'Aye Momineen ki Maa! Rasool Allah ﷺ aap ke paas hote hue sab se zyada kaunsi dua kiya karte the?\'\n\nUnhon ne kaha: \'Aap ﷺ sab se zyada yeh dua kiya karte the: Aye dilon ko pherne wale! Mere dil ko apne deen par mazbooti se qayam rakh. (Yā Muqallibal-qulūb, thabbit qalbī `alā dīnik).\'\n\nPhir main ne kaha: \'Aye Allah ke Rasool! Aap ﷺ baar baar yeh dua kyun karte hain?\'\n\nAap ﷺ ne farmaya: \'Aye Umm Salamah! Beshak koi bhi insaan aisa nahi hai magar yeh ke uska dil Allah ki ungliyon mein se do ungliyon ke darmiyan hai. Phir Allah jis ke baare mein chahta hai, usey sabit qadam rakhta hai, aur jis ke baare mein chahta hai, usey gumrah kar deta hai.\'\n\nGrade: Hasan (Darussalam)',
-        benefits: [
-          'The most frequent supplication of the Prophet ﷺ for spiritual steadfastness.',
-          'Protects the heart from wavering in faith and trials.'
-        ],
-        duration: '0:15'
-      },
-      {
-        id: 'before-sleeping-dua',
-        title: 'Dua Before Sleeping',
-        subtitle: 'Sote Waqt Ki Dua',
-        category: 'everyday',
-        grouping: 'before-sleeping',
-        variants: '1 variant',
-        arabicMedallion: 'النَّوْم',
-        illustrated: false,
-        heroImg: 'https://images.unsplash.com/photo-1541781774459-bb2af2f05b55?auto=format&fit=crop&w=800&q=80',
-        audioUrl: '',
-        arabic: 'اَللّٰهُمَّ بِاسْمِكَ اَمُوْتُ وَاَحْيَا',
-        transliteration: 'Allahumma bismika amootu wa ahyaa',
-        translation: 'O Allah, in Your name I die and I live.',
-        urduTranslation: 'اے اللہ عزَّوجَلَّ میں تیرے نام کے ساتھ ہی مرتا اور جیتا ہوں (یعنی سوتا اور جاگتا ہوں)۔',
-        romanUrduTranslation: 'Aey Allah Azzawajal, mein Tere naam ke saath hi marta aur jeeta hoon (yaani sota aur jaagta hoon).',
-        hindiTranslation: 'ऐ अल्लाह अज़्ज़ा-व-जल्ल मैं तेरे नाम के साथ ही मरता और जीता हूँ (यानी सोता और जागता हूँ).',
-        source: 'Sahih al-Bukhari 6314',
-        alsoMentioned: ['Sahih al-Bukhari 6325'],
-        notes: 'Jab Nabi ﷺ raat ko sone ke liye bistar par jaate, toh apna haath apne gaal ke neeche rakhte, phir kehte: "Allahumma bismika amutu wa ahya." (Aye Allah! Tere hi naam ke saath main marta hoon aur zinda hota hoon.)',
-        benefits: [
-          'Entrusts the soul to Allah before sleep, which is the minor death.',
-          'Closes the day with remembrance and reliance upon Allah.'
-        ],
-        duration: '0:12'
-      },
-      {
-        id: 'upon-waking-dua',
-        title: 'Dua Upon Waking Up',
-        subtitle: 'Neend Se Uthne Ke Baad Ki Dua',
-        category: 'everyday',
-        grouping: 'upon-waking',
-        variants: '1 variant',
-        arabicMedallion: 'اليَقَظَة',
-        illustrated: false,
-        heroImg: IMG_SUNRISE,
-        audioUrl: '',
-        arabic: 'اَلْحَمْدُ لِلّٰهِ الَّذِیْٓ اَحْيَانَا بَعْدَ مَآ اَمَاتَنَا وَاِلَيْهِ النُّشُوْرُ',
-        transliteration: 'Al-hamdu lillaahil-ladhee ahyaanaa ba\'da maa amaatanaa wa ilayhin-nushoor',
-        translation: 'All praise is due to Allah who gave us life after having given us death, and unto Him is the resurrection.',
-        urduTranslation: 'تمام تعریفیں اللہ تعالیٰ کے لئے جس نے ہمیں موت (نیند) کے بعد حیات (بیداری) عطا فرمائی اور ہمیں اسی کی طرف لوٹنا ہے۔',
-        romanUrduTranslation: 'Tamaam taareefein Allah Ta\'ala ke liye jis ne hamein maut (neend) ke baad hayaat (bedaari) ataa farmaayi aur hamein usi ki taraf lautna hai.',
-        hindiTranslation: 'तमाम तारीफ़ें अल्लाह तआला के लिए जिस ने हमें मौत (नींद) के बाद हयात (बेदारी) अता फ़रमाई और हमें उसी की तरफ़ लौटना है।',
-        source: 'Sahih al-Bukhari 7394',
-        alsoMentioned: ['Sahih al-Bukhari 6312'],
-        notes: 'Jab Nabi ﷺ neend se uthte, toh kehte: "Al-Hamdu lillahi alladhi ahyana ba\'da ma amatana, wa ilaihi an-nushur." (Tamaam tareef Allah hi ke liye hai, jis ne humein maut dene ke baad zinda kiya, aur usi ki taraf dobara uth kar jaana hai.)',
-        benefits: [
-          'Starts the day with immediate gratitude to Allah for a new day of life.',
-          'Reminds the believer of the Resurrection every morning.'
-        ],
-        duration: '0:15'
-      },
-      {
-        id: 'entering-washroom',
-        title: 'Dua Before Entering the Washroom',
-        subtitle: 'Washroom Me Daakhil Hone Se Pehle Ki Dua',
-        category: 'everyday',
-        grouping: 'protection',
-        variants: '1 variant',
-        arabicMedallion: 'الاسْتِعَاذَة',
-        illustrated: false,
-        heroImg: IMG_NIGHT,
-        audioUrl: '',
-        arabic: 'اَللّٰهُمَّ اِنِّیْٓ اَعُوْذُ بِكَ مِنَ الْخُبُثِ وَالْخَبَآئِثِ',
-        transliteration: 'Allaahumma innee a\'oodhu bika minal-khubuthi wal-khabaa\'ith',
-        translation: 'O Allah, I seek refuge in You from all evil and evil-doers (or male and female devils).',
-        urduTranslation: 'اے اللہ عزَّوجَلَّ میں ناپاک جن اور جنیوں سے تیری پناہ مانگتا ہوں۔',
-        romanUrduTranslation: 'Ae Allah Azzawajal mein napaak jinn aur jinniyon se Teri panah maangta hoon.',
-        hindiTranslation: 'ऐ अल्लाह अज़्ज़-व-जल्ल मैं नापाक जिन्न और जिन्नियों से तेरी पनाह मांगता हूँ।',
-        source: 'Sahih al-Bukhari 6322',
-        alsoMentioned: ['Sahih al-Bukhari 142'],
-        notes: 'Hazrat Anas bin Malik se riwayat hai: Jab bhi Nabi (ﷺ) washroom (lavatory) jatay thay, toh yeh dua padhte thay: "Allahumma inni a`udhu bika min al-khubuthi wal khaba\'ith."',
-        benefits: [
-          'Seeks Allah\'s protection from male and female devils in impure places.'
-        ],
-        duration: '0:12'
-      },
-      {
-        id: 'leaving-washroom',
-        title: 'Dua After Leaving the Restroom',
-        subtitle: 'Washroom Se Baahar Aane Ke Baad Ki Dua',
-        category: 'everyday',
-        grouping: 'gratitude',
-        variants: '1 variant',
-        arabicMedallion: 'العَافِيَة',
-        illustrated: false,
-        heroImg: IMG_NIGHT,
-        audioUrl: '',
-        arabic: 'اَلْحَمْدُ لِلّٰهِ الَّذِیْٓ اَذْهَبَ عَنِّی الْاَذٰی وَعَافَانِیْ',
-        transliteration: 'Al-hamdu lillaahil-ladhee adhhaba \'annil-adhaa wa \'aafaanee',
-        translation: 'All praise is due to Allah, Who removed from me discomfort and granted me relief.',
-        urduTranslation: 'اللہ تعالیٰ کا شکر ہے جس نے مجھ سے اذیت دور کی اور مجھے عافیت دی۔',
-        romanUrduTranslation: 'Allah Ta\'ala ka shukr hai jis ne mujh se aziyat door ki aur mujhe aafiyat di.',
-        hindiTranslation: 'अल्लाह तआला का शुक्र है जिस ने मुझसे अज़ीयत दूर की और मुझे आफ़ियत दी।',
-        source: 'Musannaf Ibn Abi Shayba (Vol. 7, p. 149)',
-        alsoMentioned: ['Sunan Ibn Majah 301'],
-        notes: 'Recited upon stepping out of the washroom with the right foot.',
-        benefits: [
-          'Expresses gratitude for bodily health, digestion, and physical relief.'
-        ],
-        duration: '0:12'
-      },
-      {
-        id: 'entering-home-dua',
-        title: 'Dua When Entering the Home',
-        subtitle: 'Ghar Me Daakhil Hote Waqt Ki Dua',
-        category: 'everyday',
-        grouping: 'entering-home',
-        variants: '1 variant',
-        arabicMedallion: 'بَيْت',
-        illustrated: false,
-        heroImg: IMG_DESERT,
-        audioUrl: '',
-        arabic: 'اَللّٰهُمَّ اِنِّیْٓ اَسْئَلُكَ خَيْرَ الْمَوْلَجِ وَ خَيْرَ الْمَخْرَجِ بِسْمِ اللهِ وَلَجْنَا وَبِسْمِ اللهِ خَرَجْنَا وَ عَلَى اللهِ رَبَّنَا تَوَكَّلْنَا',
-        transliteration: 'Allaahumma innee as\'aluka khayral-mawlaji wa khayral-makhraji, bismillaahi walajnaa wa bismillaahi kharajnaa wa \'alaa-llaahi rabbanaa tawakkalnaa',
-        translation: 'O Allah, I ask You for the best entrance and the best exit. In the name of Allah we enter, in the name of Allah we leave, and upon Allah our Lord we rely.',
-        urduTranslation: 'اے اللہ عزَّوجَلَّ میں تجھ سے داخل ہونے اور نکلنے کی جگہوں کی بھلائی طلب کرتا ہوں ، اللہ عزَّوجَلَّ کے نام سے ہم اندر آئے اور اللہ عزَّوجَلَّ کے نام سے باہر نکلے اور ہم نے اپنے رب اللہ عزَّوجَلَّ پر بھروسہ کیا۔',
-        romanUrduTranslation: 'Ae Allah Azzawajal mein Tujh se daakhil hone aur nikalne ki jagahon ki bhalaayi talab karta hoon, Allah Azzawajal ke naam se hum andar aaye aur Allah Azzawajal ke naam se baahar nikle aur hum ne apne Rabb Allah Azzawajal par bharosa kiya.',
-        hindiTranslation: 'ऐ अल्लाह अज़्ज़ा-व-जल्ल मैं तुझ से दाख़िल होने और निकलने की जगहों की भलाई तलब करता हूँ, अल्लाह अज़्ज़-व-जल्ल के नाम से हम अंदर आए और अल्लाह अज़्ज़-व-जल्ल के नाम से बाहर निकले और हम ने अपने रब अल्लाह अज़्ज़-व-जल्ल पर भरोसा किया।',
-        source: 'Sunan Abi Dawud 5096',
-        alsoMentioned: ['Mishkat al-Masabih 2444'],
-        notes: 'Hazrat Abu Malik Al-Ash\'ari se riwayat hai: Nabi (ﷺ) ne farmaya: Jab koi shakhs apne ghar mein dakhil ho, toh usay yeh dua kehni chahiye, aur uske baad apne ghar walon ko salam karna chahiye.',
-        benefits: [
-          'Brings barakah and peace into the household.',
-          'Prevents Shaytan from entering or staying overnight in the home.'
-        ],
-        duration: '0:20'
-      },
-      {
-        id: 'leaving-home-dua',
-        title: 'Dua When Leaving the Home',
-        subtitle: 'Ghar Se Bahar Nikalte Waqt Ki Dua',
-        category: 'everyday',
-        grouping: 'leaving-home',
-        variants: '1 variant',
-        arabicMedallion: 'بَيْت',
-        illustrated: false,
-        heroImg: IMG_DESERT,
-        audioUrl: '',
-        arabic: 'بِسْمِ اللهِ تَوَكَّلْتُ عَلَى اللهِ لَا حَوْلَ وَلَا قُوَّةَ اِلَّا بِاللهِ',
-        transliteration: 'Bismillaahi tawakkaltu \'alallaahi laa hawla wa laa quwwata illaa billaah',
-        translation: 'In the name of Allah, I place my trust in Allah; there is no might nor power except with Allah.',
-        urduTranslation: 'اللہ عزَّوجَلَّ کے نام سے، میں نے اللہ عزَّوجَلَّ پر بھروسا کیا، گناہ سے بچنے کی قوت اور نیکی کرنے کی طاقت اللہ عزَّوجَلَّ ہی کی طرف سے ہے۔',
-        romanUrduTranslation: 'Allah Azzawajal ke naam se, mein ne Allah Azzawajal par bharosa kiya, gunah se bachne ki quwwat aur neki karne ki taaqat Allah Azzawajal hi ki taraf se hai.',
-        hindiTranslation: 'अल्लाह अज़्ज़-व-जल्ल के नाम से, मैंने अल्लाह अज़्ज़-व-जल्ल पर भरोसा किया, गुनाह से बचने की क़ूवत और नेकी करने की ताक़त अल्लाह अज़्ज़-व-जल्ल ही की तरफ़ से है।',
-        source: 'Sunan Abi Dawud 5095',
-        alsoMentioned: ['Jami` at-Tirmidhi 3426'],
-        notes: 'Hazrat Anas bin Malik (R.A) se riwayat hai: Nabi (ﷺ) ne farmaya: Jab koi shakhs apne ghar se bahar nikle aur yeh kahe, toh us waqt us se kaha jata hai: "Tumhein hidayat de di gayi, tumhari hifazat ki gayi aur tumhein mehfooz kar diya gaya." Shaitan us se door hat jate hain.',
-        benefits: [
-          'Shaitan padhne wale se door hat jata hai.',
-          'Grants divine guidance, sufficiency, and protection throughout the trip.'
-        ],
-        duration: '0:14'
-      },
-      {
-        id: 'before-eating-dua',
-        title: 'Dua Before Eating Food',
-        subtitle: 'Khana Khane Se Pehle Ki Dua',
-        category: 'everyday',
-        grouping: 'before-eating',
-        variants: '1 variant',
-        arabicMedallion: 'الطَّعَام',
-        illustrated: false,
-        heroImg: IMG_DESERT,
-        audioUrl: '',
-        arabic: 'بِسْمِ اللهِ وَبِاللهِ الَّذِیْ لَا يَضُرُّ مَعَ اسْمِهِ شَيْئٌ فِی الْاَرْضِ وَلَا فِی السَّمَآءِ يَا حَیُّ يَا قَيُّوْمُ',
-        transliteration: 'Bismillaahi wa billaahil-ladhee laa yadurru ma\'as-mihee shay\'un fil-ardi wa laa fis-samaa\'i yaa Hayyu yaa Qayyoom',
-        translation: 'In the name of Allah and by Allah, with Whose name nothing in the earth or the heaven can cause harm; O Ever-Living, O Sustainer of all existence.',
-        urduTranslation: 'اللہ تعالیٰ کے نام سے شروع کرتا ہوں جس کے نام کی برکت سے زمین و آسمان کی کوئی چیز نقصان نہیں پہنچا سکتی، اے ہمیشہ زندہ و قائم رہنے والے۔',
-        romanUrduTranslation: 'Allah Ta\'ala ke naam se shuru karta hoon jis ke naam ki barkat se zameen o aasmaan ki koi cheez nuqsaan nahi pohncha sakti, aye hamesha zinda o qaaim rehne wale.',
-        hindiTranslation: 'अल्लाह तआला के नाम से शुरू करता हूँ जिस के नाम की बरकत से ज़मीन व आसमान की कोई चीज़ नुक़सान नहीं पहुँचा सकती, ऐ हमेशा ज़िंदा व क़ायम रहने वाले।',
-        source: 'Kanzul Ummaal (Vol. 15, p. 109, Hadith 40792)',
-        alsoMentioned: [],
-        notes: 'Recited before starting a meal to invoke Allah\'s name and blessing over the food.',
-        benefits: [
-          'Brings barakah into the meal and protects against harm from the food.'
-        ],
-        duration: '0:16'
-      },
-      {
-        id: 'after-eating-dua',
-        title: 'Dua After Eating Food',
-        subtitle: 'Khane Ke Baad Ki Dua',
-        category: 'everyday',
-        grouping: 'after-eating',
-        variants: '1 variant',
-        arabicMedallion: 'الطَّعَام',
-        illustrated: false,
-        heroImg: IMG_DESERT,
-        audioUrl: '',
-        arabic: 'اَلْحَمْدُ لِلّٰهِ الَّذِیْٓ اَطْعَمَنَا وَسَقَانَا وَجَعَلَنَا مُسْلِمِيْنَ',
-        transliteration: 'Al-hamdu lillaahil-ladhee at\'amanaa wa saqaanaa wa ja\'alanaa muslimeen',
-        translation: 'All praise is due to Allah Who fed us, gave us drink, and made us Muslims.',
-        urduTranslation: 'اللہ عزَّوجَلَّ کا شکر ہے جس نے ہمیں کھلایا، پلایا اور ہمیں مسلمان بنایا۔',
-        romanUrduTranslation: 'Allah Azzawajal ka shukr hai jis ne hamein khilaya, pilaya aur hamein musalman banaya.',
-        hindiTranslation: 'अल्लाह अज़्ज़ा-व-जल्ल का शुक्र है जिस ने हमें खिलाया, पिलाया और हमें मुसलमान बनाया।',
-        source: 'Sunan Abi Dawud 3850',
-        alsoMentioned: ['Jami` at-Tirmidhi 3457'],
-        notes: 'Hazrat Abu Sa\'id al-Khudri se riwayat hai: Jab Allah ke Rasool (ﷺ) khana khatam farmaate, toh yeh farmate: "Sab taareefein Allah ke liye hain jisne humein khilaya aur pilaya, aur humein Musalman banaya."',
-        benefits: [
-          'Combines gratitude for physical nourishment with gratitude for the blessing of Islam.'
-        ],
-        duration: '0:14'
-      }
-    ];
-
-    let DUA_CATEGORIES = DEFAULT_CATEGORIES;
-    let DUAS_LIST = DEFAULT_DUAS;
+    // Arrays initialized completely empty, purely relying on Firebase.
+    let DUA_CATEGORIES = [];
+    let DUAS_LIST = [];
 
     async function saveRepository() {
       try {
@@ -790,12 +276,13 @@
     let state = {
       currentScreen: 37,
       previousScreen: 42,
-      selectedCategoryId: 'morning-evening',
-      selectedDuaId: 'travel-main',
-      featuredSlideIndex: -1,
+      selectedCategoryId: null,
+      selectedDuaId: null,
+      editingDuaId: null,
+      featuredSlideIndex: 0,
       searchQuery: '',
       searchFilter: 'All',
-      favourites: ['travel-main', 'astaghfirullah', 'parents-dua'],
+      favourites: [],
       favTab: 'Duas',
       isPlaying: false,
       audioCurrentTime: 0,
@@ -824,6 +311,7 @@
     function getAudioElement() { return $('duaAudioElement'); }
 
     function resolveAudioSource(dua) {
+      if (!dua) return '';
       if (state.selectedReciter !== 'Sheikh Mishary Rashid Alafasy' && RECITER_STREAMS[state.selectedReciter]) {
         return RECITER_STREAMS[state.selectedReciter];
       }
@@ -834,41 +322,19 @@
       const audio = getAudioElement();
       if (!audio) return;
 
-      audio.addEventListener('loadedmetadata', () => {
-        state.audioDuration = audio.duration || 0;
-        state.audioError = false;
-        state.audioErrorMessage = '';
-        updateAudioPlayerDOM();
-      });
-
-      audio.addEventListener('timeupdate', () => {
-        state.audioCurrentTime = audio.currentTime || 0;
-        if (audio.duration && isFinite(audio.duration)) {
-          state.audioDuration = audio.duration;
-          state.audioProgressPct = Math.min(100, Math.round((audio.currentTime / audio.duration) * 100));
-        }
-        updateAudioPlayerDOM();
-      });
-
+      audio.addEventListener('loadedmetadata', () => { state.audioDuration = audio.duration || 0; state.audioError = false; state.audioErrorMessage = ''; updateAudioPlayerDOM(); });
+      audio.addEventListener('timeupdate', () => { state.audioCurrentTime = audio.currentTime || 0; if (audio.duration && isFinite(audio.duration)) { state.audioDuration = audio.duration; state.audioProgressPct = Math.min(100, Math.round((audio.currentTime / audio.duration) * 100)); } updateAudioPlayerDOM(); });
       audio.addEventListener('play', () => { state.isPlaying = true; state.audioError = false; updateAudioPlayerDOM(); });
       audio.addEventListener('pause', () => { state.isPlaying = false; updateAudioPlayerDOM(); });
       audio.addEventListener('ended', () => { state.isPlaying = false; state.audioProgressPct = 100; updateAudioPlayerDOM(); });
-
-      audio.addEventListener('error', () => {
-        state.isPlaying = false;
-        state.audioError = true;
-        state.audioErrorMessage = 'Audio stream unavailable or failed to load (K10/K11). Please retry, switch reciter, or use offline Arabic speech synthesis.';
-        showToast('Audio playback error — fallback ready');
-        if (state.currentScreen === 46) renderScreen(46);
-      });
+      audio.addEventListener('error', () => { state.isPlaying = false; state.audioError = true; state.audioErrorMessage = 'Audio stream unavailable or failed to load (K10/K11). Please retry, switch reciter, or use offline Arabic speech synthesis.'; showToast('Audio playback error — fallback ready'); if (state.currentScreen === 46) renderScreen(46); });
     }
 
     function updateAudioPlayerDOM() {
       if (state.currentScreen !== 46) return;
       const fillEl = $('audioProgressFill'), timeCurEl = $('audioCurrentTimeLabel'), timeDurEl = $('audioDurationLabel'), playIconEl = $('audioPlayIcon');
       const dua = getDua(state.selectedDuaId);
-      const durText = state.audioDuration ? formatSeconds(state.audioDuration) : dua.duration;
-
+      const durText = state.audioDuration ? formatSeconds(state.audioDuration) : (dua?.duration || '0:00');
       if (fillEl) fillEl.style.width = `${state.audioProgressPct}%`;
       if (timeCurEl) timeCurEl.textContent = `${formatSeconds(state.audioCurrentTime)} / ${durText}`;
       if (timeDurEl) timeDurEl.textContent = durText;
@@ -878,72 +344,43 @@
     function toggleAudioPlayback() {
       const audio = getAudioElement();
       const dua = getDua(state.selectedDuaId);
-      if (!audio) return;
-
-      if (window.speechSynthesis?.speaking) {
-        window.speechSynthesis.cancel();
-        state.usingSpeechFallback = false;
-      }
-
+      if (!audio || !dua) return;
+      if (window.speechSynthesis?.speaking) { window.speechSynthesis.cancel(); state.usingSpeechFallback = false; }
       const targetSrc = resolveAudioSource(dua);
       if (audio.src !== targetSrc) audio.src = targetSrc;
-
-      if (state.isPlaying) {
-        audio.pause();
-      } else {
-        audio.play()?.catch(() => {
-          state.isPlaying = false;
-          state.audioError = true;
-          state.audioErrorMessage = 'Unable to stream recitation audio (K10/K11 network or codec fallback triggered).';
-          renderScreen(46);
-        });
-      }
+      if (state.isPlaying) { audio.pause(); } else { audio.play()?.catch(() => { state.isPlaying = false; state.audioError = true; state.audioErrorMessage = 'Unable to stream recitation audio (K10/K11 network or codec fallback triggered).'; renderScreen(46); }); }
     }
 
     function seekAudioTrack(event) {
       const audio = getAudioElement();
       const rect = event.currentTarget.getBoundingClientRect();
       const pct = Math.max(0, Math.min(event.clientX - rect.left, rect.width)) / rect.width;
-
       state.audioProgressPct = Math.round(pct * 100);
-      if (audio && audio.duration && isFinite(audio.duration)) {
-        audio.currentTime = state.audioCurrentTime = pct * audio.duration;
-      }
+      if (audio && audio.duration && isFinite(audio.duration)) { audio.currentTime = state.audioCurrentTime = pct * audio.duration; }
       updateAudioPlayerDOM();
     }
 
     function rewindAudio() {
       const audio = getAudioElement();
       if (audio) audio.currentTime = state.audioCurrentTime = state.audioProgressPct = 0;
-      updateAudioPlayerDOM();
-      showToast('Rewound to start');
+      updateAudioPlayerDOM(); showToast('Rewound to start');
     }
 
     function nextDuaAudio() {
+      if (DUAS_LIST.length === 0) return;
       const nextIdx = (DUAS_LIST.findIndex(d => d.id === state.selectedDuaId) + 1) % DUAS_LIST.length;
       const nextDua = DUAS_LIST[nextIdx];
       state.selectedDuaId = nextDua.id;
       const audio = getAudioElement();
-      if (audio) {
-        audio.pause();
-        audio.src = resolveAudioSource(nextDua);
-        state.audioCurrentTime = state.audioProgressPct = 0;
-        state.isPlaying = false;
-      }
-      renderScreen(46);
-      showToast(`Switched to ${nextDua.title}`);
+      if (audio) { audio.pause(); audio.src = resolveAudioSource(nextDua); state.audioCurrentTime = state.audioProgressPct = 0; state.isPlaying = false; }
+      renderScreen(46); showToast(`Switched to ${nextDua.title}`);
     }
 
     function selectReciterOption(reciterName) {
-      state.selectedReciter = reciterName;
-      state.audioError = false;
-      state.audioErrorMessage = '';
+      state.selectedReciter = reciterName; state.audioError = false; state.audioErrorMessage = '';
       const audio = getAudioElement();
       if (audio) {
-        const wasPlaying = state.isPlaying;
-        audio.pause();
-        audio.src = resolveAudioSource(getDua(state.selectedDuaId));
-        audio.load();
+        const wasPlaying = state.isPlaying; audio.pause(); audio.src = resolveAudioSource(getDua(state.selectedDuaId)); audio.load();
         state.audioCurrentTime = state.audioProgressPct = 0;
         if (wasPlaying) audio.play()?.catch(() => { state.audioError = true; renderScreen(46); });
       }
@@ -952,65 +389,49 @@
 
     function simulateAudioFailure() {
       const audio = getAudioElement();
-      if (audio) {
-        audio.pause();
-        audio.src = 'https://invalid.domain.local/nonexistent-recitation-k10-k11.mp3';
-        audio.load();
-      }
+      if (audio) { audio.pause(); audio.src = 'https://invalid.domain.local/nonexistent-recitation-k10-k11.mp3'; audio.load(); }
     }
 
     function retryAudioStream() {
-      state.audioError = false;
-      state.audioErrorMessage = '';
+      state.audioError = false; state.audioErrorMessage = '';
       const audio = getAudioElement();
-      if (audio) {
-        audio.src = resolveAudioSource(getDua(state.selectedDuaId));
-        audio.load();
-        audio.play()?.catch(() => { state.audioError = true; renderScreen(46); });
-      }
+      if (audio) { audio.src = resolveAudioSource(getDua(state.selectedDuaId)); audio.load(); audio.play()?.catch(() => { state.audioError = true; renderScreen(46); }); }
       renderScreen(46);
     }
 
     function playOfflineSpeechFallback() {
       const dua = getDua(state.selectedDuaId);
+      if (!dua) return;
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
         const utter = new SpeechSynthesisUtterance(dua.arabic);
-        utter.lang = 'ar-SA';
-        utter.rate = 0.85;
+        utter.lang = 'ar-SA'; utter.rate = 0.85;
         utter.onstart = () => { state.isPlaying = state.usingSpeechFallback = true; updateAudioPlayerDOM(); };
         utter.onend = () => { state.isPlaying = state.usingSpeechFallback = false; state.audioProgressPct = 100; updateAudioPlayerDOM(); };
         window.speechSynthesis.speak(utter);
         showToast('Playing offline Arabic voice fallback');
-      } else {
-        showToast('Offline speech synthesis not supported on this browser');
-      }
+      } else { showToast('Offline speech synthesis not supported on this browser'); }
     }
 
     function showToast(msg) {
-      const t = $('toastMsg');
-      t.textContent = msg;
-      t.classList.add('show');
+      const t = $('toastMsg'); t.textContent = msg; t.classList.add('show');
       setTimeout(() => t.classList.remove('show'), 2000);
     }
 
     function getDua(id) {
+      if (DUAS_LIST.length === 0) return null;
       return DUAS_LIST.find(d => d.id === id) || DUAS_LIST[0];
     }
 
     function toggleBookmark(duaId) {
       const idx = state.favourites.indexOf(duaId);
-      if (idx > -1) {
-        state.favourites.splice(idx, 1);
-        showToast('Removed from Favourites');
-      } else {
-        state.favourites.push(duaId);
-        showToast('Saved to Favourites');
-      }
+      if (idx > -1) { state.favourites.splice(idx, 1); showToast('Removed from Favourites'); } 
+      else { state.favourites.push(duaId); showToast('Saved to Favourites'); }
       renderScreen(state.currentScreen);
     }
 
     function getTranslationText(dua) {
+      if (!dua) return '';
       if (state.language === 'Urdu') return dua.urduTranslation || dua.translation;
       if (state.language === 'Roman Urdu') return dua.romanUrduTranslation || dua.transliteration || dua.translation;
       if (state.language === 'Hindi') return dua.hindiTranslation || dua.translation;
@@ -1019,13 +440,14 @@
 
     /* Reusable Card HTML Builder */
     function renderDuaCardHTML(d, showSource = true) {
+      if (!d) return '';
       return `
         <div class="dua-list-card" onclick="openDuaDetail('${d.id}')">
           <div class="medallion-icon"><span class="medallion-arabic">${d.arabicMedallion || 'دعا'}</span></div>
           <div class="card-body-text">
             <div class="card-title">${d.title}</div>
             <div class="card-sub">${d.subtitle}</div>
-            ${showSource ? `<div class="card-meta">${d.source}</div>` : ''}
+            ${showSource && d.source ? `<div class="card-meta">${d.source}</div>` : ''}
           </div>
           <i class="bi bi-chevron-right card-chevron"></i>
         </div>`;
@@ -1067,17 +489,24 @@
       51: () => view51CopyModal(),
       52: () => view52SourceRef(),
       54: () => view54NoMatches(),
-      99: () => view99AdminModal()
+      99: () => view99AdminModal(),
+      100: () => view100EditDuaModal()
     };
 
     function renderScreen(screenNum, customDuaId = null, preserveSlide = false, fromHistory = false) {
+      if (DUAS_LIST.length === 0 && screenNum !== 37 && screenNum !== 99) {
+          showToast("Library is currently empty.");
+          return;
+      }
+        
       const isSameScreen = (screenNum === state.currentScreen);
       if (!isSameScreen) state.previousScreen = state.currentScreen;
       state.currentScreen = screenNum;
       if (customDuaId) state.selectedDuaId = customDuaId;
+      else if (!state.selectedDuaId && DUAS_LIST.length > 0) state.selectedDuaId = DUAS_LIST[0].id;
 
       if (!fromHistory) window.history.pushState({ screen: screenNum, duaId: state.selectedDuaId }, '', '');
-      if (screenNum === 37 && !preserveSlide) state.featuredSlideIndex = (state.featuredSlideIndex + 1) % DUAS_LIST.length;
+      if (screenNum === 37 && !preserveSlide && DUAS_LIST.length > 0) state.featuredSlideIndex = (state.featuredSlideIndex + 1) % DUAS_LIST.length;
       if (!isSameScreen && !preserveSlide) window.scrollTo(0, 0);
 
       $('appViewport').innerHTML = (VIEWS[screenNum] || VIEWS[37])();
@@ -1087,8 +516,10 @@
     function view37Home() {
       const quickCats = DUA_CATEGORIES.filter(c => c.group === 'core').slice(0, 4);
       const futureGroupingsCount = DUA_CATEGORIES.filter(c => c.group === 'future').length;
-      const slideIdx = Math.max(0, state.featuredSlideIndex);
-      const featuredDua = DUAS_LIST[slideIdx] || DUAS_LIST[0];
+      
+      const hasDuas = DUAS_LIST.length > 0;
+      const slideIdx = hasDuas ? Math.max(0, state.featuredSlideIndex % DUAS_LIST.length) : 0;
+      const featuredDua = hasDuas ? DUAS_LIST[slideIdx] : null;
 
       return `
         <div class="hero-banner" style="background-image:url('${IMG_DESERT}');">
@@ -1096,7 +527,7 @@
             <div class="top-nav-row">
               <button class="back-btn" onclick="window.location.href='home.html'" title="Back to Home"><i class="bi bi-chevron-left"></i></button>
               <div style="display:flex;gap:8px;">
-                <button class="admin-pill-btn" onclick="renderScreen(99)" title="Admin: Add Dua & Background"><i class="bi bi-plus-circle"></i> Admin</button>
+                <button class="admin-pill-btn" onclick="renderScreen(99)" title="Admin: Add Dua"><i class="bi bi-plus-circle"></i> Admin</button>
                 <button class="icon-action-btn" onclick="renderScreen(49)" title="Favourites"><i class="bi bi-bookmark-heart"></i></button>
               </div>
             </div>
@@ -1110,8 +541,9 @@
         </div>
 
         <div style="padding:14px 18px;">
+          ${hasDuas && featuredDua ? `
           <div class="featured-slide-wrap">
-            <div class="market-featured-card" style="background-image:linear-gradient(90deg,rgba(8,28,22,0.35) 0%,rgba(8,28,22,0.88) 52%,rgba(8,28,22,0.96) 100%),url('${featuredDua.heroImg}');" onclick="openDuaDetail('${featuredDua.id}')">
+            <div class="market-featured-card" style="background-image:linear-gradient(90deg,rgba(8,28,22,0.35) 0%,rgba(8,28,22,0.88) 52%,rgba(8,28,22,0.96) 100%),url('${featuredDua.heroImg || IMG_DESERT}');" onclick="openDuaDetail('${featuredDua.id}')">
               <span class="market-card-badge"><i class="bi bi-stars"></i> Featured (${slideIdx + 1}/${DUAS_LIST.length})</span>
               <div class="market-card-info">
                 <div class="market-card-title">${featuredDua.title}</div>
@@ -1121,7 +553,7 @@
             </div>
             <div class="slide-controls-bar">
               <div class="slide-dots">
-                ${DUAS_LIST.map((_, idx) => `<button class="slide-dot ${idx === slideIdx ? 'active' : ''}" onclick="event.stopPropagation();setFeaturedSlide(${idx});"></button>`).join('')}
+                ${DUAS_LIST.slice(0, 8).map((_, idx) => `<button class="slide-dot ${idx === slideIdx ? 'active' : ''}" onclick="event.stopPropagation();setFeaturedSlide(${idx});"></button>`).join('')}
               </div>
               <div class="slide-arrows">
                 <button class="slide-arrow-btn" onclick="event.stopPropagation();stepFeaturedSlide(-1);" title="Previous Dua"><i class="bi bi-chevron-left"></i></button>
@@ -1129,6 +561,12 @@
               </div>
             </div>
           </div>
+          ` : `
+          <div class="empty-state-box" style="padding: 20px;">
+            <p class="card-sub">No duas available in the database.</p>
+            <button class="primary-cta-btn" onclick="renderScreen(99)">+ Add First Dua</button>
+          </div>
+          `}
 
           <div class="section-head">
             <span class="section-title">Browse by Category</span>
@@ -1163,6 +601,7 @@
     }
 
     function stepFeaturedSlide(dir) {
+      if(DUAS_LIST.length === 0) return;
       state.featuredSlideIndex = (state.featuredSlideIndex + dir + DUAS_LIST.length) % DUAS_LIST.length;
       renderScreen(37, null, true);
     }
@@ -1195,11 +634,11 @@
 
           <div class="search-bar-wrap">
             <i class="bi bi-search search-icon"></i>
-            <input type="text" class="search-input" placeholder="Search 6 collections & 21 groupings..." oninput="filterCategoryList(this.value)" />
+            <input type="text" class="search-input" placeholder="Search collections & groupings..." oninput="filterCategoryList(this.value)" />
           </div>
 
           <div class="section-head" style="margin-top:8px;">
-            <span class="section-title">Primary Collections (6)</span>
+            <span class="section-title">Primary Collections</span>
             <span style="font-size:0.72rem;color:var(--text-muted);">Live counts</span>
           </div>
           <div class="list-stack" id="coreCategoryStack">${coreCats.map(c => renderCatRow(c)).join('')}</div>
@@ -1214,14 +653,11 @@
 
     function filterCategoryList(val) {
       const q = val.toLowerCase().trim();
-      document.querySelectorAll('.category-item').forEach(el => {
-        el.style.display = el.dataset.title.includes(q) ? 'flex' : 'none';
-      });
+      document.querySelectorAll('.category-item').forEach(el => { el.style.display = el.dataset.title.includes(q) ? 'flex' : 'none'; });
     }
 
     function openCategory(catId) {
-      state.selectedCategoryId = catId;
-      renderScreen(39);
+      state.selectedCategoryId = catId; renderScreen(39);
     }
 
     /* --- SCREEN 39: Category Detail --- */
@@ -1236,7 +672,7 @@
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(38)"><i class="bi bi-chevron-left"></i></button>
               <div style="display:flex;gap:8px;">
-                <button class="admin-pill-btn" onclick="renderScreen(99)"><i class="bi bi-plus-circle"></i> Add Dua / BG</button>
+                <button class="admin-pill-btn" onclick="renderScreen(99)"><i class="bi bi-plus-circle"></i> Add Dua</button>
                 <button class="icon-action-btn" onclick="state.searchQuery='';renderScreen(40);"><i class="bi bi-search"></i></button>
               </div>
             </div>
@@ -1252,7 +688,7 @@
             <div class="empty-state-box" style="padding:32px 16px;">
               <div class="empty-illustration" style="width:96px;height:96px;font-size:2.2rem;"><i class="bi ${cat.icon}"></i></div>
               <div class="card-title">0 duas in ${cat.title} yet</div>
-              <p class="card-sub" style="margin-top:6px;white-space:normal;">Use the Admin button to add a dua and custom background image to this category.</p>
+              <p class="card-sub" style="margin-top:6px;white-space:normal;">Use the Admin button to add a dua to this category.</p>
               <button class="primary-cta-btn" style="max-width:240px;" onclick="renderScreen(99)">+ Add First Dua Here</button>
             </div>
           ` : `<div class="list-stack">${categoryDuas.map(d => renderDuaCardHTML(d)).join('')}</div>`}
@@ -1293,10 +729,10 @@
     function renderSearchMatchesHTML(query) {
       const q = (query || '').toLowerCase().trim();
       const matches = !q ? DUAS_LIST : DUAS_LIST.filter(d => {
-        if (state.searchFilter === 'Arabic') return d.arabic.includes(q);
-        if (state.searchFilter === 'Transliteration') return d.transliteration.toLowerCase().includes(q);
-        if (state.searchFilter === 'Translation') return d.translation.toLowerCase().includes(q) || d.romanUrduTranslation?.toLowerCase().includes(q);
-        return [d.title, d.subtitle, d.transliteration, d.translation, d.romanUrduTranslation || ''].some(s => s.toLowerCase().includes(q)) || d.arabic.includes(q);
+        if (state.searchFilter === 'Arabic') return (d.arabic||'').includes(q);
+        if (state.searchFilter === 'Transliteration') return (d.transliteration||'').toLowerCase().includes(q);
+        if (state.searchFilter === 'Translation') return (d.translation||'').toLowerCase().includes(q) || (d.romanUrduTranslation||'').toLowerCase().includes(q);
+        return [d.title, d.subtitle, d.transliteration, d.translation, d.romanUrduTranslation || ''].some(s => (s||'').toLowerCase().includes(q)) || (d.arabic||'').includes(q);
       });
 
       if (!matches.length) {
@@ -1304,7 +740,7 @@
           <div class="empty-state-box" style="padding:28px 10px;">
             <div class="empty-illustration" style="width:90px;height:90px;font-size:2rem;"><i class="bi bi-search"></i></div>
             <div class="card-title">No matching duas for "${query}"</div>
-            <p class="card-sub" style="margin-top:6px;">Try a different keyword or clear the search bar to see all duas.</p>
+            <p class="card-sub" style="margin-top:6px;">Try a different keyword or clear the search bar.</p>
           </div>`;
       }
       return matches.map(d => renderDuaCardHTML(d)).join('');
@@ -1316,22 +752,9 @@
       if (box) box.innerHTML = renderSearchMatchesHTML(val);
     }
 
-    /* --- SCREEN 41: Search Results --- */
+    /* --- SCREEN 41: Search Results (Placeholder) --- */
     function view41SearchResults(query = 'travel') {
-      return `
-        <div style="padding:16px 18px;">
-          <div class="search-bar-wrap" style="margin-top:4px;">
-            <i class="bi bi-search search-icon"></i>
-            <input type="text" id="liveSearchInput" class="search-input" value="${query}" oninput="handleLiveSearch(this.value)" />
-            <button class="clear-search-btn" onclick="clearSearchBar()"><i class="bi bi-x-lg"></i></button>
-          </div>
-          <div class="filter-chips">
-            <button class="chip active">All</button>
-            <button class="chip" onclick="showToast('Filtered: Duas only')">Duas</button>
-            <button class="chip" onclick="renderScreen(44)">Stories</button>
-          </div>
-          <div class="list-stack" id="searchResultsContainer">${renderSearchMatchesHTML(query)}</div>
-        </div>`;
+      return view40Search(query); 
     }
 
     function openDuaDetail(duaId) {
@@ -1339,15 +762,23 @@
       renderScreen(duaId === 'market-dua' ? 44 : 42);
     }
 
+    function openEditDua(duaId) {
+      state.editingDuaId = duaId;
+      renderScreen(100);
+    }
+
     /* --- SCREEN 42: Dua Detail — Standard --- */
     function view42DetailStandard() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return '';
+      
       return `
-        <div class="hero-banner" style="background-image:url('${dua.heroImg}');min-height:165px;">
+        <div class="hero-banner" style="background-image:url('${dua.heroImg || IMG_DESERT}');min-height:165px;">
           <div class="hero-content">
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
               <div style="display:flex;gap:6px;">
+                <button class="icon-action-btn" onclick="openEditDua('${dua.id}')" title="Edit Dua"><i class="bi bi-pencil"></i></button>
                 <button class="icon-action-btn" onclick="renderScreen(43)" title="Switch to Illustrated Artwork View"><i class="bi bi-image"></i></button>
                 <button class="icon-action-btn" onclick="renderScreen(51)" title="Copy Dua"><i class="bi bi-copy"></i></button>
               </div>
@@ -1374,10 +805,11 @@
             <span class="source-badge" onclick="renderScreen(52)">Source: ${dua.source} <i class="bi bi-info-circle"></i></span>
           </div>
 
+          ${(dua.benefits && dua.benefits.length > 0) ? `
           <div class="benefits-section" style="border-top:none;margin-top:6px;">
             <div class="benefits-title">Benefits / Context</div>
             <ul class="benefits-list">${dua.benefits.map(b => `<li>${b}</li>`).join('')}</ul>
-          </div>
+          </div>` : ''}
 
           ${renderDualActionsHTML(dua.id, 'Saved')}
         </div>`;
@@ -1386,11 +818,15 @@
     /* --- SCREEN 43: Dua Detail — Illustrated --- */
     function view43DetailIllustrated() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return '';
       return `
-        <div class="hero-banner" style="background-image:url('${dua.heroImg}');min-height:255px;">
+        <div class="hero-banner" style="background-image:url('${dua.heroImg || IMG_DESERT}');min-height:255px;">
           <div class="hero-content">
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
+              <div style="display:flex;gap:6px;">
+                <button class="icon-action-btn" onclick="openEditDua('${dua.id}')" title="Edit Dua"><i class="bi bi-pencil"></i></button>
+              </div>
               <span class="market-card-badge" style="position:static;"><i class="bi bi-palette"></i> Illustrated Edition</span>
             </div>
             <div style="margin-top:110px;">
@@ -1408,10 +844,11 @@
             <span class="source-badge" onclick="renderScreen(52)">Source: ${dua.source}</span>
           </div>
 
+          ${(dua.benefits && dua.benefits.length > 0) ? `
           <div class="benefits-section" style="border-top:none;margin-top:4px;">
             <div class="benefits-title">Benefits / Context</div>
             <ul class="benefits-list">${dua.benefits.map(b => `<li>${b}</li>`).join('')}</ul>
-          </div>
+          </div>` : ''}
 
           ${renderDualActionsHTML(dua.id)}
         </div>`;
@@ -1421,19 +858,21 @@
     function view44Marketplace() {
       state.selectedDuaId = 'market-dua';
       const dua = getDua('market-dua');
+      if(!dua) { renderScreen(42); return ''; }
       return `
-        <div class="hero-banner" style="background-image:url('${dua.heroImg}');min-height:195px;">
+        <div class="hero-banner" style="background-image:url('${dua.heroImg || IMG_MARKET}');min-height:195px;">
           <div class="hero-content">
             <div class="top-nav-row">
               <button class="back-btn" onclick="renderScreen(37)"><i class="bi bi-chevron-left"></i></button>
               <div style="display:flex;gap:6px;">
+                <button class="icon-action-btn" onclick="openEditDua('${dua.id}')" title="Edit Dua"><i class="bi bi-pencil"></i></button>
                 <button class="icon-action-btn" onclick="renderScreen(46)" title="Listen Recitation"><i class="bi bi-volume-up"></i></button>
                 <button class="icon-action-btn" onclick="renderScreen(48)" title="Font & Script Settings"><i class="bi bi-type"></i></button>
                 <button class="icon-action-btn" onclick="renderScreen(51)" title="Copy"><i class="bi bi-copy"></i></button>
               </div>
             </div>
             <div style="margin-top:48px;">
-              <h1 class="page-title">Marketplace Supplication</h1>
+              <h1 class="page-title">${dua.title}</h1>
               <p class="page-subtitle">A dua for the marketplace · Illustrated Sunnah Story</p>
             </div>
           </div>
@@ -1448,8 +887,7 @@
             <div class="benefits-section">
               <div class="benefits-title">Benefits / Context</div>
               <ul class="benefits-list">
-                <li>Brings barakah in trade and lawful earnings.</li>
-                <li>Removes anxiety, heedlessness, and difficulties in the market.</li>
+                ${dua.benefits.map(b => `<li>${b}</li>`).join('')}
               </ul>
             </div>
           </div>
@@ -1460,6 +898,7 @@
     /* --- SCREEN 45: Dua Reading / Focus Mode --- */
     function view45FocusMode() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return '';
       const displayNum = Math.max(0, DUAS_LIST.findIndex(d => d.id === dua.id)) + 1;
 
       return `
@@ -1490,6 +929,7 @@
     }
 
     function changeFocusSlide(dir) {
+      if (DUAS_LIST.length === 0) return;
       const idx = Math.max(0, DUAS_LIST.findIndex(d => d.id === state.selectedDuaId));
       state.selectedDuaId = DUAS_LIST[(idx + dir + DUAS_LIST.length) % DUAS_LIST.length].id;
       renderScreen(45);
@@ -1498,15 +938,16 @@
     /* --- SCREEN 46: Audio Player --- */
     function view46AudioPlayer() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return '';
       const reciters = Object.keys(RECITER_STREAMS);
-      const durText = state.audioDuration ? formatSeconds(state.audioDuration) : dua.duration;
+      const durText = state.audioDuration ? formatSeconds(state.audioDuration) : (dua.duration || '0:00');
 
       return `
         <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
             <h1 class="page-title" style="font-size:1.15rem;">${dua.title}</h1>
-            <button class="icon-action-btn" onclick="simulateAudioFailure()" title="Test Audio Failure Fallback (K10/K11)"><i class="bi bi-shield-exclamation"></i></button>
+            <button class="icon-action-btn" onclick="simulateAudioFailure()" title="Test Audio Failure Fallback"><i class="bi bi-shield-exclamation"></i></button>
           </div>
 
           <div class="audio-card" style="margin-top:12px;">
@@ -1538,7 +979,7 @@
 
             ${state.audioError ? `
               <div class="audio-fallback-alert" role="alert">
-                <div><i class="bi bi-exclamation-triangle-fill"></i> <strong>Audio Playback Issue (K10/K11):</strong> ${state.audioErrorMessage}</div>
+                <div><i class="bi bi-exclamation-triangle-fill"></i> <strong>Audio Playback Issue:</strong> ${state.audioErrorMessage}</div>
                 <div class="audio-fallback-actions">
                   <button class="fallback-pill-btn" onclick="retryAudioStream()"><i class="bi bi-arrow-clockwise"></i> Retry Stream</button>
                   <button class="fallback-pill-btn" onclick="playOfflineSpeechFallback()"><i class="bi bi-volume-up"></i> Offline Voice Fallback</button>
@@ -1566,6 +1007,7 @@
     /* --- SCREEN 47: Language Selector --- */
     function view47Language() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return '';
       const langs = ['English', 'Urdu', 'Roman Urdu', 'Hindi'];
       const translits = ['Roman Urdu / Latin', 'Arabic Script'];
       return `
@@ -1606,6 +1048,7 @@
     /* --- SCREEN 48: Font & Arabic Display --- */
     function view48FontSettings() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return '';
       const arabicStyles = [
         { label: 'Uthmani (Classic)', font: "'Amiri', serif" },
         { label: 'IndoPak (Nastaleeq)', font: "'Lateef', 'Noto Nastaliq Urdu', serif" }
@@ -1683,6 +1126,7 @@
     /* --- SCREEN 50: Share Dua --- */
     function view50Share() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return '';
       return `
         <div style="padding:16px 18px;">
           <div class="top-nav-row">
@@ -1692,7 +1136,7 @@
           </div>
 
           <div class="share-preview-card">
-            <div class="share-card-art" style="background-image:url('${dua.heroImg}');"></div>
+            <div class="share-card-art" style="background-image:url('${dua.heroImg || IMG_DESERT}');"></div>
             <div class="share-card-body">
               <div style="font-family:'Cinzel',serif;font-weight:700;font-size:1.05rem;margin-bottom:10px;color:#12261e;">${dua.title}</div>
               <div style="font-family:var(--arabic-font);font-size:1.35rem;line-height:1.9;color:#12261e;direction:rtl;margin-bottom:10px;">${dua.arabic}</div>
@@ -1711,14 +1155,12 @@
         </div>`;
     }
 
-    function shareViaText(platform) {
-      copyFullDuaText();
-      showToast(`Prepared for ${platform}`);
-    }
+    function shareViaText(platform) { copyFullDuaText(); showToast(`Prepared for ${platform}`); }
 
     /* --- SCREEN 51: Copy Dua Modal --- */
     function view51CopyModal() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return '';
       const copyRows = [
         ['arabic', 'Arabic Text'],
         ['transliteration', 'Transliteration'],
@@ -1752,6 +1194,7 @@
 
     function copySelectedFields() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return;
       const parts = [];
       if (state.copyOptions.arabic) parts.push(dua.arabic);
       if (state.copyOptions.transliteration) parts.push(dua.transliteration);
@@ -1764,6 +1207,7 @@
 
     function copyFullDuaText() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return;
       const text = `${dua.title}\n${dua.arabic}\n${dua.transliteration}\n${getTranslationText(dua)}\n(${dua.source})`;
       navigator.clipboard?.writeText(text);
       showToast('Dua link & text copied!');
@@ -1772,6 +1216,7 @@
     /* --- SCREEN 52: Source & Reference --- */
     function view52SourceRef() {
       const dua = getDua(state.selectedDuaId);
+      if(!dua) return '';
       return `
         <div style="padding:16px 18px;">
           <div class="top-nav-row">
@@ -1783,10 +1228,16 @@
           <div class="dua-content-box" style="text-align:left;">
             <div style="font-family:'Cinzel',serif;color:var(--gold-light);font-size:0.95rem;font-weight:600;margin-bottom:6px;">Source & Reference</div>
             <div style="font-size:0.9rem;color:var(--text-main);margin-bottom:14px;">${dua.source}</div>
+            
+            ${(dua.alsoMentioned && dua.alsoMentioned.length > 0) ? `
             <div style="font-size:0.82rem;color:var(--gold-primary);font-weight:600;margin-bottom:6px;">Also mentioned in:</div>
             <ul class="benefits-list" style="margin-bottom:16px;">${dua.alsoMentioned.map(ref => `<li>${ref}</li>`).join('')}</ul>
+            ` : ''}
+            
+            ${dua.notes ? `
             <div style="font-size:0.82rem;color:var(--gold-primary);font-weight:600;margin-bottom:6px;">Notes</div>
-            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.55;">${dua.notes}</p>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.55;white-space:pre-wrap;">${dua.notes}</p>
+            ` : ''}
           </div>
 
           <button class="primary-cta-btn" onclick="renderScreen(42)">Back</button>
@@ -1810,20 +1261,20 @@
         </div>`;
     }
 
-    /* --- SCREEN 99: ADMIN PANEL --- */
+    /* --- SCREEN 99: ADMIN PANEL (Add) --- */
     function view99AdminModal() {
-      const selectedCat = DUA_CATEGORIES.find(c => c.id === state.selectedCategoryId) || DUA_CATEGORIES[0];
+      const selectedCat = DUA_CATEGORIES.find(c => c.id === state.selectedCategoryId) || DUA_CATEGORIES[0] || {id: '', title: ''};
       return `
         <div style="padding:16px 18px;">
           <div class="top-nav-row">
             <button class="back-btn" onclick="renderScreen(state.previousScreen || 37)"><i class="bi bi-chevron-left"></i></button>
-            <h1 class="page-title" style="font-size:1.15rem;">Admin: Add Dua & BG</h1>
+            <h1 class="page-title" style="font-size:1.15rem;">Admin: Add Dua</h1>
             <div style="width:34px;"></div>
           </div>
 
           <div class="dua-content-box" style="margin-top:8px;">
             <div class="admin-form-group">
-              <label class="admin-label">Select Target Category / Grouping</label>
+              <label class="admin-label">Select Target Category</label>
               <select id="adminCatSelect" class="admin-select" onchange="updateAdminCatBgInput(this.value)">
                 ${DUA_CATEGORIES.map(c => `<option value="${c.id}" ${c.id === selectedCat.id ? 'selected' : ''}>${c.title} (${getCategoryDuaCount(c.id)} duas)</option>`).join('')}
               </select>
@@ -1837,6 +1288,11 @@
               <input type="file" accept="image/*" class="admin-input" onchange="handleImageUpload(this, 'adminCatBgUrl')" />
             </div>
             <hr style="border:none;border-top:1px solid var(--gold-border);margin:16px 0;" />
+            
+            <div class="admin-form-group">
+              <label class="admin-label">Dua ID * (Unique string without spaces)</label>
+              <input type="text" id="adminDuaId" class="admin-input" placeholder="e.g., dua-morning-protection" />
+            </div>
             <div class="admin-form-group">
               <label class="admin-label">Dua Title *</label>
               <input type="text" id="adminDuaTitle" class="admin-input" placeholder="e.g., Morning Remembrance for Peace" />
@@ -1858,12 +1314,36 @@
               <textarea id="adminDuaTranslation" class="admin-textarea" placeholder="O Allah, by Your leave we have reached the morning..."></textarea>
             </div>
             <div class="admin-form-group">
-              <label class="admin-label">Roman Urdu Translation (Optional)</label>
-              <input type="text" id="adminDuaRomanUrdu" class="admin-input" placeholder="Aye Allah, Tere hi hukm se humne subah ki..." />
+              <label class="admin-label">Urdu Translation</label>
+              <textarea id="adminDuaUrdu" class="admin-textarea" dir="rtl"></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Roman Urdu Translation</label>
+              <textarea id="adminDuaRomanUrdu" class="admin-textarea"></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Hindi Translation</label>
+              <textarea id="adminDuaHindi" class="admin-textarea"></textarea>
             </div>
             <div class="admin-form-group">
               <label class="admin-label">Source / Hadith Reference *</label>
               <input type="text" id="adminDuaSource" class="admin-input" placeholder="e.g., Jami at-Tirmidhi (3391)" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Also Mentioned (comma separated)</label>
+              <textarea id="adminDuaAlsoMentioned" class="admin-textarea" placeholder="Bukhari 123, Muslim 456"></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Notes</label>
+              <textarea id="adminDuaNotes" class="admin-textarea" placeholder="Any specific instructions..."></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Benefits (comma separated)</label>
+              <textarea id="adminDuaBenefits" class="admin-textarea" placeholder="Brings peace, protects from evil"></textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Arabic Medallion</label>
+              <input type="text" id="adminDuaMedallion" class="admin-input" placeholder="e.g., شِفَاء" dir="rtl" />
             </div>
             <div class="admin-form-group">
               <label class="admin-label">Recitation Audio URL (MP3)</label>
@@ -1874,7 +1354,115 @@
               <input type="url" id="adminDuaHeroUrl" class="admin-input" placeholder="https://images.unsplash.com/..." />
               <input type="file" accept="image/*" class="admin-input" style="margin-top:6px;" onchange="handleImageUpload(this, 'adminDuaHeroUrl')" />
             </div>
-            <button class="primary-cta-btn" onclick="submitAdminDua()">Save Dua & Update Category Count</button>
+            <div class="admin-form-group">
+              <label class="admin-label">Duration (e.g. 0:45)</label>
+              <input type="text" id="adminDuaDuration" class="admin-input" placeholder="0:45" />
+            </div>
+            
+            <button class="primary-cta-btn" onclick="submitAdminDua()">Save New Dua</button>
+          </div>
+        </div>`;
+    }
+
+    /* --- SCREEN 100: ADMIN PANEL (Edit) --- */
+    function view100EditDuaModal() {
+      const dua = getDua(state.editingDuaId);
+      if(!dua) return '';
+      
+      return `
+        <div style="padding:16px 18px;">
+          <div class="top-nav-row">
+            <button class="back-btn" onclick="renderScreen(42)"><i class="bi bi-chevron-left"></i></button>
+            <h1 class="page-title" style="font-size:1.15rem;">Edit Dua</h1>
+            <div style="width:34px;"></div>
+          </div>
+
+          <div class="dua-content-box" style="margin-top:8px;">
+            <div class="admin-form-group">
+              <label class="admin-label">Category</label>
+              <select id="editDuaCatSelect" class="admin-select">
+                ${DUA_CATEGORIES.map(c => `<option value="${c.id}" ${c.id === dua.category ? 'selected' : ''}>${c.title}</option>`).join('')}
+              </select>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Grouping</label>
+              <select id="editDuaGroupingSelect" class="admin-select">
+                ${DUA_CATEGORIES.map(c => `<option value="${c.id}" ${c.id === dua.grouping ? 'selected' : ''}>${c.title}</option>`).join('')}
+              </select>
+            </div>
+            
+            <div class="admin-form-group">
+              <label class="admin-label">Dua ID * (Careful changing this)</label>
+              <input type="text" id="editDuaId" class="admin-input" value="${dua.id}" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Dua Title *</label>
+              <input type="text" id="editDuaTitle" class="admin-input" value="${dua.title || ''}" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Short Subtitle / Occasion *</label>
+              <input type="text" id="editDuaSubtitle" class="admin-input" value="${dua.subtitle || ''}" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Arabic Text *</label>
+              <textarea id="editDuaArabic" class="admin-textarea" dir="rtl">${dua.arabic || ''}</textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Transliteration</label>
+              <textarea id="editDuaTranslit" class="admin-textarea">${dua.transliteration || ''}</textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">English Translation *</label>
+              <textarea id="editDuaTranslation" class="admin-textarea">${dua.translation || ''}</textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Urdu Translation</label>
+              <textarea id="editDuaUrdu" class="admin-textarea" dir="rtl">${dua.urduTranslation || ''}</textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Roman Urdu Translation</label>
+              <textarea id="editDuaRomanUrdu" class="admin-textarea">${dua.romanUrduTranslation || ''}</textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Hindi Translation</label>
+              <textarea id="editDuaHindi" class="admin-textarea">${dua.hindiTranslation || ''}</textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Source / Hadith Reference *</label>
+              <input type="text" id="editDuaSource" class="admin-input" value="${dua.source || ''}" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Also Mentioned (comma separated)</label>
+              <textarea id="editDuaAlsoMentioned" class="admin-textarea">${(dua.alsoMentioned || []).join(', ')}</textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Notes</label>
+              <textarea id="editDuaNotes" class="admin-textarea">${dua.notes || ''}</textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Benefits (comma separated)</label>
+              <textarea id="editDuaBenefits" class="admin-textarea">${(dua.benefits || []).join(', ')}</textarea>
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Arabic Medallion</label>
+              <input type="text" id="editDuaMedallion" class="admin-input" dir="rtl" value="${dua.arabicMedallion || ''}" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Recitation Audio URL (MP3)</label>
+              <input type="url" id="editDuaAudioUrl" class="admin-input" value="${dua.audioUrl || ''}" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Dua Detail Background Image URL</label>
+              <input type="url" id="editDuaHeroUrl" class="admin-input" value="${dua.heroImg || ''}" />
+              <input type="file" accept="image/*" class="admin-input" style="margin-top:6px;" onchange="handleImageUpload(this, 'editDuaHeroUrl')" />
+            </div>
+            <div class="admin-form-group">
+              <label class="admin-label">Duration (e.g. 0:45)</label>
+              <input type="text" id="editDuaDuration" class="admin-input" value="${dua.duration || ''}" />
+            </div>
+            
+            <button class="primary-cta-btn" onclick="saveEditedDua('${dua.id}')">Save Changes</button>
+            <button class="secondary-cta-btn" onclick="renderScreen(42)">Cancel</button>
           </div>
         </div>`;
     }
@@ -1892,35 +1480,36 @@
       reader.onload = e => {
         const target = $(targetInputId);
         if (target) target.value = e.target.result;
-        showToast('Background image loaded!');
+        showToast('Image loaded!');
       };
       reader.readAsDataURL(file);
     }
 
     function submitAdminDua() {
       const val = id => $(id).value.trim();
-      const catId = $('adminCatSelect').value;
+      const catId = val('adminCatSelect');
       const catBgUrl = val('adminCatBgUrl');
       const title = val('adminDuaTitle');
       const subtitle = val('adminDuaSubtitle');
       const arabic = val('adminDuaArabic');
       const transliteration = val('adminDuaTranslit');
       const translation = val('adminDuaTranslation');
+      const urduTranslation = val('adminDuaUrdu');
       const romanUrdu = val('adminDuaRomanUrdu');
+      const hindiTranslation = val('adminDuaHindi');
       const source = val('adminDuaSource') || 'Authentic Sunnah';
-      const audioUrl = val('adminDuaAudioUrl') || RECITER_STREAMS['Sheikh Mishary Rashid Alafasy'];
+      const audioUrl = val('adminDuaAudioUrl');
       const duaHeroUrl = val('adminDuaHeroUrl');
+      const providedId = val('adminDuaId');
+      
+      const alsoMentioned = val('adminDuaAlsoMentioned').split(',').map(s => s.trim()).filter(s => s);
+      const notes = val('adminDuaNotes');
+      const benefits = val('adminDuaBenefits').split(',').map(s => s.trim()).filter(s => s);
+      const duration = val('adminDuaDuration') || '0:00';
+      const medallion = val('adminDuaMedallion') || 'دعا';
 
       const catObj = DUA_CATEGORIES.find(c => c.id === catId);
       if (catObj && catBgUrl) catObj.hero = catBgUrl;
-
-      if (!title && !arabic && catBgUrl) {
-        saveRepository();
-        state.selectedCategoryId = catId;
-        showToast('Category background updated!');
-        renderScreen(39);
-        return;
-      }
 
       if (!title || !arabic || !translation) {
         showToast('Please fill Title, Arabic, and Translation');
@@ -1928,71 +1517,117 @@
       }
 
       DUAS_LIST.unshift({
-        id: 'dua-' + Date.now(),
+        id: providedId || 'dua-' + Date.now(),
         title,
         subtitle: subtitle || 'Authentic Supplication',
         category: catId,
         grouping: catId,
-        variants: '1 variant',
-        arabicMedallion: 'دعا',
-        illustrated: true,
+        variants: '',
+        arabicMedallion: medallion,
+        illustrated: !!duaHeroUrl,
         heroImg: duaHeroUrl || catBgUrl || IMG_DESERT,
         audioUrl,
         arabic,
         transliteration,
         translation,
+        urduTranslation: urduTranslation || translation,
         romanUrduTranslation: romanUrdu || transliteration || translation,
+        hindiTranslation: hindiTranslation || translation,
         source,
-        alsoMentioned: [source],
-        notes: `Added to ${catObj ? catObj.title : 'Duas'} collection.`,
-        benefits: ['Brings remembrance and closeness to Allah.'],
-        duration: '0:45'
+        alsoMentioned,
+        notes,
+        benefits,
+        duration
       });
 
       saveRepository();
       state.selectedCategoryId = catId;
-      showToast(`Added to ${catObj.title} (${getCategoryDuaCount(catId)} duas)`);
+      showToast(`Added to ${catObj.title}`);
       renderScreen(39);
+    }
+    
+    function saveEditedDua(originalId) {
+      const val = id => $(id).value.trim();
+      const duaIndex = DUAS_LIST.findIndex(d => d.id === originalId);
+      
+      if (duaIndex === -1) {
+          showToast('Error: Dua not found');
+          return;
+      }
+
+      const updatedId = val('editDuaId');
+      const title = val('editDuaTitle');
+      const arabic = val('editDuaArabic');
+      const translation = val('editDuaTranslation');
+      
+      if (!title || !arabic || !translation) {
+        showToast('Please fill Title, Arabic, and Translation');
+        return;
+      }
+      
+      const alsoMentioned = val('editDuaAlsoMentioned').split(',').map(s => s.trim()).filter(s => s);
+      const benefits = val('editDuaBenefits').split(',').map(s => s.trim()).filter(s => s);
+      const duaHeroUrl = val('editDuaHeroUrl');
+
+      DUAS_LIST[duaIndex] = {
+        ...DUAS_LIST[duaIndex],
+        id: updatedId || originalId,
+        category: val('editDuaCatSelect'),
+        grouping: val('editDuaGroupingSelect'),
+        title: title,
+        subtitle: val('editDuaSubtitle'),
+        arabic: arabic,
+        transliteration: val('editDuaTranslit'),
+        translation: translation,
+        urduTranslation: val('editDuaUrdu'),
+        romanUrduTranslation: val('editDuaRomanUrdu'),
+        hindiTranslation: val('editDuaHindi'),
+        source: val('editDuaSource'),
+        alsoMentioned: alsoMentioned,
+        notes: val('editDuaNotes'),
+        benefits: benefits,
+        arabicMedallion: val('editDuaMedallion') || 'دعا',
+        audioUrl: val('editDuaAudioUrl'),
+        heroImg: duaHeroUrl || IMG_DESERT,
+        duration: val('editDuaDuration') || '0:00'
+      };
+      
+      if (originalId !== updatedId) {
+          const favIndex = state.favourites.indexOf(originalId);
+          if (favIndex > -1) { state.favourites[favIndex] = updatedId; }
+      }
+
+      saveRepository();
+      state.selectedDuaId = updatedId || originalId;
+      showToast('Dua updated successfully!');
+      renderScreen(42);
     }
 
     window.addEventListener('popstate', event => {
-      if (event.state?.screen) {
-        renderScreen(event.state.screen, event.state.duaId, false, true);
-      } else {
-        renderScreen(37, null, false, true);
-      }
+      if (event.state?.screen) { renderScreen(event.state.screen, event.state.duaId, false, true); } 
+      else { renderScreen(37, null, false, true); }
     });
 
-    window.addEventListener('DOMContentLoaded', () => {
+    window.addEventListener('DOMContentLoaded', async () => {
       setupAudioListeners();
-      window.history.replaceState({ screen: 37, duaId: state.selectedDuaId }, '', '');
-
-            setTimeout(async () => {
-        try {
-          const docSnap = await window.getDoc(window.doc(window.db, "aamaalApp", "libraryData"));
-          if (docSnap.exists()) {
-            const data = docSnap.data();
-            const cloudDuas = data.duas || [];
-            
-            // Find any new duas in DEFAULT_DUAS that aren't in Firebase yet
-            const cloudIds = new Set(cloudDuas.map(d => d.id));
-            const newHardcodedDuas = DEFAULT_DUAS.filter(d => !cloudIds.has(d.id));
-
-            DUA_CATEGORIES = data.categories || DEFAULT_CATEGORIES;
-            DUAS_LIST = [...cloudDuas, ...newHardcodedDuas];
-
-            // If we added new hardcoded duas, push the updated list to Firebase automatically
-            if (newHardcodedDuas.length > 0) {
-              await saveRepository();
-            }
-          } else {
-            await saveRepository();
-          }
-        } catch (error) {
-          console.error("Error fetching data: ", error);
+      
+      // Attempt to load from Firebase Cloud directly
+      try {
+        const docSnap = await window.getDoc(window.doc(window.db, "aamaalApp", "libraryData"));
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          DUA_CATEGORIES = data.categories || [];
+          DUAS_LIST = data.duas || [];
+        } else {
+          console.warn("No data found in Firebase. Database is empty.");
         }
-        renderScreen(37, null, false, true);
-      }, 100);
+      } catch (error) {
+        console.error("Error fetching data from Firebase: ", error);
+        showToast("Error loading from Cloud");
+      }
+      
+      // Render Initial View
+      renderScreen(37, null, false, true);
     });
   </script>
 </body>
